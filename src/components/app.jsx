@@ -44,12 +44,15 @@ const MyApp = () => {
     // Let's save the map config to the store for later use.
     store.dispatch("setMapConfig", json);
 
-    // Let's initiate the OL map
-    initOLMap(json);
+    // Let's initiate the OL map. It will read the store
+    // value that we just set, so it's important it comes
+    // afterwards.
+    initOLMap();
 
     // Let's tell the store (and React Components using
     // the useStore hook) that we're done initiating.
     store.dispatch("setLoading", false);
+    console.log("APP INIT DONE");
   });
 
   return (
