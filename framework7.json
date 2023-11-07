@@ -1,0 +1,18 @@
+{
+  "cwd": ".",
+  "type": [
+    "web"
+  ],
+  "name": "AudioGuide",
+  "framework": "react",
+  "template": "blank",
+  "cssPreProcessor": false,
+  "bundler": "vite",
+  "theming": {
+    "customColor": false,
+    "color": "#007aff",
+    "darkMode": false,
+    "iconFonts": true
+  },
+  "customBuild": false
+}

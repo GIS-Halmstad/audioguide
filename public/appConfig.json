@@ -1,0 +1,4 @@
+{
+    "mapServiceBase": "http://localhost:3002/api/v2",
+    "mapName": "demo"
+}
