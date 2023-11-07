@@ -12,6 +12,7 @@ import {
   Link,
   Block,
   Toolbar,
+  useStore,
 } from "framework7-react";
 
 import routes from "../js/routes";
@@ -20,21 +21,35 @@ import store from "../js/store";
 import { initOLMap, getOLMap } from "../js/olMap.js";
 
 const MyApp = () => {
+  console.log("MyApp renders");
+
   let olMap;
   // Framework7 Parameters
   const f7params = {
-    name: "AudioGuide", // App name
-    theme: "auto", // Automatic theme detection
-
-    // App store
+    name: "AudioGuide",
+    theme: "auto",
     store: store,
-    // App routes
     routes: routes,
   };
 
-  f7ready(() => {
-    initOLMap();
-    console.log("olMap: ", getOLMap());
+  // When F7 is ready…
+  f7ready(async () => {
+    // …let's fetch the map config, which contains layers
+    // definitions and is required before we can create
+    // the OpenLayers map and add layers.
+    const response = await fetch(
+      `${store.state.appConfig.mapServiceBase}/config/${store.state.appConfig.mapName}`
+    );
+    const json = await response.json();
+    // Let's save the map config to the store for later use.
+    store.dispatch("setMapConfig", json);
+
+    // Let's initiate the OL map
+    initOLMap(json);
+
+    // Let's tell the store (and React Components using
+    // the useStore hook) that we're done initiating.
+    store.dispatch("setLoading", false);
   });
 
   return (

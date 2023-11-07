@@ -2,7 +2,7 @@ import { createStore } from "framework7/lite";
 
 const store = createStore({
   state: {
-    loading: false,
+    loading: true,
     appConfig: {},
     mapConfig: {},
   },
@@ -10,17 +10,11 @@ const store = createStore({
     setAppConfig({ state }, appConfig) {
       state.appConfig = appConfig;
     },
-    async getMapConfig({ state }) {
-      state.loading = true;
-      const response = await fetch(
-        `${state.appConfig.mapServiceBase}/config/${state.appConfig.mapName}`
-      );
-      const json = await response.json();
-      state.mapConfig = json;
-      state.loading = false;
+    setMapConfig({ state }, mapConfig) {
+      state.mapConfig = mapConfig;
     },
-    addProduct({ state }, product) {
-      state.products = [...state.products, product];
+    setLoading({ state }, newValue) {
+      state.loading = newValue;
     },
   },
   getters: {

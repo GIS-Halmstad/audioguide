@@ -19,12 +19,6 @@ import {
 
 const HomePage = () => {
   const loading = useStore("loading");
-  const mapConfig = useStore("mapConfig");
-
-  useEffect(() => {
-    console.log("Loading…");
-    f7.store.dispatch("getMapConfig");
-  }, []);
 
   return (
     <Page pageContent={false} name="home">
