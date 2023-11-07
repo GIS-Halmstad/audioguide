@@ -15,14 +15,32 @@ import {
   Tabs,
   Tab,
   useStore,
+  List,
+  ListItem,
+  NavLeft,
+  NavRight,
 } from "framework7-react";
 
 const HomePage = () => {
   const loading = useStore("loading");
+  const allLines = useStore("selectedLines");
+  console.log("new allLines: ", allLines);
 
   return (
     <Page pageContent={false} name="home">
-      <Navbar title={loading ? "Laddar…" : "Audioguider"} />
+      <Navbar sliding={false}>
+        <NavLeft>
+          <Link iconIos="f7:menu" iconMd="material:menu" panelOpen="left" />
+        </NavLeft>
+        <NavTitle sliding>{loading ? "Laddar…" : "Audioguider"}</NavTitle>
+        <NavRight>
+          <Link
+            iconIos="f7:sidebar_right"
+            iconMd="f7:sidebar_right"
+            panelOpen="right"
+          />
+        </NavRight>
+      </Navbar>
       <Toolbar tabbar bottom>
         <Link tabLink="#tab-map" tabLinkActive>
           Karta
@@ -35,7 +53,18 @@ const HomePage = () => {
           <div id="map" />
         </Tab>
         <Tab id="tab-list" className="page-content">
-          <Block>Lista över guider</Block>
+          <Block>Välj bland följande tillgängliga guider:</Block>
+          {Array.from(allLines).map((c, i) => {
+            return (
+              <Card
+                key={i}
+                outline
+                title={c.get("title")}
+                content={c.get("text")}
+                footer={c.get("length")}
+              />
+            );
+          })}
         </Tab>
       </Tabs>
     </Page>
