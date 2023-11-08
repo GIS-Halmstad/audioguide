@@ -80,15 +80,24 @@ async function initOLMap() {
     }),
   });
 
-  addFeaturesToLayer(store.getters.selectedLines.value);
-  addFeaturesToLayer(store.state.allPoints);
+  updateFeaturesInMap();
 }
 
-const addFeaturesToLayer = (features) => {
+const addFeatures = (features) => {
   vectorSource.addFeatures(features);
+};
+
+const removeAllFeatures = () => {
+  vectorSource.clear();
+};
+
+const updateFeaturesInMap = () => {
+  removeAllFeatures();
+  addFeatures(store.getters.selectedLines.value);
+  addFeatures(store.getters.selectedPoints.value);
   olMap.getView().fit(vectorSource.getExtent());
 };
 
 const getOLMap = () => olMap;
 
-export { initOLMap, getOLMap };
+export { initOLMap, getOLMap, updateFeaturesInMap };

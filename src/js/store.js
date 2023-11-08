@@ -97,6 +97,10 @@ const store = createStore({
         })
         .filter((f) => f !== undefined);
     },
+    selectedPoints({ state }) {
+      console.log("state: ", state);
+      return state.allPoints;
+    },
   },
 });
 export default store;
