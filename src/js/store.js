@@ -80,11 +80,11 @@ const store = createStore({
     selectedCategories({ state }) {
       return state.selectedCategories;
     },
-    selectedLines({ state }) {
-      // Determine which lines should be shown by looking
+    selectedFeatures({ state }) {
+      // Determine which line features should be shown by looking
       // into the selected categories state. Only lines
       // with at least one selected category should be shown.
-      return state.allLines
+      const selectedLineFeatures = state.allLines
         .map((f) => {
           let match = false;
           const currentFeaturesCategories = f.get("categories").split(",");
@@ -96,10 +96,20 @@ const store = createStore({
           return match ? f : undefined;
         })
         .filter((f) => f !== undefined);
-    },
-    selectedPoints({ state }) {
-      console.log("state: ", state);
-      return state.allPoints;
+
+      // Each line feature has a unique ID, save them to an Array.
+      const guideIdsOfSelectedLines = selectedLineFeatures.map((lf) =>
+        lf.get("guideId")
+      );
+
+      // Filter point features by including only those who's parent
+      // line feature is visible.
+      const selectedPointFeatures = state.allPoints.filter((f) =>
+        guideIdsOfSelectedLines.includes(f.get("guideId"))
+      );
+
+      // Put it all together and return so that OL can take care of it.
+      return [...selectedLineFeatures, ...selectedPointFeatures];
     },
   },
 });

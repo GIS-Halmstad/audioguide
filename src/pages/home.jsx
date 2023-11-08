@@ -29,7 +29,7 @@ import { updateFeaturesInMap } from "../js/olMap";
 const HomePage = () => {
   // useStore hook where we need reactivity
   const loading = useStore("loading");
-  const selectedLines = useStore("selectedLines");
+  const selectedFeatures = useStore("selectedFeatures");
   const selectedCategories = useStore("selectedCategories");
 
   const handleCategoryChange = (e) => {
@@ -105,7 +105,7 @@ const HomePage = () => {
         </View>
       </Panel>
 
-      <Panel right opened>
+      <Panel right reveal>
         <View>
           <Page>
             <Navbar title="Filtrera" />
@@ -140,20 +140,22 @@ const HomePage = () => {
         </Tab>
         <Tab id="tab-list" className="page-content">
           <Block>Välj bland följande tillgängliga guider:</Block>
-          {selectedLines.map((c, i) => {
-            return (
-              <Card
-                key={i}
-                outline
-                title={c.get("title")}
-                content={c.get("text")}
-                footer={`${c.get("length")} - ${c
-                  .get("categories")
-                  .split(",")
-                  .join(", ")}`}
-              />
-            );
-          })}
+          {selectedFeatures
+            .filter((f) => f.get("length")) // Only line features will have the "length" property
+            .map((c, i) => {
+              return (
+                <Card
+                  key={i}
+                  outline
+                  title={c.get("title")}
+                  content={c.get("text")}
+                  footer={`${c.get("length")} - ${c
+                    .get("categories")
+                    .split(",")
+                    .join(", ")}`}
+                />
+              );
+            })}
         </Tab>
       </Tabs>
     </Page>

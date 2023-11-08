@@ -93,9 +93,13 @@ const removeAllFeatures = () => {
 
 const updateFeaturesInMap = () => {
   removeAllFeatures();
-  addFeatures(store.getters.selectedLines.value);
-  addFeatures(store.getters.selectedPoints.value);
-  olMap.getView().fit(vectorSource.getExtent());
+  addFeatures(store.getters.selectedFeatures.value);
+
+  // Fit View to features' extent only if there are
+  // no infinite values (which can happen if the Source
+  // is empty).
+  !vectorSource.getExtent().includes(Infinity) &&
+    olMap.getView().fit(vectorSource.getExtent());
 };
 
 const getOLMap = () => olMap;
