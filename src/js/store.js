@@ -5,53 +5,54 @@ const store = createStore({
     loading: true,
     appConfig: {},
     mapConfig: {},
-    availableCategories: new Set(),
-    selectedCategories: new Set(),
     allLines: [],
-    selectedLines: [],
     allPoints: [],
-    selectedPoints: [],
+    allCategories: [],
+    selectedCategories: [],
   },
   actions: {
+    setLoading({ state }, v) {
+      state.loading = v;
+    },
     setAppConfig({ state }, appConfig) {
       state.appConfig = appConfig;
     },
     setMapConfig({ state }, mapConfig) {
       state.mapConfig = mapConfig;
     },
-    setLoading({ state }, newValue) {
-      state.loading = newValue;
+    setAllLines({ state }, v) {
+      state.allLines = v;
     },
-    setAvailableCategories({ state }, newValue) {
-      state.availableCategories = newValue;
+    setAllPoints({ state }, v) {
+      state.allPoints = v;
     },
-    setAllLines({ state }, newValue) {
-      state.allLines = newValue;
+    setAllCategories({ state }, v) {
+      state.allCategories = v;
     },
-    setAllPoints({ state }, newValue) {
-      state.allPoints = newValue;
+    setSelectedCategories({ state }, v) {
+      state.selectedCategories = v;
     },
-    setSelectedCategories({ state }, newValue) {
-      console.log("New Selected Categories: ", newValue);
-      // When selected categories change, we want to
-      // reflect that in the lines and points too.
-      const s = state.allLines
-        .map((f) => {
-          let match = false;
-          const cats = f.get("categories").split(",");
-          cats.forEach((c) => {
-            if (newValue.has(c)) {
-              match = true;
-            }
-          });
-          return match ? f : undefined;
-        })
-        .filter((f) => f !== undefined);
-      console.log("selectedLines: ", s);
-      state.selectedLines = s;
+    //   setSelectedCategories({ state }, v) {
+    //     console.log("New Selected Categories: ", v);
+    //     // When selected categories change, we want to
+    //     // reflect that in the lines and points too.
+    //     const s = state.allLines
+    //       .map((f) => {
+    //         let match = false;
+    //         const cats = f.get("categories").split(",");
+    //         cats.forEach((c) => {
+    //           if (v.has(c)) {
+    //             match = true;
+    //           }
+    //         });
+    //         return match ? f : undefined;
+    //       })
+    //       .filter((f) => f !== undefined);
+    //     console.log("selectedLines: ", s);
+    //     state.selectedLines = s;
 
-      state.selectedCategories = newValue;
-    },
+    //     state.selectedCategories = v;
+    //   },
   },
   getters: {
     loading({ state }) {
@@ -69,8 +70,11 @@ const store = createStore({
     allPoints({ state }) {
       return state.allPoints;
     },
-    availableCategories({ state }) {
-      return state.availableCategories;
+    allCategories({ state }) {
+      return state.allCategories;
+    },
+    selectedCategories({ state }) {
+      return state.selectedCategories;
     },
     serviceSettings({ state }) {
       return state.mapConfig.mapConfig.tools.find(
@@ -78,7 +82,11 @@ const store = createStore({
       ).options.serviceSettings;
     },
     selectedLines({ state }) {
-      return state.selectedLines;
+      console.log(
+        "Will only grab lines from categories:",
+        state.selectedCategories
+      );
+      return state.allLines;
     },
   },
 });

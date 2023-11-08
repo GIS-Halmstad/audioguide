@@ -36,4 +36,4 @@ const fetchFromService = async (type = "line", filter) => {
   }
 };
 
-export { fetchFromService };
+export default fetchFromService;
