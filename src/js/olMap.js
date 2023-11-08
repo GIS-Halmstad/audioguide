@@ -80,7 +80,7 @@ async function initOLMap() {
     }),
   });
 
-  addFeaturesToLayer(store.state.allLines);
+  addFeaturesToLayer(store.getters.selectedLines.value);
   addFeaturesToLayer(store.state.allPoints);
 }
 

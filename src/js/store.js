@@ -1,5 +1,23 @@
 import { createStore } from "framework7/lite";
 
+const deriveDefaultSelectedCategoriesFromHash = () => {
+  try {
+    const cParam = new URLSearchParams(window.location.hash.substring(1)).get(
+      "c"
+    );
+    console.log("cParam: ", cParam?.split(","));
+    return (
+      cParam
+        ?.split(",") // Try to split…
+        .map((e) => e.trim()) // …and trim to avoid whitespace.
+        .filter((f) => f.length > 0) || [] // Remove any empty elements. Fallback to empty array.
+    );
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
+};
+
 const store = createStore({
   state: {
     loading: true,
@@ -8,8 +26,9 @@ const store = createStore({
     allLines: [],
     allPoints: [],
     allCategories: [],
-    selectedCategories: [],
+    selectedCategories: deriveDefaultSelectedCategoriesFromHash(),
   },
+
   actions: {
     setLoading({ state }, v) {
       state.loading = v;
@@ -32,28 +51,8 @@ const store = createStore({
     setSelectedCategories({ state }, v) {
       state.selectedCategories = v;
     },
-    //   setSelectedCategories({ state }, v) {
-    //     console.log("New Selected Categories: ", v);
-    //     // When selected categories change, we want to
-    //     // reflect that in the lines and points too.
-    //     const s = state.allLines
-    //       .map((f) => {
-    //         let match = false;
-    //         const cats = f.get("categories").split(",");
-    //         cats.forEach((c) => {
-    //           if (v.has(c)) {
-    //             match = true;
-    //           }
-    //         });
-    //         return match ? f : undefined;
-    //       })
-    //       .filter((f) => f !== undefined);
-    //     console.log("selectedLines: ", s);
-    //     state.selectedLines = s;
-
-    //     state.selectedCategories = v;
-    //   },
   },
+
   getters: {
     loading({ state }) {
       return state.loading;
@@ -63,6 +62,11 @@ const store = createStore({
     },
     mapConfig({ state }) {
       return state.mapConfig;
+    },
+    serviceSettings({ state }) {
+      return state.mapConfig.mapConfig.tools.find(
+        (t) => t.type === "audioguide"
+      ).options.serviceSettings;
     },
     allLines({ state }) {
       return state.allLines;
@@ -76,17 +80,22 @@ const store = createStore({
     selectedCategories({ state }) {
       return state.selectedCategories;
     },
-    serviceSettings({ state }) {
-      return state.mapConfig.mapConfig.tools.find(
-        (t) => t.type === "audioguide"
-      ).options.serviceSettings;
-    },
     selectedLines({ state }) {
-      console.log(
-        "Will only grab lines from categories:",
-        state.selectedCategories
-      );
-      return state.allLines;
+      // Determine which lines should be shown by looking
+      // into the selected categories state. Only lines
+      // with at least one selected category should be shown.
+      return state.allLines
+        .map((f) => {
+          let match = false;
+          const currentFeaturesCategories = f.get("categories").split(",");
+          currentFeaturesCategories.forEach((c) => {
+            if (state.selectedCategories.includes(c)) {
+              match = true;
+            }
+          });
+          return match ? f : undefined;
+        })
+        .filter((f) => f !== undefined);
     },
   },
 });

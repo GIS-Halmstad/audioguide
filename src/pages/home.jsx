@@ -85,7 +85,7 @@ const HomePage = () => {
         </View>
       </Panel>
 
-      <Panel right reveal opened>
+      <Panel right opened>
         <View>
           <Page>
             <Navbar title="Filtrera" />
@@ -120,14 +120,17 @@ const HomePage = () => {
         </Tab>
         <Tab id="tab-list" className="page-content">
           <Block>Välj bland följande tillgängliga guider:</Block>
-          {Array.from(selectedLines).map((c, i) => {
+          {selectedLines.map((c, i) => {
             return (
               <Card
                 key={i}
                 outline
                 title={c.get("title")}
                 content={c.get("text")}
-                footer={c.get("length")}
+                footer={`${c.get("length")} - ${c
+                  .get("categories")
+                  .split(",")
+                  .join(", ")}`}
               />
             );
           })}
