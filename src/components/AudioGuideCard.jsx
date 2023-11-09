@@ -17,7 +17,9 @@ function AudioGuideCard({ c }) {
       <CardContent padding={false}>
         <div
           style={{
-            background: `url(${images[0]}) no-repeat center bottom`,
+            backgroundImage: `url(${images[0]})`,
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "center",
             backgroundSize: "cover",
             height: "240px",
           }}
@@ -42,19 +44,6 @@ function AudioGuideCard({ c }) {
       </CardContent>
     </Card>
   );
-  {
-    /* return (
-    <Card
-      outline
-      title={c.get("title")}
-      content={c.get("text")}
-      footer={`${c.get("length")} - ${c
-        .get("categories")
-        .split(",")
-        .join(", ")}`}
-    />
-  ); */
-  }
 }
 
 export default AudioGuideCard;
