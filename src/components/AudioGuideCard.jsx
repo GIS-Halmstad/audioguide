@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Button,
   Card,
@@ -6,7 +7,6 @@ import {
   CardHeader,
   Link,
 } from "framework7-react";
-import React from "react";
 import { getAssets } from "../js/getAssets.js";
 
 function AudioGuideCard({ c }) {

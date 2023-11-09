@@ -16,7 +16,7 @@
  */
 export const getAssets = (c, t) => {
   return c
-    .get(t)
+    ?.get(t)
     ?.split(",")
     .map((e) => {
       // Let's check if current string is an absolute URL

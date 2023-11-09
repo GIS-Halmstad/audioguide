@@ -22,6 +22,7 @@ import {
 
 import { updateFeaturesInMap } from "../js/olMap";
 import AudioGuideCard from "../components/AudioGuideCard";
+import AudioGuideSheet from "../components/AudioGuideSheet";
 
 const HomePage = () => {
   console.log("HomePage init: ", f7);
@@ -29,6 +30,8 @@ const HomePage = () => {
   const loading = useStore("loading");
   const selectedFeatures = useStore("selectedFeatures");
   const selectedCategories = useStore("selectedCategories");
+
+  const [selectedFeature, setSelectedFeature] = useState([]);
 
   const handleCategoryChange = (e) => {
     const { name, checked } = e.target;
@@ -57,16 +60,18 @@ const HomePage = () => {
     console.log("USEEFFECT subscribe");
     f7.on("olFeatureSelected", (f) => {
       console.log("Got selected feature", f);
+      setSelectedFeature(f);
     });
 
     return () => {
       console.log("USEEFFECT unsubscribe");
       f7.off("olFeatureSelected");
     };
-  }, []);
+  }, [f7, setSelectedFeature]);
 
   return (
     <Page pageContent={false} name="home">
+      <AudioGuideSheet f={selectedFeature} />
       <Navbar sliding={false}>
         <NavLeft>
           <Link iconIos="f7:menu" iconMd="material:menu" panelOpen="left" />
