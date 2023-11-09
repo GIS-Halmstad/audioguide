@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
   f7,
-  f7ready,
   Page,
   Navbar,
   NavTitle,
