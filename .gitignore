@@ -34,6 +34,11 @@ node_modules/
 .DS_Store
 Thumbs.db
 
+# Specific runtime assets in public
+public/images
+public/audios
+public/videos
+
 
 
 

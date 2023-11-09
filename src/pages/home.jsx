@@ -25,6 +25,7 @@ import {
 } from "framework7-react";
 
 import { updateFeaturesInMap } from "../js/olMap";
+import AudioGuideCard from "../components/AudioGuideCard";
 
 const HomePage = () => {
   // useStore hook where we need reactivity
@@ -142,20 +143,9 @@ const HomePage = () => {
           <Block>Välj bland följande tillgängliga guider:</Block>
           {selectedFeatures
             .filter((f) => f.get("length")) // Only line features will have the "length" property
-            .map((c, i) => {
-              return (
-                <Card
-                  key={i}
-                  outline
-                  title={c.get("title")}
-                  content={c.get("text")}
-                  footer={`${c.get("length")} - ${c
-                    .get("categories")
-                    .split(",")
-                    .join(", ")}`}
-                />
-              );
-            })}
+            .map((c, i) => (
+              <AudioGuideCard c={c} key={i} />
+            ))}
         </Tab>
       </Tabs>
     </Page>
