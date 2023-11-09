@@ -1,17 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   f7,
+  f7ready,
   Page,
   Navbar,
   NavTitle,
-  NavTitleLarge,
   Link,
   Toolbar,
   Block,
-  Button,
-  Card,
-  CardContent,
-  CardHeader,
   Tabs,
   Tab,
   useStore,
@@ -28,6 +24,7 @@ import { updateFeaturesInMap } from "../js/olMap";
 import AudioGuideCard from "../components/AudioGuideCard";
 
 const HomePage = () => {
+  console.log("HomePage init: ", f7);
   // useStore hook where we need reactivity
   const loading = useStore("loading");
   const selectedFeatures = useStore("selectedFeatures");
@@ -55,6 +52,18 @@ const HomePage = () => {
       console.warn("SHOULD NOT SHOW");
     }
   };
+
+  useEffect(() => {
+    console.log("USEEFFECT subscribe");
+    f7.on("olFeatureSelected", (f) => {
+      console.log("Got selected feature", f);
+    });
+
+    return () => {
+      console.log("USEEFFECT unsubscribe");
+      f7.off("olFeatureSelected");
+    };
+  }, []);
 
   return (
     <Page pageContent={false} name="home">

@@ -1,19 +1,37 @@
 import "../css/olMap.css";
-import Map from "ol/Map.js";
-import OSM from "ol/source/OSM.js";
-import TileLayer from "ol/layer/Tile.js";
-import View from "ol/View.js";
-
-import store from "./store";
-import VectorSource from "ol/source/Vector";
-import VectorLayer from "ol/layer/Vector";
-
-let olMap, vectorSource, vectorLayer;
 
 import proj4 from "proj4";
 import { register } from "ol/proj/proj4";
-import Style from "ol/style/Style";
-import Stroke from "ol/style/Stroke";
+
+import Map from "ol/Map";
+import View from "ol/View";
+import OSM from "ol/source/OSM";
+import TileLayer from "ol/layer/Tile";
+import VectorSource from "ol/source/Vector";
+import VectorLayer from "ol/layer/Vector";
+import Select from "ol/interaction/Select";
+import { Circle, Fill, Stroke, Style } from "ol/style";
+
+import store from "./store";
+
+const fill = new Fill({
+  color: "rgba(255,255,255,0.4)",
+});
+const stroke = new Stroke({
+  color: "red",
+  width: 3,
+});
+const selectedStyle = [
+  new Style({
+    image: new Circle({
+      fill: fill,
+      stroke: stroke,
+      radius: 5,
+    }),
+    fill: fill,
+    stroke: stroke,
+  }),
+];
 
 const projectionDefinitions = [
   {
@@ -42,7 +60,10 @@ const projectionDefinitions = [
   },
 ];
 
-async function initOLMap() {
+let olMap, vectorSource, vectorLayer;
+
+async function initOLMap(f7) {
+  console.log("Init OL Map ", f7);
   // Setup projections
   projectionDefinitions.forEach((p) => {
     proj4.defs(p.code, p.definition);
@@ -58,12 +79,12 @@ async function initOLMap() {
     zIndex: 5000,
     name: "pluginAudioGuide",
     caption: "AudioGuide layer",
-    style: new Style({
-      stroke: new Stroke({
-        color: "rgba(0, 0, 255, 1.0)",
-        width: 2,
-      }),
-    }),
+    // style: new Style({
+    //   stroke: new Stroke({
+    //     color: "rgba(0, 0, 255, 1.0)",
+    //     width: 2,
+    //   }),
+    // }),
   });
 
   // Setup Map and View
@@ -81,6 +102,19 @@ async function initOLMap() {
       projection: "EPSG:3008",
     }),
   });
+
+  // Setup the interaction…
+  const selectInteraction = new Select({
+    hitTolerance: 20,
+    style: selectedStyle,
+  });
+
+  // …and interaction handler.
+  selectInteraction.on("select", (e) => {
+    f7.emit("olFeatureSelected", e.selected);
+  });
+
+  olMap.addInteraction(selectInteraction);
 
   updateFeaturesInMap();
 }
