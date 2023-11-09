@@ -12,6 +12,8 @@ let olMap, vectorSource, vectorLayer;
 
 import proj4 from "proj4";
 import { register } from "ol/proj/proj4";
+import Style from "ol/style/Style";
+import Stroke from "ol/style/Stroke";
 
 const projectionDefinitions = [
   {
@@ -56,12 +58,12 @@ async function initOLMap() {
     zIndex: 5000,
     name: "pluginAudioGuide",
     caption: "AudioGuide layer",
-    // style: new Style({
-    //   stroke: new Stroke({
-    //     color: "rgba(0, 0, 255, 1.0)",
-    //     width: 2,
-    //   }),
-    // }),
+    style: new Style({
+      stroke: new Stroke({
+        color: "rgba(0, 0, 255, 1.0)",
+        width: 2,
+      }),
+    }),
   });
 
   // Setup Map and View
