@@ -9,13 +9,13 @@ function AudioGuideSheet({ f = [] }) {
   // console.log("images: ", images);
   return (
     <Sheet
-      className="demo-sheet-swipe-to-close"
+      className="sheet-swipe-to-close"
       style={{ height: "auto" }}
-      // swipeToClose
+      swipeToClose
       push
       opened={feature !== undefined}
     >
-      {/* <div className="swipe-handler"></div> */}
+      <div className="swipe-handler"></div>
 
       <PageContent>
         <BlockTitle large>{feature?.get("title")}</BlockTitle>

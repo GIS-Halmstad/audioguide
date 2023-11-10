@@ -27,10 +27,9 @@ const fetchFromService = async (type = "line", filter) => {
 
     const json = await response.json();
     const features = new GeoJSON().readFeatures(json);
-    // this.#localObserver.publish("fetchError", null);
     return features;
   } catch (error) {
-    // this.#localObserver.publish("fetchError", error);
+    store.dispatch("setLoadingError", true);
     console.error(error);
     return [];
   }

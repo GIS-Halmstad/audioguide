@@ -20,6 +20,7 @@ const deriveDefaultSelectedCategoriesFromHash = () => {
 
 const store = createStore({
   state: {
+    loadingError: false,
     loading: true,
     appConfig: {},
     mapConfig: {},
@@ -30,6 +31,9 @@ const store = createStore({
   },
 
   actions: {
+    setLoadingError({ state }, v) {
+      state.loadingError = v;
+    },
     setLoading({ state }, v) {
       state.loading = v;
     },
@@ -54,6 +58,9 @@ const store = createStore({
   },
 
   getters: {
+    loadingError({ state }) {
+      return state.loadingError;
+    },
     loading({ state }) {
       return state.loading;
     },

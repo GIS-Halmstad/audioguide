@@ -12,16 +12,12 @@ import Framework7React from "framework7-react";
 import "framework7/css/bundle";
 
 // Import Icons and App Custom Styles
-import "../css/icons.css";
 import "../css/app.css";
 
 // Import App Component
 import App from "../components/app.jsx";
-import ErrorApp from "../components/errorApp.jsx";
 import store from "./store.js";
 import fetchFromService from "./fetchFromService.js";
-
-let loadingError = false;
 
 try {
   // Fetch appConfig which contains some necessary settings,
@@ -54,7 +50,7 @@ try {
   );
   store.dispatch("setAllCategories", categories);
 } catch (error) {
-  loadingError = true;
+  store.dispatch("setLoadingError", true);
   console.error(error);
 }
 
@@ -64,4 +60,4 @@ Framework7.use(Framework7React);
 
 // Mount React App
 const root = createRoot(document.getElementById("app"));
-root.render(React.createElement(loadingError ? ErrorApp : App));
+root.render(React.createElement(App));

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   f7,
   Page,
@@ -25,7 +25,25 @@ import AudioGuideSheet from "../components/AudioGuideSheet";
 
 const HomePage = () => {
   console.log("HomePage init: ", f7);
+  const notificationFull = useRef(null);
+
+  const showNotificationFull = () => {
+    // Create toast
+    if (!notificationFull.current) {
+      notificationFull.current = f7.notification.create({
+        icon: '<i class="icon f7-icons">xmark_octagon_fill</i>',
+        title: "Audioguider",
+        titleRightText: "nu",
+        subtitle: "Laddningsfel",
+        text: "Ett fel uppstod. Vi ber om ursäkt för det inträffade.",
+      });
+    }
+    // Open it
+    notificationFull.current.open();
+  };
+
   // useStore hook where we need reactivity
+  const loadingError = useStore("loadingError");
   const loading = useStore("loading");
   const selectedFeatures = useStore("selectedFeatures");
   const selectedCategories = useStore("selectedCategories");
@@ -68,8 +86,25 @@ const HomePage = () => {
     };
   }, [f7, setSelectedFeature]);
 
+  useEffect(() => {
+    loadingError === true && showNotificationFull();
+  }, [loadingError]);
+
+  const onPageBeforeOut = () => {
+    f7.notification.close();
+  };
+  const onPageBeforeRemove = () => {
+    // Destroy toasts when page removed
+    if (notificationFull.current) notificationFull.current.destroy();
+  };
+
   return (
-    <Page pageContent={false} name="home">
+    <Page
+      pageContent={false}
+      name="home"
+      onPageBeforeOut={onPageBeforeOut}
+      onPageBeforeRemove={onPageBeforeRemove}
+    >
       <AudioGuideSheet f={selectedFeature} />
       <Navbar sliding={false}>
         <NavLeft>
@@ -161,6 +196,7 @@ const HomePage = () => {
             ))}
         </Tab>
       </Tabs>
+      {/* <LoadingErrorSheet opened={loadingError} /> */}
     </Page>
   );
 };
