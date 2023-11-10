@@ -114,6 +114,14 @@ async function initOLMap(f7) {
     f7.emit("olFeatureSelected", e.selected);
   });
 
+  f7.on("olFeatureSelected", (f) => {
+    // If something else emitted the event with an empty selection array,
+    // let's deselect here too.
+    if (f.length === 0) {
+      selectInteraction.getFeatures().clear();
+    }
+  });
+
   olMap.addInteraction(selectInteraction);
 
   updateFeaturesInMap();
