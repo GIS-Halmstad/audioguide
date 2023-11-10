@@ -63,7 +63,7 @@ function AudioGuideSheet({ f = [] }) {
         }}
       >
         <Block>
-          Kategorier: {feature?.get("categories").split(",").join(", ")}
+          Kategorier: {feature?.get("categories")?.split(",").join(", ")}
         </Block>
         <Block>Längd: {feature?.get("length")}</Block>
       </div>

@@ -126,10 +126,10 @@ const HomePage = () => {
             <Navbar title="Meny" />
             <List strong outlineIos dividersIos insetMd accordionList>
               <ListItem title="Start" />
-              <ListItem accordionItem accordionItemOpened title="Filter">
+              {/* <ListItem accordionItem accordionItemOpened title="Bakgrundskarta">
                 <AccordionContent>
                   <List outlineIos strongMd strongIos>
-                    {f7.store.state.allCategories.map((c, i) => {
+                    {f7.store.state.baseLayers.map((c, i) => {
                       return (
                         <ListItem
                           key={i}
@@ -143,8 +143,7 @@ const HomePage = () => {
                     })}
                   </List>
                 </AccordionContent>
-              </ListItem>
-              <ListItem title="Bakgrundskarta" />
+              </ListItem> */}
               <ListItem title="Jämfört kartor" />
               <ListItem title="Om AudioGuiden" />
               <ListItem title="Skriv ut" />
