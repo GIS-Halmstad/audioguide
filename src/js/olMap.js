@@ -33,43 +33,24 @@ const selectedStyle = [
   }),
 ];
 
-const projectionDefinitions = [
-  {
-    code: "EPSG:3006",
-    name: "Sweref 99 TM",
-    definition:
-      "+proj=utm +zone=33 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs",
-    extent: [218128.7031, 6126002.9379, 1083427.297, 7692850.9468],
-    units: null,
-  },
-  {
-    code: "EPSG:3007",
-    name: "Sweref 99 12 00",
-    definition:
-      "+proj=tmerc +lat_0=0 +lon_0=12 +k=1 +x_0=150000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs",
-    extent: [60436.5084, 6192389.565, 217643.4713, 6682784.4276],
-    units: null,
-  },
-  {
-    code: "EPSG:3008",
-    name: "Sweref 99 13 30",
-    definition:
-      "+proj=tmerc +lat_0=0 +lon_0=13.5 +k=1 +x_0=150000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs",
-    extent: [60857.4994, 6120098.8505, 223225.0217, 6906693.7888],
-    units: null,
-  },
-];
-
 let olMap, vectorSource, vectorLayer;
 
 async function initOLMap(f7) {
   console.log("Init OL Map ", f7);
+  const config = f7.store.state.mapConfig.mapConfig;
+
   // Setup projections
-  projectionDefinitions.forEach((p) => {
+  config.projections.forEach((p) => {
     proj4.defs(p.code, p.definition);
   });
 
   register(proj4);
+
+  const baseLayers = config.tools.find((t) => t.type === "layerswitcher")
+    .options.baselayers;
+  const layersConfig = f7.store.state.mapConfig.layersConfig;
+  console.log("baseLayers: ", baseLayers);
+  console.log("layersConfig: ", layersConfig);
 
   // Setup sources and layers
   vectorSource = new VectorSource();
@@ -97,9 +78,17 @@ async function initOLMap(f7) {
       vectorLayer,
     ],
     view: new View({
-      center: [0, 0],
-      zoom: 2,
-      projection: "EPSG:3008",
+      center: config.map.center,
+      constrainOnlyCenter: config.map.constrainOnlyCenter,
+      constrainResolution:
+        config.map.constrainResolutionMobile ?? config.map.constrainResolution,
+      extent: config.map.extent.length > 0 ? config.map.extent : undefined,
+      maxZoom: config.map.maxZoom || 24,
+      minZoom: config.map.minZoom || 0,
+      projection: config.map.projection,
+      resolutions: config.map.resolutions,
+      units: "m",
+      zoom: config.map.zoom,
     }),
   });
 
