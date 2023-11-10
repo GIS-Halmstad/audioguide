@@ -1,18 +1,21 @@
 import React from "react";
 
-// import { getAssets } from "../js/getAssets.js";
-import { f7, Block, BlockTitle, PageContent, Sheet } from "framework7-react";
+import { getAssets } from "../js/getAssets.js";
+import { f7, Block, BlockTitle, Sheet } from "framework7-react";
 
 function AudioGuideSheet({ f = [] }) {
   const feature = f[0];
-  // const images = getAssets(feature);
-  // console.log("images: ", images);
+  const images = getAssets(feature, "images");
   return (
     <Sheet
-      className="sheet-swipe-to-close"
-      style={{ height: "auto" }}
       swipeToClose
       opened={feature !== undefined}
+      style={{ height: "auto" }}
+      breakpoints={[0.33, 0.66]}
+      backdrop
+      backdropBreakpoint={0.66}
+      push
+      pushBreakpoint={0.66}
       onSheetClose={() => {
         // Let's call this to inform the OL Map that it should clear its
         // selected features too.
@@ -20,13 +23,50 @@ function AudioGuideSheet({ f = [] }) {
       }}
     >
       <div className="swipe-handler"></div>
-
-      <PageContent>
+      <div
+        style={{
+          // display: "flex",
+          // alignItems: "center",
+          // justifyContent: "center",
+          height: "20vh",
+        }}
+      >
         <BlockTitle large>{feature?.get("title")}</BlockTitle>
         <Block>
           <p>{feature?.get("text")}</p>
         </Block>
-      </PageContent>
+      </div>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          height: "20vh",
+        }}
+      >
+        <swiper-container pagination class="demo-swiper demo-swiper-lazy">
+          {images.map((src, i) => {
+            return (
+              <swiper-slide lazy key={i}>
+                <img loading="lazy" src={src} />
+              </swiper-slide>
+            );
+          })}
+        </swiper-container>
+      </div>
+      <div
+        style={{
+          // display: "flex",
+          // alignItems: "center",
+          // justifyContent: "center",
+          height: "20vh",
+        }}
+      >
+        <Block>
+          Kategorier: {feature?.get("categories").split(",").join(", ")}
+        </Block>
+        <Block>Längd: {feature?.get("length")}</Block>
+      </div>
     </Sheet>
   );
 }

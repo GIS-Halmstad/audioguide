@@ -10,23 +10,25 @@
  * Using those parameters it's easy to covert the comma-separated string of file names into
  * an array of paths for a certain type of assets.
  * Special care must be taken to allow for absolute URLs.
- * @param {Feature} c The OpenLayers Feature
- * @param {string} t Asset's type.
+ * @param {Feature} feature The OpenLayers Feature
+ * @param {string} type Asset's type.
  * @returns {string[]} URLs to assets.
  */
-export const getAssets = (c, t) => {
-  return c
-    ?.get(t)
-    ?.split(",")
-    .map((e) => {
-      // Let's check if current string is an absolute URL
-      if (e.indexOf("http://") === 0 || e.indexOf("https://") === 0) {
-        // Return as is
-        return e;
-      } else {
-        // Prepare a relative URL on the format:
-        // {type of asset}/{guide ID}/{asset's file name in DB}
-        return `${t}/${c.get("guideId")}/${e}`;
-      }
-    });
+export const getAssets = (feature, type) => {
+  return (
+    feature
+      ?.get(type)
+      ?.split(",")
+      .map((e) => {
+        // Let's check if current string is an absolute URL
+        if (e.indexOf("http://") === 0 || e.indexOf("https://") === 0) {
+          // Return as is
+          return e;
+        } else {
+          // Prepare a relative URL on the format:
+          // {type of asset}/{guide ID}/{asset's file name in DB}
+          return `${type}/${feature.get("guideId")}/${e}`;
+        }
+      }) || []
+  );
 };
