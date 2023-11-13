@@ -1,14 +1,14 @@
 import React from "react";
 
-import { f7, f7ready, App, View } from "framework7-react";
+import { f7, f7ready, App, View, Panel } from "framework7-react";
 
 import routes from "../js/routes";
 import store from "../js/store";
 
 import { initOLMap } from "../js/olMap.js";
 
-const MyApp = () => {
-  console.log("MyApp renders");
+const Audioguide = () => {
+  console.log("Audioguide renders");
 
   const f7params = {
     name: "AudioGuide",
@@ -32,8 +32,16 @@ const MyApp = () => {
 
   return (
     <App {...f7params}>
-      <View main className="safe-areas" url="/" />
+      <Panel left cover>
+        <View url="/panel-left/" />
+      </Panel>
+
+      <Panel right reveal>
+        <View url="/panel-right/" />
+      </Panel>
+
+      <View url="/" main className="safe-areas" />
     </App>
   );
 };
-export default MyApp;
+export default Audioguide;

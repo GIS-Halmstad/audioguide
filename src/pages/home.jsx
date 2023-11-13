@@ -10,17 +10,10 @@ import {
   Tabs,
   Tab,
   useStore,
-  List,
-  ListItem,
   NavLeft,
   NavRight,
-  Panel,
-  View,
-  AccordionContent,
-  Icon,
 } from "framework7-react";
 
-import { updateFeaturesInMap } from "../js/olMap";
 import AudioGuideCard from "../components/AudioGuideCard";
 import AudioGuideSheet from "../components/AudioGuideSheet";
 
@@ -47,32 +40,8 @@ const HomePage = () => {
   const loadingError = useStore("loadingError");
   const loading = useStore("loading");
   const selectedFeatures = useStore("selectedFeatures");
-  const selectedCategories = useStore("selectedCategories");
 
   const [selectedFeature, setSelectedFeature] = useState([]);
-
-  const handleCategoryChange = (e) => {
-    const { name, checked } = e.target;
-    if (checked === true && !selectedCategories.includes(name)) {
-      // We must use the spread syntax, rather than push, in order
-      // not to mutate the selectedCategories itself. (Same as for React's State.)
-      f7.store.dispatch("setSelectedCategories", [...selectedCategories, name]);
-      updateFeaturesInMap();
-    } else if (
-      checked === false &&
-      selectedCategories.includes(e.target.name)
-    ) {
-      // The .filter() method returns a new Array, which we want
-      // in order to keep the store reactive.
-      f7.store.dispatch(
-        "setSelectedCategories",
-        selectedCategories.filter((el) => el !== name)
-      );
-      updateFeaturesInMap();
-    } else {
-      console.warn("SHOULD NOT SHOW");
-    }
-  };
 
   useEffect(() => {
     console.log("USEEFFECT subscribe");
@@ -120,65 +89,6 @@ const HomePage = () => {
           />
         </NavRight>
       </Navbar>
-
-      <Panel left cover>
-        <View>
-          <Page>
-            <Navbar title="Meny" />
-            <List strong outlineIos dividersIos insetMd accordionList>
-              <ListItem
-                title="Alla guider"
-                panelClose
-                onClick={(e) => console.log(e)}
-              />
-              {/* <ListItem accordionItem accordionItemOpened title="Bakgrundskarta">
-                <AccordionContent>
-                  <List outlineIos strongMd strongIos>
-                    {f7.store.state.baseLayers.map((c, i) => {
-                      return (
-                        <ListItem
-                          key={i}
-                          checkbox
-                          checked={selectedCategories.includes(c)}
-                          onChange={handleCategoryChange}
-                          title={c}
-                          name={c}
-                        />
-                      );
-                    })}
-                  </List>
-                </AccordionContent>
-              </ListItem> */}
-              <ListItem title="Jämfört kartor" />
-              <ListItem link="/about/" title="Om AudioGuiden" />
-              <ListItem title="Skriv ut" />
-              <ListItem title="Dela" />
-            </List>
-          </Page>
-        </View>
-      </Panel>
-
-      <Panel right reveal>
-        <View>
-          <Page>
-            <Navbar title="Filtrera" />
-            <List outlineIos strongMd strongIos>
-              {f7.store.state.allCategories.map((c, i) => {
-                return (
-                  <ListItem
-                    key={i}
-                    checkbox
-                    checked={selectedCategories.includes(c)}
-                    onChange={handleCategoryChange}
-                    title={c}
-                    name={c}
-                  />
-                );
-              })}
-            </List>
-          </Page>
-        </View>
-      </Panel>
 
       <Toolbar tabbar bottom>
         <Link tabLink="#tab-map" tabLinkActive>
