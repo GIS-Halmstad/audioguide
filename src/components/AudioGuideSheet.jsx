@@ -6,6 +6,7 @@ import { f7, Block, BlockTitle, Sheet } from "framework7-react";
 function AudioGuideSheet({ f = [] }) {
   const feature = f[0];
   const images = getAssets(feature, "images");
+  const audios = getAssets(feature, "audios");
   return (
     <Sheet
       swipeToClose
@@ -31,9 +32,11 @@ function AudioGuideSheet({ f = [] }) {
           height: "20vh",
         }}
       >
-        <BlockTitle large>{feature?.get("title")}</BlockTitle>
+        <BlockTitle>{feature?.get("title")}</BlockTitle>
         <Block>
-          <p>{feature?.get("text")}</p>
+          {audios.map((urlToAudio, i) => (
+            <audio controls src={urlToAudio} key={i} />
+          ))}
         </Block>
       </div>
       <div
@@ -63,9 +66,10 @@ function AudioGuideSheet({ f = [] }) {
         }}
       >
         <Block>
-          Kategorier: {feature?.get("categories")?.split(",").join(", ")}
+          <p>{feature?.get("text")}</p>
+          <p>Kategorier: {feature?.get("categories")?.split(",").join(", ")}</p>
+          <p>Längd: {feature?.get("length")}</p>
         </Block>
-        <Block>Längd: {feature?.get("length")}</Block>
       </div>
     </Sheet>
   );
