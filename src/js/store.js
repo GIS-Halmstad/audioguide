@@ -1,22 +1,5 @@
 import { createStore } from "framework7/lite";
-
-const deriveDefaultSelectedCategoriesFromHash = () => {
-  try {
-    const cParam = new URLSearchParams(window.location.hash.substring(1)).get(
-      "c"
-    );
-    console.log("cParam: ", cParam?.split(","));
-    return (
-      cParam
-        ?.split(",") // Try to split…
-        .map((e) => e.trim()) // …and trim to avoid whitespace.
-        .filter((f) => f.length > 0) || [] // Remove any empty elements. Fallback to empty array.
-    );
-  } catch (error) {
-    console.error(error);
-    return [];
-  }
-};
+import { getParamValueFromHash } from "./getParamValueFromHash";
 
 const store = createStore({
   state: {
@@ -27,7 +10,7 @@ const store = createStore({
     allLines: [],
     allPoints: [],
     allCategories: [],
-    selectedCategories: deriveDefaultSelectedCategoriesFromHash(),
+    selectedCategories: getParamValueFromHash("c"),
   },
 
   actions: {

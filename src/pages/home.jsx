@@ -17,6 +17,7 @@ import {
   Panel,
   View,
   AccordionContent,
+  Icon,
 } from "framework7-react";
 
 import { updateFeaturesInMap } from "../js/olMap";
@@ -125,7 +126,11 @@ const HomePage = () => {
           <Page>
             <Navbar title="Meny" />
             <List strong outlineIos dividersIos insetMd accordionList>
-              <ListItem title="Start" />
+              <ListItem
+                title="Alla guider"
+                panelClose
+                onClick={(e) => console.log(e)}
+              />
               {/* <ListItem accordionItem accordionItemOpened title="Bakgrundskarta">
                 <AccordionContent>
                   <List outlineIos strongMd strongIos>
@@ -145,7 +150,7 @@ const HomePage = () => {
                 </AccordionContent>
               </ListItem> */}
               <ListItem title="Jämfört kartor" />
-              <ListItem title="Om AudioGuiden" />
+              <ListItem link="/about/" title="Om AudioGuiden" />
               <ListItem title="Skriv ut" />
               <ListItem title="Dela" />
             </List>
