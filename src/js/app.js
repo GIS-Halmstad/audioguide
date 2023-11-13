@@ -49,6 +49,13 @@ try {
     new Set(allLines.flatMap((f) => f.get("categories").split(",")))
   );
   store.dispatch("setAllCategories", categories);
+
+  // When the Store was initiated, selectedCategories was set to the value
+  // of the `c` param in URL. If `c` is empty (i.e. no specific category is
+  // pre-selected), we want all categories to be selected on start.
+  if (store.state.selectedCategories.length === 0) {
+    store.dispatch("setSelectedCategories", categories);
+  }
 } catch (error) {
   store.dispatch("setLoadingError", true);
   console.error(error);
