@@ -104,10 +104,19 @@ async function initOLMap(f7) {
   });
 
   f7.on("olFeatureSelected", (f) => {
-    // If something else emitted the event with an empty selection array,
-    // let's deselect here too.
     if (f.length === 0) {
+      // If something else emitted the event with an empty selection array,
+      // let's deselect here too.
       selectInteraction.getFeatures().clear();
+    } else {
+      // It looks as we'll be adding a feature to the selection, programmatically.
+      selectInteraction.getFeatures().clear();
+
+      selectInteraction.getFeatures().push(f[0]);
+
+      // Zoom to feature
+      const selectionExtent = f[0].getGeometry().getExtent();
+      olMap.getView().fit(selectionExtent);
     }
   });
 

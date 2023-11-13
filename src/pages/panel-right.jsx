@@ -7,6 +7,16 @@ function PanelRight() {
   const selectedCategories = useStore("selectedCategories");
 
   const handleCategoryChange = (e) => {
+    // Before we start toggling categories, let's ensure that no
+    // points or guides are selected (as this would limit the results
+    // even more than the category selection will).
+    if (f7.store.state.selectedGuideId !== null) {
+      f7.store.dispatch("setSelectedGuideId", null);
+    }
+    if (f7.store.state.selectedPointId !== null) {
+      f7.store.dispatch("setSelectedPointId", null);
+    }
+
     const { name, checked } = e.target;
     if (checked === true && !selectedCategories.includes(name)) {
       // We must use the spread syntax, rather than push, in order

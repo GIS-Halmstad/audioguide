@@ -11,6 +11,8 @@ const store = createStore({
     allPoints: [],
     allCategories: [],
     selectedCategories: getParamValueFromHash("c"),
+    selectedGuideId: null,
+    selectedPointId: null,
   },
 
   actions: {
@@ -37,6 +39,14 @@ const store = createStore({
     },
     setSelectedCategories({ state }, v) {
       state.selectedCategories = v;
+    },
+    setSelectedGuideId({ state }, v) {
+      console.log("setting guideId: ", v);
+      state.selectedGuideId = v;
+    },
+    setSelectedPointId({ state }, v) {
+      console.log("setting pointId: ", v);
+      state.selectedPointId = v;
     },
   },
 
@@ -70,22 +80,37 @@ const store = createStore({
     selectedCategories({ state }) {
       return state.selectedCategories;
     },
+    selectedGuideId({ state }) {
+      return state.selectedGuideId;
+    },
+    selectedPointId({ state }) {
+      return state.selectedPointId;
+    },
     selectedFeatures({ state }) {
-      // Determine which line features should be shown by looking
-      // into the selected categories state. Only lines
-      // with at least one selected category should be shown.
-      const selectedLineFeatures = state.allLines
-        .map((f) => {
-          let match = false;
-          const currentFeaturesCategories = f.get("categories").split(",");
-          currentFeaturesCategories.forEach((c) => {
-            if (state.selectedCategories.includes(c)) {
-              match = true;
-            }
-          });
-          return match ? f : undefined;
-        })
-        .filter((f) => f !== undefined);
+      let selectedLineFeatures = [];
+      // First, let's see if a specific guideId has been selected. If so,
+      // filter only that ID.
+      if (state.selectedGuideId !== null) {
+        selectedLineFeatures = state.allLines.filter(
+          (f) => f.get("guideId") === state.selectedGuideId
+        );
+      } else {
+        // Determine which line features should be shown by looking
+        // into the selected categories state. Only lines
+        // with at least one selected category should be shown.
+        selectedLineFeatures = state.allLines
+          .map((f) => {
+            let match = false;
+            const currentFeaturesCategories = f.get("categories").split(",");
+            currentFeaturesCategories.forEach((c) => {
+              if (state.selectedCategories.includes(c)) {
+                match = true;
+              }
+            });
+            return match ? f : undefined;
+          })
+          .filter((f) => f !== undefined);
+      }
 
       // Each line feature has a unique ID, save them to an Array.
       const guideIdsOfSelectedLines = selectedLineFeatures.map((lf) =>
