@@ -2,9 +2,9 @@ import { GeoJSON, WFS } from "ol/format";
 
 import store from "./store";
 
-const fetchFromService = async (type = "line", filter) => {
+const fetchFromService = async (type = "line") => {
   const { srsName, featureNS, featurePrefix, url } =
-    store.getters.serviceSettings.value;
+    store.state.mapConfig.tools.audioguide.serviceSettings;
   // generate a GetFeature request
   const featureRequest = new WFS().writeGetFeature({
     srsName,
@@ -12,10 +12,6 @@ const fetchFromService = async (type = "line", filter) => {
     featurePrefix,
     featureTypes: [type === "line" ? "audioguide_line" : "audioguide_point"],
     outputFormat: "application/json",
-    // filter: andFilter(
-    //   likeFilter("name", "Mississippi*"),
-    //   equalToFilter("waterway", "riverbank")
-    // ),
   });
 
   try {

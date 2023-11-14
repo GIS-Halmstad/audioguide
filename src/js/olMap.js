@@ -37,7 +37,7 @@ let olMap, vectorSource, vectorLayer;
 
 async function initOLMap(f7) {
   console.log("Init OL Map ", f7);
-  const config = f7.store.state.mapConfig.mapConfig;
+  const config = f7.store.state.mapConfig;
 
   // Setup projections
   config.projections.forEach((p) => {
@@ -46,11 +46,8 @@ async function initOLMap(f7) {
 
   register(proj4);
 
-  const baseLayers = config.tools.find((t) => t.type === "layerswitcher")
-    .options.baselayers;
-  const layersConfig = f7.store.state.mapConfig.layersConfig;
-  console.log("baseLayers: ", baseLayers);
-  console.log("layersConfig: ", layersConfig);
+  console.log("backgrounds: ", config.backgrounds);
+  console.log("layersTree: ", config.layersTree);
 
   // Setup sources and layers
   vectorSource = new VectorSource();

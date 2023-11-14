@@ -63,11 +63,6 @@ const store = createStore({
     mapConfig({ state }) {
       return state.mapConfig;
     },
-    serviceSettings({ state }) {
-      return state.mapConfig.mapConfig.tools.find(
-        (t) => t.type === "audioguide"
-      ).options.serviceSettings;
-    },
     allLines({ state }) {
       return state.allLines;
     },

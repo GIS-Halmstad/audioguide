@@ -19,6 +19,8 @@ import App from "../components/app.jsx";
 import store from "./store.js";
 import fetchFromService from "./fetchFromService.js";
 
+import washMapConfig from "./washMapConfig.ts";
+
 try {
   // Fetch appConfig which contains some necessary settings,
   // such as the base URL for our API.
@@ -33,8 +35,10 @@ try {
     `${store.state.appConfig.mapServiceBase}/config/${store.state.appConfig.mapName}`
   );
   const mapConfig = await mapConfigResponse.json();
+  const washedMapConfig = washMapConfig(mapConfig);
+  console.log("washedMapConfig: ", washedMapConfig);
   // Let's save the map config to the store for later use.
-  store.dispatch("setMapConfig", mapConfig);
+  store.dispatch("setMapConfig", washedMapConfig);
 
   // Grab features from WFSs and save to store
   const allLines = await fetchFromService("line");
