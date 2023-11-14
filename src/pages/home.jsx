@@ -78,15 +78,11 @@ const HomePage = () => {
       <AudioGuideSheet f={selectedFeature} />
       <Navbar sliding={false}>
         <NavLeft>
-          <Link iconIos="f7:menu" iconMd="material:menu" panelOpen="left" />
+          <Link iconF7="menu" iconMaterial="menu" panelOpen="left" iconOnly />
         </NavLeft>
         <NavTitle sliding>{loading ? "Laddar…" : "Audioguider"}</NavTitle>
         <NavRight>
-          <Link
-            iconIos="f7:sidebar_right"
-            iconMd="f7:sidebar_right"
-            panelOpen="right"
-          />
+          <Link iconF7="sidebar_right" panelOpen="right" iconOnly />
         </NavRight>
       </Navbar>
 
