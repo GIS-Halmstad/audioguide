@@ -12,10 +12,13 @@ import {
   useStore,
   NavLeft,
   NavRight,
+  Fab,
+  Icon,
 } from "framework7-react";
 
 import AudioGuideCard from "../components/AudioGuideCard";
 import AudioGuideSheet from "../components/AudioGuideSheet";
+import BackgroundLayersActionsGrid from "../components/BackgroundLayersActionsGrid";
 
 const HomePage = () => {
   console.log("HomePage init: ", f7);
@@ -42,6 +45,8 @@ const HomePage = () => {
   const selectedFeatures = useStore("selectedFeatures");
 
   const [selectedFeature, setSelectedFeature] = useState([]);
+  const [backgroundLayersActionsGrid, setBackgroundLayersActionsGrid] =
+    useState(false);
 
   useEffect(() => {
     console.log("USEEFFECT subscribe");
@@ -76,6 +81,12 @@ const HomePage = () => {
       onPageBeforeRemove={onPageBeforeRemove}
     >
       <AudioGuideSheet f={selectedFeature} />
+
+      <BackgroundLayersActionsGrid
+        backgroundLayersActionsGrid={backgroundLayersActionsGrid}
+        setBackgroundLayersActionsGrid={setBackgroundLayersActionsGrid}
+      />
+
       <Navbar sliding={false}>
         <NavLeft>
           <Link iconF7="menu" iconMaterial="menu" panelOpen="left" iconOnly />
@@ -96,6 +107,14 @@ const HomePage = () => {
       <Tabs>
         <Tab id="tab-map" className="page-content" tabActive>
           <div id="map" />
+          <Fab
+            position="right-top"
+            onClick={() => {
+              setBackgroundLayersActionsGrid(true);
+            }}
+          >
+            <Icon ios="f7:layers" md="material:layers" />
+          </Fab>
         </Tab>
         <Tab id="tab-list" className="page-content">
           <Block>Välj bland följande tillgängliga guider:</Block>
@@ -106,7 +125,6 @@ const HomePage = () => {
             ))}
         </Tab>
       </Tabs>
-      {/* <LoadingErrorSheet opened={loadingError} /> */}
     </Page>
   );
 };

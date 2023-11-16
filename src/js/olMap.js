@@ -14,12 +14,22 @@ import { Circle, Fill, Stroke, Style } from "ol/style";
 
 import store from "./store";
 
+import { createLayersFromConfig } from "./olHelpers";
+
+const defaultStyle = {
+  "fill-color": "rgba(255,255,255,0.4)",
+  "stroke-color": "#3399CC",
+  "stroke-width": 1.25,
+  "circle-radius": 5,
+  "circle-fill-color": "rgba(255,255,255,0.4)",
+  "circle-stroke-width": 1.25,
+  "circle-stroke-color": "#3399CC",
+};
 const fill = new Fill({
   color: "rgba(255,255,255,0.4)",
 });
 const stroke = new Stroke({
-  color: "red",
-  width: 3,
+  width: 5,
 });
 const selectedStyle = [
   new Style({
@@ -47,7 +57,9 @@ async function initOLMap(f7) {
   register(proj4);
 
   console.log("backgrounds: ", config.backgrounds);
-  console.log("layersTree: ", config.layersTree);
+
+  const backgroundLayers = createLayersFromConfig(config.backgrounds);
+  console.log("backgroundLayers: ", backgroundLayers);
 
   // Setup sources and layers
   vectorSource = new VectorSource();
@@ -57,22 +69,24 @@ async function initOLMap(f7) {
     zIndex: 5000,
     name: "pluginAudioGuide",
     caption: "AudioGuide layer",
-    // style: new Style({
-    //   stroke: new Stroke({
-    //     color: "rgba(0, 0, 255, 1.0)",
-    //     width: 2,
-    //   }),
-    // }),
+    style: {
+      ...defaultStyle,
+      "circle-stroke-color": ["string", ["get", "color"], "#3399CC"],
+      "circle-stroke-width": 2,
+      "stroke-color": ["string", ["get", "color"], "blue"],
+      "stroke-width": 2,
+    },
   });
 
   // Setup Map and View
   olMap = new Map({
     target: "map",
     layers: [
-      new TileLayer({
-        source: new OSM(),
-      }),
+      // new TileLayer({
+      //   source: new OSM(),
+      // }),
       vectorLayer,
+      ...backgroundLayers,
     ],
     view: new View({
       center: config.map.center,
@@ -119,6 +133,8 @@ async function initOLMap(f7) {
 
   olMap.addInteraction(selectInteraction);
 
+  console.log("olMap: ", olMap);
+
   updateFeaturesInMap();
 }
 
@@ -141,6 +157,20 @@ const updateFeaturesInMap = () => {
     olMap.getView().fit(vectorSource.getExtent());
 };
 
+const setBackgroundLayer = (lid) => {
+  // Go through layers and…
+  olMap.getAllLayers().forEach((l) => {
+    // …turn off any background layers.
+    if (l.get("layerType") === "background") {
+      l.setVisible(false);
+    }
+    // Set this as visible
+    if (l.get("lid") === lid) {
+      l.setVisible(true);
+    }
+  });
+};
+
 const getOLMap = () => olMap;
 
-export { initOLMap, getOLMap, updateFeaturesInMap };
+export { initOLMap, getOLMap, updateFeaturesInMap, setBackgroundLayer };
