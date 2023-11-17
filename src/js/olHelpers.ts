@@ -65,7 +65,7 @@ type LayerConfig = {
 
 function createLayersFromConfig(c: LayerConfig[]) {
   return c.map((cl) => {
-    console.log("cl: ", cl);
+    // console.log("cl: ", cl);
     return new TileLayer({
       lid: cl.id, // Layer ID
       layerType: "background", // "background", "layer" or "system"

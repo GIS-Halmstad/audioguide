@@ -5,16 +5,18 @@ import { register } from "ol/proj/proj4";
 
 import Map from "ol/Map";
 import View from "ol/View";
+import Point from "ol/geom/Point";
 import OSM from "ol/source/OSM";
 import TileLayer from "ol/layer/Tile";
 import VectorSource from "ol/source/Vector";
 import VectorLayer from "ol/layer/Vector";
 import Select from "ol/interaction/Select";
-import { Circle, Fill, Stroke, Style } from "ol/style";
+import { Circle as CircleStyle, Fill, Stroke, Style } from "ol/style";
 
 import store from "./store";
 
 import { createLayersFromConfig } from "./olHelpers";
+import { Feature, Geolocation } from "ol";
 
 const defaultStyle = {
   "fill-color": "rgba(255,255,255,0.4)",
@@ -33,7 +35,7 @@ const stroke = new Stroke({
 });
 const selectedStyle = [
   new Style({
-    image: new Circle({
+    image: new CircleStyle({
       fill: fill,
       stroke: stroke,
       radius: 5,
@@ -43,7 +45,7 @@ const selectedStyle = [
   }),
 ];
 
-let olMap, vectorSource, vectorLayer;
+let olMap, audioguideSource, audioguideLayer, geolocation;
 
 async function initOLMap(f7) {
   console.log("Init OL Map ", f7);
@@ -56,15 +58,15 @@ async function initOLMap(f7) {
 
   register(proj4);
 
-  console.log("backgrounds: ", config.backgrounds);
+  // console.log("backgrounds: ", config.backgrounds);
 
   const backgroundLayers = createLayersFromConfig(config.backgrounds);
-  console.log("backgroundLayers: ", backgroundLayers);
+  // console.log("backgroundLayers: ", backgroundLayers);
 
-  // Setup sources and layers
-  vectorSource = new VectorSource();
-  vectorLayer = new VectorLayer({
-    source: vectorSource,
+  // Setup source and layer for the AudioGuide features
+  audioguideSource = new VectorSource();
+  audioguideLayer = new VectorLayer({
+    source: audioguideSource,
     layerType: "system",
     zIndex: 5000,
     name: "pluginAudioGuide",
@@ -85,7 +87,7 @@ async function initOLMap(f7) {
       // new TileLayer({
       //   source: new OSM(),
       // }),
-      vectorLayer,
+      audioguideLayer,
       ...backgroundLayers,
     ],
     view: new View({
@@ -103,10 +105,73 @@ async function initOLMap(f7) {
     }),
   });
 
-  // Setup the interaction…
+  // Setup geolocation
+  geolocation = new Geolocation({
+    trackingOptions: {
+      enableHighAccuracy: true,
+    },
+    projection: olMap.getView().getProjection(),
+  });
+
+  // Handle geolocation error
+  geolocation.on("error", function (error) {
+    console.warn(error);
+  });
+
+  // Create an accuracy feature…
+  const geolocationAccuracyFeature = new Feature();
+  // …and ensure its geometry gets updated when geolocation
+  // accuracy changes.
+  geolocation.on("change:accuracyGeometry", () => {
+    geolocationAccuracyFeature.setGeometry(geolocation.getAccuracyGeometry());
+  });
+
+  // Create a position feature…
+  const geolocationPositionFeature = new Feature();
+  geolocationPositionFeature.setStyle(
+    new Style({
+      image: new CircleStyle({
+        radius: 6,
+        fill: new Fill({
+          color: "#3399CC",
+        }),
+        stroke: new Stroke({
+          color: "#fff",
+          width: 2,
+        }),
+      }),
+    })
+  );
+
+  //  …and make sure we update its geometry when geolocation
+  // says that the position has changed.
+  geolocation.on("change:position", function () {
+    const coordinates = geolocation.getPosition();
+    geolocationPositionFeature.setGeometry(
+      coordinates ? new Point(coordinates) : null
+    );
+  });
+
+  // The Geolocation features will need a source and a layer
+  // to be added to.
+  const geolocationSource = new VectorSource({
+    features: [geolocationAccuracyFeature, geolocationPositionFeature],
+  });
+  const geolocationLayer = new VectorLayer({
+    source: geolocationSource,
+    layerType: "system",
+    name: "pluginAudioGuideGeolocation",
+    caption: "AudioGuide Geolocation",
+  });
+
+  // Finally, add the geolocation layer
+  olMap.addLayer(geolocationLayer);
+
+  // Setup the select interaction…
   const selectInteraction = new Select({
     hitTolerance: 20,
     style: selectedStyle,
+    layers: [audioguideLayer], // We want to only get hits from the audioguide layer
   });
 
   // …and interaction handler.
@@ -131,6 +196,23 @@ async function initOLMap(f7) {
     }
   });
 
+  f7.on("olCenterOnGeolocation", () => {
+    // View.animate() actually wants two coordinates (to center on),
+    // while getExtent() returns an array of four coordinates. In case
+    // of Point features, we might as well use getCoordinates() (or
+    // even getFirstCoordinates()) and we'd still end up with the same
+    // first two elements. So we go for getExtent() for that reason.
+    if (geolocationPositionFeature.getGeometry() === undefined) {
+      console.warn("Could not get geolocation");
+    } else {
+      olMap.getView().animate({
+        center: geolocationPositionFeature.getGeometry().getExtent(),
+        zoom: 10,
+        duration: 3000,
+      });
+    }
+  });
+
   olMap.addInteraction(selectInteraction);
 
   console.log("olMap: ", olMap);
@@ -139,11 +221,11 @@ async function initOLMap(f7) {
 }
 
 const addFeatures = (features) => {
-  vectorSource.addFeatures(features);
+  audioguideSource.addFeatures(features);
 };
 
 const removeAllFeatures = () => {
-  vectorSource.clear();
+  audioguideSource.clear();
 };
 
 const updateFeaturesInMap = () => {
@@ -153,8 +235,8 @@ const updateFeaturesInMap = () => {
   // Fit View to features' extent only if there are
   // no infinite values (which can happen if the Source
   // is empty).
-  !vectorSource.getExtent().includes(Infinity) &&
-    olMap.getView().fit(vectorSource.getExtent());
+  !audioguideSource.getExtent().includes(Infinity) &&
+    olMap.getView().fit(audioguideSource.getExtent());
 };
 
 const setBackgroundLayer = (lid) => {
@@ -171,6 +253,20 @@ const setBackgroundLayer = (lid) => {
   });
 };
 
+const enableGeolocation = () => {
+  try {
+    geolocation.setTracking(true);
+  } catch (error) {
+    console.error("error: ", error);
+  }
+};
+
 const getOLMap = () => olMap;
 
-export { initOLMap, getOLMap, updateFeaturesInMap, setBackgroundLayer };
+export {
+  initOLMap,
+  getOLMap,
+  updateFeaturesInMap,
+  setBackgroundLayer,
+  enableGeolocation,
+};

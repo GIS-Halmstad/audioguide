@@ -4,7 +4,7 @@ import { Actions, ActionsButton, ActionsGroup, f7 } from "framework7-react";
 import { setBackgroundLayer } from "../js/olMap";
 
 function LayerButton({ layer }) {
-  console.log("layer: ", layer);
+  // console.log("layer: ", layer);
   return (
     <ActionsButton onClick={() => setBackgroundLayer(layer.id)}>
       <img

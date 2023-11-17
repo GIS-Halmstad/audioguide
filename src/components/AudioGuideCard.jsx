@@ -60,12 +60,10 @@ function AudioGuideCard({ c }) {
           {`${c.get("length")} - ${c.get("categories").split(",").join(", ")}`}
         </CardFooter>
         <Block>
-          <div className="card-content-padding">
-            {c.get("text")}
-            <Button fill round large cardClose onClick={handleShowGuideInMap}>
-              Visa i karta
-            </Button>
-          </div>
+          <div className="card-content-padding">{c.get("text")}</div>
+          <Button fill round large cardClose onClick={handleShowGuideInMap}>
+            Visa i karta
+          </Button>
         </Block>
       </CardContent>
     </Card>

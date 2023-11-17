@@ -5,7 +5,7 @@ import { f7, f7ready, App, View, Panel } from "framework7-react";
 import routes from "../js/routes";
 import store from "../js/store";
 
-import { initOLMap } from "../js/olMap.js";
+import { enableGeolocation, initOLMap } from "../js/olMap.js";
 
 const Audioguide = () => {
   console.log("Audioguide renders");
@@ -23,6 +23,8 @@ const Audioguide = () => {
     // afterwards. We also pass on the f7 so that we can use
     // its event bus for sending events between the Map and F7's UI.
     await initOLMap(f7);
+
+    enableGeolocation();
 
     // Let's tell the store (and React Components using
     // the useStore hook) that we're done initiating.

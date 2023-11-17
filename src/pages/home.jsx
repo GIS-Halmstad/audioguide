@@ -115,6 +115,14 @@ const HomePage = () => {
           >
             <Icon ios="f7:layers" md="material:layers" />
           </Fab>
+          <Fab
+            position="right-bottom"
+            onClick={() => {
+              f7.emit("olCenterOnGeolocation");
+            }}
+          >
+            <Icon ios="f7:location" md="material:location" />
+          </Fab>
         </Tab>
         <Tab id="tab-list" className="page-content">
           <Block>Välj bland följande tillgängliga guider:</Block>
