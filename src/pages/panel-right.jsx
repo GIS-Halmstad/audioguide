@@ -62,7 +62,14 @@ function PanelRight() {
             Filtering är avstängd eftersom en specifik guide har valts. Rensa
             valet för att tillåta filtering.
           </Block>
-          <Button onClick={cleanUpSelection}>Rensa valda</Button>
+          <Button
+            onClick={() => {
+              cleanUpSelection();
+              updateFeaturesInMap();
+            }}
+          >
+            Rensa valda
+          </Button>
         </>
       )}
       <List outlineIos strongMd strongIos>
