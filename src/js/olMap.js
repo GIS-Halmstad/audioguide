@@ -18,15 +18,13 @@ import store from "./store";
 import { createLayersFromConfig } from "./olHelpers";
 import { Feature, Geolocation } from "ol";
 
-const defaultStyle = {
-  "fill-color": "rgba(255,255,255,0.4)",
-  "stroke-color": "#3399CC",
-  "stroke-width": 1.25,
-  "circle-radius": 5,
-  "circle-fill-color": "rgba(255,255,255,0.4)",
-  "circle-stroke-width": 1.25,
-  "circle-stroke-color": "#3399CC",
+const fallbackStyle = {
+  strokeColor: "orange",
+  strokeWidth: 1.25,
+  fillColor: "orange",
+  circleRadius: 5,
 };
+
 const fill = new Fill({
   color: "rgba(255,255,255,0.4)",
 });
@@ -71,12 +69,46 @@ async function initOLMap(f7) {
     zIndex: 5000,
     name: "pluginAudioGuide",
     caption: "AudioGuide layer",
-    style: {
-      ...defaultStyle,
-      "circle-stroke-color": ["string", ["get", "color"], "#3399CC"],
-      "circle-stroke-width": 2,
-      "stroke-color": ["string", ["get", "color"], "blue"],
-      "stroke-width": 2,
+    style: (feature, resolution) => {
+      // Attempt to parse the JSON style from DB
+      let parsedStyle = {};
+      try {
+        parsedStyle = JSON.parse(feature.get("style")) || {};
+      } catch (error) {
+        parsedStyle = {};
+      }
+
+      // Let's merge the default styles with those (presumably) parsed.
+      const { strokeColor, strokeWidth, fillColor, circleRadius, iconSrc } = {
+        ...fallbackStyle,
+        ...parsedStyle,
+      };
+
+      // TODO: Document these changed in README, 'style' is a new JSONB column.
+
+      return new Style({
+        ...(feature.getGeometry().getType() === "Point" &&
+          // Points should only show when we zoom in
+          resolution < 3 && {
+            image: new CircleStyle({
+              fill: new Fill({
+                color: fillColor,
+              }),
+              stroke: new Stroke({
+                color: strokeColor,
+                width: strokeWidth,
+              }),
+              radius: circleRadius,
+            }),
+          }),
+        ...(feature.getGeometry().getType() === "LineString" && {
+          fill: new Fill({ color: fillColor }),
+          stroke: new Stroke({
+            color: strokeColor,
+            width: strokeWidth,
+          }),
+        }),
+      });
     },
   });
 
