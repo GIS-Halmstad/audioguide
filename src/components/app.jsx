@@ -6,6 +6,7 @@ import routes from "../js/routes";
 import store from "../js/store";
 
 import { enableGeolocation, initOLMap } from "../js/olMap.js";
+import DemoMessageSheet from "./DemoMessageSheet";
 
 const Audioguide = () => {
   console.log("Audioguide renders");
@@ -29,11 +30,12 @@ const Audioguide = () => {
     // Let's tell the store (and React Components using
     // the useStore hook) that we're done initiating.
     store.dispatch("setLoading", false);
-    console.log("APP INIT DONE");
+    console.log("APP INIT DONE, current state", store.state);
   });
 
   return (
     <App {...f7params}>
+      {store.state.appConfig.showDemoMessage === true && <DemoMessageSheet />}
       <Panel left cover>
         <View url="/panel-left/" />
       </Panel>
