@@ -24,6 +24,7 @@ CREATE TABLE IF NOT EXISTS public.audioguide_line
     categories text COLLATE pg_catalog."default",
     images text COLLATE pg_catalog."default",
     length text COLLATE pg_catalog."default" NOT NULL DEFAULT 0,
+    "style" jsonb NULL,
     geom geometry(LineString,3008) NOT NULL,
     CONSTRAINT audioguide_line_pkey PRIMARY KEY (id)
 )
@@ -59,6 +60,7 @@ CREATE TABLE IF NOT EXISTS public.audioguide_point
     images text COLLATE pg_catalog."default",
     audios text COLLATE pg_catalog."default",
     videos text COLLATE pg_catalog."default",
+    "style" jsonb NULL,
     geom geometry(Point,3008) NOT NULL,
     CONSTRAINT audioguide_point_pkey PRIMARY KEY (id)
 )
@@ -75,6 +77,23 @@ CREATE INDEX IF NOT EXISTS sidx_audioguide_point_geom
     ON public.audioguide_point USING gist
     (geom)
     TABLESPACE pg_default;
+```
+
+### Styling guide lines and points using the `style` attribute in tables
+
+In order to make the guide features (both lines and points) look differently, depending on guide, there is a `style` column in both database tables. The type of this column is `jsonb`. They can be `NULL`, but it's recommended to set different styling for the features. To do it, the following format is used (make sure to remove the comments!):
+
+```jsonc
+// The values below are also the defaults that will be applied if `style` is `NULL` or `{}`
+{
+  // Both points and lines
+  "strokeColor": "orange",
+  "strokeWidth": 2
+
+  // Points table only
+  "fillColor": "orange",
+  "circleRadius": 5,
+}
 ```
 
 ### The OGC WFS Service

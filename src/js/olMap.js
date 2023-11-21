@@ -18,32 +18,70 @@ import store from "./store";
 import { createLayersFromConfig } from "./olHelpers";
 import { Feature, Geolocation } from "ol";
 
-const fallbackStyle = {
-  strokeColor: "orange",
-  strokeWidth: 1.25,
+const defaultStyle = {
+  // Takes effect only for points
   fillColor: "orange",
   circleRadius: 5,
+
+  // Affects both points and lines
+  strokeColor: "orange",
+  strokeWidth: 2,
 };
 
-const fill = new Fill({
-  color: "rgba(255,255,255,0.4)",
-});
-const stroke = new Stroke({
-  width: 5,
-});
-const selectedStyle = [
-  new Style({
-    image: new CircleStyle({
-      fill: fill,
-      stroke: stroke,
-      radius: 5,
-    }),
-    fill: fill,
-    stroke: stroke,
-  }),
-];
-
 let olMap, audioguideSource, audioguideLayer, geolocation;
+
+function styleFunction(feature, resolution) {
+  // Attempt to parse the JSON style from DB
+  let parsedStyle = {};
+  try {
+    parsedStyle = JSON.parse(feature.get("style")) || {};
+  } catch (error) {
+    parsedStyle = {};
+  }
+
+  // Let's merge the default styles with those (presumably) parsed.
+  const { strokeColor, strokeWidth, fillColor, circleRadius, iconSrc } = {
+    ...defaultStyle,
+    ...parsedStyle,
+  };
+
+  // TODO: Document these changed in README, 'style' is a new JSONB column.
+
+  return new Style({
+    ...(feature.getGeometry().getType() === "Point" &&
+      // Points should only show when we zoom in
+      resolution < 3 && {
+        image: new CircleStyle({
+          fill: new Fill({
+            color: fillColor,
+          }),
+          stroke: new Stroke({
+            color: strokeColor,
+            width: strokeWidth,
+          }),
+          radius: circleRadius,
+        }),
+      }),
+    ...(feature.getGeometry().getType() === "LineString" && {
+      stroke: new Stroke({
+        color: strokeColor,
+        width: strokeWidth,
+      }),
+    }),
+  });
+}
+
+function selectedStyleFunction(feature, resolution) {
+  const normalStyle = styleFunction(feature, resolution);
+  if (feature.getGeometry().getType() === "Point") {
+    const normalRadius = normalStyle.getImage().getRadius();
+    normalStyle.getImage().setRadius(normalRadius * 3);
+  } else if (feature.getGeometry().getType() === "LineString") {
+    const normalStrokeWidth = normalStyle.getStroke().getWidth();
+    normalStyle.getStroke().setWidth(normalStrokeWidth * 3);
+  }
+  return normalStyle;
+}
 
 async function initOLMap(f7) {
   console.log("Init OL Map ", f7);
@@ -69,47 +107,7 @@ async function initOLMap(f7) {
     zIndex: 5000,
     name: "pluginAudioGuide",
     caption: "AudioGuide layer",
-    style: (feature, resolution) => {
-      // Attempt to parse the JSON style from DB
-      let parsedStyle = {};
-      try {
-        parsedStyle = JSON.parse(feature.get("style")) || {};
-      } catch (error) {
-        parsedStyle = {};
-      }
-
-      // Let's merge the default styles with those (presumably) parsed.
-      const { strokeColor, strokeWidth, fillColor, circleRadius, iconSrc } = {
-        ...fallbackStyle,
-        ...parsedStyle,
-      };
-
-      // TODO: Document these changed in README, 'style' is a new JSONB column.
-
-      return new Style({
-        ...(feature.getGeometry().getType() === "Point" &&
-          // Points should only show when we zoom in
-          resolution < 3 && {
-            image: new CircleStyle({
-              fill: new Fill({
-                color: fillColor,
-              }),
-              stroke: new Stroke({
-                color: strokeColor,
-                width: strokeWidth,
-              }),
-              radius: circleRadius,
-            }),
-          }),
-        ...(feature.getGeometry().getType() === "LineString" && {
-          fill: new Fill({ color: fillColor }),
-          stroke: new Stroke({
-            color: strokeColor,
-            width: strokeWidth,
-          }),
-        }),
-      });
-    },
+    style: styleFunction,
   });
 
   // Setup Map and View
@@ -202,8 +200,8 @@ async function initOLMap(f7) {
   // Setup the select interaction…
   const selectInteraction = new Select({
     hitTolerance: 20,
-    style: selectedStyle,
     layers: [audioguideLayer], // We want to only get hits from the audioguide layer
+    style: selectedStyleFunction,
   });
 
   // …and interaction handler.
