@@ -11,7 +11,7 @@ import TileLayer from "ol/layer/Tile";
 import VectorSource from "ol/source/Vector";
 import VectorLayer from "ol/layer/Vector";
 import Select from "ol/interaction/Select";
-import { Circle as CircleStyle, Fill, Stroke, Style } from "ol/style";
+import { Circle as CircleStyle, Fill, Stroke, Style, Text } from "ol/style";
 
 import store from "./store";
 
@@ -61,6 +61,19 @@ function styleFunction(feature, resolution) {
           }),
           radius: circleRadius,
         }),
+        text: new Text({
+          textAlign: "center",
+          textBaseline: "middle",
+          font: "normal 13pt sans-serif",
+          text:
+            resolution < 1
+              ? `${feature.get("stopNumber").toString()}\n${feature.get(
+                  "title"
+                )}`
+              : feature.get("stopNumber").toString(),
+          fill: new Fill({ color: "black" }),
+          stroke: new Stroke({ color: "white", width: 2 }),
+        }),
       }),
     ...(feature.getGeometry().getType() === "LineString" && {
       stroke: new Stroke({
@@ -76,6 +89,7 @@ function selectedStyleFunction(feature, resolution) {
   if (feature.getGeometry().getType() === "Point") {
     const normalRadius = normalStyle.getImage().getRadius();
     normalStyle.getImage().setRadius(normalRadius * 3);
+    normalStyle.getText().setFont("bold 15pt sans-serif");
   } else if (feature.getGeometry().getType() === "LineString") {
     const normalStrokeWidth = normalStyle.getStroke().getWidth();
     normalStyle.getStroke().setWidth(normalStrokeWidth * 3);

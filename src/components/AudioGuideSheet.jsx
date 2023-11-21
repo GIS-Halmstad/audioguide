@@ -64,6 +64,7 @@ function AudioGuideSheet({ f = [] }) {
           // justifyContent: "center",
           height: "20vh",
         }}
+        className="page-content"
       >
         <Block>
           <p>{feature?.get("text")}</p>
