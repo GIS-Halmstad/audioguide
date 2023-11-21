@@ -1,19 +1,27 @@
 import React from "react";
 import { Actions, ActionsButton, ActionsGroup, f7 } from "framework7-react";
 
-import { setBackgroundLayer } from "../js/olMap";
+import { getLayerVisibility, setBackgroundLayer } from "../js/olMap";
 
 function LayerButton({ layer }) {
-  // console.log("layer: ", layer);
+  const isActive = getLayerVisibility(layer.id);
+
   return (
     <ActionsButton onClick={() => setBackgroundLayer(layer.id)}>
       <img
         slot="media"
-        src="https://cdn.framework7.io/placeholder/people-96x96-1.jpg"
+        src={`/backgroundThumbs/${layer.id}.webp`}
         width="48"
-        style={{ maxWidth: "100%", borderRadius: "8px" }}
+        style={{
+          maxWidth: "100%",
+          ...(isActive && {
+            borderRadius: "8px",
+            borderColor: "gray",
+            borderStyle: "solid",
+          }),
+        }}
       />
-      <span>{layer.caption}</span>
+      {isActive ? <b>{layer.caption}</b> : <span>{layer.caption}</span>}
     </ActionsButton>
   );
 }
@@ -28,9 +36,9 @@ function BackgroundLayersActionsGrid({
   const slot1 = [backgrounds[0], backgrounds[1], backgrounds[2]].filter(
     (e) => e !== undefined
   );
-  const slot2 = [backgrounds[3], backgrounds[4], backgrounds[5]].filter(
-    (e) => e !== undefined
-  );
+  // const slot2 = [backgrounds[3], backgrounds[4], backgrounds[5]].filter(
+  //   (e) => e !== undefined
+  // );
 
   return (
     <Actions
@@ -43,11 +51,11 @@ function BackgroundLayersActionsGrid({
           return <LayerButton key={i} layer={b} />;
         })}
       </ActionsGroup>
-      <ActionsGroup>
+      {/* <ActionsGroup>
         {slot2.map((b, i) => {
           return <LayerButton key={i} layer={b} />;
         })}
-      </ActionsGroup>
+      </ActionsGroup> */}
     </Actions>
   );
 }

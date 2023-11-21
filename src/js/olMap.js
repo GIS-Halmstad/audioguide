@@ -297,6 +297,13 @@ const setBackgroundLayer = (lid) => {
   });
 };
 
+const getLayerVisibility = (lid) => {
+  return olMap
+    ?.getAllLayers()
+    .find((l) => l.get("lid") === lid)
+    ?.getVisible();
+};
+
 const enableGeolocation = () => {
   try {
     geolocation.setTracking(true);
@@ -312,5 +319,6 @@ export {
   getOLMap,
   updateFeaturesInMap,
   setBackgroundLayer,
+  getLayerVisibility,
   enableGeolocation,
 };
