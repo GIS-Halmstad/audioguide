@@ -79,23 +79,6 @@ CREATE INDEX IF NOT EXISTS sidx_audioguide_point_geom
     TABLESPACE pg_default;
 ```
 
-### Styling guide lines and points using the `style` attribute in tables
-
-In order to make the guide features (both lines and points) look differently, depending on guide, there is a `style` column in both database tables. The type of this column is `jsonb`. They can be `NULL`, but it's recommended to set different styling for the features. To do it, the following format is used (make sure to remove the comments!):
-
-```jsonc
-// The values below are also the defaults that will be applied if `style` is `NULL` or `{}`
-{
-  // Both points and lines
-  "strokeColor": "orange",
-  "strokeWidth": 2
-
-  // Points table only
-  "fillColor": "orange",
-  "circleRadius": 5,
-}
-```
-
 ### The OGC WFS Service
 
 Publish the tables described above using a WFS service can output features as `application/json`.
@@ -138,6 +121,79 @@ In addition, you must add the AudioGuide tool options to the map config that you
     },
 ```
 
+## Adding guides, including media assets and styling them
+
+### Styling guide lines and points using the `style` attribute in tables
+
+In order to make the guide features (both lines and points) look differently, depending on guide, there is a `style` column in both database tables. The type of this column is `jsonb`. They can be `NULL`, but it's recommended to set different styling for the features. To do it, the following format is used (make sure to remove the comments!):
+
+```jsonc
+// The values below are also the defaults that will be applied if `style` is `NULL` or `{}`
+{
+  // Both points and lines
+  "strokeColor": "orange",
+  "strokeWidth": 2
+
+  // Points table only
+  "fillColor": "orange",
+  "circleRadius": 5,
+}
+```
+
+### Media assets
+
+This section describes how to add the media assets (images, audio and video files) to the AudioGuide App.
+
+As you may have noticed, the database tables include some columns that are meant to be used to link each geometric feature with one-to-many assets. The `audioguide_point` table contains `audios`, `videos` and `images`, while `audioguide_line` table contains `images` only. Each of these columns' values should be _a comma-separated string of either relative or absolute URLs_. `NULL` is an allowed value too.
+
+The linked assets will be shown in the app on a corresponding place in the UI.
+
+#### Recommended structure for relative URLs to media assets
+
+If you wish to use the relative URLs, here's there recommended approach.
+
+The assets must be placed inside the corresponding directory within `public/`, e.g. `public/audios` or `public/images`. _Furthermore, each asset type directory must contain directories whose names correspond to the value of `guideId`._
+
+E.g. consider the following data in table:
+
+```sql
+SELECT "guideId", "stopNumber", images
+FROM audioguide_point
+ORDER BY "guideId", "stopNumber";
+
+guideId|stopNumber|images           |
+-------+----------+-----------------+
+      1|         1|1.jpg,2.jpg,3.jpg|
+      1|         2|4.jpg            |
+      2|         1|1.jpg            |
+      2|         2|2.jpg            |
+```
+
+Let's look closer at the first two lines of the results above.
+
+The results implies that the app will expect the following files to exist:
+
+```sh
+public/images
+├── 1           <-- dir name corresponds to `guideId`
+│   ├── 1.jpg
+│   ├── 2.jpg
+│   ├── 3.jpg
+│   └── 4.jpg
+├── 2           <-- dir name corresponds to `guideId`
+│   ├── 1.jpg
+│   └── 2.jpg
+```
+
+And the result of the configuration above is that:
+
+- The first stop in guide with `guideId` 1 will display three images: `1.jpg,2.jpg,3.jpg`.
+- The second stop in guide with `guideId` 1 will display `4.jpg`.
+- The first stop in guide with `guideId` 2 will display `1.jpg`.
+- The second stop in guide with `guideId` 2 will display `2.jpg`.
+
+And all the files needed do exist in their respective directory, as we can see in the directory listing of `public/images`.
+
 ## Available options
 
 There are some parameters that can be sent to Hajk that'll affect this plugin's initial settings. Send them using the query string. Here's the list:
@@ -147,6 +203,10 @@ There are some parameters that can be sent to Hajk that'll affect this plugin's 
   - You must encode the strings properly. E.g. a category called `Sport & Ö-liv` should become `Sport%20%26%20%C3%96-liv`, while `The Foo/Bar Category` is `The%20Foo%2FBar%20category`.
 
 ## Deploy notes
+
+The app is fully static and can be deployed using any web server. The recommended approach, however, is using Hajk API's static exposer functionality.
+
+Basically, build the app with `npm run build`. This will result in a `www` folder. Rename it to anything you like (e.g. `audioguides`) and put in `{hajkBackend}/static/audioguides`. Next, tell Hajk's API to expose this directory by adding this directive to the `.env`: `EXPOSE_AND_RESTRICT_STATIC_AUDIOGUIDE=`. Refer to Hajk's documentation for further information.
 
 ### Vite
 
