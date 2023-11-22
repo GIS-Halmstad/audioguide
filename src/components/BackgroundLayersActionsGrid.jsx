@@ -10,7 +10,7 @@ function LayerButton({ layer }) {
     <ActionsButton onClick={() => setBackgroundLayer(layer.id)}>
       <img
         slot="media"
-        src={`/backgroundThumbs/${layer.id}.webp`}
+        src={`backgroundThumbs/${layer.id}.webp`}
         width="48"
         style={{
           maxWidth: "100%",

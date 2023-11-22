@@ -6,8 +6,8 @@ import { register } from "ol/proj/proj4";
 import Map from "ol/Map";
 import View from "ol/View";
 import Point from "ol/geom/Point";
-import OSM from "ol/source/OSM";
-import TileLayer from "ol/layer/Tile";
+// import OSM from "ol/source/OSM";
+// import TileLayer from "ol/layer/Tile";
 import VectorSource from "ol/source/Vector";
 import VectorLayer from "ol/layer/Vector";
 import Select from "ol/interaction/Select";
@@ -40,7 +40,7 @@ function styleFunction(feature, resolution) {
   }
 
   // Let's merge the default styles with those (presumably) parsed.
-  const { strokeColor, strokeWidth, fillColor, circleRadius, iconSrc } = {
+  const { strokeColor, strokeWidth, fillColor, circleRadius } = {
     ...defaultStyle,
     ...parsedStyle,
   };
@@ -110,7 +110,11 @@ async function initOLMap(f7) {
 
   // console.log("backgrounds: ", config.backgrounds);
 
-  const backgroundLayers = createLayersFromConfig(config.backgrounds);
+  const backgroundLayers = createLayersFromConfig(
+    config.backgrounds,
+    config.map,
+    "background"
+  );
   // console.log("backgroundLayers: ", backgroundLayers);
 
   // Setup source and layer for the AudioGuide features
