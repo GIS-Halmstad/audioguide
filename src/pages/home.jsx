@@ -81,12 +81,10 @@ const HomePage = () => {
       onPageBeforeRemove={onPageBeforeRemove}
     >
       <AudioGuideSheet f={selectedFeature} />
-
       <BackgroundLayersActionsGrid
         backgroundLayersActionsGrid={backgroundLayersActionsGrid}
         setBackgroundLayersActionsGrid={setBackgroundLayersActionsGrid}
       />
-
       <Navbar sliding={false}>
         <NavLeft>
           <Link iconF7="menu" iconMaterial="menu" panelOpen="left" iconOnly />
@@ -97,13 +95,22 @@ const HomePage = () => {
         </NavRight>
       </Navbar>
 
-      <Toolbar tabbar bottom>
-        <Link tabLink="#tab-map" tabLinkActive>
-          Karta
-        </Link>
-        <Link tabLink="#tab-list">Lista</Link>
-      </Toolbar>
+      <Toolbar tabbar icons bottom>
+        <Link
+          tabLink="#tab-map"
+          tabLinkActive
+          text="Karta"
+          iconIos="f7:map"
+          iconMd="material:map"
+        />
 
+        <Link
+          tabLink="#tab-list"
+          text="Lista"
+          iconIos="f7:list_bullet_below_rectangle"
+          iconMd="material:ballot"
+        />
+      </Toolbar>
       <Tabs>
         <Tab id="tab-map" className="page-content" tabActive>
           <div id="map" />
