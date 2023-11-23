@@ -18,12 +18,8 @@ function PanelRight() {
   console.log("selectedGuideId: ", selectedGuideId);
 
   const cleanUpSelection = () => {
-    if (f7.store.state.selectedGuideId !== null) {
-      f7.store.dispatch("setSelectedGuideId", null);
-    }
-    if (f7.store.state.selectedPointId !== null) {
-      f7.store.dispatch("setSelectedPointId", null);
-    }
+    f7.store.dispatch("setSelectedGuideId", null);
+    f7.store.dispatch("setSelectedPointId", null);
   };
 
   const handleCategoryChange = (e) => {
@@ -55,12 +51,12 @@ function PanelRight() {
   };
   return (
     <Page>
-      <Navbar title="Filtrera" />
+      <Navbar title="Kategorifilter" />
       {selectedGuideId !== null && (
         <>
           <Block>
-            Filtering är avstängd eftersom en specifik guide har valts. Rensa
-            valet för att tillåta filtering.
+            Kategorifiltret är inaktivt eftersom du redan valt en specifik
+            guide. Rensa valet för att tillåta filtering.
           </Block>
           <Button
             onClick={() => {
@@ -68,26 +64,26 @@ function PanelRight() {
               updateFeaturesInMap();
             }}
           >
-            Rensa valda
+            Återställ filtering
           </Button>
         </>
       )}
-      <List outlineIos strongMd strongIos>
-        {f7.store.state.allCategories.map((c, i) => {
-          return (
-            <ListItem
-              key={i}
-              disabled={selectedGuideId !== null}
-              style={{ ...(selectedGuideId !== null && { opacity: 0.3 }) }}
-              checkbox
-              checked={selectedCategories.includes(c)}
-              onChange={handleCategoryChange}
-              title={c}
-              name={c}
-            />
-          );
-        })}
-      </List>
+      {selectedGuideId === null && (
+        <List outlineIos strongMd strongIos>
+          {f7.store.state.allCategories.map((c, i) => {
+            return (
+              <ListItem
+                key={i}
+                checkbox
+                checked={selectedCategories.includes(c)}
+                onChange={handleCategoryChange}
+                title={c}
+                name={c}
+              />
+            );
+          })}
+        </List>
+      )}
     </Page>
   );
 }

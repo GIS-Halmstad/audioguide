@@ -91,7 +91,12 @@ const HomePage = () => {
         </NavLeft>
         <NavTitle sliding>{loading ? "Laddar…" : "Audioguider"}</NavTitle>
         <NavRight>
-          <Link iconF7="sidebar_right" panelOpen="right" iconOnly />
+          <Link
+            iconIos="f7:funnel"
+            iconMd="material:filter_alt"
+            panelOpen="right"
+            iconOnly
+          />
         </NavRight>
       </Navbar>
 
@@ -130,9 +135,12 @@ const HomePage = () => {
           >
             <Icon ios="f7:location" md="material:near_me" />
           </Fab>
+          {/* <Fab position="center-bottom" slot="fixed" text="Kategorifilter">
+            {" "}
+            <Icon ios="f7:funnel" md="material:filter_alt" />
+          </Fab> */}
         </Tab>
         <Tab id="tab-list" className="page-content">
-          <Block>Välj bland följande tillgängliga guider:</Block>
           {selectedFeatures
             .filter((f) => f.get("length")) // Only line features will have the "length" property
             .map((c, i) => (

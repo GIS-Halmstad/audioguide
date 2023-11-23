@@ -10,6 +10,8 @@ function PanelLeft() {
 
     // Tell the Store to select all categories
     await store.dispatch("setSelectedCategories", store.state.allCategories);
+    store.dispatch("setSelectedGuideId", null);
+    store.dispatch("setSelectedPointId", null);
 
     // Tell OL to update the map view
     updateFeaturesInMap();
@@ -26,8 +28,8 @@ function PanelLeft() {
           panelClose
           onClick={handleShowAllGuides}
         />
-        <ListItem title="Jämfört kartor" />
-        <ListItem title="Skriv ut" />
+        {/* <ListItem title="Jämför kartor" />
+        <ListItem title="Skriv ut" /> */}
         <ListItem link="/share/" title="Dela" />
         <ListItem link="/about/" title="Om AudioGuiden" />
       </List>
