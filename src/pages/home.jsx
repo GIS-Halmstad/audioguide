@@ -121,7 +121,7 @@ const HomePage = () => {
               f7.emit("olCenterOnGeolocation");
             }}
           >
-            <Icon ios="f7:location" md="material:location" />
+            <Icon ios="f7:location" md="material:near_me" />
           </Fab>
         </Tab>
         <Tab id="tab-list" className="page-content">

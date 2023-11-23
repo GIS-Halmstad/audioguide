@@ -36,7 +36,7 @@ const Audioguide = () => {
   return (
     <App {...f7params}>
       {store.state.appConfig.showDemoMessage === true && <DemoMessageSheet />}
-      <Panel left cover>
+      <Panel left cover visibleBreakpoint={960}>
         <View url="/panel-left/" />
       </Panel>
 
