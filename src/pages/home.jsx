@@ -17,7 +17,7 @@ import {
 } from "framework7-react";
 
 import AudioGuideCard from "../components/AudioGuideCard";
-import AudioGuideSheet from "../components/AudioGuideSheet";
+import GuidePreviewSheet from "../components/GuidePreviewSheet";
 import BackgroundLayersActionsGrid from "../components/BackgroundLayersActionsGrid";
 
 const HomePage = () => {
@@ -80,13 +80,13 @@ const HomePage = () => {
       onPageBeforeOut={onPageBeforeOut}
       onPageBeforeRemove={onPageBeforeRemove}
     >
-      <AudioGuideSheet f={selectedFeature} />
+      <GuidePreviewSheet f={selectedFeature} />
       <BackgroundLayersActionsGrid
         backgroundLayersActionsGrid={backgroundLayersActionsGrid}
         setBackgroundLayersActionsGrid={setBackgroundLayersActionsGrid}
       />
       <Navbar sliding={false}>
-        <NavLeft>
+        <NavLeft backLink>
           <Link iconF7="menu" iconMaterial="menu" panelOpen="left" iconOnly />
         </NavLeft>
         <NavTitle sliding>{loading ? "Laddar…" : "Audioguider"}</NavTitle>
@@ -116,7 +116,7 @@ const HomePage = () => {
           iconMd="material:ballot"
         />
       </Toolbar>
-      <Tabs>
+      <Tabs routable={true}>
         <Tab id="tab-map" className="page-content" tabActive>
           <div id="map" />
           <Fab
@@ -135,10 +135,6 @@ const HomePage = () => {
           >
             <Icon ios="f7:location" md="material:near_me" />
           </Fab>
-          {/* <Fab position="center-bottom" slot="fixed" text="Kategorifilter">
-            {" "}
-            <Icon ios="f7:funnel" md="material:filter_alt" />
-          </Fab> */}
         </Tab>
         <Tab id="tab-list" className="page-content">
           {selectedFeatures

@@ -223,11 +223,22 @@ async function initOLMap(f7) {
   });
 
   // …and interaction handler.
-  selectInteraction.on("select", (e) => {
+  selectInteraction.on("select", async (e) => {
+    // await f7.store.dispatch(
+    //   "setSelectedGuideId",
+    //   e.selected[0]?.get("guideId") || []
+    // );
+
+    // await f7.store.dispatch("setSelectedGuideId", null);
+    // await f7.store.dispatch("setSelectedPointId", null);
+
+    // updateFeaturesInMap();
+
     f7.emit("olFeatureSelected", e.selected);
   });
 
   f7.on("olFeatureSelected", (f) => {
+    console.log("got olFeatureSelected: ", f);
     if (f.length === 0) {
       // If something else emitted the event with an empty selection array,
       // let's deselect here too.
