@@ -9,7 +9,8 @@ function PanelLeft() {
     f7.emit("olFeatureSelected", []);
 
     // Tell the Store to select all categories
-    await store.dispatch("setSelectedCategories", store.state.allCategories);
+    await store.dispatch("setFilteredCategories", store.state.allCategories);
+
     store.dispatch("setSelectedGuideId", null);
     store.dispatch("setSelectedPointId", null);
 

@@ -13,7 +13,7 @@ import {
 import { updateFeaturesInMap } from "../js/olMap";
 
 function PanelRight() {
-  const selectedCategories = useStore("selectedCategories");
+  const filteredCategories = useStore("filteredCategories");
   const selectedGuideId = useStore("selectedGuideId");
   console.log("selectedGuideId: ", selectedGuideId);
 
@@ -29,20 +29,20 @@ function PanelRight() {
     cleanUpSelection();
 
     const { name, checked } = e.target;
-    if (checked === true && !selectedCategories.includes(name)) {
+    if (checked === true && !filteredCategories.includes(name)) {
       // We must use the spread syntax, rather than push, in order
-      // not to mutate the selectedCategories itself. (Same as for React's State.)
-      f7.store.dispatch("setSelectedCategories", [...selectedCategories, name]);
+      // not to mutate the filteredCategories itself. (Same as for React's State.)
+      f7.store.dispatch("setFilteredCategories", [...filteredCategories, name]);
       updateFeaturesInMap();
     } else if (
       checked === false &&
-      selectedCategories.includes(e.target.name)
+      filteredCategories.includes(e.target.name)
     ) {
       // The .filter() method returns a new Array, which we want
       // in order to keep the store reactive.
       f7.store.dispatch(
-        "setSelectedCategories",
-        selectedCategories.filter((el) => el !== name)
+        "setFilteredCategories",
+        filteredCategories.filter((el) => el !== name)
       );
       updateFeaturesInMap();
     } else {
@@ -75,7 +75,7 @@ function PanelRight() {
               <ListItem
                 key={i}
                 checkbox
-                checked={selectedCategories.includes(c)}
+                checked={filteredCategories.includes(c)}
                 onChange={handleCategoryChange}
                 title={c}
                 name={c}

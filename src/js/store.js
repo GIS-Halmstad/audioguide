@@ -10,7 +10,7 @@ const store = createStore({
     allLines: [],
     allPoints: [],
     allCategories: [],
-    selectedCategories: getParamValueFromHash("c"),
+    filteredCategories: getParamValueFromHash("c"),
     selectedGuideId: null,
     selectedPointId: null,
   },
@@ -37,8 +37,8 @@ const store = createStore({
     setAllCategories({ state }, v) {
       state.allCategories = v;
     },
-    setSelectedCategories({ state }, v) {
-      state.selectedCategories = v;
+    setFilteredCategories({ state }, v) {
+      state.filteredCategories = v;
     },
     setSelectedGuideId({ state }, v) {
       console.log("setting guideId: ", v);
@@ -72,8 +72,8 @@ const store = createStore({
     allCategories({ state }) {
       return state.allCategories;
     },
-    selectedCategories({ state }) {
-      return state.selectedCategories;
+    filteredCategories({ state }) {
+      return state.filteredCategories;
     },
     selectedGuideId({ state }) {
       return state.selectedGuideId;
@@ -98,7 +98,7 @@ const store = createStore({
             let match = false;
             const currentFeaturesCategories = f.get("categories").split(",");
             currentFeaturesCategories.forEach((c) => {
-              if (state.selectedCategories.includes(c)) {
+              if (state.filteredCategories.includes(c)) {
                 match = true;
               }
             });
