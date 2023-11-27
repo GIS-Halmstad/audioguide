@@ -1,21 +1,37 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import { f7, f7ready, App, View, Panel } from "framework7-react";
 
-import routes from "../js/routes";
-import store from "../js/store";
+import routes from "../js/routes.js";
+import store from "../js/store.js";
 
 import { enableGeolocation, initOLMap } from "../js/olMap.js";
-import DemoMessageSheet from "./DemoMessageSheet";
+import DemoMessageSheet from "./DemoMessageSheet.tsx";
 
 const Audioguide = () => {
   console.log("Audioguide renders");
+
+  useEffect(() => {
+    // Fix viewport scale on mobiles
+    if ((f7.device.ios || f7.device.android) && f7.device.standalone) {
+      const viewPortContent = document
+        .querySelector('meta[name="viewport"]')
+        .getAttribute("content");
+      document
+        .querySelector('meta[name="viewport"]')
+        .setAttribute(
+          "content",
+          `${viewPortContent}, maximum-scale=1, user-scalable=no`
+        );
+    }
+  }, []);
 
   const f7params = {
     name: "AudioGuide",
     theme: "auto",
     store: store,
     routes: routes,
+    autoDarkTheme: true,
   };
 
   f7ready(async () => {
