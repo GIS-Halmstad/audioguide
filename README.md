@@ -201,6 +201,8 @@ There are some parameters that can be sent to Hajk that'll affect this plugin's 
 - `c`: the _category_ that will be pre-selected.
   - User can pre-select multiple categories, just ensure to send a comma-separated list.
   - You must encode the strings properly. E.g. a category called `Sport & Ö-liv` should become `Sport%20%26%20%C3%96-liv`, while `The Foo/Bar Category` is `The%20Foo%2FBar%20category`.
+- `g`: makes it possible to start the app with a certain guide pre-selected. The value of `g` must match the value of `guideId` in the line features table.
+- `p`: makes it possible to start the app with a specific point in a guide pre-selected. The value of `p` must correspond to the `stopNumber` value in the point features table. _Note that this requires the `g` parameter to be present too (else there's no way to know which point should be selected, as `stopNumber`s aren't unique in the table)._
 
 ## Deploy notes
 

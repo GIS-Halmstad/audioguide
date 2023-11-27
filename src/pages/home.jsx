@@ -16,6 +16,8 @@ import {
   Icon,
 } from "framework7-react";
 
+import { getParamValueFromHash } from "../js/getParamValueFromHash";
+
 import AudioGuideCard from "../components/AudioGuideCard";
 import GuidePreviewSheet from "../components/GuidePreviewSheet";
 import BackgroundLayersActionsGrid from "../components/BackgroundLayersActionsGrid";
@@ -65,9 +67,50 @@ const HomePage = () => {
     loadingError === true && showNotificationFull();
   }, [loadingError]);
 
+  // Check if app was launched with pid and/or gid params.
+  // If so, let's pre-select the point or guide feature.
+  useEffect(() => {
+    console.log("!!!!!!");
+    const gid = Number(getParamValueFromHash("g")[0]);
+    const pid = Number(getParamValueFromHash("p")[0]);
+
+    // Let's start with an empty Array, which is the expected
+    // format for a collection of OL Features (even though we'll
+    // be sending out only one Feature at most, we still use the Array).
+    let preSelectedFeature = [];
+
+    // Check for a gid (guide ID)
+    if (!Number.isNaN(gid)) {
+      // If there's a gid, let's check for a PID (point ID)
+      if (!Number.isNaN(pid)) {
+        // If a specific point has been requested, let's pre-select it.
+        preSelectedFeature = f7.store.state.allPoints.filter(
+          (p) => p.get("guideId") === gid && p.get("stopNumber") === pid
+        );
+      } else {
+        // Else if there's a gid but no pid, it means that
+        // a whole guide has been requested.
+        preSelectedFeature = f7.store.state.allLines.filter(
+          (l) => l.get("guideId") === gid
+        );
+      }
+
+      // If the filtering of Features resulted in a match…
+      if (preSelectedFeature.length !== 0) {
+        // …let's tell the rest of the App that we want to
+        // pre-select a feature…
+        f7.emit("olFeatureSelected", preSelectedFeature);
+
+        // …and switch to the map tab.
+        f7.tab.show("#tab-map");
+      }
+    }
+  }, []);
+
   const onPageBeforeOut = () => {
     f7.notification.close();
   };
+
   const onPageBeforeRemove = () => {
     // Destroy toasts when page removed
     if (notificationFull.current) notificationFull.current.destroy();
