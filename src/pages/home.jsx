@@ -101,6 +101,10 @@ const HomePage = () => {
     if (notificationFull.current) notificationFull.current.destroy();
   };
 
+  const handleClickOnFabBackgrounds = () => {
+    setBackgroundLayersActionsGrid(true);
+  };
+
   return (
     <Page
       pageContent={false}
@@ -148,12 +152,7 @@ const HomePage = () => {
       <Tabs routable={true}>
         <Tab id="tab-map" className="page-content" tabActive>
           <div id="map" />
-          <Fab
-            position="right-top"
-            onClick={() => {
-              setBackgroundLayersActionsGrid(true);
-            }}
-          >
+          <Fab position="right-top" onClick={handleClickOnFabBackgrounds}>
             <Icon ios="f7:layers" md="material:layers" />
           </Fab>
           <Fab

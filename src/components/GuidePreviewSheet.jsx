@@ -5,40 +5,59 @@ import { f7, Sheet } from "framework7-react";
 import GuidePreviewFeatureContent from "./GuidePreviewFeatureContent";
 
 function GuidePreviewSheet() {
-  const [selectedFeature, setSelectedFeature] = useState([]);
+  const [sheetVisible, setSheetVisible] = useState(false);
+  const [selectedFeature, setSelectedFeature] = useState(null);
 
   useEffect(() => {
     console.log("USEEFFECT subscribe");
     f7.on("olFeatureSelected", (f) => {
-      // This will initiate opening/closing the Sheet, depending on value of f.
-      setSelectedFeature(f);
+      // If there's a feature…
+      if (f.length > 0) {
+        // …let's tell the component about it.
+        setSelectedFeature(f[0]);
+        // Also, let's tell the Sheet to open.
+        // Why not just take a look at selectedFeature? Because
+        // depending soly on that would mean that unsetting the
+        // value also collapses the Sheet immediately. This leads
+        // to a nasty disappearing, rather than the nice hide
+        // animation. So, let's keep the children so and only hide
+        // the Sheet.
+        setSheetVisible(true);
+      } else {
+        // As stated above, just hide the Sheet - don't remove
+        // its children.
+        setSheetVisible(false);
+      }
     });
 
     return () => {
       console.log("USEEFFECT unsubscribe");
       f7.off("olFeatureSelected");
     };
-  }, [f7, setSelectedFeature]);
+  }, [f7, setSelectedFeature, setSheetVisible]);
 
   return (
     <Sheet
       className="preview"
       swipeToClose
-      opened={selectedFeature.length !== 0}
+      opened={sheetVisible}
       style={{ height: "auto" }}
       onSheetClosed={() => {
-        // When the Sheet has _finished_ closing, let's check if there's still a selected feature.
-        // If so, it means that the sheet close was initiate by the user, and we must still
-        // inform the OL Map that it should clear its  selected feature too.
-        // Note that IF there is no selected feature at this state, we don't want to emit the event.
-        // This can be the case if user de-selects the feature in map. In that event, the feature get's
-        // de-selected here too and the sheet closing is initiated by the fact that there's no
-        // feature selected. This means that there's no need to emit the unselect event.
-        selectedFeature.length !== 0 && f7.emit("olFeatureSelected", []);
+        // There is the possibility that the closing was initiated by
+        // swiping, rather than clicking inside the Map. In this case,
+        // we must inform the map to deselect its selected features.
+        // Yes, this will emit even if this was initiated by the Map itself
+        // and in that case there's nothing else to de-select (as users sole
+        // click interaction has already de-selected all features). So this
+        // will run unnecessary in those cases. But it's still better than
+        // setting the selectedFeature to [], as that would lead to an ugly
+        // collapse of the Sheet. Furthermore, there's no re-render involved,
+        // so the cost is negligible.
+        f7.emit("olFeatureSelected", []);
       }}
     >
-      {selectedFeature.length !== 0 && (
-        <GuidePreviewFeatureContent f={selectedFeature[0]} />
+      {selectedFeature !== null && (
+        <GuidePreviewFeatureContent f={selectedFeature} />
       )}
     </Sheet>
   );

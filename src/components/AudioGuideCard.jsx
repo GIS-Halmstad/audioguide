@@ -10,13 +10,11 @@ import {
   Link,
 } from "framework7-react";
 import { getAssets } from "../js/getAssets.js";
-import { updateFeaturesInMap } from "../js/olMap.js";
 
 function AudioGuideCard({ c }) {
   const images = getAssets(c, "images");
 
   const handleShowGuideInMap = async () => {
-    console.log("emit line: ", c);
     f7.emit("olFeatureSelected", [c]);
 
     // Switch back to map tab
