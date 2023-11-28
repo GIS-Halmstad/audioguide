@@ -243,7 +243,6 @@ async function initOLMap(f7) {
   });
 
   f7.on("olFeatureSelected", (f) => {
-    console.log("got olFeatureSelected: ", f);
     if (f.length === 0) {
       // If something else emitted the event with an empty selection array,
       // let's deselect here too.
