@@ -1,57 +1,30 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
-import { f7, Block, BlockTitle, Sheet, Button } from "framework7-react";
+import { f7, Sheet } from "framework7-react";
 
-function FeatureContent({ f }) {
-  let pointFeature = null;
-  let lineFeature = null;
+import GuidePreviewFeatureContent from "./GuidePreviewFeatureContent";
 
-  if (f.getGeometry().getType() === "Point") {
-    pointFeature = f;
-    lineFeature = f7.store.state.allLines.find(
-      (lf) => lf.get("guideId") === pointFeature.get("guideId")
-    );
-  } else {
-    lineFeature = f;
-  }
-  console.log(pointFeature?.getProperties(), lineFeature?.getProperties());
+function GuidePreviewSheet() {
+  const [selectedFeature, setSelectedFeature] = useState([]);
 
-  return (
-    <>
-      <div className="swipe-handler"></div>
-      <BlockTitle>{lineFeature.get("title")}</BlockTitle>
-      {pointFeature !== null && (
-        <Block>{`Stopp ${pointFeature.get("stopNumber")}: ${pointFeature.get(
-          "title"
-        )}`}</Block>
-      )}
+  useEffect(() => {
+    console.log("USEEFFECT subscribe");
+    f7.on("olFeatureSelected", (f) => {
+      console.log("Got selected feature", f);
+      setSelectedFeature(f);
+    });
 
-      <Block>
-        <div className="page-content">
-          <p>{lineFeature.get("text")}</p>
-          <p>
-            Kategorier: {lineFeature.get("categories")?.split(",").join(", ")}
-          </p>
-          <p>Längd: {lineFeature.get("length")}</p>
-        </div>
-      </Block>
-      <Block>
-        <Button fill round large cardClose onClick={() => {}}>
-          Starta
-        </Button>
-      </Block>
-    </>
-  );
-}
-
-function GuidePreviewSheet({ f = [] }) {
-  const feature = f[0];
+    return () => {
+      console.log("USEEFFECT unsubscribe");
+      f7.off("olFeatureSelected");
+    };
+  }, [f7, setSelectedFeature]);
 
   return (
     <Sheet
       className="preview"
       swipeToClose
-      opened={feature !== undefined}
+      opened={selectedFeature.length !== 0}
       style={{ height: "auto" }}
       onSheetClosed={() => {
         // When the Sheet has _finished_ closing, let's
@@ -60,7 +33,9 @@ function GuidePreviewSheet({ f = [] }) {
         f7.emit("olFeatureSelected", []);
       }}
     >
-      {feature !== undefined && <FeatureContent f={feature} />}
+      {selectedFeature.length !== 0 && (
+        <GuidePreviewFeatureContent f={selectedFeature[0]} />
+      )}
     </Sheet>
   );
 }

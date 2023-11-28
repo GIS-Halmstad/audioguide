@@ -17,7 +17,7 @@ import "../css/app.css";
 
 // Import App Component
 import App from "../components/App.jsx";
-import store from "./store.js";
+import store from "./store.ts";
 import fetchFromService from "./fetchFromService.js";
 
 import washMapConfig from "./washMapConfig.ts";

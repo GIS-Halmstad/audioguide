@@ -11,8 +11,8 @@ const store = createStore({
     allPoints: [],
     allCategories: [],
     filteredCategories: getParamValueFromHash("c"),
-    selectedGuideId: null,
-    selectedPointId: null,
+    activeGuideId: null,
+    activeStopNumber: null,
   },
 
   actions: {
@@ -40,13 +40,11 @@ const store = createStore({
     setFilteredCategories({ state }, v) {
       state.filteredCategories = v;
     },
-    setSelectedGuideId({ state }, v) {
-      console.log("setting guideId: ", v);
-      state.selectedGuideId = v;
+    setActiveGuideId({ state }, v) {
+      state.activeGuideId = v;
     },
-    setSelectedPointId({ state }, v) {
-      console.log("setting pointId: ", v);
-      state.selectedPointId = v;
+    setActiveStopNumber({ state }, v) {
+      state.activeStopNumber = v;
     },
   },
 
@@ -75,51 +73,44 @@ const store = createStore({
     filteredCategories({ state }) {
       return state.filteredCategories;
     },
-    selectedGuideId({ state }) {
-      return state.selectedGuideId;
-    },
-    selectedPointId({ state }) {
-      return state.selectedPointId;
-    },
-    selectedFeatures({ state }) {
-      let selectedLineFeatures = [];
-      // First, let's see if a specific guideId has been selected. If so,
-      // filter only that ID.
-      if (state.selectedGuideId !== null) {
-        selectedLineFeatures = state.allLines.filter(
-          (f) => f.get("guideId") === state.selectedGuideId
-        );
-      } else {
-        // Determine which line features should be shown by looking
-        // into the selected categories state. Only lines
-        // with at least one selected category should be shown.
-        selectedLineFeatures = state.allLines
-          .map((f) => {
-            let match = false;
-            const currentFeaturesCategories = f.get("categories").split(",");
-            currentFeaturesCategories.forEach((c) => {
-              if (state.filteredCategories.includes(c)) {
-                match = true;
-              }
-            });
-            return match ? f : undefined;
-          })
-          .filter((f) => f !== undefined);
-      }
+    // A dynamic property that returns only those lines and points
+    // that match the category filter selection.
+    filteredFeatures({ state }) {
+      // Determine which line features should be shown by looking
+      // into the selected categories state. Only lines
+      // with at least one selected category should be shown.
+      const filteredLineFeatures = state.allLines
+        .map((f) => {
+          let match = false;
+          const currentFeaturesCategories = f.get("categories").split(",");
+          currentFeaturesCategories.forEach((c) => {
+            if (state.filteredCategories.includes(c)) {
+              match = true;
+            }
+          });
+          return match ? f : undefined;
+        })
+        .filter((f) => f !== undefined);
 
       // Each line feature has a unique ID, save them to an Array.
-      const guideIdsOfSelectedLines = selectedLineFeatures.map((lf) =>
+      const guideIdsOfFilteredLines = filteredLineFeatures.map((lf) =>
         lf.get("guideId")
       );
 
       // Filter point features by including only those who's parent
       // line feature is visible.
-      const selectedPointFeatures = state.allPoints.filter((f) =>
-        guideIdsOfSelectedLines.includes(f.get("guideId"))
+      const filteredPointFeatures = state.allPoints.filter((f) =>
+        guideIdsOfFilteredLines.includes(f.get("guideId"))
       );
 
       // Put it all together and return so that OL can take care of it.
-      return [...selectedLineFeatures, ...selectedPointFeatures];
+      return [...filteredLineFeatures, ...filteredPointFeatures];
+    },
+    activeGuideId({ state }) {
+      return state.activeGuideId;
+    },
+    activeStopNumber({ state }) {
+      return state.activeStopNumber;
     },
   },
 });

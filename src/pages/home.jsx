@@ -18,9 +18,10 @@ import {
 
 import { getParamValueFromHash } from "../js/getParamValueFromHash";
 
-import AudioGuideCard from "../components/AudioGuideCard";
 import GuidePreviewSheet from "../components/GuidePreviewSheet";
+import GuideSheet from "../components/GuideSheet";
 import BackgroundLayersActionsGrid from "../components/BackgroundLayersActionsGrid";
+import TabListViewContent from "../components/TabListViewContent";
 
 const HomePage = () => {
   console.log("HomePage init: ", f7);
@@ -44,24 +45,9 @@ const HomePage = () => {
   // useStore hook where we need reactivity
   const loadingError = useStore("loadingError");
   const loading = useStore("loading");
-  const selectedFeatures = useStore("selectedFeatures");
 
-  const [selectedFeature, setSelectedFeature] = useState([]);
   const [backgroundLayersActionsGrid, setBackgroundLayersActionsGrid] =
     useState(false);
-
-  useEffect(() => {
-    console.log("USEEFFECT subscribe");
-    f7.on("olFeatureSelected", (f) => {
-      console.log("Got selected feature", f);
-      setSelectedFeature(f);
-    });
-
-    return () => {
-      console.log("USEEFFECT unsubscribe");
-      f7.off("olFeatureSelected");
-    };
-  }, [f7, setSelectedFeature]);
 
   useEffect(() => {
     loadingError === true && showNotificationFull();
@@ -70,7 +56,6 @@ const HomePage = () => {
   // Check if app was launched with pid and/or gid params.
   // If so, let's pre-select the point or guide feature.
   useEffect(() => {
-    console.log("!!!!!!");
     const gid = Number(getParamValueFromHash("g")[0]);
     const pid = Number(getParamValueFromHash("p")[0]);
 
@@ -105,7 +90,7 @@ const HomePage = () => {
         f7.tab.show("#tab-map");
       }
     }
-  }, []);
+  }, [f7, getParamValueFromHash]);
 
   const onPageBeforeOut = () => {
     f7.notification.close();
@@ -123,13 +108,14 @@ const HomePage = () => {
       onPageBeforeOut={onPageBeforeOut}
       onPageBeforeRemove={onPageBeforeRemove}
     >
-      <GuidePreviewSheet f={selectedFeature} />
+      <GuidePreviewSheet />
+      <GuideSheet />
       <BackgroundLayersActionsGrid
         backgroundLayersActionsGrid={backgroundLayersActionsGrid}
         setBackgroundLayersActionsGrid={setBackgroundLayersActionsGrid}
       />
       <Navbar sliding={false}>
-        <NavLeft backLink>
+        <NavLeft>
           <Link iconF7="menu" iconMaterial="menu" panelOpen="left" iconOnly />
         </NavLeft>
         <NavTitle sliding>{loading ? "Laddar…" : "Audioguider"}</NavTitle>
@@ -180,11 +166,7 @@ const HomePage = () => {
           </Fab>
         </Tab>
         <Tab id="tab-list" className="page-content">
-          {selectedFeatures
-            .filter((f) => f.get("length")) // Only line features will have the "length" property
-            .map((c, i) => (
-              <AudioGuideCard c={c} key={i} />
-            ))}
+          <TabListViewContent />
         </Tab>
       </Tabs>
     </Page>

@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { f7, f7ready, App, View, Panel } from "framework7-react";
 
 import routes from "../js/routes.js";
-import store from "../js/store.js";
+import store from "../js/store.ts";
 
 import { enableGeolocation, initOLMap } from "../js/olMap.js";
 import DemoMessageSheet from "./DemoMessageSheet.tsx";

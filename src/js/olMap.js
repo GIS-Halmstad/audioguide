@@ -28,7 +28,12 @@ const defaultStyle = {
   strokeWidth: 2,
 };
 
-let olMap, audioguideSource, audioguideLayer, geolocation;
+let olMap,
+  audioguideSource,
+  audioguideLayer,
+  geolocation,
+  activeGuideSource,
+  activeGuideLayer;
 
 function styleFunction(feature, resolution) {
   // Attempt to parse the JSON style from DB
@@ -108,8 +113,6 @@ async function initOLMap(f7) {
 
   register(proj4);
 
-  // console.log("backgrounds: ", config.backgrounds);
-
   const backgroundLayers = createLayersFromConfig(
     config.backgrounds,
     config.map,
@@ -123,8 +126,19 @@ async function initOLMap(f7) {
     source: audioguideSource,
     layerType: "system",
     zIndex: 5000,
-    name: "pluginAudioGuide",
-    caption: "AudioGuide layer",
+    name: "pluginAudioGuideAllGuides",
+    caption: "All audioguides",
+    style: styleFunction,
+  });
+
+  activeGuideSource = new VectorSource();
+  activeGuideLayer = new VectorLayer({
+    source: activeGuideSource,
+    layerType: "system",
+    zIndex: 5001,
+    name: "pluginAudioGuideActiveGuide",
+    caption: "Active audioguide",
+    visible: false, // Start with hidden
     style: styleFunction,
   });
 
@@ -136,6 +150,7 @@ async function initOLMap(f7) {
       //   source: new OSM(),
       // }),
       audioguideLayer,
+      activeGuideLayer,
       ...backgroundLayers,
     ],
     view: new View({
@@ -224,16 +239,6 @@ async function initOLMap(f7) {
 
   // …and interaction handler.
   selectInteraction.on("select", async (e) => {
-    // await f7.store.dispatch(
-    //   "setSelectedGuideId",
-    //   e.selected[0]?.get("guideId") || []
-    // );
-
-    // await f7.store.dispatch("setSelectedGuideId", null);
-    // await f7.store.dispatch("setSelectedPointId", null);
-
-    // updateFeaturesInMap();
-
     f7.emit("olFeatureSelected", e.selected);
   });
 
@@ -274,8 +279,6 @@ async function initOLMap(f7) {
 
   olMap.addInteraction(selectInteraction);
 
-  console.log("olMap: ", olMap);
-
   updateFeaturesInMap();
 }
 
@@ -289,7 +292,7 @@ const removeAllFeatures = () => {
 
 const updateFeaturesInMap = () => {
   removeAllFeatures();
-  addFeatures(store.getters.selectedFeatures.value);
+  addFeatures(store.getters.filteredFeatures.value);
 
   // Fit View to features' extent only if there are
   // no infinite values (which can happen if the Source
@@ -327,6 +330,16 @@ const enableGeolocation = () => {
   }
 };
 
+const activateGuide = (features) => {
+  console.log("activateGuide features: ", features);
+  // First, ensure that we hide the layer with all guides
+  audioguideLayer.setVisible(false);
+
+  activeGuideSource.addFeatures(features);
+
+  activeGuideLayer.setVisible(true);
+};
+
 const getOLMap = () => olMap;
 
 export {
@@ -336,4 +349,5 @@ export {
   setBackgroundLayer,
   getLayerVisibility,
   enableGeolocation,
+  activateGuide,
 };

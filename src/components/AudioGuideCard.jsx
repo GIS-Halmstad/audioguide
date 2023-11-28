@@ -16,19 +16,6 @@ function AudioGuideCard({ c }) {
   const images = getAssets(c, "images");
 
   const handleShowGuideInMap = async () => {
-    // Set selected guide ID in store. This will limit features to
-    // those that belong to this certain guide only.
-    // await f7.store.dispatch("setSelectedGuideId", c.get("guideId"));
-
-    // Tell OL map to update itself by looking into selectedFeatures,
-    // which will take into account the limit that we imposed above.
-    // updateFeaturesInMap();
-
-    // Next, let's find out the LineString feature and ensure
-    // that OL pre-selects it for us.
-    // const line = f7.store.getters.selectedFeatures.value.filter((f) =>
-    //   f.get("length")
-    // );
     console.log("emit line: ", c);
     f7.emit("olFeatureSelected", [c]);
 

@@ -11,8 +11,7 @@ function PanelLeft() {
     // Tell the Store to select all categories
     await store.dispatch("setFilteredCategories", store.state.allCategories);
 
-    store.dispatch("setSelectedGuideId", null);
-    store.dispatch("setSelectedPointId", null);
+    store.dispatch("setActiveGuideId", null);
 
     // Tell OL to update the map view
     updateFeaturesInMap();
