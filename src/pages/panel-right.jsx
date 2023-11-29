@@ -14,10 +14,10 @@ import { updateFeaturesInMap } from "../js/olMap";
 
 function PanelRight() {
   const filteredCategories = useStore("filteredCategories");
-  const activeGuideId = useStore("activeGuideId");
+  const activeGuideObject = useStore("activeGuideObject");
 
   const cleanUpSelection = () => {
-    f7.store.dispatch("setActiveGuideId", null);
+    f7.store.dispatch("deactivateGuide");
   };
 
   const handleCategoryChange = (e) => {
@@ -50,7 +50,7 @@ function PanelRight() {
   return (
     <Page>
       <Navbar title="Kategorifilter" />
-      {activeGuideId !== null && (
+      {activeGuideObject !== null && (
         <>
           <Block>
             Kategorifiltret är inaktivt eftersom du redan valt en specifik
@@ -66,7 +66,7 @@ function PanelRight() {
           </Button>
         </>
       )}
-      {activeGuideId === null && (
+      {activeGuideObject === null && (
         <List outlineIos strongMd strongIos>
           {f7.store.state.allCategories.map((c, i) => {
             return (

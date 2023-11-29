@@ -289,15 +289,18 @@ const removeAllFeatures = () => {
   audioguideSource.clear();
 };
 
-const updateFeaturesInMap = () => {
-  removeAllFeatures();
-  addFeatures(store.getters.filteredFeatures.value);
-
+const fitToAvailableFeatures = () => {
   // Fit View to features' extent only if there are
   // no infinite values (which can happen if the Source
   // is empty).
   !audioguideSource.getExtent().includes(Infinity) &&
     olMap.getView().fit(audioguideSource.getExtent());
+};
+
+const updateFeaturesInMap = () => {
+  removeAllFeatures();
+  addFeatures(store.getters.filteredFeatures.value);
+  fitToAvailableFeatures();
 };
 
 const setBackgroundLayer = (lid) => {
@@ -329,14 +332,84 @@ const enableGeolocation = () => {
   }
 };
 
-const activateGuide = (features) => {
-  console.log("activateGuide features: ", features);
-  // First, ensure that we hide the layer with all guides
-  audioguideLayer.setVisible(false);
+const convertFeaturesToGuideObject = (features) => {
+  const ro = {
+    line: null,
+    points: {},
+  };
+  features.forEach((f) => {
+    if (f.getGeometry().getType() === "LineString") {
+      ro.line = f;
+    } else {
+      const stopNumber = f.get("stopNumber");
+      ro.points[stopNumber] = f;
+    }
+  });
+  return ro;
+};
 
+const activateGuide = (guideId, stopNumber) => {
+  // Let's grab all points that belong to this line feature
+  const features = audioguideLayer
+    .getSource()
+    .getFeatures()
+    .filter((f) => f.get("guideId") === guideId);
+
+  const activateGuideObject = convertFeaturesToGuideObject(features);
+
+  // Let's grab the starting point's coordinates
+  const activePointFeature = features.find(
+    (f) => f.get("stopNumber") === stopNumber
+  );
+
+  // OL must inform the F7 store that it should activate
+  // this guide object
+  store.dispatch("setActiveGuideObject", activateGuideObject);
+  store.dispatch("setActiveStopNumber", stopNumber);
+
+  // Add features to source
   activeGuideSource.addFeatures(features);
 
+  // Ensure that we hide the layer with all guides…
+  audioguideLayer.setVisible(false);
+  // …and show the one with the active guide.
   activeGuideLayer.setVisible(true);
+
+  // Finally, navigate to starting point
+  animateToPoint(activePointFeature.getGeometry().getCoordinates());
+};
+
+const animateToPoint = (coords) => {
+  olMap.getView().animate({
+    center: coords,
+    duration: 1000,
+    zoom: 10,
+  });
+};
+
+const goToStopNumber = (stopNumber) => {
+  console.log("go to stopNumber: ", stopNumber);
+  const coords = activeGuideSource
+    .getFeatures()
+    .find((f) => f.get("stopNumber") === stopNumber)
+    .getGeometry()
+    .getCoordinates();
+  animateToPoint(coords);
+
+  // Tell the UI
+  store.dispatch("setActiveStopNumber", stopNumber);
+};
+
+const deactivateGuide = () => {
+  // Tell the store to unset some "active" objects
+  store.dispatch("deactivateGuide");
+
+  // Rest layers visibility to its initial state.
+  activeGuideLayer.setVisible(false);
+  activeGuideSource.clear();
+
+  audioguideLayer.setVisible(true);
+  fitToAvailableFeatures();
 };
 
 const getOLMap = () => olMap;
@@ -349,4 +422,6 @@ export {
   getLayerVisibility,
   enableGeolocation,
   activateGuide,
+  deactivateGuide,
+  goToStopNumber,
 };

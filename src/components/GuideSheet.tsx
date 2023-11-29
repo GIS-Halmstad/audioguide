@@ -7,34 +7,55 @@ import {
   Sheet,
   Button,
   useStore,
+  Toolbar,
+  Link,
 } from "framework7-react";
 
-import { activateGuide } from "../js/olMap";
+import { deactivateGuide } from "../js/olMap";
+
+import GuideSheetPointView from "./GuideSheetPointView";
 
 function GuideSheet() {
-  const activeGuideId = useStore("activeGuideId");
+  const activeGuideObject = useStore("activeGuideObject");
+  const activeStopNumber = useStore("activeStopNumber");
 
   return (
-    <Sheet
-      // className="activeGuide"
+    activeGuideObject !== null && (
+      <Sheet
+        // className="activeGuide"
+        opened={activeGuideObject !== null}
+        style={{ height: "auto" }}
+        onSheetClosed={() => {
+          // When the Sheet has _finished_ closing, let's
+          // inform the OL Map that it should clear its
+          // selected features too.
+          deactivateGuide();
+        }}
+      >
+        <>
+          <Toolbar>
+            <div className="left"></div>
+            <div className="right">
+              <Link
+                onClick={() => {
+                  f7.dialog.confirm("Vill du verkligen avsluta guiden?", () => {
+                    // On OK
+                    f7.sheet.close();
+                  });
+                }}
+              >
+                Avsluta guiden
+              </Link>
+            </div>
+          </Toolbar>
 
-      opened={activeGuideId !== null}
-      style={{ height: "auto" }}
-      onSheetClosed={() => {
-        // When the Sheet has _finished_ closing, let's
-        // inform the OL Map that it should clear its
-        // selected features too.
-        f7.emit("setActiveGuideId", null);
-      }}
-    >
-      <>
-        <div className="swipe-handler"></div>
-
-        <div className="page-content">
-          <Block>Hello</Block>
-        </div>
-      </>
-    </Sheet>
+          <GuideSheetPointView
+            activeGuideObject={activeGuideObject}
+            activeStopNumber={activeStopNumber}
+          />
+        </>
+      </Sheet>
+    )
   );
 }
 

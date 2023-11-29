@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 
 import { f7, f7ready, App, View, Panel } from "framework7-react";
+import { Framework7Parameters } from "framework7/types";
 
 import routes from "../js/routes.js";
 import store from "../js/store.ts";
@@ -16,22 +17,21 @@ const Audioguide = () => {
     if ((f7.device.ios || f7.device.android) && f7.device.standalone) {
       const viewPortContent = document
         .querySelector('meta[name="viewport"]')
-        .getAttribute("content");
+        ?.getAttribute("content");
       document
         .querySelector('meta[name="viewport"]')
-        .setAttribute(
+        ?.setAttribute(
           "content",
           `${viewPortContent}, maximum-scale=1, user-scalable=no`
         );
     }
   }, []);
 
-  const f7params = {
+  const f7params: Framework7Parameters = {
     name: "AudioGuide",
     theme: "auto",
     store: store,
     routes: routes,
-    autoDarkTheme: true,
   };
 
   f7ready(async () => {

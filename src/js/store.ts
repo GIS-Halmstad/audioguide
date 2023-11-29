@@ -11,7 +11,7 @@ const store = createStore({
     allPoints: [],
     allCategories: [],
     filteredCategories: getParamValueFromHash("c"),
-    activeGuideId: null,
+    activeGuideObject: null,
     activeStopNumber: null,
   },
 
@@ -40,11 +40,15 @@ const store = createStore({
     setFilteredCategories({ state }, v) {
       state.filteredCategories = v;
     },
-    setActiveGuideId({ state }, v) {
-      state.activeGuideId = v;
+    setActiveGuideObject({ state }, v) {
+      state.activeGuideObject = v;
     },
     setActiveStopNumber({ state }, v) {
       state.activeStopNumber = v;
+    },
+    deactivateGuide({ state }) {
+      state.activeStopNumber = null;
+      state.activeGuideObject = null;
     },
   },
 
@@ -106,8 +110,8 @@ const store = createStore({
       // Put it all together and return so that OL can take care of it.
       return [...filteredLineFeatures, ...filteredPointFeatures];
     },
-    activeGuideId({ state }) {
-      return state.activeGuideId;
+    activeGuideObject({ state }) {
+      return state.activeGuideObject;
     },
     activeStopNumber({ state }) {
       return state.activeStopNumber;

@@ -16,7 +16,7 @@ import "../css/icons.css";
 import "../css/app.css";
 
 // Import App Component
-import App from "../components/App.jsx";
+import App from "../components/App.tsx";
 import store from "./store.ts";
 import fetchFromService from "./fetchFromService.js";
 
