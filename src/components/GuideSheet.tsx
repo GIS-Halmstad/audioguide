@@ -11,7 +11,7 @@ import {
   Link,
 } from "framework7-react";
 
-import { deactivateGuide } from "../js/olMap";
+import { deactivateGuide, goToStopNumber } from "../js/olMap";
 
 import GuideSheetPointView from "./GuideSheetPointView";
 
@@ -19,12 +19,19 @@ function GuideSheet() {
   const activeGuideObject = useStore("activeGuideObject");
   const activeStopNumber = useStore("activeStopNumber");
 
+  const showPrev = activeStopNumber !== 1;
+
+  const showNext =
+    activeGuideObject?.points &&
+    activeStopNumber < Object.entries(activeGuideObject?.points).length;
+
   return (
     activeGuideObject !== null && (
       <Sheet
         // className="activeGuide"
         opened={activeGuideObject !== null}
-        style={{ height: "auto" }}
+        style={{ height: "auto", maxHeight: "600px" }}
+        swipeToClose
         onSheetClosed={() => {
           // When the Sheet has _finished_ closing, let's
           // inform the OL Map that it should clear its
@@ -34,8 +41,18 @@ function GuideSheet() {
       >
         <>
           <Toolbar>
-            <div className="left"></div>
-            <div className="right">
+            <div className="left">
+              {showPrev && (
+                <Button
+                  onClick={() => {
+                    goToStopNumber(activeStopNumber - 1);
+                  }}
+                >
+                  Föregående
+                </Button>
+              )}
+            </div>
+            {/* <div className="center">
               <Link
                 onClick={() => {
                   f7.dialog.confirm("Vill du verkligen avsluta guiden?", () => {
@@ -46,6 +63,17 @@ function GuideSheet() {
               >
                 Avsluta guiden
               </Link>
+            </div> */}
+            <div className="right">
+              {showNext && (
+                <Button
+                  onClick={() => {
+                    goToStopNumber(activeStopNumber + 1);
+                  }}
+                >
+                  Nästa
+                </Button>
+              )}
             </div>
           </Toolbar>
 

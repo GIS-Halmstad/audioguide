@@ -30,54 +30,33 @@ function GuideSheetPointView({ activeGuideObject, activeStopNumber }) {
   const title = point.get("title");
   const text = point.get("text");
 
-  const showPrev = activeStopNumber !== 1;
-
-  const showNext =
-    activeStopNumber < Object.entries(activeGuideObject.points).length;
-
   return (
     <>
-      <div className="page-content">
-        <swiper-container
-          pagination
-          class="demo-swiper-multiple"
-          space-between="50"
-          navigation="true"
-        >
-          {images.map((src, i) => (
-            <swiper-slide key={i}>
-              <img src={src} />
-            </swiper-slide>
-          ))}
-        </swiper-container>
+      <swiper-container
+        pagination
+        class="demo-swiper-multiple"
+        space-between="50"
+        navigation="true"
+        style={{ marginBottom: 0 }}
+      >
+        {images.map((src, i) => (
+          <swiper-slide key={i}>
+            <img src={src} />
+          </swiper-slide>
+        ))}
+      </swiper-container>
+      <div
+        className="page-content"
+        style={{ maxHeight: "300px", paddingTop: 0 }}
+      >
         <BlockTitle>{title}</BlockTitle>
         <Block>{text}</Block>
-        <Block>
-          <audio controls src={audios[0]}>
-            <a href={audios[0]}>Download audio</a>
-          </audio>
-        </Block>
-        <Block>
-          {showPrev && (
-            <Button
-              onClick={() => {
-                goToStopNumber(activeStopNumber - 1);
-              }}
-            >
-              Föregående
-            </Button>
-          )}
-          {showNext && (
-            <Button
-              onClick={() => {
-                goToStopNumber(activeStopNumber + 1);
-              }}
-            >
-              Nästa
-            </Button>
-          )}
-        </Block>
       </div>
+      <Block>
+        <audio controls src={audios[0]} style={{ width: "100%" }}>
+          <a href={audios[0]}>Ladda ner ljudfilen</a>
+        </audio>
+      </Block>
     </>
   );
 }
