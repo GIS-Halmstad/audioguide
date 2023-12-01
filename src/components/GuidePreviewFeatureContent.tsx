@@ -1,6 +1,15 @@
 import React, { useEffect, useState } from "react";
 
-import { f7, Block, BlockTitle, Sheet, Button } from "framework7-react";
+import {
+  f7,
+  Block,
+  BlockTitle,
+  Sheet,
+  Button,
+  Icon,
+  BlockHeader,
+  BlockFooter,
+} from "framework7-react";
 
 import { Feature } from "openlayers";
 
@@ -34,59 +43,74 @@ export default function GuidePreviewFeatureContent({ f }) {
   return (
     lineFeature !== null && (
       <>
-        <div className="swipe-handler"></div>
-        <BlockTitle>{lineFeature.get("title")}</BlockTitle>
-        {pointFeature !== null && (
-          <Block>
-            {`Stopp ${pointFeature.get("stopNumber")}: ${pointFeature.get(
-              "title"
-            )}`}
-          </Block>
-        )}
+        <div
+          className="swipe-handler"
+          onClick={() => f7.sheet.stepToggle(".preview-sheet")}
+        ></div>
+        {/* Initial step in the sheet must be within .sheet-modal-swipe-step */}
+        <div className="sheet-modal-swipe-step">
+          <BlockTitle medium>{lineFeature.get("title")}</BlockTitle>
+          {pointFeature !== null && (
+            <BlockTitle style={{ marginTop: 0 }}>
+              {`Stopp ${pointFeature.get("stopNumber")}: ${pointFeature.get(
+                "title"
+              )}`}
+            </BlockTitle>
+          )}
+          <BlockHeader>Längd: {lineFeature.get("length")}</BlockHeader>
 
-        <Block>
-          <div className="page-content">
-            <p>{lineFeature.get("text")}</p>
-            <p>
-              Kategorier: {lineFeature.get("categories")?.split(",").join(", ")}
-            </p>
-            <p>Längd: {lineFeature.get("length")}</p>
-          </div>
-        </Block>
-        <Block>
-          <Button
-            outline
-            round
-            sheetClose
-            onClick={() => handleActivateGuide(1)}
-            style={{ marginBottom: "1rem" }}
-          >
-            Starta från början
-          </Button>
-          {pointFeature !== null ? (
+          <Block style={{ paddingBottom: "1rem", marginBottom: 0 }}>
+            {pointFeature !== null ? (
+              <Button
+                fill
+                large
+                round
+                sheetClose
+                onClick={() => {
+                  handleActivateGuide(pointFeature?.get("stopNumber"));
+                }}
+              >
+                Starta från stopp {pointFeature.get("stopNumber")}
+              </Button>
+            ) : (
+              <Button
+                fill
+                round
+                large
+                sheetClose
+                onClick={() => handleActivateGuide("nearest")}
+              >
+                Starta från närmaste
+              </Button>
+            )}
             <Button
-              fill
-              large
+              outline
               round
               sheetClose
-              onClick={() => {
-                handleActivateGuide(pointFeature?.get("stopNumber"));
+              onClick={() => handleActivateGuide(1)}
+              style={{
+                marginTop: "1rem",
               }}
             >
-              Starta från {pointFeature.get("title")}
+              Starta från början
             </Button>
-          ) : (
-            <Button
-              fill
-              round
-              large
-              sheetClose
-              onClick={() => handleActivateGuide("nearest")}
-            >
-              Starta från närmaste
-            </Button>
-          )}
-        </Block>
+            {/* <Icon material="mkeyboard_double_arrow_up" /> */}
+          </Block>
+        </div>
+        <div
+          className="page-content"
+          style={{ maxHeight: "400px", paddingBottom: "1rem" }}
+        >
+          <Block>
+            <p>
+              <i>
+                Kategorier:{" "}
+                {lineFeature.get("categories")?.split(",").join(", ")}
+              </i>
+            </p>
+            <p>{lineFeature.get("text")}</p>
+          </Block>
+        </div>
       </>
     )
   );

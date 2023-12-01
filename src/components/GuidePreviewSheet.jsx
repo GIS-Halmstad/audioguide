@@ -38,10 +38,13 @@ function GuidePreviewSheet() {
 
   return (
     <Sheet
-      className="preview"
+      className="preview-sheet"
+      style={{ height: "auto", maxHeight: "600px" }}
       swipeToClose
+      swipeToStep
+      // push
+      backdrop
       opened={sheetVisible}
-      style={{ height: "auto" }}
       onSheetClosed={() => {
         // There is the possibility that the closing was initiated by
         // swiping, rather than clicking inside the Map. In this case,
