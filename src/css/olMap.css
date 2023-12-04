@@ -2,6 +2,7 @@
 
 #map {
   position: absolute;
-  height: 100%;
+  /* We don't want the map to be hidden behind Navbar and Tabbar */
+  height: calc(100% - var(--f7-navbar-height) - var(--f7-tabbar-icons-height));
   width: 100%;
 }

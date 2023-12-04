@@ -112,12 +112,6 @@ const HomePage = () => {
       onPageBeforeOut={onPageBeforeOut}
       onPageBeforeRemove={onPageBeforeRemove}
     >
-      <GuidePreviewSheet />
-      <GuideSheet />
-      <BackgroundLayersActionsGrid
-        backgroundLayersActionsGrid={backgroundLayersActionsGrid}
-        setBackgroundLayersActionsGrid={setBackgroundLayersActionsGrid}
-      />
       <Navbar sliding={false}>
         <NavLeft>
           <Link iconF7="menu" iconMaterial="menu" panelOpen="left" iconOnly />
@@ -149,6 +143,14 @@ const HomePage = () => {
           iconMd="material:ballot"
         />
       </Toolbar>
+
+      <GuidePreviewSheet />
+      <GuideSheet />
+      <BackgroundLayersActionsGrid
+        backgroundLayersActionsGrid={backgroundLayersActionsGrid}
+        setBackgroundLayersActionsGrid={setBackgroundLayersActionsGrid}
+      />
+
       <Tabs routable={true}>
         <Tab id="tab-map" className="page-content" tabActive>
           <div id="map" />
