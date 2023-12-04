@@ -1,8 +1,9 @@
 import React, { useEffect } from "react";
-
+import { getDevice } from "framework7/lite-bundle";
 import { f7, f7ready, App, View, Panel } from "framework7-react";
 import { Framework7Parameters } from "framework7/types";
 
+import capacitorApp from "../js/capacitor-app";
 import routes from "../js/routes.js";
 import store from "../js/store.ts";
 
@@ -11,6 +12,7 @@ import DemoMessageSheet from "./DemoMessageSheet.tsx";
 
 const Audioguide = () => {
   console.log("Audioguide renders");
+  const device = getDevice();
 
   useEffect(() => {
     // Fix viewport scale on mobiles
@@ -32,9 +34,24 @@ const Audioguide = () => {
     theme: "auto",
     store: store,
     routes: routes,
+    // Input settings
+    input: {
+      scrollIntoViewOnFocus: device.capacitor,
+      scrollIntoViewCentered: device.capacitor,
+    },
+    // Capacitor Statusbar settings
+    statusbar: {
+      iosOverlaysWebView: true,
+      androidOverlaysWebView: false,
+    },
   };
 
   f7ready(async () => {
+    // Init capacitor APIs (see capacitor-app.js)
+    if (f7.device.capacitor) {
+      capacitorApp.init(f7);
+    }
+
     // Let's initiate the OL map. It will read the store
     // value that we just set, so it's important it comes
     // afterwards. We also pass on the f7 so that we can use

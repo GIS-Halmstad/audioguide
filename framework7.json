@@ -1,13 +1,21 @@
 {
   "cwd": ".",
   "type": [
-    "web"
+    "web",
+    "capacitor"
   ],
   "name": "AudioGuide",
+  "pkg": "se.halmstad.audioguide",
   "framework": "react",
   "template": "blank",
   "cssPreProcessor": false,
   "bundler": "vite",
+  "capacitor": {
+    "platforms": [
+      "ios",
+      "android"
+    ]
+  },
   "theming": {
     "customColor": false,
     "color": "#007aff",

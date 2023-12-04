@@ -9,6 +9,8 @@
     "start": "npm run dev",
     "dev": "cross-env NODE_ENV=development vite",
     "build": "cross-env NODE_ENV=production vite build",
+    "build-capacitor-ios": "cross-env NODE_ENV=production vite build && npx cap copy ios",
+    "build-capacitor-android": "cross-env NODE_ENV=production vite build && npx cap copy android",
     "postinstall": "cpy --flat ./node_modules/framework7-icons/fonts/*.* ./src/fonts/ && cpy --flat ./node_modules/material-icons/iconfont/*.* ./src/fonts/"
   },
   "browserslist": [
@@ -18,6 +20,14 @@
     "last 5 Firefox versions"
   ],
   "dependencies": {
+    "@capacitor/android": "^5.5.1",
+    "@capacitor/app": "^5.0.6",
+    "@capacitor/browser": "^5.1.0",
+    "@capacitor/core": "^5.5.1",
+    "@capacitor/ios": "^5.5.1",
+    "@capacitor/keyboard": "^5.0.6",
+    "@capacitor/splash-screen": "^5.0.6",
+    "@capacitor/status-bar": "^5.0.6",
     "@types/openlayers": "^4.6.23",
     "dom7": "^4.0.6",
     "framework7": "^8.3.0",
@@ -33,7 +43,9 @@
     "swiper": "^11.0.3"
   },
   "devDependencies": {
+    "@capacitor/cli": "^5.5.1",
     "@vitejs/plugin-react": "^4.1.1",
+    "cordova-res": "^0.15.4",
     "cpy-cli": "^5.0.0",
     "cross-env": "^7.0.3",
     "eslint": "^8.53.0",
