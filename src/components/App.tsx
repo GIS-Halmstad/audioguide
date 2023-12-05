@@ -30,7 +30,7 @@ const Audioguide = () => {
   }, []);
 
   const f7params: Framework7Parameters = {
-    name: "AudioGuide",
+    name: "Audioguide",
     theme: "auto",
     store: store,
     routes: routes,

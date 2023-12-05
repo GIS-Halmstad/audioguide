@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">AudioGuider</string>
-    <string name="title_activity_main">AudioGuider</string>
+    <string name="app_name">Audioguide</string>
+    <string name="title_activity_main">Audioguide</string>
     <string name="package_name">se.halmstad.audioguide</string>
     <string name="custom_url_scheme">se.halmstad.audioguide</string>
 </resources>

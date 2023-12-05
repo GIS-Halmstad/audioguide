@@ -4,7 +4,7 @@
     "web",
     "capacitor"
   ],
-  "name": "AudioGuide",
+  "name": "Audioguide",
   "pkg": "se.halmstad.audioguide",
   "framework": "react",
   "template": "blank",

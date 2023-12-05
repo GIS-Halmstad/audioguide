@@ -1,4 +1,4 @@
-# The AudioGuide App
+# The Audioguide App
 
 TBA
 
@@ -91,16 +91,16 @@ This app is made to work out-of-the-box with Hajk's API. This means that you sho
 
 ## Example configuration
 
-In order to tell the AudioGuide app where to find the required Hajk API, you must add the following to `public/appConfig.json`:
+In order to tell the Audioguide app where to find the required Hajk API, you must add the following to `public/appConfig.json`:
 
 ```jsonc
 {
   "mapServiceBase": "http://localhost:3002/api/v2", // URL to the Hajk API
-  "mapName": "demo" // Name of the map that contains the AudioGuide tool options (see below)
+  "mapName": "demo" // Name of the map that contains the Audioguide tool options (see below)
 }
 ```
 
-In addition, you must add the AudioGuide tool options to the map config that you specified in `appConfig.json`. Here's an example configuration:
+In addition, you must add the Audioguide tool options to the map config that you specified in `appConfig.json`. Here's an example configuration:
 
 ```jsonc
 {
@@ -142,7 +142,7 @@ In order to make the guide features (both lines and points) look differently, de
 
 ### Media assets
 
-This section describes how to add the media assets (images, audio and video files) to the AudioGuide App.
+This section describes how to add the media assets (images, audio and video files) to the Audioguide App.
 
 As you may have noticed, the database tables include some columns that are meant to be used to link each geometric feature with one-to-many assets. The `audioguide_point` table contains `audios`, `videos` and `images`, while `audioguide_line` table contains `images` only. Each of these columns' values should be _a comma-separated string of either relative or absolute URLs_. `NULL` is an allowed value too.
 

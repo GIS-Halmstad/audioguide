@@ -16,7 +16,7 @@ function DemoMessageSheet() {
       <div className="swipe-handler"></div>
       <div>
         <BlockTitle>Detta är ett demo</BlockTitle>
-        <Block>Hej och välkommen till AudioGuider!</Block>
+        <Block>Hej och välkommen till Audioguide!</Block>
         <Block>
           Observera att det du ser är en mycket tidig demoversion av produkten
           där ingenting är klart. Du kommer att upptäcka konstigheter, saker och

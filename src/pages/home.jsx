@@ -32,7 +32,7 @@ const HomePage = () => {
     if (!notificationFull.current) {
       notificationFull.current = f7.notification.create({
         icon: '<i class="icon f7-icons">xmark_octagon_fill</i>',
-        title: "Audioguider",
+        title: "Audioguide",
         titleRightText: "nu",
         subtitle: "Laddningsfel",
         text: "Ett fel uppstod. Vi ber om ursäkt för det inträffade.",
@@ -116,7 +116,7 @@ const HomePage = () => {
         <NavLeft>
           <Link iconF7="menu" iconMaterial="menu" panelOpen="left" iconOnly />
         </NavLeft>
-        <NavTitle sliding>{loading ? "Laddar…" : "Audioguider"}</NavTitle>
+        <NavTitle sliding>{loading ? "Laddar…" : "Audioguide"}</NavTitle>
         <NavRight>
           <Link
             iconIos="f7:funnel"
@@ -158,7 +158,7 @@ const HomePage = () => {
             <Icon ios="f7:layers" md="material:layers" />
           </Fab>
           <Fab
-            position="right-bottom"
+            position="left-top"
             onClick={() => {
               f7.emit("olCenterOnGeolocation");
             }}

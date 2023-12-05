@@ -32,7 +32,7 @@ function PanelLeft() {
         {/* <ListItem title="Jämför kartor" />
         <ListItem title="Skriv ut" /> */}
         <ListItem link="/share/" title="Dela" />
-        <ListItem link="/about/" title="Om AudioGuiden" />
+        <ListItem link="/about/" title="Om Audioguide" />
       </List>
     </Page>
   );

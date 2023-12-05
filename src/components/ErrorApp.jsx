@@ -12,10 +12,10 @@ import {
 
 const ErrorApp = () => {
   return (
-    <App name="AudioGuide" theme="auto">
+    <App name="Audioguide" theme="auto">
       <View main className="safe-areas">
         <Page ptr onPtrRefresh={() => window.location.reload()}>
-          <Navbar title="AudioGuide" />
+          <Navbar title="Audioguide" />
           <Card title="Laddningsfel" outline>
             <CardContent>
               Tyvärr kunde inte appen ladda alla nödvändiga komponenter för att

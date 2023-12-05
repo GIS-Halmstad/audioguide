@@ -1,6 +1,6 @@
 import React from "react";
 
-import AudioGuideCard from "../components/AudioGuideCard";
+import AudioguideCard from "./AudioguideCard";
 import { useStore } from "framework7-react";
 
 function TabListViewContent() {
@@ -8,7 +8,7 @@ function TabListViewContent() {
 
   return filteredFeatures
     .filter((f) => f.get("length")) // Only line features will have the "length" property
-    .map((c, i) => <AudioGuideCard c={c} key={i} />);
+    .map((c, i) => <AudioguideCard c={c} key={i} />);
 }
 
 export default TabListViewContent;

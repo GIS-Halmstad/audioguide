@@ -11,7 +11,7 @@ import {
 } from "framework7-react";
 import { getAssets } from "../js/getAssets.js";
 
-function AudioGuideCard({ c }) {
+function AudioguideCard({ c }) {
   const images = getAssets(c, "images");
 
   const handleShowGuideInMap = async () => {
@@ -55,4 +55,4 @@ function AudioGuideCard({ c }) {
   );
 }
 
-export default AudioGuideCard;
+export default AudioguideCard;
