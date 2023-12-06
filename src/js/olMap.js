@@ -4,6 +4,7 @@ import proj4 from "proj4";
 import { register } from "ol/proj/proj4";
 
 import Map from "ol/Map";
+
 import View from "ol/View";
 import Point from "ol/geom/Point";
 // import OSM from "ol/source/OSM";
@@ -118,25 +119,31 @@ async function initOLMap(f7) {
     config.map,
     "background"
   );
-  // console.log("backgroundLayers: ", backgroundLayers);
 
-  // Setup source and layer for the AudioGuide features
-  audioguideSource = new VectorSource();
+  const audioguideLayersAttribution =
+    config.tools.audioguide?.audioguideLayersAttribution;
+
+  // Setup source and layer for the Audioguide features
+  audioguideSource = new VectorSource({
+    attributions: audioguideLayersAttribution,
+  });
   audioguideLayer = new VectorLayer({
     source: audioguideSource,
     layerType: "system",
     zIndex: 5000,
-    name: "pluginAudioGuideAllGuides",
+    name: "pluginAudioguideAllGuides",
     caption: "All audioguides",
     style: styleFunction,
   });
 
-  activeGuideSource = new VectorSource();
+  activeGuideSource = new VectorSource({
+    attributions: audioguideLayersAttribution,
+  });
   activeGuideLayer = new VectorLayer({
     source: activeGuideSource,
     layerType: "system",
     zIndex: 5001,
-    name: "pluginAudioGuideActiveGuide",
+    name: "pluginAudioguideActiveGuide",
     caption: "Active audioguide",
     visible: false, // Start with hidden
     style: styleFunction,
@@ -223,8 +230,8 @@ async function initOLMap(f7) {
   const geolocationLayer = new VectorLayer({
     source: geolocationSource,
     layerType: "system",
-    name: "pluginAudioGuideGeolocation",
-    caption: "AudioGuide Geolocation",
+    name: "pluginAudioguideGeolocation",
+    caption: "Audioguide Geolocation",
   });
 
   // Finally, add the geolocation layer

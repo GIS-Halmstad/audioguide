@@ -113,6 +113,10 @@ In addition, you must add the Audioguide tool options to the map config that you
           "featureNS": "https://pg.halmstad.se", // Workspace's namespace
           "featurePrefix": "pg" // Workspace name
         },
+        "title": "Audioguide",
+        "description": "Audioguide tool",
+        "audioguideLayersAttribution": "Halmstads kommun", // Used to specify the owner of audioguide layers and the tool itself (shown in About page)
+        "aboutPageContent": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.\\n\\nMaecenas vitae mi vitae purus congue convallis. Curabitur condimentum dolor sed erat rhoncus mollis. Mauris sed massa vehicula, bibendum diam sit amet, semper massa. Praesent cursus rhoncus mattis. Sed sed laoreet lectus, ac aliquet ipsum.",
         "target": "left",
         "position": "right",
         "visibleAtStart": true,

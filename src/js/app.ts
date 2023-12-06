@@ -17,6 +17,7 @@ import "../css/app.css";
 
 // Import App Component
 import App from "../components/App.tsx";
+import ErrorApp from "../components/ErrorApp.jsx";
 import store from "./store.ts";
 import fetchFromService from "./fetchFromService.js";
 
@@ -62,8 +63,8 @@ try {
     store.dispatch("setFilteredCategories", categories);
   }
 } catch (error) {
+  console.error("Setting loading error due to error:", error);
   store.dispatch("setLoadingError", true);
-  console.error(error);
 }
 
 // Init F7 React Plugin
@@ -72,4 +73,6 @@ Framework7.use(Framework7React);
 
 // Mount React App
 const root = createRoot(document.getElementById("app"));
-root.render(React.createElement(App));
+root.render(
+  React.createElement(store.state.loadingError === false ? App : ErrorApp)
+);
