@@ -6,6 +6,8 @@ import { register } from "ol/proj/proj4";
 import Map from "ol/Map";
 
 import View from "ol/View";
+import { ScaleLine } from "ol/control.js";
+
 import Point from "ol/geom/Point";
 // import OSM from "ol/source/OSM";
 // import TileLayer from "ol/layer/Tile";
@@ -152,6 +154,17 @@ async function initOLMap(f7) {
   // Setup Map and View
   olMap = new Map({
     target: "map",
+    controls: [
+      new ScaleLine({
+        units: "metric",
+        bar: true,
+        steps: 4,
+        text: false,
+        minWidth: 140,
+        maxWidth: 240,
+      }),
+    ],
+
     layers: [
       // new TileLayer({
       //   source: new OSM(),
