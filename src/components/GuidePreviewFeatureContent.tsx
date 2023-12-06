@@ -1,15 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import {
-  f7,
-  Block,
-  BlockTitle,
-  Sheet,
-  Button,
-  Icon,
-  BlockHeader,
-  BlockFooter,
-} from "framework7-react";
+import { f7, Block, BlockTitle, Button, Icon, Chip } from "framework7-react";
 
 import { Feature } from "openlayers";
 
@@ -47,19 +38,45 @@ export default function GuidePreviewFeatureContent({ f }) {
           className="swipe-handler"
           onClick={() => f7.sheet.stepToggle(".preview-sheet")}
         ></div>
-        {/* Initial step in the sheet must be within .sheet-modal-swipe-step */}
-        <div className="sheet-modal-swipe-step">
-          <BlockTitle medium>{lineFeature.get("title")}</BlockTitle>
-          {pointFeature !== null && (
-            <BlockTitle style={{ marginTop: 0 }}>
-              {`Stopp ${pointFeature.get("stopNumber")}: ${pointFeature.get(
-                "title"
-              )}`}
-            </BlockTitle>
-          )}
-          <BlockHeader>Längd: {lineFeature.get("length")}</BlockHeader>
 
-          <Block style={{ paddingBottom: "1rem", marginBottom: 0 }}>
+        {/* Initial step in the sheet must be within .sheet-modal-swipe-step */}
+        <div
+          className="sheet-modal-swipe-step page-content"
+          style={{ paddingBottom: "var(--f7-block-padding-horizontal)" }}
+        >
+          {/* Chips with categories and guide length */}
+          <Block className="display-flex justify-content-space-between">
+            <div>
+              {lineFeature
+                .get("categories")
+                ?.split(",")
+                .map((c: string, i: number) => (
+                  <Chip outline text={c} key={i} />
+                ))}
+            </div>
+            <div>
+              <Chip
+                outline
+                text={lineFeature.get("length")}
+                mediaBgColor="blue"
+              >
+                <Icon
+                  slot="media"
+                  ios="material:straighten"
+                  md="material:straighten"
+                />
+              </Chip>
+            </div>
+          </Block>
+
+          <BlockTitle medium className="text-align-center">
+            {lineFeature.get("title")}
+            {pointFeature !== null &&
+              ` – stopp
+               ${pointFeature.get("stopNumber")}`}
+          </BlockTitle>
+
+          <Block>
             {pointFeature !== null ? (
               <Button
                 fill
@@ -94,22 +111,16 @@ export default function GuidePreviewFeatureContent({ f }) {
             >
               Starta från början
             </Button>
-            {/* <Icon material="mkeyboard_double_arrow_up" /> */}
           </Block>
         </div>
         <div
           className="page-content"
-          style={{ maxHeight: "400px", paddingBottom: "1rem" }}
+          style={{
+            maxHeight: "400px",
+            paddingBottom: "1rem",
+          }}
         >
-          <Block>
-            <p>
-              <i>
-                Kategorier:{" "}
-                {lineFeature.get("categories")?.split(",").join(", ")}
-              </i>
-            </p>
-            <p>{lineFeature.get("text")}</p>
-          </Block>
+          <Block style={{ margin: 0 }}>{lineFeature.get("text")}</Block>
         </div>
       </>
     )
