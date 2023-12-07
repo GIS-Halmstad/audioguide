@@ -1,4 +1,4 @@
-import { createStore } from "framework7/lite";
+import { createStore } from "framework7/lite/bundle";
 import { getParamValueFromHash } from "./getParamValueFromHash";
 
 const store = createStore({

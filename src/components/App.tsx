@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { getDevice } from "framework7/lite-bundle";
+import { getDevice } from "framework7/lite/bundle";
 import { f7, f7ready, App, View, Panel } from "framework7-react";
 import { Framework7Parameters } from "framework7/types";
 
@@ -36,6 +36,7 @@ const Audioguide = () => {
     routes: routes,
     // Input settings
     input: {
+      // We can't use f7.device here as F7 hasn't been initialized yet
       scrollIntoViewOnFocus: device.capacitor,
       scrollIntoViewCentered: device.capacitor,
     },
