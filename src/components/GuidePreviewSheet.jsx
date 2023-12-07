@@ -42,7 +42,6 @@ function GuidePreviewSheet() {
       style={{ height: "auto", maxHeight: "600px" }}
       swipeToClose
       swipeToStep
-      // push
       backdrop
       opened={sheetVisible}
       onSheetClosed={() => {

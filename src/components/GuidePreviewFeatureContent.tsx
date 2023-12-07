@@ -40,10 +40,7 @@ export default function GuidePreviewFeatureContent({ f }) {
         ></div>
 
         {/* Initial step in the sheet must be within .sheet-modal-swipe-step */}
-        <div
-          className="sheet-modal-swipe-step page-content"
-          style={{ paddingBottom: "var(--f7-block-padding-horizontal)" }}
-        >
+        <div className="sheet-modal-swipe-step padding-bottom">
           {/* Chips with categories and guide length */}
           <Block className="display-flex justify-content-space-between">
             <div>
@@ -71,9 +68,6 @@ export default function GuidePreviewFeatureContent({ f }) {
 
           <BlockTitle medium className="text-align-center">
             {lineFeature.get("title")}
-            {pointFeature !== null &&
-              ` – stopp
-               ${pointFeature.get("stopNumber")}`}
           </BlockTitle>
 
           <Block>
@@ -105,19 +99,19 @@ export default function GuidePreviewFeatureContent({ f }) {
               round
               sheetClose
               onClick={() => handleActivateGuide(1)}
-              style={{
-                marginTop: "1rem",
-              }}
+              className="margin-top"
             >
               Starta från början
             </Button>
+            <div className="text-align-center margin-top">
+              Svep upp för att läsa mer
+            </div>
           </Block>
         </div>
         <div
-          className="page-content"
+          className="page-content padding-bottom"
           style={{
             maxHeight: "400px",
-            paddingBottom: "1rem",
           }}
         >
           <Block style={{ margin: 0 }}>{lineFeature.get("text")}</Block>
