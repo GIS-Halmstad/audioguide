@@ -5,6 +5,7 @@
   "description": "Audioguide",
   "repository": "",
   "license": "MIT",
+  "type": "module",
   "scripts": {
     "start": "npm run dev",
     "dev": "cross-env NODE_ENV=development vite",
@@ -34,23 +35,23 @@
     "framework7-icons": "^5.0.5",
     "framework7-react": "^8.3.0",
     "material-icons": "^1.13.12",
-    "ol": "^8.1.0",
+    "ol": "^8.2.0",
     "proj4": "^2.9.2",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "skeleton-elements": "^4.0.1",
-    "swiper": "^11.0.3"
+    "swiper": "^11.0.5"
   },
   "devDependencies": {
     "@capacitor/cli": "^5.5.1",
-    "@vitejs/plugin-react": "^4.1.1",
+    "@vitejs/plugin-react": "^4.2.1",
     "cordova-res": "^0.15.4",
     "cpy-cli": "^5.0.0",
     "cross-env": "^7.0.3",
-    "eslint": "^8.53.0",
+    "eslint": "^8.55.0",
     "eslint-plugin-react": "^7.33.2",
     "postcss-preset-env": "^9.3.0",
-    "vite": "^4.5.0"
+    "vite": "^5.0.6"
   }
 }

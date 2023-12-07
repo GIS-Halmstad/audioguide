@@ -1,5 +1,5 @@
-module.exports = {
+export default {
   plugins: {
-    'postcss-preset-env': {},
+    "postcss-preset-env": {},
   },
 };
