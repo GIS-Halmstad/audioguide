@@ -46,7 +46,14 @@ function AudioguideCard({ c }) {
         </CardFooter>
         <Block>
           <div className="card-content-padding">{c.get("text")}</div>
-          <Button fill round large cardClose onClick={handleShowGuideInMap}>
+          <Button
+            fill
+            round
+            large
+            cardClose
+            onClick={handleShowGuideInMap}
+            className="margin-bottom"
+          >
             Visa i karta
           </Button>
         </Block>
