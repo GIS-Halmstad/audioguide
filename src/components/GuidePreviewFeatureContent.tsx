@@ -1,10 +1,25 @@
 import React, { useEffect, useState } from "react";
 
-import { f7, Block, BlockTitle, Button, Icon, Chip } from "framework7-react";
+import {
+  f7,
+  Block,
+  BlockTitle,
+  Button,
+  Icon,
+  Chip,
+  Card,
+  CardHeader,
+  CardContent,
+  CardFooter,
+  Link,
+} from "framework7-react";
 
 import { Feature } from "openlayers";
 
 import { activateGuide } from "../js/olMap";
+
+import { getAssets } from "../js/getAssets.js";
+import ChipComponent from "framework7/components/chip";
 
 export default function GuidePreviewFeatureContent({ f }) {
   let pointFeature: Feature | null = null;
@@ -31,90 +46,127 @@ export default function GuidePreviewFeatureContent({ f }) {
     activateGuide(lineFeature?.get("guideId"), fromStopNumber);
   };
 
+  const images = getAssets(lineFeature, "images");
   return (
     lineFeature !== null && (
       <>
-        <div
-          className="swipe-handler"
-          onClick={() => f7.sheet.stepToggle(".preview-sheet")}
-        ></div>
-
         {/* Initial step in the sheet must be within .sheet-modal-swipe-step */}
-        <div className="sheet-modal-swipe-step padding-bottom">
-          {/* Chips with categories and guide length */}
-          <Block className="display-flex justify-content-space-between">
-            <div>
-              {lineFeature
-                .get("categories")
-                ?.split(",")
-                .map((c: string, i: number) => (
-                  <Chip outline text={c} key={i} />
-                ))}
-            </div>
-            <div>
-              <Chip
-                outline
-                text={lineFeature.get("length")}
-                mediaBgColor="blue"
-              >
-                <Icon
-                  slot="media"
-                  ios="material:straighten"
-                  md="material:straighten"
-                />
-              </Chip>
-            </div>
-          </Block>
 
-          <BlockTitle medium className="text-align-center">
-            {lineFeature.get("title")}
-          </BlockTitle>
-
-          <Block>
-            {pointFeature !== null ? (
-              <Button
-                fill
-                large
-                round
-                sheetClose
-                onClick={() => {
-                  handleActivateGuide(pointFeature?.get("stopNumber"));
+        <div className="sheet-modal-swipe-step">
+          <div
+            className="swipe-handler"
+            onClick={() => f7.sheet.stepToggle(".preview-sheet")}
+          ></div>
+          <Card outlineMd>
+            <CardHeader
+              valign="bottom"
+              style={{
+                backgroundImage: `url(${images[0]})`,
+                padding: 0,
+                height: "30vh",
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                color: "#fff",
+              }}
+            >
+              <div
+                style={{
+                  position: "absolute",
+                  bottom: 0,
+                  width: "100%",
+                  backgroundColor: "rgba(100,100,100,0.6)",
+                  textAlign: "center",
+                  textTransform: "uppercase",
+                  fontWeight: "bold",
+                  fontSize: "1.2rem",
                 }}
               >
-                Starta från stopp {pointFeature.get("stopNumber")}
-              </Button>
-            ) : (
-              <Button
-                fill
-                round
-                large
-                sheetClose
-                onClick={() => handleActivateGuide("nearest")}
-              >
-                Starta från närmaste
-              </Button>
-            )}
-            <Button
-              outline
-              round
-              sheetClose
-              onClick={() => handleActivateGuide(1)}
-              className="margin-top"
+                {lineFeature.get("title")}
+              </div>
+            </CardHeader>
+            <CardContent
+              style={{
+                ...(f7.device.ios && { paddingLeft: 0, paddingRight: 0 }),
+                marginTop: "0.5rem",
+              }}
             >
-              Starta från början
-            </Button>
-            <div className="text-align-center margin-top">
-              Svep upp för att läsa mer
-            </div>
-          </Block>
+              {/* Chips with categories and guide length */}
+              <Block className="display-flex justify-content-space-between">
+                <div>
+                  {lineFeature
+                    .get("categories")
+                    ?.split(",")
+                    .map((c: string, i: number) => (
+                      <Chip
+                        outline
+                        text={c}
+                        key={i}
+                        style={{ marginRight: "2px" }}
+                      />
+                    ))}
+                </div>
+                <div>
+                  <Chip
+                    outline
+                    text={lineFeature.get("length")}
+                    tooltip={`Guidens längd är ${lineFeature.get("length")}`}
+                    mediaBgColor="blue"
+                  >
+                    <Icon
+                      slot="media"
+                      ios="material:straighten"
+                      md="material:straighten"
+                    />
+                  </Chip>
+                </div>
+              </Block>
+            </CardContent>
+            <CardFooter className="flex-direction-column">
+              {pointFeature !== null ? (
+                <Button
+                  fill
+                  round
+                  large
+                  sheetClose
+                  onClick={() => {
+                    handleActivateGuide(pointFeature?.get("stopNumber"));
+                  }}
+                >
+                  Starta från stopp {pointFeature.get("stopNumber")}
+                </Button>
+              ) : (
+                <Button
+                  fill
+                  round
+                  large
+                  sheetClose
+                  onClick={() => handleActivateGuide("nearest")}
+                >
+                  Starta från närmaste
+                </Button>
+              )}
+              <Button
+                outline
+                round
+                sheetClose
+                onClick={() => handleActivateGuide(1)}
+                className="margin-top"
+              >
+                Starta från början
+              </Button>
+              <div className="margin-top __margin-bottom">
+                Svep upp för mer info
+              </div>
+            </CardFooter>
+          </Card>
         </div>
         <div
-          className="page-content padding-bottom"
+          className="page-content "
           style={{
-            maxHeight: "400px",
+            maxHeight: "27vh",
           }}
         >
-          <Block style={{ margin: 0 }}>{lineFeature.get("text")}</Block>
+          <Block style={{ marginTop: 0 }}>{lineFeature.get("text")}</Block>
         </div>
       </>
     )

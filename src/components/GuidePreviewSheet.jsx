@@ -39,7 +39,7 @@ function GuidePreviewSheet() {
   return (
     <Sheet
       className="preview-sheet"
-      style={{ height: "auto", maxHeight: "600px" }}
+      style={{ height: "auto", maxHeight: "90vh" }}
       swipeToClose
       swipeToStep
       backdrop
