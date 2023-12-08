@@ -23,10 +23,11 @@ const fetchFromService = async (type = "line") => {
 
     const json = await response.json();
     const features = new GeoJSON().readFeatures(json);
-    return features;
+    // Let's remove any line features that are inactivated in the DB.
+    return features.filter((f) => f.get("active") !== false);
   } catch (error) {
+    console.error("Setting loading error due to error:", error);
     store.dispatch("setLoadingError", true);
-    console.error(error);
     return [];
   }
 };

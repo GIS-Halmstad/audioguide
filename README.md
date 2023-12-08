@@ -11,72 +11,51 @@ Create these two tables in your spatial database:
 #### audioguide_line
 
 ```sql
--- Table: public.audioguide_line
+-- public.audioguide_line definition
 
--- DROP TABLE IF EXISTS public.audioguide_line;
+-- Drop table
 
-CREATE TABLE IF NOT EXISTS public.audioguide_line
-(
-    id integer PRIMARY KEY NOT NULL GENERATED ALWAYS AS IDENTITY ,
-    "guideId" smallint NOT NULL,
-    title text COLLATE pg_catalog."default" NOT NULL,
-    text text COLLATE pg_catalog."default" NOT NULL,
-    categories text COLLATE pg_catalog."default",
-    images text COLLATE pg_catalog."default",
-    length text COLLATE pg_catalog."default" NOT NULL DEFAULT 0,
-    "style" jsonb NULL,
-    geom geometry(LineString,3008) NOT NULL,
-    CONSTRAINT audioguide_line_pkey PRIMARY KEY (id)
-)
+-- DROP TABLE public.audioguide_line;
 
-TABLESPACE pg_default;
-
-ALTER TABLE IF EXISTS public.audioguide_line
-    OWNER to geoserver;
--- Index: sidx_audioguide_line_geom
-
--- DROP INDEX IF EXISTS public.sidx_audioguide_line_geom;
-
-CREATE INDEX IF NOT EXISTS sidx_audioguide_line_geom
-    ON public.audioguide_line USING gist
-    (geom)
-    TABLESPACE pg_default;
+CREATE TABLE public.audioguide_line (
+  "guideId" int2 NOT NULL,
+  active bool NOT NULL DEFAULT true,
+  title text NOT NULL,
+  "text" text NOT NULL,
+  categories text NULL,
+  images text NULL,
+  length text NOT NULL DEFAULT 0,
+  "style" jsonb NULL,
+  geom public.geometry(linestring, 3008) NOT NULL,
+  CONSTRAINT audioguide_line_pk PRIMARY KEY ("guideId")
+);
+CREATE INDEX sidx_audioguide_line_geom ON public.audioguide_line USING gist (geom);
 ```
 
 #### audioguide_point
 
 ```sql
--- Table: public.audioguide_point
+-- public.audioguide_point definition
 
--- DROP TABLE IF EXISTS public.audioguide_point;
+-- Drop table
 
-CREATE TABLE IF NOT EXISTS public.audioguide_point
-(
-    id integer PRIMARY KEY NOT NULL GENERATED ALWAYS AS IDENTITY,
-    "guideId" smallint NOT NULL,
-    "stopNumber" smallint NOT NULL,
-    title text COLLATE pg_catalog."default" NOT NULL,
-    text text COLLATE pg_catalog."default" NOT NULL,
-    images text COLLATE pg_catalog."default",
-    audios text COLLATE pg_catalog."default",
-    videos text COLLATE pg_catalog."default",
-    "style" jsonb NULL,
-    geom geometry(Point,3008) NOT NULL,
-    CONSTRAINT audioguide_point_pkey PRIMARY KEY (id)
-)
+-- DROP TABLE public.audioguide_point;
 
-TABLESPACE pg_default;
-
-ALTER TABLE IF EXISTS public.audioguide_point
-    OWNER to geoserver;
--- Index: sidx_audioguide_point_geom
-
--- DROP INDEX IF EXISTS public.sidx_audioguide_point_geom;
-
-CREATE INDEX IF NOT EXISTS sidx_audioguide_point_geom
-    ON public.audioguide_point USING gist
-    (geom)
-    TABLESPACE pg_default;
+CREATE TABLE public.audioguide_point (
+  id int4 NOT NULL GENERATED ALWAYS AS IDENTITY,
+  "guideId" int2 NOT NULL,
+  "stopNumber" int2 NOT NULL,
+  title text NOT NULL,
+  "text" text NOT NULL,
+  images text NULL,
+  audios text NULL,
+  videos text NULL,
+  "style" jsonb NULL,
+  geom public.geometry(point, 3008) NOT NULL,
+  CONSTRAINT audioguide_point_pkey PRIMARY KEY (id),
+  CONSTRAINT audioguide_point_unique_guide_stop UNIQUE ("stopNumber", "guideId")
+);
+CREATE INDEX sidx_audioguide_point_geom ON public.audioguide_point USING gist (geom);
 ```
 
 ### The OGC WFS Service
