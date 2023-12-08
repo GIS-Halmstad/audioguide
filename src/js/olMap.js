@@ -275,7 +275,7 @@ async function initOLMap(f7) {
 
       // Zoom to feature
       const selectionExtent = f[0].getGeometry().getExtent();
-      olMap.getView().fit(selectionExtent);
+      olMap.getView().fit(selectionExtent, { duration: 1000 });
     }
   });
 
@@ -314,7 +314,7 @@ const fitToAvailableFeatures = () => {
   // no infinite values (which can happen if the Source
   // is empty).
   !audioguideSource.getExtent().includes(Infinity) &&
-    olMap.getView().fit(audioguideSource.getExtent());
+    olMap.getView().fit(audioguideSource.getExtent(), { duration: 1500 });
 };
 
 const updateFeaturesInMap = () => {
