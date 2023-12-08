@@ -6,9 +6,9 @@ import { getAssets } from "../js/getAssets";
 
 import { goToStopNumber } from "../js/olMap";
 
-function GuideSheetPointView({ activeGuideObject, activeStopNumber }) {
+function GuideSheetContent({ activeGuideObject, activeStopNumber }) {
   console.log(
-    "Render GuideSheetPointView: ",
+    "Render GuideSheetContent: ",
     activeGuideObject,
     activeStopNumber,
     typeof activeStopNumber,
@@ -110,4 +110,4 @@ function GuideSheetPointView({ activeGuideObject, activeStopNumber }) {
   );
 }
 
-export default GuideSheetPointView;
+export default GuideSheetContent;

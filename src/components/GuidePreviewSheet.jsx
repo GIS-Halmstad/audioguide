@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import { f7, Sheet } from "framework7-react";
 
-import GuidePreviewFeatureContent from "./GuidePreviewFeatureContent";
+import GuidePreviewSheetContent from "./GuidePreviewSheetContent";
 
 function GuidePreviewSheet() {
   const [sheetVisible, setSheetVisible] = useState(false);
@@ -59,7 +59,7 @@ function GuidePreviewSheet() {
       }}
     >
       {selectedFeature !== null && (
-        <GuidePreviewFeatureContent f={selectedFeature} />
+        <GuidePreviewSheetContent f={selectedFeature} />
       )}
     </Sheet>
   );

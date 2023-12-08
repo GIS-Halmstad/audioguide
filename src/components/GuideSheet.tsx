@@ -4,7 +4,7 @@ import { Sheet, useStore } from "framework7-react";
 
 import { deactivateGuide } from "../js/olMap";
 
-import GuideSheetPointView from "./GuideSheetPointView";
+import GuideSheetContent from "./GuideSheetContent";
 
 function GuideSheet() {
   const activeGuideObject = useStore("activeGuideObject");
@@ -24,7 +24,7 @@ function GuideSheet() {
       }}
     >
       {activeGuideObject !== null && (
-        <GuideSheetPointView
+        <GuideSheetContent
           activeGuideObject={activeGuideObject}
           activeStopNumber={activeStopNumber}
         />
