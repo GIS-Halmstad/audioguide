@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+// Imports
+import React, { useMemo } from "react";
 
 import {
   f7,
@@ -11,16 +12,32 @@ import {
   CardHeader,
   CardContent,
   CardFooter,
-  Link,
+  List,
+  ListItem,
 } from "framework7-react";
 
-import { Feature } from "openlayers";
-
-import { activateGuide } from "../js/olMap";
+import {
+  activateGuide,
+  getClosestStopNumberFromCurrentPosition,
+} from "../js/olMap";
 
 import { getAssets } from "../js/getAssets";
 
-export default function GuidePreviewFeatureContent({ f }) {
+// Type imports and definitions
+import { Feature, geom } from "openlayers";
+
+type Props = {
+  f: Feature;
+};
+
+type StopObject = {
+  stopNumber: number;
+  title: string;
+  geometry: geom.Geometry;
+};
+
+export default function GuidePreviewSheetContent({ f }: Props) {
+  // f can be either a Point or a LineString, so let's find out.
   let pointFeature: Feature | null = null;
   let lineFeature: Feature | null = null;
 
@@ -33,15 +50,24 @@ export default function GuidePreviewFeatureContent({ f }) {
     lineFeature = f;
   }
 
-  const getNearestStopFromPoint = (geom: number[]) => {
-    // TODO: To be implemented
-    // For now, just return the second stop
-    return 2;
-  };
+  const listOfStops: StopObject[] = useMemo(() => {
+    return f7.store.state.allPoints
+      .filter((pf: Feature) => pf.get("guideId") === lineFeature.get("guideId"))
+      .sort((pf: Feature) => pf.get("stopNumber"))
+      .map((pf: Feature) => {
+        return {
+          stopNumber: pf.get("stopNumber"),
+          title: pf.get("title"),
+          geometry: pf.getGeometry(),
+        };
+      });
+  }, [lineFeature]);
 
-  const handleActivateGuide = async (from: Number | string = 1) => {
+  const handleActivateGuide = async (from?: Number) => {
     const fromStopNumber =
-      typeof from === "number" ? from : getNearestStopFromPoint([123, 456]);
+      typeof from === "number"
+        ? from
+        : getClosestStopNumberFromCurrentPosition(lineFeature?.get("guideId"));
     activateGuide(lineFeature?.get("guideId"), fromStopNumber);
   };
 
@@ -139,7 +165,7 @@ export default function GuidePreviewFeatureContent({ f }) {
                   round
                   large
                   sheetClose
-                  onClick={() => handleActivateGuide("nearest")}
+                  onClick={() => handleActivateGuide()}
                 >
                   Starta från närmaste
                 </Button>
@@ -165,7 +191,14 @@ export default function GuidePreviewFeatureContent({ f }) {
             maxHeight: "27vh",
           }}
         >
-          <Block style={{ marginTop: 0 }}>{lineFeature.get("text")}</Block>
+          <BlockTitle style={{ marginTop: 0 }}>Beskrivning</BlockTitle>
+          <Block>{lineFeature.get("text")}</Block>
+          <BlockTitle>Stopp längst vägen</BlockTitle>
+          <List dividersIos simpleList strong outline>
+            {listOfStops.map((s, i) => (
+              <ListItem key={i} title={`${s.stopNumber}: ${s.title}`} />
+            ))}
+          </List>
         </div>
       </>
     )

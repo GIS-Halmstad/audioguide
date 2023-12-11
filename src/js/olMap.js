@@ -344,7 +344,28 @@ const enableGeolocation = () => {
   try {
     geolocation.setTracking(true);
   } catch (error) {
-    console.error("error: ", error);
+    console.error("enableGeolocation: ", error);
+  }
+};
+
+const getClosestStopNumberFromCurrentPosition = (guideId) => {
+  try {
+    // Grab the Feature in our Source that is closest to the current location, but…
+    const closestPoint = audioguideSource.getClosestFeatureToCoordinate(
+      geolocation.getPosition(),
+      (f) => {
+        return (
+          // …let's filter so we only match the current guide's guideId, and…
+          f.get("guideId") === guideId &&
+          // …only care about the Point features (otherwise, LineStrings would match too)
+          f.getGeometry().getType() === "Point"
+        );
+      }
+    );
+    // Let's attempt to return Feature's stop number, but fall back to an integer.
+    return closestPoint?.get("stopNumber") || 1;
+  } catch (error) {
+    console.error("getClosestStopNumberFromCurrentPosition: ", error);
   }
 };
 
@@ -437,6 +458,7 @@ export {
   setBackgroundLayer,
   getLayerVisibility,
   enableGeolocation,
+  getClosestStopNumberFromCurrentPosition,
   activateGuide,
   deactivateGuide,
   goToStopNumber,
