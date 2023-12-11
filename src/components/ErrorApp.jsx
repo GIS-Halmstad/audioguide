@@ -1,13 +1,19 @@
 import React from "react";
 
 import {
+  f7,
+  AccordionContent,
   App,
-  View,
-  Navbar,
-  Page,
+  Block,
+  Button,
   Card,
   CardContent,
   CardFooter,
+  List,
+  ListItem,
+  Navbar,
+  Page,
+  View,
 } from "framework7-react";
 
 const ErrorApp = () => {
@@ -18,16 +24,38 @@ const ErrorApp = () => {
           <Navbar title="Audioguide" />
           <Card title="Laddningsfel" outline>
             <CardContent>
-              Tyvärr kunde inte appen ladda alla nödvändiga komponenter för att
-              starta. Vi ber om ursäkt och hoppas på att få det löst snarast
-              möjligt!
+              Appen kunde inte ladda alla nödvändiga komponenter. Du kan försöka
+              att ladda om genom att svepa uppåt.
             </CardContent>
             <CardContent>
-              Du kan även prova att ladda om appen för att se om det hjälper.
+              <List insetMd accordionList>
+                <ListItem accordionItem title="Tekniska detaljer">
+                  <AccordionContent>
+                    <Block>
+                      <Button
+                        onClick={() => {
+                          f7.dialog.prompt(
+                            "Ange egen URL till mapservice-tjänsten. Lämna tomt för att använda standardvärde.",
+                            (url) => {
+                              localStorage.setItem(
+                                "overrideMapServiceBaseUrl",
+                                url
+                              );
+                              window.location.reload();
+                            }
+                          );
+                        }}
+                      >
+                        Ange egen URL till tjänsten
+                      </Button>
+                    </Block>
+                    <CardFooter>
+                      Detta fel inträffade {new Date().toLocaleTimeString()}
+                    </CardFooter>
+                  </AccordionContent>
+                </ListItem>
+              </List>
             </CardContent>
-            <CardFooter>
-              Detta fel inträffade {new Date().toLocaleTimeString()}
-            </CardFooter>
           </Card>
         </Page>
       </View>

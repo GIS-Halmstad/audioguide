@@ -30,11 +30,15 @@ try {
   const appConfig = await appConfigResponse.json();
   store.dispatch("setAppConfig", appConfig);
 
+  // Let's give the user a change to override the MapServiceBase URL
+  const mapServiceBaseUrl =
+    localStorage.getItem("overrideMapServiceBaseUrl") ||
+    store.state.appConfig.mapServiceBase;
   // Fetch the map config, which contains layers
   // definitions and is required before we can create
   // the OpenLayers map and add layers.
   const mapConfigResponse = await fetch(
-    `${store.state.appConfig.mapServiceBase}/config/${store.state.appConfig.mapName}`
+    `${mapServiceBaseUrl}/config/${store.state.appConfig.mapName}`
   );
   const mapConfig = await mapConfigResponse.json();
   const washedMapConfig = washMapConfig(mapConfig);
