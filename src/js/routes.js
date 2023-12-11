@@ -1,9 +1,9 @@
-import Home from "../pages/home.jsx";
-import About from "../pages/about.jsx";
-import Share from "../pages/share.jsx";
-import PanelLeft from "../pages/panel-left.jsx";
-import PanelRight from "../pages/panel-right.jsx";
-import NotFound from "../pages/404.jsx";
+import Home from "../pages/home";
+import About from "../pages/about";
+import Share from "../pages/share";
+import PanelLeft from "../pages/panel-left";
+import PanelRight from "../pages/panel-right";
+import NotFound from "../pages/404";
 
 const routes = [
   {

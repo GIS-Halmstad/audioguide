@@ -16,12 +16,12 @@ import "../css/icons.css";
 import "../css/app.css";
 
 // Import App Component
-import App from "../components/App.tsx";
-import ErrorApp from "../components/ErrorApp.jsx";
-import store from "./store.ts";
-import fetchFromService from "./fetchFromService.js";
+import App from "../components/App";
+import ErrorApp from "../components/ErrorApp";
+import store from "./store";
+import fetchFromService from "./fetchFromService";
 
-import washMapConfig from "./washMapConfig.ts";
+import washMapConfig from "./washMapConfig";
 
 try {
   // Fetch appConfig which contains some necessary settings,

@@ -4,11 +4,11 @@ import { f7, f7ready, App, View, Panel } from "framework7-react";
 import { Framework7Parameters } from "framework7/types";
 
 import capacitorApp from "../js/capacitor-app";
-import routes from "../js/routes.js";
-import store from "../js/store.ts";
+import routes from "../js/routes";
+import store from "../js/store";
 
-import { enableGeolocation, initOLMap } from "../js/olMap.js";
-import DemoMessageSheet from "./DemoMessageSheet.tsx";
+import { enableGeolocation, initOLMap } from "../js/olMap";
+import DemoMessageSheet from "./DemoMessageSheet";
 
 const Audioguide = () => {
   console.log("Audioguide renders");

@@ -18,8 +18,7 @@ import { Feature } from "openlayers";
 
 import { activateGuide } from "../js/olMap";
 
-import { getAssets } from "../js/getAssets.js";
-import ChipComponent from "framework7/components/chip";
+import { getAssets } from "../js/getAssets";
 
 export default function GuidePreviewFeatureContent({ f }) {
   let pointFeature: Feature | null = null;

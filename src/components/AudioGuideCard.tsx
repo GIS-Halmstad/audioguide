@@ -9,7 +9,7 @@ import {
   CardHeader,
   Link,
 } from "framework7-react";
-import { getAssets } from "../js/getAssets.js";
+import { getAssets } from "../js/getAssets";
 
 function AudioguideCard({ c }) {
   const images = getAssets(c, "images");

@@ -3,11 +3,8 @@ import "../css/olMap.css";
 import proj4 from "proj4";
 import { register } from "ol/proj/proj4";
 
-import Map from "ol/Map";
-
-import View from "ol/View";
-import { ScaleLine } from "ol/control.js";
-
+import { Map, View, Feature, Geolocation } from "ol";
+import { ScaleLine } from "ol/control";
 import Point from "ol/geom/Point";
 // import OSM from "ol/source/OSM";
 // import TileLayer from "ol/layer/Tile";
@@ -19,7 +16,6 @@ import { Circle as CircleStyle, Fill, Stroke, Style, Text } from "ol/style";
 import store from "./store";
 
 import { createLayersFromConfig } from "./olHelpers";
-import { Feature, Geolocation } from "ol";
 
 const defaultStyle = {
   // Takes effect only for points
