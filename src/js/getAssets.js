@@ -15,6 +15,9 @@
  * @returns {string[]} URLs to assets.
  */
 export const getAssets = (feature, type) => {
+  const stopNumber = feature?.get("stopNumber")
+    ? `${feature?.get("stopNumber")}/`
+    : "";
   return (
     feature
       ?.get(type)
@@ -26,8 +29,8 @@ export const getAssets = (feature, type) => {
           return e;
         } else {
           // Prepare a relative URL on the format:
-          // {type of asset}/{guide ID}/{asset's file name in DB}
-          return `${type}/${feature.get("guideId")}/${e}`;
+          // /media/{guideId}/{optional stopNumber}/{type of asset}/{asset's file name in DB}
+          return `media/${feature.get("guideId")}/${stopNumber}${type}/${e}`;
         }
       }) || []
   );

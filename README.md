@@ -135,7 +135,7 @@ The linked assets will be shown in the app on a corresponding place in the UI.
 
 If you wish to use the relative URLs, here's there recommended approach.
 
-The assets must be placed inside the corresponding directory within `public/`, e.g. `public/audios` or `public/images`. _Furthermore, each asset type directory must contain directories whose names correspond to the value of `guideId`._
+The assets must be placed inside the corresponding directory within `public/media/{guideId}/{optional stopNumber if point feature}/{"images"|"audios"|"videos"}/{fileName.extension}`.
 
 E.g. consider the following data in table:
 
@@ -157,15 +157,33 @@ Let's look closer at the first two lines of the results above.
 The results implies that the app will expect the following files to exist:
 
 ```sh
-public/images
-├── 1           <-- dir name corresponds to `guideId`
-│   ├── 1.jpg
-│   ├── 2.jpg
-│   ├── 3.jpg
-│   └── 4.jpg
-├── 2           <-- dir name corresponds to `guideId`
-│   ├── 1.jpg
-│   └── 2.jpg
+└── media
+    ├── 1                             <-- guideId
+    │   ├── 1                         <-- stopNumber
+    │   │   ├── audios
+    │   │   │   └── audio.m4a         <-- audio file for the first stop on the guide with ID 1
+    │   │   └── images
+    │   │       ├── 1.jpg             <-- image for the first stop on the guide with ID 1
+    │   │       ├── 2.jpg             <-- another image for the first stop on the guide with ID 1
+    │   │       └── 3.jpg             <-- yet another image for the first stop on the guide with ID 1
+    │   ├── 2
+    │   │   ├── audios
+    │   │   │   └── second_stop.m4a   <-- audio file for the second stop on the guide with ID 1
+    │   │   └── images
+    │   │       └── 4.jpg             <-- image for the second stop on the guide with ID 1
+    │   └── images
+    │       └── 1.jpg                 <-- image to show on the overview page for guide with ID 1
+    └── 2                             <-- guideId
+        ├── 1
+        │   ├── audios
+        │   │   └── 1.m4a             <-- audio file for the first stop on the guide with ID 2
+        │   └── images
+        │       └── 1.jpg
+        └── 2
+            ├── audios
+            │   └── another_audio_file.m4a <-- audio file for the first stop on the guide with ID 2
+            └── images
+                └── 2.jpg
 ```
 
 And the result of the configuration above is that:
@@ -174,8 +192,6 @@ And the result of the configuration above is that:
 - The second stop in guide with `guideId` 1 will display `4.jpg`.
 - The first stop in guide with `guideId` 2 will display `1.jpg`.
 - The second stop in guide with `guideId` 2 will display `2.jpg`.
-
-And all the files needed do exist in their respective directory, as we can see in the directory listing of `public/images`.
 
 ## Available options
 
