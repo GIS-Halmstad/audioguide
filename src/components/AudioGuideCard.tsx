@@ -54,7 +54,7 @@ function AudioguideCard({ c }) {
             onClick={handleShowGuideInMap}
             className="margin-bottom"
           >
-            Visa i karta
+            Lyssna på guiden
           </Button>
         </Block>
       </CardContent>
