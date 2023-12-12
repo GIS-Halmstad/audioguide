@@ -80,3 +80,6 @@ const root = createRoot(document.getElementById("app"));
 root.render(
   React.createElement(store.state.loadingError === false ? App : ErrorApp)
 );
+
+// Remove the loading class from BODY when we're finished rendering
+document.body.classList.remove("loading");
