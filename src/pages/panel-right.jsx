@@ -47,6 +47,7 @@ function PanelRight() {
       console.warn("SHOULD NOT SHOW");
     }
   };
+
   return (
     <Page>
       <Navbar title="Kategorifilter" />
@@ -82,6 +83,37 @@ function PanelRight() {
           })}
         </List>
       )}
+      <Block>
+        <Button
+          fill
+          className="margin-bottom"
+          onClick={() => f7.panel.close("right")}
+        >
+          Filtrera
+        </Button>
+        {f7.store.state.allCategories.length !==
+          f7.store.state.filteredCategories.length && (
+          <Button
+            color="red"
+            small
+            onClick={() => {
+              // Set filtered categories to all available
+              f7.store.dispatch(
+                "setFilteredCategories",
+                f7.store.state.allCategories
+              );
+
+              // Update map
+              updateFeaturesInMap();
+
+              // Close the panel
+              f7.panel.close("right");
+            }}
+          >
+            Återställ filter
+          </Button>
+        )}
+      </Block>
     </Page>
   );
 }
