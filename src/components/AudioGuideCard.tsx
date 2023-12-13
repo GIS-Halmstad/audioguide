@@ -5,9 +5,10 @@ import {
   Button,
   Card,
   CardContent,
-  CardFooter,
   CardHeader,
   Link,
+  Chip,
+  Icon,
 } from "framework7-react";
 import { getAssets } from "../js/getAssets";
 
@@ -17,8 +18,11 @@ function AudioguideCard({ c }) {
   const handleShowGuideInMap = async () => {
     f7.emit("olFeatureSelected", [c]);
 
-    // Switch back to map tab
-    f7.tab.show("#tab-map");
+    // Wait a while to let the Expandable Card animation happen,
+    // then, switch back to map tab.
+    setTimeout(() => {
+      f7.tab.show("#tab-map");
+    }, 600);
   };
 
   return (
@@ -41,9 +45,32 @@ function AudioguideCard({ c }) {
           iconF7="xmark_circle_fill"
         />
         <CardHeader style={{ height: "60px" }}>{c.get("title")}</CardHeader>
-        <CardFooter>
-          {`${c.get("length")} - ${c.get("categories").split(",").join(", ")}`}
-        </CardFooter>
+        {/* Chips with categories and guide length */}
+        <Block className="display-flex justify-content-space-between">
+          <div>
+            {c
+              .get("categories")
+              ?.split(",")
+              .map((c: string, i: number) => (
+                <Chip outline text={c} key={i} style={{ marginRight: "2px" }} />
+              ))}
+          </div>
+          <div>
+            <Chip
+              outline
+              text={c.get("length")}
+              tooltip={`Guidens längd är ${c.get("length")}`}
+              mediaBgColor="blue"
+            >
+              <Icon
+                slot="media"
+                ios="material:straighten"
+                md="material:straighten"
+              />
+            </Chip>
+          </div>
+        </Block>
+
         <Block>
           <div className="card-content-padding">{c.get("text")}</div>
           <Button
@@ -52,7 +79,7 @@ function AudioguideCard({ c }) {
             large
             cardClose
             onClick={handleShowGuideInMap}
-            className="margin-bottom"
+            className="margin-top margin-bottom"
           >
             Lyssna på guiden
           </Button>
