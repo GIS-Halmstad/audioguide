@@ -16,7 +16,11 @@ import {
   View,
 } from "framework7-react";
 
+import store from "../js/store";
+
 const ErrorApp = () => {
+  console.error(store.state.loadingError);
+
   return (
     <App name="Audioguide" theme="auto">
       <View main className="safe-areas">
@@ -49,8 +53,10 @@ const ErrorApp = () => {
                         Ange egen URL till tjänsten
                       </Button>
                     </Block>
+                    <Block></Block>
                     <CardFooter>
-                      Detta fel inträffade {new Date().toLocaleTimeString()}
+                      <p>{store.state.loadingError.toString()}</p>
+                      <p>Error timestamp: {new Date().toLocaleTimeString()}</p>
                     </CardFooter>
                   </AccordionContent>
                 </ListItem>

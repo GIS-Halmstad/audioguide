@@ -3,7 +3,7 @@ import { getParamValueFromHash } from "./getParamValueFromHash";
 
 const store = createStore({
   state: {
-    loadingError: false,
+    loadingError: null,
     loading: true,
     appConfig: {},
     mapConfig: {},

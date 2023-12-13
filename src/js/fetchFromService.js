@@ -26,8 +26,7 @@ const fetchFromService = async (type = "line") => {
     // Let's remove any line features that are inactivated in the DB.
     return features.filter((f) => f.get("active") !== false);
   } catch (error) {
-    console.error("Setting loading error due to error:", error);
-    store.dispatch("setLoadingError", true);
+    store.dispatch("setLoadingError", error);
     return [];
   }
 };

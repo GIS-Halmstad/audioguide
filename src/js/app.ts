@@ -67,8 +67,7 @@ try {
     store.dispatch("setFilteredCategories", categories);
   }
 } catch (error) {
-  console.error("Setting loading error due to error:", error);
-  store.dispatch("setLoadingError", true);
+  store.dispatch("setLoadingError", error);
 }
 
 // Init F7 React Plugin
@@ -78,7 +77,7 @@ Framework7.use(Framework7React);
 // Mount React App
 const root = createRoot(document.getElementById("app"));
 root.render(
-  React.createElement(store.state.loadingError === false ? App : ErrorApp)
+  React.createElement(store.state.loadingError === null ? App : ErrorApp)
 );
 
 // Remove the loading class from BODY when we're finished rendering

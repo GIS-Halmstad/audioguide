@@ -50,7 +50,7 @@ const HomePage = () => {
     useState(false);
 
   useEffect(() => {
-    loadingError === true && showNotificationFull();
+    loadingError !== null && showNotificationFull();
   }, [loadingError]);
 
   // Check if app was launched with pid and/or gid params.
