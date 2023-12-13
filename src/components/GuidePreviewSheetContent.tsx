@@ -72,6 +72,7 @@ export default function GuidePreviewSheetContent({ f }: Props) {
   };
 
   const images = getAssets(lineFeature, "images");
+
   return (
     lineFeature !== null && (
       <>
@@ -83,7 +84,19 @@ export default function GuidePreviewSheetContent({ f }: Props) {
             onClick={() => f7.sheet.stepToggle(".preview-sheet")}
           ></div>
           <Card outlineMd>
-            <CardHeader
+            <swiper-container cssMode="true" pagination space-between="50">
+              {images.map((src, i) => (
+                <swiper-slide key={i} className="swiper-slide-custom">
+                  <div
+                    className="image-container"
+                    style={{ backgroundImage: `url(${src})` }}
+                  />
+                </swiper-slide>
+              ))}
+            </swiper-container>
+            <div className="text-label-2">{lineFeature.get("title")}</div>
+
+            {/* <CardHeader
               valign="bottom"
               style={{
                 backgroundImage: `url(${images[0]})`,
@@ -108,7 +121,7 @@ export default function GuidePreviewSheetContent({ f }: Props) {
               >
                 {lineFeature.get("title")}
               </div>
-            </CardHeader>
+            </CardHeader> */}
             <CardContent
               style={{
                 ...(f7.device.ios && { paddingLeft: 0, paddingRight: 0 }),

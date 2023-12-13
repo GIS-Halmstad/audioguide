@@ -56,16 +56,13 @@ function GuideSheetContent({ activeGuideObject, activeStopNumber }) {
             />
           </div>
         </Toolbar>
-        <swiper-container
-          pagination
-          class="demo-swiper-multiple"
-          space-between="50"
-          navigation="true"
-          style={{ marginBottom: 0 }}
-        >
+        <swiper-container cssMode="true" pagination space-between="50">
           {images.map((src, i) => (
-            <swiper-slide key={i}>
-              <img src={src} />
+            <swiper-slide key={i} className="swiper-slide-custom">
+              <div
+                className="image-container"
+                style={{ backgroundImage: `url(${src})` }}
+              />
             </swiper-slide>
           ))}
         </swiper-container>
