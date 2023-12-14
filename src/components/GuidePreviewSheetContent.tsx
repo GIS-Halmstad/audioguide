@@ -14,6 +14,7 @@ import {
   CardFooter,
   List,
   ListItem,
+  Badge,
 } from "framework7-react";
 
 import {
@@ -207,9 +208,12 @@ export default function GuidePreviewSheetContent({ f }: Props) {
           <BlockTitle style={{ marginTop: 0 }}>Beskrivning</BlockTitle>
           <Block>{lineFeature.get("text")}</Block>
           <BlockTitle>Stopp längst vägen</BlockTitle>
-          <List dividersIos simpleList strong outline>
+          <List>
             {listOfStops.map((s, i) => (
-              <ListItem key={i} title={`${s.stopNumber}: ${s.title}`} />
+              <ListItem key={i}>
+                <Badge slot="media">{s.stopNumber}</Badge>
+                <div slot="title">{s.title}</div>
+              </ListItem>
             ))}
           </List>
         </div>
