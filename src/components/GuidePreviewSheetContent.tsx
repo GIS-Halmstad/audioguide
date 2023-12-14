@@ -193,14 +193,12 @@ export default function GuidePreviewSheetContent({ f }: Props) {
               >
                 Starta från början
               </Button>
-              <div className="margin-top __margin-bottom">
-                Svep upp för mer info
-              </div>
+              <div className="margin-top">Svep upp för mer info</div>
             </CardFooter>
           </Card>
         </div>
         <div
-          className="page-content "
+          className="page-content"
           style={{
             maxHeight: "27vh",
           }}

@@ -13,7 +13,7 @@ function GuideSheet() {
   return (
     <Sheet
       className="active-guide-sheet"
-      style={{ height: "auto", maxHeight: "600px" }}
+      style={{ height: "auto", maxHeight: "90vh" }}
       swipeToStep
       opened={activeGuideObject !== null}
       onSheetClosed={() => {
