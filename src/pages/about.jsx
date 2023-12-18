@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { f7, Page, Navbar, Block, Button } from "framework7-react";
+import { f7, Page, Navbar, Block, Button, Link } from "framework7-react";
 
 import { getOLMap } from "../js/olMap";
 
@@ -87,6 +87,12 @@ const About = () => {
             &copy; 2023-{new Date().getFullYear()} {audioguideLayersAttribution}
           </p>
           <p>Upphovsrätt kartinnehåll: {attributions}.</p>
+          <p>
+            Licens källkod: MIT.{" "}
+            <Link href="https://github.com/GIS-Halmstad/audioguide" external>
+              Projektet på GitHub
+            </Link>
+          </p>
         </div>
       </div>
     </Page>
