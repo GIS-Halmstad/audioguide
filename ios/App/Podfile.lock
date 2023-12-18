@@ -1,12 +1,12 @@
 PODS:
-  - Capacitor (5.5.1):
+  - Capacitor (5.6.0):
     - CapacitorCordova
   - CapacitorApp (5.0.6):
     - Capacitor
   - CapacitorBrowser (5.1.0):
     - Capacitor
-  - CapacitorCordova (5.5.1)
-  - CapacitorKeyboard (5.0.6):
+  - CapacitorCordova (5.6.0)
+  - CapacitorKeyboard (5.0.7):
     - Capacitor
   - CapacitorSplashScreen (5.0.6):
     - Capacitor
@@ -39,11 +39,11 @@ EXTERNAL SOURCES:
     :path: "../../node_modules/@capacitor/status-bar"
 
 SPEC CHECKSUMS:
-  Capacitor: 9da0a2415e3b6098511f8b5ffdb578d91ee79f8f
+  Capacitor: ebfc16cdb8116d04c101686b080342872da42d43
   CapacitorApp: 024e1b1bea5f883d79f6330d309bc441c88ad04a
   CapacitorBrowser: 7a0fb6a1011abfaaf2dfedfd8248f942a8eda3d6
-  CapacitorCordova: e128cc7688c070ca0bfa439898a5f609da8dbcfe
-  CapacitorKeyboard: b978154b024a5f65e044908e37d15b7de58b9d12
+  CapacitorCordova: 931b48fcdbc9bc985fc2f16cec9f77c794a27729
+  CapacitorKeyboard: ce5e01064cf57a2c05b32565310713b7fe6cc6f9
   CapacitorSplashScreen: 5fa2ab5e46cf5cc530cf16a51c80c7a986579ccd
   CapacitorStatusBar: 565c0a1ebd79bb40d797606a8992b4a105885309
 
