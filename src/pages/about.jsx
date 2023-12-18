@@ -3,13 +3,25 @@ import { f7, Page, Navbar, Block, Button, Link } from "framework7-react";
 
 import { getOLMap } from "../js/olMap";
 
+/**
+ * @summary Ensure that the supplied string isn't malformed by parsing it using the DOM.
+ * @description Please note that this function doesn't do any actual sanitizing, hence "pseudo".
+ * @param {string} html
+ * @returns
+ */
+function pseudoSanitize(html) {
+  const doc = document.createElement("div");
+  doc.innerHTML = html;
+  return doc.innerHTML;
+}
+
 const About = () => {
   const popup = useRef(null);
   const audioguideLayersAttribution =
     f7.store.state.mapConfig.tools.audioguide.audioguideLayersAttribution;
-  const aboutPageContent =
-    f7.store.state.mapConfig.tools.audioguide.aboutPageContent ||
-    "No about text available. Add one by setting a value for the `aboutPageContent` property in tool config.";
+  const aboutPageContentHtml =
+    f7.store.state.mapConfig.tools.audioguide.aboutPageContentHtml ||
+    "No about text available. Add one by setting a value for the `aboutPageContentHtml` property in tool config.";
 
   // Every time we render, we want to get a list of attributions
   // from currently visible layers (hence, no useEffect here).
@@ -18,13 +30,6 @@ const About = () => {
     .map((l) => l.getAttributions())
     .filter((a) => a.length)
     .join(", ");
-
-  const aboutPageParagraphs = aboutPageContent
-    .split("\\n") // Split string on new line…
-    .filter((paragraph) => paragraph.length > 0) // …and remove any empty paragraphs.
-    .map((paragraph, i) => (
-      <p key={i}>{paragraph}</p> // Wrap each paragraph into a P element and render.
-    ));
 
   const createTechnicalPopup = () => {
     console.log(f7.store.state);
@@ -74,7 +79,13 @@ const About = () => {
         className="display-flex flex-direction-column justify-content-space-between"
         style={{ height: "100%" }}
       >
-        <Block className="page-content">{aboutPageParagraphs}</Block>
+        <Block className="page-content" style={{ marginTop: 0 }}>
+          <div
+            dangerouslySetInnerHTML={{
+              __html: pseudoSanitize(aboutPageContentHtml),
+            }}
+          />
+        </Block>
         <div
           style={{ fontSize: "x-small" }}
           className={"margin-left margin-right margin-bottom"}
