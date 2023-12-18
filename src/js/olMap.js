@@ -17,6 +17,9 @@ import store from "./store";
 
 import { createLayersFromConfig } from "./olHelpers";
 
+const POINT_VISIBILITY_THRESHOLD = 3;
+const POINT_TEXT_VISIBILITY_THRESHOLD = 1;
+
 const defaultStyle = {
   // Takes effect only for points
   fillColor: "orange",
@@ -54,7 +57,7 @@ function styleFunction(feature, resolution) {
   return new Style({
     ...(feature.getGeometry().getType() === "Point" &&
       // Points should only show when we zoom in
-      resolution < 3 && {
+      resolution <= POINT_VISIBILITY_THRESHOLD && {
         image: new CircleStyle({
           fill: new Fill({
             color: fillColor,
@@ -70,7 +73,7 @@ function styleFunction(feature, resolution) {
           textBaseline: "middle",
           font: "normal 13pt sans-serif",
           text:
-            resolution < 1
+            resolution <= POINT_TEXT_VISIBILITY_THRESHOLD
               ? `${feature.get("stopNumber").toString()}\n${feature.get(
                   "title"
                 )}`
@@ -88,10 +91,22 @@ function styleFunction(feature, resolution) {
   });
 }
 
-function selectedStyleFunction(feature, resolution) {
-  const normalStyle = styleFunction(feature, resolution);
+// eslint-disable-next-line
+function selectedStyleFunction(feature, actualResolution) {
+  // We ignore the actualResolution and favor the smallest one
+  // that is used as a threshold in our style definition, i.e.
+  // POINT_TEXT_VISIBILITY_THRESHOLD. This way we ensure that
+  // all the parameters that we expect on the style will be available
+  // at all times - regardless of the current zoom level. Without this
+  // we could run into "getImage() is not available" when the app
+  // started with a pre-selected feature and the View hasn't yet
+  // animated close enough.
+  const normalStyle = styleFunction(feature, POINT_TEXT_VISIBILITY_THRESHOLD);
   if (feature.getGeometry().getType() === "Point") {
-    const normalRadius = normalStyle.getImage().getRadius();
+    // If app is launched with a point pre-selected, there won't be anything
+    // to read the radius from, as the style is hidden at the zoom level
+    // from start. So we must fallback to a standard value.
+    const normalRadius = normalStyle.getImage().getRadius() || 5;
     normalStyle.getImage().setRadius(normalRadius * 3);
     normalStyle.getText().setFont("bold 15pt sans-serif");
   } else if (feature.getGeometry().getType() === "LineString") {
