@@ -180,6 +180,7 @@ async function initOLMap(f7) {
       projection: config.map.projection,
       resolutions: config.map.resolutions,
       units: "m",
+      padding: [0, 0, 0, 0], // Can be adjusted, to make room for Sheet overlays
       zoom: config.map.zoom,
     }),
   });
@@ -194,7 +195,12 @@ async function initOLMap(f7) {
 
   // Handle geolocation error
   geolocation.on("error", function (error) {
+    // TODO: Add error show to user.
     console.warn(error);
+
+    // Dispatch the error only if its code differs from the one in state
+    store.state.geolocationError?.code !== error.code &&
+      store.dispatch("setGeolocationError", error);
   });
 
   // Create an accuracy feature…
@@ -292,6 +298,12 @@ async function initOLMap(f7) {
     }
   });
 
+  f7.on("adjustForHeight", (overlayHeight) => {
+    // The "padding" member of the View instance is an Array where
+    // the bottom padding distance is the third element.
+    olMap.getView().padding[2] = overlayHeight;
+  });
+
   olMap.addInteraction(selectInteraction);
 
   updateFeaturesInMap();
@@ -316,6 +328,7 @@ const fitToAvailableFeatures = () => {
 const updateFeaturesInMap = () => {
   removeAllFeatures();
   addFeatures(store.getters.filteredFeatures.value);
+  olMap.getView().padding[2] = 0;
   fitToAvailableFeatures();
 };
 
@@ -350,9 +363,14 @@ const enableGeolocation = () => {
 
 const getClosestStopNumberFromCurrentPosition = (guideId) => {
   try {
+    const currentPosition = geolocation.getPosition();
+    if (currentPosition === undefined) {
+      return 1;
+    }
+
     // Grab the Feature in our Source that is closest to the current location, but…
     const closestPoint = audioguideSource.getClosestFeatureToCoordinate(
-      geolocation.getPosition(),
+      currentPosition,
       (f) => {
         return (
           // …let's filter so we only match the current guide's guideId, and…

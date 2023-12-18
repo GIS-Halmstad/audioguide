@@ -4,6 +4,7 @@ import { getParamValueFromHash } from "./getParamValueFromHash";
 const store = createStore({
   state: {
     loadingError: null,
+    geolocationError: null,
     loading: true,
     appConfig: {},
     mapConfig: {},
@@ -18,6 +19,9 @@ const store = createStore({
   actions: {
     setLoadingError({ state }, v) {
       state.loadingError = v;
+    },
+    setGeolocationError({ state }, v) {
+      state.geolocationError = v;
     },
     setLoading({ state }, v) {
       state.loading = v;
@@ -55,6 +59,9 @@ const store = createStore({
   getters: {
     loadingError({ state }) {
       return state.loadingError;
+    },
+    geolocationError({ state }) {
+      return state.geolocationError;
     },
     loading({ state }) {
       return state.loading;

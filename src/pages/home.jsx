@@ -44,6 +44,7 @@ const HomePage = () => {
 
   // useStore hook where we need reactivity
   const loadingError = useStore("loadingError");
+  const geolocationError = useStore("geolocationError");
   const loading = useStore("loading");
 
   const [backgroundLayersActionsGrid, setBackgroundLayersActionsGrid] =
@@ -90,7 +91,7 @@ const HomePage = () => {
         f7.tab.show("#tab-map");
       }
     }
-  }, [f7, getParamValueFromHash]);
+  }, []);
 
   const onPageBeforeOut = () => {
     f7.notification.close();
@@ -103,6 +104,17 @@ const HomePage = () => {
 
   const handleClickOnFabBackgrounds = () => {
     setBackgroundLayersActionsGrid(true);
+  };
+
+  const handleClickOnGeolocation = () => {
+    if (geolocationError === null) {
+      f7.emit("olCenterOnGeolocation");
+    } else {
+      f7.dialog.alert(
+        "För att använda funktionen måste du tillåta appen att ta del av din position.",
+        "Kan inte positionera"
+      );
+    }
   };
 
   return (
@@ -157,12 +169,7 @@ const HomePage = () => {
           <Fab position="right-top" onClick={handleClickOnFabBackgrounds}>
             <Icon ios="f7:layers" md="material:layers" />
           </Fab>
-          <Fab
-            position="left-top"
-            onClick={() => {
-              f7.emit("olCenterOnGeolocation");
-            }}
-          >
+          <Fab position="left-top" onClick={handleClickOnGeolocation}>
             <Icon ios="f7:location" md="material:near_me" />
           </Fab>
         </Tab>

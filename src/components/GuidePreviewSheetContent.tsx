@@ -15,6 +15,7 @@ import {
   List,
   ListItem,
   Badge,
+  useStore,
 } from "framework7-react";
 
 import {
@@ -50,6 +51,8 @@ export default function GuidePreviewSheetContent({ f }: Props) {
   } else {
     lineFeature = f;
   }
+
+  const geolocationError = useStore("geolocationError");
 
   const listOfStops: StopObject[] = useMemo(() => {
     return f7.store.state.allPoints
@@ -96,33 +99,6 @@ export default function GuidePreviewSheetContent({ f }: Props) {
               ))}
             </swiper-container>
             <div className="text-label-2">{lineFeature.get("title")}</div>
-
-            {/* <CardHeader
-              valign="bottom"
-              style={{
-                backgroundImage: `url(${images[0]})`,
-                padding: 0,
-                height: "30vh",
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-                color: "#fff",
-              }}
-            >
-              <div
-                style={{
-                  position: "absolute",
-                  bottom: 0,
-                  width: "100%",
-                  backgroundColor: "rgba(100,100,100,0.6)",
-                  textAlign: "center",
-                  textTransform: "uppercase",
-                  fontWeight: "bold",
-                  fontSize: "1.2rem",
-                }}
-              >
-                {lineFeature.get("title")}
-              </div>
-            </CardHeader> */}
             <CardContent
               style={{
                 ...(f7.device.ios && { paddingLeft: 0, paddingRight: 0 }),
@@ -174,18 +150,22 @@ export default function GuidePreviewSheetContent({ f }: Props) {
                   Starta från stopp {pointFeature.get("stopNumber")}
                 </Button>
               ) : (
-                <Button
-                  fill
-                  round
-                  large
-                  sheetClose
-                  onClick={() => handleActivateGuide()}
-                >
-                  Starta från närmaste
-                </Button>
+                geolocationError === null && (
+                  <Button
+                    fill
+                    round
+                    large
+                    sheetClose
+                    onClick={() => handleActivateGuide()}
+                  >
+                    Starta från närmaste
+                  </Button>
+                )
               )}
               <Button
-                outline
+                outline={geolocationError === null} // outline if this action is secondary
+                fill={geolocationError !== null} // fill if this action is primary (i.e. if geolocation isn't available)
+                large={geolocationError !== null} // large if this action is primary (i.e. if geolocation isn't available)
                 round
                 sheetClose
                 onClick={() => handleActivateGuide(1)}
