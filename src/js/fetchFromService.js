@@ -26,8 +26,9 @@ const fetchFromService = async (type = "line") => {
     // Let's remove any line features that are inactivated in the DB.
     return features.filter((f) => f.get("active") !== false);
   } catch (error) {
-    store.dispatch("setLoadingError", error);
-    return [];
+    throw new Error(`Fetching ${type} geometries from service failed`, {
+      cause: error,
+    });
   }
 };
 
