@@ -64,6 +64,9 @@ const Audioguide = () => {
     // Let's tell the store (and React Components using
     // the useStore hook) that we're done initiating.
     store.dispatch("setLoading", false);
+    store.dispatch("trackAnalyticsEvent", {
+      eventName: "loadSuccess",
+    });
     console.log("APP INIT DONE, current state", store.state);
   });
 

@@ -23,6 +23,9 @@ import fetchFromService from "./fetchFromService";
 
 import washMapConfig from "./washMapConfig";
 
+// The second argument is empty because… type definition for dispatch().
+store.dispatch("trackAnalyticsPageview", {});
+
 try {
   // Fetch appConfig which contains some necessary settings,
   // such as the base URL for our API.

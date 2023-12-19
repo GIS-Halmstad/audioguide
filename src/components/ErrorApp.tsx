@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import {
   f7,
@@ -19,7 +19,13 @@ import {
 import store from "../js/store";
 
 const ErrorApp = () => {
-  console.error(store.state.loadingError);
+  useEffect(() => {
+    console.error(store.state.loadingError);
+    store.dispatch("trackAnalyticsEvent", {
+      eventName: "loadError",
+      reason: store.state.loadingError.message,
+    });
+  }, []);
 
   return (
     <App name="Audioguide" theme="auto">

@@ -75,7 +75,14 @@ In order to tell the Audioguide app where to find the required Hajk API, you mus
 ```jsonc
 {
   "mapServiceBase": "http://localhost:3002/api/v2", // URL to the Hajk API
-  "mapName": "demo" // Name of the map that contains the Audioguide tool options (see below)
+  "mapName": "audio", // Name of the map that contains the Audioguide tool options (see below)
+  "showDemoMessage": false, // If true, a basic info will be shown on app launch saying that this is a demo app
+  "analytics": {
+    "type": "plausible", // Analytics service. Currently only "plausible" is implemented.
+    "domain": "audioguide.example.com", // Site identifier. Refer to Plausible's docs for more info.
+    "apiHost": "https://plausible.io", // URL to service. Refer to Plausible's docs for more info.
+    "trackLocalhost": false // If localhost should be included. Refer to Plausible's docs for more info.
+  }
 }
 ```
 

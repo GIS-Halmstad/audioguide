@@ -1,6 +1,24 @@
 import { createStore } from "framework7/lite/bundle";
 import { getParamValueFromHash } from "./getParamValueFromHash";
+import { analytics } from "../../public/appConfig.json";
 
+// We have two 'actions' further down that expect these functions
+// exist. As we can not know (at this time) whether they'll be
+// imported or not in the next step, we must provide a mock implementation.
+let trackPageview = () => {};
+let trackEvent = (a: string, b: {}) => {};
+
+// Now let's consult our appConfig to see if any analytics implementation
+// has been configured.
+if (analytics?.type === "plausible") {
+  const { TrackerPlausible } = await import("./trackerPlausible");
+
+  // Swap the mock implementation into the actual one
+  trackPageview = TrackerPlausible.trackPageview;
+  trackEvent = TrackerPlausible.trackEvent;
+}
+
+// Create the Store itself
 const store = createStore({
   state: {
     loadingError: null,
@@ -17,6 +35,12 @@ const store = createStore({
   },
 
   actions: {
+    trackAnalyticsPageview() {
+      trackPageview();
+    },
+    trackAnalyticsEvent({}, { eventName, ...rest }) {
+      trackEvent(eventName, { props: rest });
+    },
     setLoadingError({ state }, v) {
       state.loadingError = v;
     },

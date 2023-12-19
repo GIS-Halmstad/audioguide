@@ -1,5 +1,11 @@
 {
     "mapServiceBase": "http://localhost:3002/api/v2",
     "mapName": "audio",
-    "showDemoMessage": false
+    "showDemoMessage": false,
+    "analytics": {
+        "type": "plausible",
+        "domain": "audioguide.example.com",
+        "apiHost": "https://plausible.io",
+        "trackLocalhost": false
+    }
 }
