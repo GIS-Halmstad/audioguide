@@ -9,14 +9,19 @@ import {
   Link,
   Chip,
   Icon,
+  Badge,
 } from "framework7-react";
 import { getAssets } from "../js/getAssets";
+import { DEFAULT_STROKE_COLOR } from "../js/constants";
 
-function AudioguideCard({ c }) {
-  const images = getAssets(c, "images");
+function AudioguideCard({ feature }) {
+  const parsedStyle = JSON.parse(feature.get("style")) || {
+    strokeColor: DEFAULT_STROKE_COLOR,
+  };
+  const images = getAssets(feature, "images");
 
   const handleShowGuideInMap = async () => {
-    f7.emit("olFeatureSelected", [c]);
+    f7.emit("olFeatureSelected", [feature]);
 
     // Wait a while to let the Expandable Card animation happen,
     // then, switch back to map tab.
@@ -44,11 +49,14 @@ function AudioguideCard({ c }) {
           style={{ position: "absolute", right: "15px", top: "15px" }}
           iconF7="xmark_circle_fill"
         />
-        <CardHeader style={{ height: "60px" }}>{c.get("title")}</CardHeader>
+        <CardHeader style={{ height: "60px" }}>
+          <div>{feature.get("title")}</div>
+          <Badge color={parsedStyle.strokeColor}></Badge>
+        </CardHeader>
         {/* Chips with categories and guide length */}
         <Block className="display-flex justify-content-space-between">
           <div>
-            {c
+            {feature
               .get("categories")
               ?.split(",")
               .map((c: string, i: number) => (
@@ -58,8 +66,8 @@ function AudioguideCard({ c }) {
           <div>
             <Chip
               outline
-              text={c.get("length")}
-              tooltip={`Guidens längd är ${c.get("length")}`}
+              text={feature.get("length")}
+              tooltip={`Guidens längd är ${feature.get("length")}`}
               mediaBgColor="blue"
             >
               <Icon
@@ -72,7 +80,7 @@ function AudioguideCard({ c }) {
         </Block>
 
         <Block>
-          <div className="card-content-padding">{c.get("text")}</div>
+          <div className="card-content-padding">{feature.get("text")}</div>
           <Button
             fill
             round

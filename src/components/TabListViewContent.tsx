@@ -8,7 +8,7 @@ function TabListViewContent() {
 
   return filteredFeatures
     .filter((f) => f.get("length")) // Only line features will have the "length" property
-    .map((c, i) => <AudioguideCard c={c} key={i} />);
+    .map((f, i) => <AudioguideCard feature={f} key={i} />);
 }
 
 export default TabListViewContent;

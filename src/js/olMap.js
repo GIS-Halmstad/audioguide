@@ -18,17 +18,23 @@ import store from "./store";
 import { createLayersFromConfig } from "./olHelpers";
 import { wrapText } from "./utils";
 
-const POINT_VISIBILITY_THRESHOLD = 3;
-const POINT_TEXT_VISIBILITY_THRESHOLD = 0.6;
+import {
+  DEFAULT_FILL_COLOR,
+  DEFAULT_STROKE_COLOR,
+  POINT_CIRCLE_RADIUS,
+  POINT_TEXT_VISIBILITY_THRESHOLD,
+  POINT_VISIBILITY_THRESHOLD,
+  STROKE_WIDTH,
+} from "./constants";
 
 const defaultStyle = {
   // Takes effect only for points
-  fillColor: "orange",
-  circleRadius: 5,
+  fillColor: DEFAULT_FILL_COLOR,
+  circleRadius: POINT_CIRCLE_RADIUS,
 
   // Affects both points and lines
-  strokeColor: "orange",
-  strokeWidth: 2,
+  strokeColor: DEFAULT_STROKE_COLOR,
+  strokeWidth: STROKE_WIDTH,
 };
 
 let olMap,
