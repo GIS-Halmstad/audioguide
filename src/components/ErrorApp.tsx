@@ -43,6 +43,8 @@ const ErrorApp = () => {
                   <AccordionContent>
                     <Block>
                       <Button
+                        fill
+                        className="margin-top margin-bottom"
                         onClick={() => {
                           f7.dialog.prompt(
                             "Ange egen URL till mapservice-tjänsten. Lämna tomt för att använda standardvärde.",
@@ -58,9 +60,26 @@ const ErrorApp = () => {
                       >
                         Ange egen URL till tjänsten
                       </Button>
+                      <Button
+                        color="red"
+                        onClick={() => {
+                          localStorage.removeItem("overrideMapServiceBaseUrl");
+                          f7.dialog.alert(
+                            "URL:en har återställs till standardvärde. Appen kommer nu att ladda om.",
+                            () => {
+                              window.location.reload();
+                            }
+                          );
+                        }}
+                      >
+                        Nollställ egen URL till tjänsten
+                      </Button>
                     </Block>
-                    <Block></Block>
-                    <CardFooter>
+                    <CardFooter
+                      className="display-block"
+                      style={{ fontFamily: "monospace" }}
+                    >
+                      <hr />
                       <p>{store.state.loadingError.toString()}</p>
                       <p>Error timestamp: {new Date().toLocaleTimeString()}</p>
                     </CardFooter>
