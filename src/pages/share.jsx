@@ -1,24 +1,6 @@
 import React from "react";
 import { Page, Navbar, Block, BlockTitle, Button } from "framework7-react";
-
-const copyToClipboard = () => {
-  const blobText = new Blob([window.location.href], {
-    type: "text/plain",
-  });
-
-  const data = [
-    new ClipboardItem({
-      "text/plain": blobText,
-    }),
-  ];
-
-  navigator.clipboard.write(data).then(
-    () => {
-      alert("Adressen har kopierats till urklipp");
-    },
-    () => {}
-  );
-};
+import { copyToClipboard } from "../js/utils";
 
 const Share = () => (
   <Page>
@@ -31,7 +13,7 @@ const Share = () => (
       </p>
     </Block>
     <Block>
-      <Button large onClick={copyToClipboard}>
+      <Button large onClick={() => copyToClipboard(window.location.href)}>
         Kopiera till urklipp
       </Button>
     </Block>

@@ -13,6 +13,7 @@ import {
 } from "framework7-react";
 import { getAssets } from "../js/getAssets";
 import { DEFAULT_STROKE_COLOR } from "../js/constants";
+import { copyToClipboard } from "../js/utils";
 
 function AudioguideCard({ feature }) {
   const parsedStyle = JSON.parse(feature.get("style")) || {
@@ -28,6 +29,16 @@ function AudioguideCard({ feature }) {
     setTimeout(() => {
       f7.tab.show("#tab-map");
     }, 600);
+  };
+
+  const handleCopyLinkToGuide = () => {
+    // Remove any possibly existing hash params and grab the first part.
+    const hrefWithoutHash = window.location.href.split("#")[0];
+
+    copyToClipboard(
+      `${hrefWithoutHash}#g=${feature.get("guideId")}`,
+      "Kopierat!"
+    );
   };
 
   return (
@@ -90,6 +101,13 @@ function AudioguideCard({ feature }) {
             className="margin-top margin-bottom"
           >
             Lyssna på guiden
+          </Button>
+          <Button
+            round
+            onClick={handleCopyLinkToGuide}
+            className="margin-top margin-bottom"
+          >
+            Kopiera länk till guide
           </Button>
         </Block>
       </CardContent>
