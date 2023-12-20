@@ -42,9 +42,9 @@ function GuideSheetContent({ activeGuideObject, activeStopNumber }) {
   return (
     <>
       {/* Initial step in the sheet must be within .sheet-modal-swipe-step */}
-      <div className="sheet-modal-swipe-step">
+      <div className="sheet-modal-swipe-step padding-bottom-half">
         <Toolbar>
-          <div></div>
+          <div>{/* Empty left, in order to get the cross on right */}</div>
           <div>
             <Link
               iconIos="f7:xmark_circle_fill"
@@ -91,36 +91,40 @@ function GuideSheetContent({ activeGuideObject, activeStopNumber }) {
               </audio>
             </Block>
           </CardContent>
-          <CardFooter>
-            <Block className="display-flex justify-content-space-between">
-              {
-                <Button
-                  iconMd="material:arrow_back"
-                  iconIos="f7:chevron_left"
-                  disabled={!showPrev}
-                  onClick={() => {
-                    goToStopNumber(activeStopNumber - 1);
-                  }}
-                />
-              }
-              <div className="text-align-center">Svep upp för att läsa mer</div>
-              {(showNext || true) && (
-                <Button
-                  iconMd="material:arrow_forward"
-                  iconIos="f7:chevron_right"
-                  disabled={!showNext}
-                  onClick={() => {
-                    goToStopNumber(activeStopNumber + 1);
-                  }}
-                />
-              )}
-            </Block>
+          <CardFooter className="display-flex justify-content-space-between no-padding-left no-padding-right">
+            <Button
+              tonal={showPrev}
+              iconMd="material:arrow_back"
+              iconIos="f7:chevron_left"
+              disabled={!showPrev}
+              onClick={() => {
+                goToStopNumber(activeStopNumber - 1);
+              }}
+            />
+            <div
+              className="text-align-center"
+              style={{
+                lineHeight: "1.7rem",
+                fontStyle: "italic",
+              }}
+            >
+              Svep upp för mer info
+            </div>
+            <Button
+              tonal={showNext}
+              iconMd="material:arrow_forward"
+              iconIos="f7:chevron_right"
+              disabled={!showNext}
+              onClick={() => {
+                goToStopNumber(activeStopNumber + 1);
+              }}
+            />
           </CardFooter>
         </Card>
       </div>
 
       <div className="page-content" style={{ maxHeight: "27vh" }}>
-        <BlockTitle style={{ marginTop: 0 }}>{title}</BlockTitle>
+        <BlockTitle className="no-margin-top">{title}</BlockTitle>
         <Block>{text}</Block>
       </div>
     </>

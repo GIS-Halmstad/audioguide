@@ -463,7 +463,7 @@ const animateToPoint = (coords) => {
   olMap.getView().animate({
     center: coords,
     duration: 1000,
-    zoom: 10,
+    zoom: 9,
   });
 };
 
