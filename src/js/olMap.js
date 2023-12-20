@@ -16,9 +16,10 @@ import { Circle as CircleStyle, Fill, Stroke, Style, Text } from "ol/style";
 import store from "./store";
 
 import { createLayersFromConfig } from "./olHelpers";
+import { wrapText } from "./utils";
 
 const POINT_VISIBILITY_THRESHOLD = 3;
-const POINT_TEXT_VISIBILITY_THRESHOLD = 1;
+const POINT_TEXT_VISIBILITY_THRESHOLD = 0.6;
 
 const defaultStyle = {
   // Takes effect only for points
@@ -52,8 +53,6 @@ function styleFunction(feature, resolution) {
     ...parsedStyle,
   };
 
-  // TODO: Document these changed in README, 'style' is a new JSONB column.
-
   return new Style({
     ...(feature.getGeometry().getType() === "Point" &&
       // Points should only show when we zoom in
@@ -71,14 +70,15 @@ function styleFunction(feature, resolution) {
         text: new Text({
           textAlign: "center",
           textBaseline: "middle",
-          font: "normal 13pt sans-serif",
+          font: "bold 11pt sans-serif",
           text:
             resolution <= POINT_TEXT_VISIBILITY_THRESHOLD
-              ? `${feature.get("stopNumber").toString()}\n${feature.get(
-                  "title"
+              ? `${feature.get("stopNumber").toString()}\n${wrapText(
+                  feature.get("title"),
+                  32
                 )}`
               : feature.get("stopNumber").toString(),
-          fill: new Fill({ color: "black" }),
+          fill: new Fill({ color: strokeColor }),
           stroke: new Stroke({ color: "white", width: 2 }),
         }),
       }),
@@ -86,6 +86,14 @@ function styleFunction(feature, resolution) {
       stroke: new Stroke({
         color: strokeColor,
         width: strokeWidth,
+      }),
+      text: new Text({
+        placement: "line",
+        overflow: true,
+        font: "bold 12pt sans-serif",
+        text: feature.get("title").toString(),
+        fill: new Fill({ color: strokeColor }),
+        stroke: new Stroke({ color: "white", width: 2 }),
       }),
     }),
   });
@@ -111,7 +119,7 @@ function selectedStyleFunction(feature, actualResolution) {
     normalStyle.getText().setFont("bold 15pt sans-serif");
   } else if (feature.getGeometry().getType() === "LineString") {
     const normalStrokeWidth = normalStyle.getStroke().getWidth();
-    normalStyle.getStroke().setWidth(normalStrokeWidth * 3);
+    normalStyle.getStroke().setWidth(normalStrokeWidth * 1.5);
   }
   return normalStyle;
 }
@@ -146,6 +154,7 @@ async function initOLMap(f7) {
     zIndex: 5000,
     name: "pluginAudioguideAllGuides",
     caption: "All audioguides",
+    declutter: true,
     style: styleFunction,
   });
 
@@ -159,6 +168,7 @@ async function initOLMap(f7) {
     name: "pluginAudioguideActiveGuide",
     caption: "Active audioguide",
     visible: false, // Start with hidden
+    declutter: true,
     style: styleFunction,
   });
 
