@@ -474,16 +474,32 @@ const animateToPoint = (coords) => {
 };
 
 const goToStopNumber = (stopNumber) => {
-  console.log("go to stopNumber: ", stopNumber);
-  const coords = activeGuideSource
-    .getFeatures()
-    .find((f) => f.get("stopNumber") === stopNumber)
-    .getGeometry()
-    .getCoordinates();
-  animateToPoint(coords);
+  // Helper function that does the real job.
+  const navigateToStop = (stopNumber) => {
+    const stopFeature = activeGuideSource
+      .getFeatures()
+      .find((f) => f.get("stopNumber") === stopNumber);
 
-  // Tell the UI
-  store.dispatch("setActiveStopNumber", stopNumber);
+    const coords = stopFeature.getGeometry().getCoordinates();
+    animateToPoint(coords);
+
+    store.dispatch("setActiveStopNumber", stopNumber);
+  };
+
+  const audioElement = document.querySelector("audio");
+  if (audioElement && !audioElement.paused) {
+    const confirmMessage =
+      "Ljud spelas upp. Om du byter steg avbryts uppspelning. Är du säker på att du vill byta steg?";
+    if (confirm(confirmMessage)) {
+      audioElement.pause();
+      audioElement.currentTime = 0;
+      navigateToStop(stopNumber);
+    } else {
+      // Abort and continue listening
+    }
+  } else {
+    navigateToStop(stopNumber);
+  }
 };
 
 const deactivateGuide = () => {
