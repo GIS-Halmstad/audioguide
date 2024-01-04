@@ -33,15 +33,19 @@ try {
   const appConfig = await appConfigResponse.json();
   store.dispatch("setAppConfig", appConfig);
 
-  // Let's give the user a change to override the MapServiceBase URL
+  // Let's give the user a chance to override the MapServiceBase URL
   const mapServiceBaseUrl =
     localStorage.getItem("overrideMapServiceBaseUrl") ||
     store.state.appConfig.mapServiceBase;
   // Fetch the map config, which contains layers
   // definitions and is required before we can create
   // the OpenLayers map and add layers.
+  //
+  // Allow for supplying of static map config by setting `useStaticMapConfig` 
+  // to `true` in appConfig.json. If it exists, no Hajk backend needs to be
+  // running and the application will look for a file named `staticMapConfig.json`.
   const mapConfigResponse = await fetch(
-    `${mapServiceBaseUrl}/config/${store.state.appConfig.mapName}`
+    store.state.appConfig.useStaticMapConfig === true ? "staticMapConfig.json": `${mapServiceBaseUrl}/config/${store.state.appConfig.mapName}`
   );
   const mapConfig = await mapConfigResponse.json();
   const washedMapConfig = washMapConfig(mapConfig);

@@ -4,11 +4,11 @@ TBA
 
 ## Requirements
 
-### The database
+### The Database
 
-Create these two tables in your spatial database:
+To set up the Audioguide App, you need to create two tables in your spatial database:
 
-#### audioguide_line
+### audioguide_line
 
 ```sql
 -- public.audioguide_line definition
@@ -60,22 +60,32 @@ CREATE INDEX sidx_audioguide_point_geom ON public.audioguide_point USING gist (g
 
 ### The OGC WFS Service
 
-Publish the tables described above using a WFS service can output features as `application/json`.
+You need to publish the tables mentioned above using a WFS service that can output features as `application/json`. Make sure to note the workspace, workspace's namespace, layers' SRS, as well as the URL to the WFS service.
 
-Ensure to note the _workspace_, workspace's _namespace_, layers' _SRS_ as well the _URL_ to the WFS service.
+### Optional: The Hajk API
 
-### The Hajk API
+The Audioguide App is designed to work seamlessly with Hajk's API. If you have a recent version of the Hajk API running, you can configure the app to use your API instead of the built-in static configuration file. This allows you to easily update the app's configuration and push it to clients without requiring them to update the app itself.
 
-This app is made to work out-of-the-box with Hajk's API. This means that you should have a recent version of the Hajk API running, as you will need to add some settings to a map config file in order to configure this app.
+Please note that using the Hajk API is optional. You can also use the built-in static `simpleMapConfig.json` file to configure the Audioguide App.
 
-## Example configuration
+## Example Configuration
 
-In order to tell the Audioguide app where to find the required Hajk API, you must add the following to `public/appConfig.json`:
+### Static Configuration
+
+To use the static configuration, make sure to set `useStaticMapConfig` to `true` in your `public/appConfig.json` file. This will load the app's configuration from `public/staticMapConfig.json`. For more details on how to configure the map's extent, available projections, references to WMS layers used as backgrounds, and more, please refer to the `staticMapConfig.json` file.
+
+### Using Hajk's API to Retrieve Configuration
+
+If you want to retrieve the configuration from Hajk's API, make sure to include the following keys in your `public/appConfig.json` file. The first three keys determine which configuration to load and from where:
 
 ```jsonc
 {
+  // Settings for loading the app configuration
+  "useStaticMapConfig": false, // Do not use the static configuration
   "mapServiceBase": "http://localhost:3002/api/v2", // URL to the Hajk API
-  "mapName": "audio", // Name of the map that contains the Audioguide tool options (see below)
+  "mapName": "audio", // Name of the map that contains the Audioguide tool options (see below).
+  
+  // Other settings
   "showDemoMessage": false, // If true, a basic info will be shown on app launch saying that this is a demo app
   "analytics": {
     "type": "plausible", // Analytics service. Currently only "plausible" is implemented.
@@ -86,36 +96,36 @@ In order to tell the Audioguide app where to find the required Hajk API, you mus
 }
 ```
 
-In addition, you must add the Audioguide tool options to the map config that you specified in `appConfig.json`. Here's an example configuration:
+The map configuration that you request from the Hajk API, `audio` in this case, should include the following tool in its tools array of objects:
 
 ```jsonc
 {
-      "type": "audioguide",
-      "index": 0,
-      "options": {
-        "serviceSettings": {
-          "url": "http://localhost:8080/geoserver/ows", // URL to WFS service
-          "srsName": "EPSG:3008", // SRS
-          "featureNS": "https://pg.halmstad.se", // Workspace's namespace
-          "featurePrefix": "pg" // Workspace name
-        },
-        "title": "Audioguide",
-        "description": "Audioguide tool",
-        "audioguideLayersAttribution": "Halmstads kommun", // Used to specify the owner of audioguide layers and the tool itself (shown in About page)
-        "aboutPageContentHtml": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas vitae mi vitae purus congue convallis. Curabitur condimentum dolor sed erat rhoncus mollis. Mauris sed massa vehicula, bibendum diam sit amet, semper massa. Praesent cursus rhoncus mattis. Sed sed laoreet lectus, ac aliquet ipsum. Quisque vel risus ante. Phasellus vel mauris mauris. Nunc rhoncus mi enim, vitae facilisis magna imperdiet nec. Maecenas nec quam ipsum. Vestibulum bibendum interdum elit vel laoreet. Nulla facilisi. Fusce efficitur nisi non tristique pulvinar.</p><p>Nulla in iaculis nibh. Sed sodales eget risus nec lobortis. Pellentesque at dictum nulla, at ultrices mi. Phasellus feugiat, nisi quis egestas facilisis, ex nisl varius nulla, id interdum justo massa volutpat nisl. Integer congue, magna vitae consequat imperdiet, neque enim viverra nibh, eu aliquam nisi sem eget justo. Duis ullamcorper est ac ex dignissim, sit amet commodo massa congue. Vestibulum turpis arcu, interdum eget purus sit amet, rhoncus molestie risus. Integer fringilla molestie eros id pretium. Mauris sit amet diam id urna pulvinar auctor. Mauris sollicitudin malesuada elit in volutpat. Suspendisse blandit erat eget magna porta convallis. Quisque sollicitudin at odio nec maximus. Pellentesque ut ante id nisl iaculis egestas. Cras vestibulum elit ac sagittis semper.</p><p>In eleifend mattis nisi. Cras sit amet interdum nunc. Ut ac libero mattis, sodales orci id, aliquet mi. Curabitur lacinia tristique magna at consectetur. Fusce tempor ante sed aliquam viverra. Curabitur dapibus vehicula lorem ut feugiat. Fusce gravida nunc ligula, nec viverra massa interdum imperdiet. Proin eget velit imperdiet, eleifend nisl sed, suscipit elit. In nunc tellus, commodo nec pharetra nec, tempor porta tortor. Nullam viverra in magna ut lobortis. Pellentesque sed eros non urna varius sollicitudin. Sed maximus orci ac ultrices pellentesque. Nulla mollis sodales diam, nec luctus magna feugiat vel.</p><p>Vestibulum congue a dolor eget auctor. Aenean pulvinar laoreet orci, ac aliquet neque fringilla sit amet. Mauris tellus ligula, aliquet eu leo ac, efficitur ultricies mauris. Maecenas eget urna mi. Aenean nulla dolor, volutpat ut diam id, consequat finibus neque. Pellentesque tincidunt nulla est. Vestibulum ut ex dui.</p><p>Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur vitae mollis leo. Sed elementum sagittis quam eget euismod. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Maecenas et sapien auctor, scelerisque magna ut, tristique dolor. Curabitur vel dui eros. Cras vitae erat sodales, pulvinar nulla sed, consequat tellus. Sed malesuada, dui in aliquet lobortis, nisl justo placerat nulla, nec maximus magna mi in ex. Phasellus sed dictum magna. Nullam in egestas erat, vitae dapibus velit.</p>",
-        "target": "left",
-        "position": "right",
-        "visibleAtStart": true,
-        "visibleForGroups": []
-      }
+  "type": "audioguide",
+  "index": 0,
+  "options": {
+    "serviceSettings": {
+      "url": "http://localhost:8080/geoserver/ows", // URL to WFS service
+      "srsName": "EPSG:3008", // SRS
+      "featureNS": "https://pg.halmstad.se", // Workspace's namespace
+      "featurePrefix": "pg" // Workspace name
     },
+    "title": "Audioguide",
+    "description": "Audioguide tool",
+    "audioguideLayersAttribution": "Halmstads kommun", // Used to specify the owner of audioguide layers and the tool itself (shown in About page)
+    "aboutPageContentHtml": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas vitae mi vitae purus congue convallis. Curabitur condimentum dolor sed erat rhoncus mollis. Mauris sed massa vehicula, bibendum diam sit amet, semper massa. Praesent cursus rhoncus mattis. Sed sed laoreet lectus, ac aliquet ipsum. Quisque vel risus ante. Phasellus vel mauris mauris. Nunc rhoncus mi enim, vitae facilisis magna imperdiet nec. Maecenas nec quam ipsum. Vestibulum bibendum interdum elit vel laoreet. Nulla facilisi. Fusce efficitur nisi non tristique pulvinar.</p><p>Nulla in iaculis nibh. Sed sodales eget risus nec lobortis. Pellentesque at dictum nulla, at ultrices mi. Phasellus feugiat, nisi quis egestas facilisis, ex nisl varius nulla, id interdum justo massa volutpat nisl. Integer congue, magna vitae consequat imperdiet, neque enim viverra nibh, eu aliquam nisi sem eget justo. Duis ullamcorper est ac ex dignissim, sit amet commodo massa congue. Vestibulum turpis arcu, interdum eget purus sit amet, rhoncus molestie risus. Integer fringilla molestie eros id pretium. Mauris sit amet diam id urna pulvinar auctor. Mauris sollicitudin malesuada elit in volutpat. Suspendisse blandit erat eget magna porta convallis. Quisque sollicitudin at odio nec maximus. Pellentesque ut ante id nisl iaculis egestas. Cras vestibulum elit ac sagittis semper.</p><p>In eleifend mattis nisi. Cras sit amet interdum nunc. Ut ac libero mattis, sodales orci id, aliquet mi. Curabitur lacinia tristique magna at consectetur. Fusce tempor ante sed aliquam viverra. Curabitur dapibus vehicula lorem ut feugiat. Fusce gravida nunc ligula, nec viverra massa interdum imperdiet. Proin eget velit imperdiet, eleifend nisl sed, suscipit elit. In nunc tellus, commodo nec pharetra nec, tempor porta tortor. Nullam viverra in magna ut lobortis. Pellentesque sed eros non urna varius sollicitudin. Sed maximus orci ac ultrices pellentesque. Nulla mollis sodales diam, nec luctus magna feugiat vel.</p><p>Vestibulum congue a dolor eget auctor. Aenean pulvinar laoreet orci, ac aliquet neque fringilla sit amet. Mauris tellus ligula, aliquet eu leo ac, efficitur ultricies mauris. Maecenas eget urna mi. Aenean nulla dolor, volutpat ut diam id, consequat finibus neque. Pellentesque tincidunt nulla est. Vestibulum ut ex dui.</p><p>Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur vitae mollis leo. Sed elementum sagittis quam eget euismod. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Maecenas et sapien auctor, scelerisque magna ut, tristique dolor. Curabitur vel dui eros. Cras vitae erat sodales, pulvinar nulla sed, consequat tellus. Sed malesuada, dui in aliquet lobortis, nisl justo placerat nulla, nec maximus magna mi in ex. Phasellus sed dictum magna. Nullam in egestas erat, vitae dapibus velit.</p>",
+    "target": "left",
+    "position": "right",
+    "visibleAtStart": true,
+    "visibleForGroups": []
+  }
+}
 ```
 
-## Adding guides, including media assets and styling them
+## Adding guides, including media assets, and styling them
 
 ### Styling guide lines and points using the `style` attribute in tables
 
-In order to make the guide features (both lines and points) look differently, depending on guide, there is a `style` column in both database tables. The type of this column is `jsonb`. They can be `NULL`, but it's recommended to set different styling for the features. To do it, the following format is used (make sure to remove the comments!):
+In order to make the guide features (both lines and points) look different depending on the guide, there is a `style` column in both database tables. The type of this column is `jsonb`. They can be `NULL`, but it's recommended to set different styling for the features. To do so, use the following format (make sure to remove the comments!):
 
 ```jsonc
 // The values below are also the defaults that will be applied if `style` is `NULL` or `{}`
@@ -132,19 +142,19 @@ In order to make the guide features (both lines and points) look differently, de
 
 ### Media assets
 
-This section describes how to add the media assets (images, audio and video files) to the Audioguide App.
+This section describes how to add media assets (images, audio, and video files) to the Audioguide App.
 
-As you may have noticed, the database tables include some columns that are meant to be used to link each geometric feature with one-to-many assets. The `audioguide_point` table contains `audios`, `videos` and `images`, while `audioguide_line` table contains `images` only. Each of these columns' values should be _a comma-separated string of either relative or absolute URLs_. `NULL` is an allowed value too.
+As you may have noticed, the database tables include some columns that are meant to be used to link each geometric feature with one-to-many assets. The `audioguide_point` table contains `audios`, `videos`, and `images`, while the `audioguide_line` table contains `images` only. Each of these columns' values should be _a comma-separated string of either relative or absolute URLs_. `NULL` is also an allowed value.
 
-The linked assets will be shown in the app on a corresponding place in the UI.
+The linked assets will be shown in the app in the corresponding place in the UI.
 
 #### Recommended structure for relative URLs to media assets
 
-If you wish to use the relative URLs, here's there recommended approach.
+If you wish to use relative URLs, here's the recommended approach.
 
 The assets must be placed inside the corresponding directory within `public/media/{guideId}/{optional stopNumber if point feature}/{"images"|"audios"|"videos"}/{fileName.extension}`.
 
-E.g. consider the following data in table:
+For example, consider the following data in the table:
 
 ```sql
 SELECT "guideId", "stopNumber", images
@@ -159,9 +169,9 @@ guideId|stopNumber|images           |
       2|         2|2.jpg            |
 ```
 
-Let's look closer at the first two lines of the results above.
+Let's take a closer look at the first two lines of the results above.
 
-The results implies that the app will expect the following files to exist:
+The results imply that the app will expect the following files to exist:
 
 ```sh
 └── media
@@ -195,26 +205,26 @@ The results implies that the app will expect the following files to exist:
 
 And the result of the configuration above is that:
 
-- The first stop in guide with `guideId` 1 will display three images: `1.jpg,2.jpg,3.jpg`.
-- The second stop in guide with `guideId` 1 will display `4.jpg`.
-- The first stop in guide with `guideId` 2 will display `1.jpg`.
-- The second stop in guide with `guideId` 2 will display `2.jpg`.
+- The first stop in the guide with `guideId` 1 will display three images: `1.jpg,2.jpg,3.jpg`.
+- The second stop in the guide with `guideId` 1 will display `4.jpg`.
+- The first stop in the guide with `guideId` 2 will display `1.jpg`.
+- The second stop in the guide with `guideId` 2 will display `2.jpg`.
 
 ## Available options
 
-There are some parameters that can be sent to Hajk that'll affect this plugin's initial settings. Send them using the query string. Here's the list:
+The Audioguide App accepts some URL hash parameters (the part of the URL string that comes directly after the `#` character). They can be used to control the app's initial settings on launch. The allowed parameters are:
 
-- `c`: the _category_ that will be pre-selected.
-  - User can pre-select multiple categories, just ensure to send a comma-separated list.
-  - You must encode the strings properly. E.g. a category called `Sport & Ö-liv` should become `Sport%20%26%20%C3%96-liv`, while `The Foo/Bar Category` is `The%20Foo%2FBar%20category`.
+- `c`: the category that will be pre-selected.
+  - Users can pre-select multiple categories, just ensure to send a comma-separated list.
+  - You must properly encode the strings. For example, a category called `Sport & Ö-liv` should be encoded as `Sport%20%26%20%C3%96-liv`, while `The Foo/Bar Category` should be encoded as `The%20Foo%2FBar%20category`.
 - `g`: makes it possible to start the app with a certain guide pre-selected. The value of `g` must match the value of `guideId` in the line features table.
-- `p`: makes it possible to start the app with a specific point in a guide pre-selected. The value of `p` must correspond to the `stopNumber` value in the point features table. _Note that this requires the `g` parameter to be present too (else there's no way to know which point should be selected, as `stopNumber`s aren't unique in the table)._
+- `p`: makes it possible to start the app with a specific point in a guide pre-selected. The value of `p` must correspond to the `stopNumber` value in the point features table. _Note that this requires the `g` parameter to be present as well (otherwise there is no way to know which point should be selected, as `stopNumber`s are not unique in the table)_.
 
 ## Deploy notes
 
-The app is fully static and can be deployed using any web server. The recommended approach, however, is using Hajk API's static exposer functionality.
+The app is fully static and can be deployed using any web server. The recommended approach however, especially if you already use Hajk's API to retrieve the Audioguide App's configuration, is to use Hajk API's static exposer functionality.
 
-Basically, build the app with `npm run build`. This will result in a `www` folder. Rename it to anything you like (e.g. `audioguides`) and put in `{hajkBackend}/static/audioguides`. Next, tell Hajk's API to expose this directory by adding this directive to the `.env`: `EXPOSE_AND_RESTRICT_STATIC_AUDIOGUIDE=`. Refer to Hajk's documentation for further information.
+Basically, build the app with `npm run build`. This will result in a `www` folder. Rename it to anything you like (e.g., `audioguides`) and put it in `{hajkBackend}/static/audioguides`. Next, tell Hajk's API to expose this directory by adding this directive to the `.env` file: `EXPOSE_AND_RESTRICT_STATIC_AUDIOGUIDE=`. Refer to Hajk's documentation for further information.
 
 ### Vite
 

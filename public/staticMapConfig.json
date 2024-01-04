@@ -1,0 +1,379 @@
+{
+    "mapConfig": {
+        "projections": [
+            {
+                "code": "EPSG:3006",
+                "definition": "+proj=utm +zone=33 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs",
+                "extent": [
+                    181896.33,
+                    6101648.07,
+                    864416,
+                    7689478.3
+                ],
+                "units": null
+            },
+            {
+                "code": "EPSG:3008",
+                "definition": "+proj=tmerc +lat_0=0 +lon_0=13.5 +k=1 +x_0=150000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs ",
+                "extent": [
+                    60857.4994,
+                    6120098.8505,
+                    223225.0217,
+                    6906693.7888
+                ],
+                "units": null
+            }
+        ],
+        "tools": [
+            {
+                "type": "layerswitcher",
+                "options": {
+                    "groups": [],
+                    "baselayers": [
+                        {
+                            "id": "58",
+                            "visibleAtStart": true,
+                            "drawOrder": 0,
+                            "infobox": ""
+                        },
+                        {
+                            "id": "72",
+                            "visibleAtStart": false,
+                            "drawOrder": 0,
+                            "infobox": ""
+                        },
+                        {
+                            "id": "pxkat3",
+                            "visibleAtStart": false,
+                            "drawOrder": 0,
+                            "infobox": ""
+                        }
+                    ],
+                    "active": true,
+                    "visibleAtStart": false,
+                    "visibleAtStartMobile": false,
+                    "backgroundSwitcherBlack": false,
+                    "backgroundSwitcherWhite": false,
+                    "enableOSM": true,
+                    "showBreadcrumbs": false,
+                    "showActiveLayersView": false,
+                    "enableTransparencySlider": true,
+                    "instruction": "RGV0IGjkciDkciBkZW4gbnlhIHZlcnNpb25lbiBhdiBIYWxtc3RhZHMga29tbXVucyBwdWJsaWthIGthcnR0auRuc3Qu",
+                    "dropdownThemeMaps": true,
+                    "themeMapHeaderCaption": "AudioGuider",
+                    "visibleForGroups": [
+                        "GEODATA_ADMIN"
+                    ],
+                    "target": "toolbar",
+                    "position": "left",
+                    "width": "",
+                    "height": "auto",
+                    "title": "Bakgrundslager",
+                    "description": ""
+                },
+                "index": 2
+            },
+            {
+                "type": "audioguide",
+                "index": 1,
+                "options": {
+                    "serviceSettings": {
+                        "url": "https://karta.halmstad.se/geoserver/ows",
+                        "srsName": "EPSG:3008",
+                        "featureNS": "https://dest_halm.halmstad.se",
+                        "featurePrefix": "dest_halm"
+                    },
+                    "title": "Audioguide",
+                    "description": "Audioguide tool",
+                    "audioguideLayersAttribution": "Halmstads kommun",
+                    "aboutPageContentHtml": "<p>Lorem <a href=\"tel:+46073123456\">073 123 456</a> ipsum dolor sit amet, consectetur adipiscing elit. Maecenas vitae mi vitae purus congue convallis. Curabitur condimentum dolor sed erat rhoncus mollis. Mauris sed massa vehicula, bibendum diam sit amet, semper massa. Praesent cursus rhoncus mattis. Sed sed laoreet lectus, ac aliquet ipsum. Quisque vel risus ante. Phasellus vel mauris mauris. Nunc rhoncus mi enim, vitae facilisis magna imperdiet nec. Maecenas nec quam ipsum. Vestibulum bibendum interdum elit vel laoreet. Nulla facilisi. Fusce efficitur nisi non tristique pulvinar.</p><p>Nulla in iaculis nibh. Sed sodales eget risus nec lobortis. Pellentesque at dictum nulla, at ultrices mi. Phasellus feugiat, nisi quis egestas facilisis, ex nisl varius nulla, id interdum justo massa volutpat nisl. Integer congue, magna vitae consequat imperdiet, neque enim viverra nibh, eu aliquam nisi sem eget justo. Duis ullamcorper est ac ex dignissim, sit amet commodo massa congue. Vestibulum turpis arcu, interdum eget purus sit amet, rhoncus molestie risus. Integer fringilla molestie eros id pretium. Mauris sit amet diam id urna pulvinar auctor. Mauris sollicitudin malesuada elit in volutpat. Suspendisse blandit erat eget magna porta convallis. Quisque sollicitudin at odio nec maximus. Pellentesque ut ante id nisl iaculis egestas. Cras vestibulum elit ac sagittis semper.</p><p>In eleifend mattis nisi. Cras sit amet interdum nunc. Ut ac libero mattis, sodales orci id, aliquet mi. Curabitur lacinia tristique magna at consectetur. Fusce tempor ante sed aliquam viverra. Curabitur dapibus vehicula lorem ut feugiat. Fusce gravida nunc ligula, nec viverra massa interdum imperdiet. Proin eget velit imperdiet, eleifend nisl sed, suscipit elit. In nunc tellus, commodo nec pharetra nec, tempor porta tortor. Nullam viverra in magna ut lobortis. Pellentesque sed eros non urna varius sollicitudin. Sed maximus orci ac ultrices pellentesque. Nulla mollis sodales diam, nec luctus magna feugiat vel.</p><p>Vestibulum congue a dolor eget auctor. Aenean pulvinar laoreet orci, ac aliquet neque fringilla sit amet. Mauris tellus ligula, aliquet eu leo ac, efficitur ultricies mauris. Maecenas eget urna mi. Aenean nulla dolor, volutpat ut diam id, consequat finibus neque. Pellentesque tincidunt nulla est. Vestibulum ut ex dui.</p><p>Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur vitae mollis leo. Sed elementum sagittis quam eget euismod. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Maecenas et sapien auctor, scelerisque magna ut, tristique dolor. Curabitur vel dui eros. Cras vitae erat sodales, pulvinar nulla sed, consequat tellus. Sed malesuada, dui in aliquet lobortis, nisl justo placerat nulla, nec maximus magna mi in ex. Phasellus sed dictum magna. Nullam in egestas erat, vitae dapibus velit.</p>",
+                    "target": "left",
+                    "position": "left",
+                    "visibleAtStart": true,
+                    "visibleAtStartMobile": true,
+                    "visibleForGroups": []
+                }
+            },
+            {
+                "type": "layercomparer",
+                "index": 3,
+                "options": {
+                    "target": "toolbar",
+                    "showNonBaseLayersInSelect": false,
+                    "instruction": "",
+                    "title": "Jämför lager",
+                    "description": "Jämför två lager, sida-vid-sida, genom att dra i reglaget i kartan",
+                    "visibleAtStart": false,
+                    "visibleForGroups": []
+                }
+            }
+        ],
+        "map": {
+            "center": [
+                110600,
+                6283796
+            ],
+            "projection": "EPSG:3008",
+            "zoom": 0,
+            "maxZoom": 10,
+            "minZoom": 0,
+            "resolutions": [
+                55.99999999999999,
+                27.999999999999996,
+                13.999999999999998,
+                6.999999999999999,
+                4.199999999999999,
+                2.8,
+                1.4,
+                0.5599999999999999,
+                0.28,
+                0.112,
+                0.056
+            ],
+            "origin": [
+                72595.7168,
+                6269051.84184
+            ],
+            "extent": [
+                72595.7168,
+                6269051.84184,
+                139282.1317,
+                6313912.82227
+            ],
+            "constrainOnlyCenter": true,
+            "constrainResolution": true
+        }
+    },
+    "layersConfig": {
+        "wmslayers": [
+            {
+                "id": "58",
+                "caption": "Lantmäteriets topografiska karta (nedtonad)",
+                "internalLayerName": "",
+                "url": "https://karta.halmstad.se/geoserver/ext_lm/wms",
+                "customGetMapUrl": "",
+                "owner": "",
+                "date": "1676970523606",
+                "content": "",
+                "legend": "",
+                "legendIcon": "",
+                "projection": "EPSG:3008",
+                "layers": [
+                    "topografiska_nedtonad"
+                ],
+                "layersInfo": [
+                    {
+                        "id": "topografiska_nedtonad",
+                        "caption": "",
+                        "legend": "",
+                        "legendIcon": "",
+                        "infobox": "",
+                        "style": "",
+                        "queryable": ""
+                    }
+                ],
+                "searchFields": null,
+                "displayFields": null,
+                "visibleAtStart": false,
+                "tiled": true,
+                "showAttributeTableButton": false,
+                "opacity": 1,
+                "maxZoom": -1,
+                "minZoom": -1,
+                "minMaxZoomAlertOnToggleOnly": false,
+                "singleTile": false,
+                "hidpi": true,
+                "useCustomDpiList": true,
+                "customDpiList": [
+                    {
+                        "pxRatio": 0,
+                        "dpi": 90
+                    },
+                    {
+                        "pxRatio": 2,
+                        "dpi": 180
+                    },
+                    {
+                        "pxRatio": 3,
+                        "dpi": 270
+                    }
+                ],
+                "customRatio": 0,
+                "imageFormat": "image/png8",
+                "serverType": "geoserver",
+                "attribution": "Lantmäteriet",
+                "searchUrl": "",
+                "searchPropertyName": "",
+                "searchDisplayName": "",
+                "secondaryLabelFields": "",
+                "searchShortDisplayName": "",
+                "searchOutputFormat": "",
+                "searchGeometryField": "",
+                "infoVisible": true,
+                "infoTitle": "Topografisk karta (enkel)",
+                "infoText": "",
+                "infoUrl": "https://www.lantmateriet.se/globalassets/geodata/geodatatjanster/tf_twk.pdf",
+                "infoUrlText": "Öppna teckenförklaring i nytt fönster",
+                "infoOwner": "",
+                "timeSliderVisible": false,
+                "timeSliderStart": "",
+                "timeSliderEnd": "",
+                "version": "1.1.1",
+                "infoFormat": "application/json",
+                "infoClickSortProperty": "",
+                "infoClickSortDesc": true,
+                "infoClickSortType": "string",
+                "hideExpandArrow": false,
+                "zIndex": null
+            },
+            {
+                "id": "72",
+                "caption": "Lantmäteriets topografiska karta (färg)",
+                "internalLayerName": "",
+                "url": "https://karta.halmstad.se/geoserver/ext_lm/wms",
+                "customGetMapUrl": "",
+                "owner": "",
+                "date": "1676970543436",
+                "content": "",
+                "legend": "",
+                "legendIcon": "",
+                "projection": "EPSG:3008",
+                "layers": [
+                    "topografiska_farg"
+                ],
+                "layersInfo": [
+                    {
+                        "id": "topografiska_farg",
+                        "caption": "",
+                        "legend": "",
+                        "legendIcon": "",
+                        "infobox": "",
+                        "style": "",
+                        "queryable": ""
+                    }
+                ],
+                "searchFields": null,
+                "displayFields": null,
+                "visibleAtStart": false,
+                "tiled": true,
+                "showAttributeTableButton": false,
+                "opacity": 1,
+                "maxZoom": -1,
+                "minZoom": -1,
+                "minMaxZoomAlertOnToggleOnly": false,
+                "singleTile": false,
+                "hidpi": true,
+                "useCustomDpiList": true,
+                "customDpiList": [
+                    {
+                        "pxRatio": 0,
+                        "dpi": 90
+                    },
+                    {
+                        "pxRatio": 2,
+                        "dpi": 180
+                    },
+                    {
+                        "pxRatio": 3,
+                        "dpi": 270
+                    }
+                ],
+                "customRatio": 0,
+                "imageFormat": "image/png8",
+                "serverType": "geoserver",
+                "attribution": "Lantmäteriet",
+                "searchUrl": "",
+                "searchPropertyName": "",
+                "searchDisplayName": "",
+                "secondaryLabelFields": "",
+                "searchShortDisplayName": "",
+                "searchOutputFormat": "",
+                "searchGeometryField": "",
+                "infoVisible": true,
+                "infoTitle": "",
+                "infoText": "",
+                "infoUrl": "https://www.lantmateriet.se/globalassets/geodata/geodatatjanster/tf_twk.pdf",
+                "infoUrlText": "Öppna teckenförklaring i nytt fönster",
+                "infoOwner": "",
+                "timeSliderVisible": false,
+                "timeSliderStart": "",
+                "timeSliderEnd": "",
+                "version": "1.1.1",
+                "infoFormat": "application/json",
+                "infoClickSortProperty": "",
+                "infoClickSortDesc": true,
+                "infoClickSortType": "string",
+                "hideExpandArrow": false,
+                "zIndex": null
+            },
+            {
+                "id": "pxkat3",
+                "caption": "Flygfoto 2023",
+                "internalLayerName": "Flygfoto 2023",
+                "url": "https://karta.halmstad.se/geoserver/bmf/wms",
+                "customGetMapUrl": "",
+                "owner": "",
+                "date": "1688626114200",
+                "content": "",
+                "legend": "",
+                "legendIcon": "",
+                "projection": "EPSG:3008",
+                "layers": [
+                    "ortofoto2023"
+                ],
+                "layersInfo": [
+                    {
+                        "id": "ortofoto2023",
+                        "caption": "",
+                        "legend": "",
+                        "legendIcon": "",
+                        "infobox": "",
+                        "style": "",
+                        "queryable": false,
+                        "infoclickIcon": ""
+                    }
+                ],
+                "searchFields": null,
+                "displayFields": null,
+                "visibleAtStart": false,
+                "tiled": true,
+                "showAttributeTableButton": false,
+                "opacity": 1,
+                "maxZoom": -1,
+                "minZoom": -1,
+                "minMaxZoomAlertOnToggleOnly": false,
+                "singleTile": false,
+                "hidpi": false,
+                "useCustomDpiList": false,
+                "customDpiList": [],
+                "customRatio": 0,
+                "imageFormat": "image/jpeg",
+                "serverType": "geoserver",
+                "attribution": "",
+                "searchUrl": "",
+                "searchPropertyName": "",
+                "searchDisplayName": "",
+                "secondaryLabelFields": "",
+                "searchShortDisplayName": "",
+                "searchOutputFormat": "",
+                "searchGeometryField": "",
+                "infoVisible": true,
+                "infoTitle": "",
+                "infoText": "Fluget av Lantmäteriet 2023",
+                "infoUrl": "",
+                "infoUrlText": "",
+                "infoOwner": "",
+                "timeSliderVisible": false,
+                "timeSliderStart": "",
+                "timeSliderEnd": "",
+                "version": "1.1.1",
+                "infoFormat": "application/json",
+                "infoClickSortProperty": "",
+                "infoClickSortDesc": true,
+                "infoClickSortType": "string",
+                "hideExpandArrow": false,
+                "zIndex": null
+            }
+        ]
+    }
+}
