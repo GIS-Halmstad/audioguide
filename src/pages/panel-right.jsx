@@ -75,6 +75,27 @@ function PanelRight() {
                 key={i}
                 checkbox
                 checked={filteredCategories.includes(c)}
+                disabled={
+                  // If this checkbox is the last one that's selected,
+                  // disallow unchecking it.
+                  filteredCategories.length <= 1 &&
+                  filteredCategories.includes(c)
+                    ? true
+                    : false
+                }
+                onClick={() => {
+                  // If user tries to click on the last selected checkbox,
+                  // display an alert saying that it's not allowed to deselect it.
+                  if (
+                    filteredCategories.length <= 1 &&
+                    filteredCategories.includes(c)
+                  ) {
+                    f7.dialog.alert(
+                      "Minst en kategori måste vara vald",
+                      "Varning"
+                    );
+                  }
+                }}
                 onChange={handleCategoryChange}
                 title={c}
                 name={c}
