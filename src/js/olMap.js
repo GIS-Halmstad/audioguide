@@ -295,7 +295,15 @@ async function initOLMap(f7) {
     f7.emit("olFeatureSelected", e.selected);
   });
 
-  f7.on("olFeatureSelected", (f) => {
+  /**
+   * Event handler for 'olFeatureSelected' event emitted on the global event bus.
+   * It makes it possible to utilize OL's select interaction to programmatically
+   * select or deselect a feature.
+   *
+   * @param {Array} f - An array with the feature to be selected. Empty to deselect.
+   * @param {number} [delay=0] - Optional delay added before running the zoom animation.
+   */
+  f7.on("olFeatureSelected", (f, delay = 0) => {
     if (f.length === 0) {
       // If something else emitted the event with an empty selection array,
       // let's deselect here too.
@@ -308,7 +316,14 @@ async function initOLMap(f7) {
 
       // Zoom to feature
       const selectionExtent = f[0].getGeometry().getExtent();
-      olMap.getView().fit(selectionExtent, { duration: 1000 });
+
+      if (delay === 0) {
+        olMap.getView().fit(selectionExtent, { duration: 1000 });
+      } else {
+        setTimeout(() => {
+          olMap.getView().fit(selectionExtent, { duration: 1000 });
+        }, delay);
+      }
     }
   });
 
