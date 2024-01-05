@@ -344,10 +344,6 @@ const addFeatures = (features) => {
   audioguideSource.addFeatures(features);
 };
 
-const removeAllFeatures = () => {
-  audioguideSource.clear();
-};
-
 const fitToAvailableFeatures = () => {
   // Fit View to features' extent only if there are
   // no infinite values (which can happen if the Source
@@ -357,7 +353,7 @@ const fitToAvailableFeatures = () => {
 };
 
 const updateFeaturesInMap = () => {
-  removeAllFeatures();
+  audioguideSource.clear();
   addFeatures(store.getters.filteredFeatures.value);
   olMap.getView().padding[2] = 0;
   fitToAvailableFeatures();
@@ -506,11 +502,16 @@ const deactivateGuide = () => {
   // Tell the store to unset some "active" objects
   store.dispatch("deactivateGuide");
 
-  // Rest layers visibility to its initial state.
+  // Hide the active guide layer and clear its source
   activeGuideLayer.setVisible(false);
   activeGuideSource.clear();
 
+  // Show the audioguide layer
   audioguideLayer.setVisible(true);
+
+  // Reset the map's padding
+  olMap.getView().padding[2] = 0;
+
   fitToAvailableFeatures();
 };
 
