@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="sv">
   <head>
     <meta charset="utf-8" />
     <meta
@@ -8,11 +8,11 @@
     />
     <meta
       name="viewport"
-      content="width=device-width, initial-scale=1, minimum-scale=1, user-scalable=no, viewport-fit=cover"
+      content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, viewport-fit=cover"
     />
 
     <meta name="theme-color" content="#fff" />
-    <meta name="format-detection" content="telephone=yes" />
+    <meta name="format-detection" content="telephone=no" />
     <meta name="msapplication-tap-highlight" content="no" />
     <title>Audioguide</title>
     <meta name="description" content="An open-source audioguide app" />
@@ -23,22 +23,26 @@
     />
     <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
     <link rel="icon" href="icons/favicon.png" />
-    <link rel="manifest" href="/manifest.json" />
+    <link rel="manifest" href="app.webmanifest" crossorigin="use-credentials" />
   </head>
   <body class="loading">
     <div id="splash-screen">
       <div class="loading-icon"></div>
     </div>
-    <div id="app" />
+    <div id="app"></div>
     <noscript>
       <div class="no-script-content">
         <img
-          src="static/icons/256x256.png"
-          alt="appstore"
+          src="icons/256x256.png"
+          alt="Audioguide app icon"
           width="128"
           height="128"
         />
-        <span>This app requires you to have the Javascript enabled</span>
+        <h1>JavaScript is disabled</h1>
+        <p>
+          This app requires you to have the JavaScript enabled. Please enable
+          JavaScript in order to use this app.
+        </p>
       </div>
     </noscript>
 
