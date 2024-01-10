@@ -1,30 +1,60 @@
 import { createStore } from "framework7/lite/bundle";
 import { getParamValueFromHash } from "./getParamValueFromHash";
-import { analytics } from "../../public/appConfig.json";
 
-// We have two 'actions' further down that expect these functions
-// exist. As we can not know (at this time) whether they'll be
+// We will load the appConfig.json dynamically, so admins can change things
+// such as analytics settings or the URLs to layer services on-the-flight, without
+// having to re-deploy the app.
+// Let's prepare a couple of variables that will be populated with values further on.
+let appConfig = {};
+let appConfigLoadingError = null;
+
+// Let's try to fetch the appConfig.json.
+try {
+  const appConfigResponse = await fetch("appConfig.json");
+
+  // If it's successful, let's parse it and save it so it can
+  // be used as default when we set up our store further on.
+  appConfig = await appConfigResponse.json();
+} catch (error) {
+  // If it failed, let's save the error. This variable will also
+  // be used further on when we initiated the store. In this case,
+  // the store will be initiated in a already-failed state, which will
+  // lead the App to display an error message directly.
+  appConfigLoadingError = error;
+}
+
+// We have two actions further down that expect these functions
+// to exist. As we can not know (at this time) whether they'll be
 // imported or not in the next step, we must provide a mock implementation.
 let trackPageview = () => {};
 let trackEvent = (a: string, b: {}) => {};
 
 // Now let's consult our appConfig to see if any analytics implementation
 // has been configured.
-if (analytics?.type === "plausible") {
-  const { TrackerPlausible } = await import("./trackerPlausible");
+if (appConfig?.analytics?.type === "plausible") {
+  const { default: Plausible } = await import("plausible-tracker");
 
+  const { domain, apiHost, trackLocalhost } = appConfig?.analytics || {};
+
+  // Exports an instance that implements two necessary methods,
+  // trackPageview and trackEvent. See store.ts for use.
+  const TrackerPlausible = Plausible({
+    domain,
+    apiHost,
+    trackLocalhost,
+  });
   // Swap the mock implementation into the actual one
   trackPageview = TrackerPlausible.trackPageview;
   trackEvent = TrackerPlausible.trackEvent;
 }
 
-// Create the Store itself
+// Create the Store
 const store = createStore({
   state: {
-    loadingError: null,
+    loadingError: appConfigLoadingError, // null or error
     geolocationError: null,
     loading: true,
-    appConfig: {},
+    appConfig: appConfig, // null (if appConfigLoadingError is set) or a valid appConfig
     mapConfig: {},
     allLines: [],
     allPoints: [],
@@ -49,9 +79,6 @@ const store = createStore({
     },
     setLoading({ state }, v) {
       state.loading = v;
-    },
-    setAppConfig({ state }, appConfig) {
-      state.appConfig = appConfig;
     },
     setMapConfig({ state }, mapConfig) {
       state.mapConfig = mapConfig;
