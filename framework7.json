@@ -2,6 +2,7 @@
   "cwd": ".",
   "type": [
     "web",
+    "pwa",
     "capacitor"
   ],
   "name": "Audioguide",

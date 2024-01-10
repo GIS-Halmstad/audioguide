@@ -34,6 +34,15 @@ const Audioguide = () => {
     theme: "auto",
     store: store,
     routes: routes,
+
+    // Register service worker (only on production build)
+    serviceWorker:
+      process.env.NODE_ENV === "production"
+        ? {
+            path: "/service-worker.js",
+          }
+        : {},
+
     // Input settings
     input: {
       // We can't use f7.device here as F7 hasn't been initialized yet
