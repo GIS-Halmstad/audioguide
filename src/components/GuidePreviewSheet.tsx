@@ -70,6 +70,7 @@ function GuidePreviewSheet() {
       style={{ height: "auto", maxHeight: "90vh" }}
       swipeToClose
       swipeToStep
+      push
       opened={sheetVisible}
       onSheetOpened={(s: Sheet) => adjustForHeight(getSheetRealHeight(s))}
       onSheetStepOpen={(s: Sheet) => adjustForHeight(getSheetRealHeight(s))}

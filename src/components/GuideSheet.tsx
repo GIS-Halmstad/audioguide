@@ -15,6 +15,7 @@ function GuideSheet() {
       className="active-guide-sheet"
       style={{ height: "auto", maxHeight: "90vh" }}
       swipeToStep
+      push
       opened={activeGuideObject !== null}
       onSheetClosed={() => {
         // When the Sheet has _finished_ closing, let's
