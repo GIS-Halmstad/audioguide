@@ -20,6 +20,7 @@ import { getParamValueFromHash } from "../js/getParamValueFromHash";
 
 import GuidePreviewSheet from "../components/GuidePreviewSheet";
 import GuideSheet from "../components/GuideSheet";
+import MainSheet from "../components/MainSheet";
 import BackgroundLayersActionsGrid from "../components/BackgroundLayersActionsGrid";
 import TabListViewContent from "../components/TabListViewContent";
 
@@ -124,7 +125,7 @@ const HomePage = () => {
       onPageBeforeOut={onPageBeforeOut}
       onPageBeforeRemove={onPageBeforeRemove}
     >
-      <Navbar sliding={false}>
+      {/* <Navbar sliding={false}>
         <NavLeft>
           <Link iconF7="menu" iconMaterial="menu" panelOpen="left" iconOnly />
         </NavLeft>
@@ -137,9 +138,9 @@ const HomePage = () => {
             iconOnly
           />
         </NavRight>
-      </Navbar>
+      </Navbar> */}
 
-      <Toolbar tabbar icons bottom>
+      {/* <Toolbar tabbar icons bottom>
         <Link
           tabLink="#tab-map"
           tabLinkActive
@@ -154,8 +155,9 @@ const HomePage = () => {
           iconIos="f7:list_bullet_below_rectangle"
           iconMd="material:ballot"
         />
-      </Toolbar>
+      </Toolbar> */}
 
+      <MainSheet />
       <GuidePreviewSheet />
       <GuideSheet />
       <BackgroundLayersActionsGrid
@@ -163,20 +165,20 @@ const HomePage = () => {
         setBackgroundLayersActionsGrid={setBackgroundLayersActionsGrid}
       />
 
-      <Tabs routable={true}>
+      <div id="map" />
+      <Fab position="right-top" onClick={handleClickOnFabBackgrounds}>
+        <Icon ios="f7:layers" md="material:layers" />
+      </Fab>
+      <Fab position="left-top" onClick={handleClickOnGeolocation}>
+        <Icon ios="f7:location" md="material:near_me" />
+      </Fab>
+      {/* <Tabs routable={true}>
         <Tab id="tab-map" className="page-content" tabActive>
-          <div id="map" />
-          <Fab position="right-top" onClick={handleClickOnFabBackgrounds}>
-            <Icon ios="f7:layers" md="material:layers" />
-          </Fab>
-          <Fab position="left-top" onClick={handleClickOnGeolocation}>
-            <Icon ios="f7:location" md="material:near_me" />
-          </Fab>
         </Tab>
         <Tab id="tab-list" className="page-content">
           <TabListViewContent />
         </Tab>
-      </Tabs>
+      </Tabs> */}
     </Page>
   );
 };
