@@ -28,6 +28,7 @@ import { getAssets } from "../js/getAssets";
 // Type imports and definitions
 import { Feature, geom } from "openlayers";
 import { DEFAULT_STROKE_COLOR } from "../js/constants";
+import { parseStyle } from "../js/f7Helpers";
 
 type Props = {
   f: Feature;
@@ -77,9 +78,6 @@ export default function GuidePreviewSheetContent({ f }: Props) {
   };
 
   const images = getAssets(lineFeature, "images");
-  const parsedStyle = JSON.parse(lineFeature.get("style")) || {
-    strokeColor: DEFAULT_STROKE_COLOR,
-  };
 
   return (
     lineFeature !== null && (
@@ -105,7 +103,7 @@ export default function GuidePreviewSheetContent({ f }: Props) {
             <div className="text-label-2">
               {lineFeature.get("title")}
               <Badge
-                color={parsedStyle.strokeColor}
+                color={parseStyle(lineFeature).strokeColor}
                 className="margin-left-half"
                 style={{ marginBottom: "3px" }}
               />

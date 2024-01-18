@@ -12,14 +12,10 @@ import {
   Badge,
 } from "framework7-react";
 import { getAssets } from "../js/getAssets";
-import { DEFAULT_STROKE_COLOR } from "../js/constants";
-import { handleShowGuideInMap } from "../js/f7Helpers";
+import { handleShowGuideInMap, parseStyle } from "../js/f7Helpers";
 import { copyToClipboard } from "../js/utils";
 
 function AudioguideCard({ feature }) {
-  const parsedStyle = JSON.parse(feature.get("style")) || {
-    strokeColor: DEFAULT_STROKE_COLOR,
-  };
   const images = getAssets(feature, "images");
 
   const handleCopyLinkToGuide = () => {
@@ -53,7 +49,7 @@ function AudioguideCard({ feature }) {
         />
         <CardHeader style={{ height: "60px" }}>
           <div>{feature.get("title")}</div>
-          <Badge color={parsedStyle.strokeColor}></Badge>
+          <Badge color={parseStyle(feature).strokeColor}></Badge>
         </CardHeader>
         {/* Chips with categories and guide length */}
         <Block className="display-flex justify-content-space-between">
@@ -88,7 +84,7 @@ function AudioguideCard({ feature }) {
             round
             large
             cardClose
-            onClick={() => handleShowGuideInMap(feature)}
+            onClick={() => handleShowGuideInMap(feature, 600)}
             className="margin-top margin-bottom"
           >
             Lyssna på guiden
