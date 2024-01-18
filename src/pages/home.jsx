@@ -22,6 +22,7 @@ import GuidePreviewSheet from "../components/GuidePreviewSheet";
 import GuideSheet from "../components/GuideSheet";
 import BackgroundLayersActionsGrid from "../components/BackgroundLayersActionsGrid";
 import TabListViewContent from "../components/TabListViewContent";
+import TabShortListViewContent from "../components/TabShortListViewContent";
 
 const HomePage = () => {
   console.log("HomePage init: ", f7);
@@ -143,8 +144,15 @@ const HomePage = () => {
         <Link
           tabLink="#tab-list"
           tabLinkActive
-          text="Lista"
+          text="Bildlista"
           iconIos="f7:list_bullet_below_rectangle"
+          iconMd="material:ballot"
+        />
+
+        <Link
+          tabLink="#tab-short-list"
+          text="Lista"
+          iconIos="f7:list_bullet"
           iconMd="material:ballot"
         />
 
@@ -166,6 +174,9 @@ const HomePage = () => {
       <Tabs>
         <Tab id="tab-list" className="page-content" tabActive>
           <TabListViewContent />
+        </Tab>
+        <Tab id="tab-short-list" className="page-content">
+          <TabShortListViewContent />
         </Tab>
         <Tab id="tab-map" className="page-content">
           <div id="map" />

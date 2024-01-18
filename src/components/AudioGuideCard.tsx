@@ -13,6 +13,7 @@ import {
 } from "framework7-react";
 import { getAssets } from "../js/getAssets";
 import { DEFAULT_STROKE_COLOR } from "../js/constants";
+import { handleShowGuideInMap } from "../js/f7Helpers";
 import { copyToClipboard } from "../js/utils";
 
 function AudioguideCard({ feature }) {
@@ -20,20 +21,6 @@ function AudioguideCard({ feature }) {
     strokeColor: DEFAULT_STROKE_COLOR,
   };
   const images = getAssets(feature, "images");
-
-  const handleShowGuideInMap = async () => {
-    // Wait a while to let the Expandable Card animation happen,
-    // then, switch back to map tab.
-    setTimeout(() => {
-      f7.tab.show("#tab-map");
-
-      // Tell OL to select the provided feature and ensure we
-      // wait 1000 ms before running the animation. Otherwise,
-      // there's a weird problem resulting in the map zooming
-      // out way too far.
-      f7.emit("olFeatureSelected", [feature], 1000);
-    }, 600);
-  };
 
   const handleCopyLinkToGuide = () => {
     // Remove any possibly existing hash params and grab the first part.
@@ -101,7 +88,7 @@ function AudioguideCard({ feature }) {
             round
             large
             cardClose
-            onClick={handleShowGuideInMap}
+            onClick={() => handleShowGuideInMap(feature)}
             className="margin-top margin-bottom"
           >
             Lyssna på guiden
