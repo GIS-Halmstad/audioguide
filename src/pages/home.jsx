@@ -141,18 +141,18 @@ const HomePage = () => {
 
       <Toolbar tabbar icons bottom>
         <Link
-          tabLink="#tab-map"
-          tabLinkActive
-          text="Karta"
-          iconIos="f7:map"
-          iconMd="material:map"
-        />
-
-        <Link
           tabLink="#tab-list"
+          tabLinkActive
           text="Lista"
           iconIos="f7:list_bullet_below_rectangle"
           iconMd="material:ballot"
+        />
+
+        <Link
+          tabLink="#tab-map"
+          text="Karta"
+          iconIos="f7:map"
+          iconMd="material:map"
         />
       </Toolbar>
 
@@ -164,7 +164,10 @@ const HomePage = () => {
       />
 
       <Tabs routable={true}>
-        <Tab id="tab-map" className="page-content" tabActive>
+        <Tab id="tab-list" className="page-content" tabActive>
+          <TabListViewContent />
+        </Tab>
+        <Tab id="tab-map" className="page-content">
           <div id="map" />
           <Fab position="right-top" onClick={handleClickOnFabBackgrounds}>
             <Icon ios="f7:layers" md="material:layers" />
@@ -172,9 +175,6 @@ const HomePage = () => {
           <Fab position="left-top" onClick={handleClickOnGeolocation}>
             <Icon ios="f7:location" md="material:near_me" />
           </Fab>
-        </Tab>
-        <Tab id="tab-list" className="page-content">
-          <TabListViewContent />
         </Tab>
       </Tabs>
     </Page>
