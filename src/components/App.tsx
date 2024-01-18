@@ -45,6 +45,11 @@ const Audioguide = () => {
       iosOverlaysWebView: true,
       androidOverlaysWebView: false,
     },
+    dialog: {
+      buttonOk: "OK",
+      buttonCancel: "Avbryt",
+      autoFocus: true,
+    },
   };
 
   f7ready(async () => {
