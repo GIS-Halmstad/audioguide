@@ -17,6 +17,10 @@ function PanelLeft() {
     // Tell OL to update the map view
     updateFeaturesInMap();
 
+    // Ensure we go to the List view…
+    f7.tab.show("#tab-list");
+
+    // …and that we close the panel.
     f7.panel.close("left");
   };
 

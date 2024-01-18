@@ -163,7 +163,7 @@ const HomePage = () => {
         setBackgroundLayersActionsGrid={setBackgroundLayersActionsGrid}
       />
 
-      <Tabs routable={true}>
+      <Tabs>
         <Tab id="tab-list" className="page-content" tabActive>
           <TabListViewContent />
         </Tab>
