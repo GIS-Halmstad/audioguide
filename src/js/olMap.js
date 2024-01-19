@@ -130,7 +130,11 @@ function selectedStyleFunction(feature, actualResolution) {
   return normalStyle;
 }
 
+let f7Instance = null;
+
 async function initOLMap(f7) {
+  f7Instance = f7;
+
   console.log("Init OL Map ", f7);
   const config = f7.store.state.mapConfig;
 
@@ -501,13 +505,12 @@ const goToStopNumber = (stopNumber) => {
   if (audioElement && !audioElement.paused) {
     const confirmMessage =
       "Ljud spelas upp. Om du byter steg avbryts uppspelning. Är du säker på att du vill byta steg?";
-    if (confirm(confirmMessage)) {
+    f7Instance.dialog.confirm(confirmMessage, "Avbryta uppspelning?", () => {
+      // On OK, navigate to another stop
       audioElement.pause();
       audioElement.currentTime = 0;
       navigateToStop(stopNumber);
-    } else {
-      // Abort and continue listening
-    }
+    });
   } else {
     navigateToStop(stopNumber);
   }
