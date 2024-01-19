@@ -70,6 +70,7 @@ function GuidePreviewSheet() {
       style={{ height: "auto", maxHeight: "90vh" }}
       swipeToClose
       swipeToStep
+      backdrop={false} // To allow for map navigation
       push
       opened={sheetVisible}
       onSheetOpened={(s: Sheet) => adjustForHeight(getSheetRealHeight(s))}
