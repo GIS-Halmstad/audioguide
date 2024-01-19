@@ -29,7 +29,7 @@ function AudioguideCard({ feature }) {
   };
 
   return (
-    <Card expandable>
+    <Card expandable backdropEl=".card-backdrop.custom-backdrop">
       <CardContent padding={false}>
         <div
           style={{

@@ -71,6 +71,38 @@ body.loading #splash-screen {
   z-index: 6000;
 }
 
+/* Expandable Cards in Photo List view */
+@media (min-width: 768px) {
+  .expandable-cards-grid {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .expandable-cards-grid .card {
+    flex-shrink: 10;
+    min-width: 0;
+  }
+}
+@media (min-width: 768px) and (max-width: 1023px) {
+  .expandable-cards-grid .card {
+    width: calc((100% - var(--f7-card-expandable-margin-horizontal) * 3) / 2);
+  }
+  .expandable-cards-grid .card:nth-child(2),
+  .expandable-cards-grid .card:nth-child(4) {
+    margin-left: 0;
+  }
+  .expandable-cards-grid .card:nth-child(n + 3) {
+    margin-top: 0;
+  }
+}
+@media (min-width: 1024px) {
+  .expandable-cards-grid .card {
+    width: calc((100% - var(--f7-card-expandable-margin-horizontal) * 5) / 4);
+  }
+  .expandable-cards-grid .card:nth-child(n + 2) {
+    margin-left: 0;
+  }
+}
+
 /* Sheet Swipe To Close */
 .sheet-swipe-to-close,
 .sheet-swipe-to-step {
