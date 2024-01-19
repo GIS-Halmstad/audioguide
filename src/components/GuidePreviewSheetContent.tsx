@@ -89,7 +89,7 @@ export default function GuidePreviewSheetContent({ f }: Props) {
             className="swipe-handler"
             onClick={() => f7.sheet.stepToggle(".preview-sheet")}
           ></div>
-          <Card outlineMd>
+          <Card>
             <swiper-container cssMode="true" pagination space-between="50">
               {images.map((src, i) => (
                 <swiper-slide key={i} className="swiper-slide-custom">

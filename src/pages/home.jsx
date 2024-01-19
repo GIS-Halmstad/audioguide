@@ -152,7 +152,7 @@ const HomePage = () => {
           tabLink="#tab-short-list"
           text="Lista"
           iconIos="f7:list_bullet"
-          iconMd="material:ballot"
+          iconMd="material:list"
         />
 
         <Link
