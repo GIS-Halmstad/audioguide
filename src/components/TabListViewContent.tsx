@@ -7,18 +7,17 @@ function TabListViewContent() {
   const filteredFeatures = useStore("filteredFeatures");
 
   return (
-    <Block className="expandable-cards-grid">
-      {/* We must specify a custom backdrop, else the container is used and this
-      makes all the cards blur out.  */}
-      <div className="card-backdrop custom-backdrop"></div>
-
+    <div className="expandable-cards-grid">
       {/* Render a list (or grid, depending on screen size) of Expandable Cards */}
       {filteredFeatures
         .filter((f) => f.get("length")) // Only line features will have the "length" property
         .map((f, i) => (
           <AudioguideCard feature={f} key={i} />
         ))}
-    </Block>
+      {/* We must specify a custom backdrop, else the container is used and this
+      makes all the cards blur out.  */}
+      <div className="card-backdrop custom-backdrop"></div>
+    </div>
   );
 }
 
