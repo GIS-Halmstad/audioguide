@@ -17,7 +17,6 @@ function GuideSheet() {
       backdrop={false} // To allow for map navigation
       closeByOutsideClick={false} // To prevent the Sheet from closing when map is clicked
       swipeToStep
-      push
       opened={activeGuideObject !== null}
       onSheetClosed={() => {
         // When the Sheet has _finished_ closing, let's

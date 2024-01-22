@@ -103,6 +103,13 @@ body.loading #splash-screen {
   }
 }
 
+/* Limit width of .sheet-modal on large screens */
+@media (min-width: 640px) {
+  .sheet-modal {
+    max-width: 450px;
+  }
+}
+
 /* Sheet Swipe To Close */
 .sheet-swipe-to-close,
 .sheet-swipe-to-step {
