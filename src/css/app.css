@@ -111,26 +111,24 @@ body.loading #splash-screen {
 }
 
 /* Sheet Swipe To Close */
-.sheet-swipe-to-close,
-.sheet-swipe-to-step {
+
+.sheet-modal {
   --f7-sheet-border-color: transparent;
   border-radius: 15px 15px 0 0;
   overflow: hidden;
 }
-.sheet-swipe-to-close .swipe-handler,
-.sheet-swipe-to-step .swipe-handler {
-  background: none;
-}
+
 .swipe-handler {
   height: 16px;
   position: absolute;
   left: 0;
   width: 100%;
   top: 0;
-  background: #fff;
+  background: none;
   cursor: pointer;
   z-index: 10;
 }
+
 .swipe-handler:after {
   content: "";
   width: 36px;
@@ -144,9 +142,18 @@ body.loading #splash-screen {
   background: #666;
 }
 
+.active-guide-sheet .swipe-handler:after {
+  background: #ffffff;
+}
+
+/* Swiper Element custom styles */
 swiper-container {
   height: 150px;
   width: 100%;
+}
+
+swiper-container::part(bullet-active) {
+  background-color: white;
 }
 
 swiper-container .swiper-slide-custom {
@@ -163,19 +170,6 @@ swiper-container .image-container {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-}
-
-/* Old idea with having the label as an overlay at the bottom of swiper-container - obsolete? */
-swiper-container .text-label {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  background-color: rgba(100, 100, 100, 0.6);
-  color: white;
-  text-align: center;
-  text-transform: uppercase;
-  font-weight: bold;
-  font-size: 1.2rem;
 }
 
 .text-label-2 {
