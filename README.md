@@ -84,7 +84,7 @@ If you want to retrieve the configuration from Hajk's API, make sure to include 
   "useStaticMapConfig": false, // Do not use the static configuration
   "mapServiceBase": "http://localhost:3002/api/v2", // URL to the Hajk API
   "mapName": "audio", // Name of the map that contains the Audioguide tool options (see below).
-  
+
   // Other settings
   "showDemoMessage": false, // If true, a basic info will be shown on app launch saying that this is a demo app
   "analytics": {
@@ -219,6 +219,25 @@ The Audioguide App accepts some URL hash parameters (the part of the URL string 
   - You must properly encode the strings. For example, a category called `Sport & Ö-liv` should be encoded as `Sport%20%26%20%C3%96-liv`, while `The Foo/Bar Category` should be encoded as `The%20Foo%2FBar%20category`.
 - `g`: makes it possible to start the app with a certain guide pre-selected. The value of `g` must match the value of `guideId` in the line features table.
 - `p`: makes it possible to start the app with a specific point in a guide pre-selected. The value of `p` must correspond to the `stopNumber` value in the point features table. _Note that this requires the `g` parameter to be present as well (otherwise there is no way to know which point should be selected, as `stopNumber`s are not unique in the table)_.
+
+## Statistics
+
+It is possible to configure Audioguide to use Plausible to gather user statistics data, such as which guides are used mostly, how users start guides, etc.
+
+Refer to the section on `public/appConfig.json` and its `analytics` property to connect Audioguide to your Plausible instance.
+
+Below is a documentation of which events Audioguide sends. Refer to Plausible documentation to see how you add those events to your instance.
+
+| Event name                | Event data                             |
+| ------------------------- | -------------------------------------- |
+| `loadSuccess`             | -                                      |
+| `loadError`               | `reason: string`                       |
+| `guideClickedInPhotoList` | `guideId: number`                      |
+| `guideClickedInShortList` | `guideId: number`                      |
+| `guideClickedInMap`       | `guideId: number, stopNumber?: number` |
+| `guideActivated`          | `guideId: number`                      |
+| `guideDeactivated`        | `guideId: number, stopNumber: number`  |
+| `guideStepShown`          | `guideId: number, stopNumber: number`  |
 
 ## Deploy notes
 

@@ -27,7 +27,14 @@ try {
 // to exist. As we can not know (at this time) whether they'll be
 // imported or not in the next step, we must provide a mock implementation.
 let trackPageview = () => {};
-let trackEvent = (a: string, b: {}) => {};
+let trackEvent = (
+  eventName: string,
+  eventData?: {
+    props: {
+      [propName: string]: string | number | boolean;
+    };
+  }
+) => {};
 
 // Now let's consult our appConfig to see if any analytics implementation
 // has been configured.
@@ -97,11 +104,30 @@ const store = createStore({
     },
     setActiveGuideObject({ state }, v) {
       state.activeGuideObject = v;
+      trackEvent("guideActivated", {
+        props: { guideId: v?.line.get("guideId") },
+      });
     },
     setActiveStopNumber({ state }, v) {
       state.activeStopNumber = v;
+      trackEvent("guideStepShown", {
+        props: {
+          guideId: state.activeGuideObject?.line.get("guideId"),
+          stopNumber: v,
+        },
+      });
     },
     deactivateGuide({ state }) {
+      // This time we must do tracking _before_ we deactivate
+      // the guide (as it will unset the variables we want to track).
+      trackEvent("guideDeactivated", {
+        props: {
+          guideId: state.activeGuideObject?.line.get("guideId"),
+          stopNumber: state.activeStopNumber,
+        },
+      });
+
+      // Unset the active guide and stop number
       state.activeStopNumber = null;
       state.activeGuideObject = null;
     },

@@ -297,6 +297,16 @@ async function initOLMap(f7) {
   // …and interaction handler.
   selectInteraction.on("select", async (e) => {
     f7.emit("olFeatureSelected", e.selected);
+    // check if e.selected is an array but is not empty
+    if (e.selected?.length > 0) {
+      const guideId = e.selected[0].get("guideId");
+      const stopNumber = e.selected[0].get("stopNumber");
+      store.dispatch("trackAnalyticsEvent", {
+        eventName: "guideClickedInMap",
+        guideId,
+        ...(stopNumber && { stopNumber }),
+      });
+    }
   });
 
   /**

@@ -29,7 +29,16 @@ function AudioguideCard({ feature }) {
   };
 
   return (
-    <Card expandable backdropEl=".card-backdrop.custom-backdrop">
+    <Card
+      expandable
+      backdropEl=".card-backdrop.custom-backdrop"
+      onCardOpen={() => {
+        f7.store.dispatch("trackAnalyticsEvent", {
+          eventName: "guideClickedInPhotoList",
+          guideId: feature.get("guideId"),
+        });
+      }}
+    >
       <CardContent padding={false}>
         <div
           style={{

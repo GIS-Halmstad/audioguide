@@ -1,6 +1,13 @@
 import React from "react";
 
-import { Badge, BlockTitle, List, ListItem, useStore } from "framework7-react";
+import {
+  f7,
+  Badge,
+  BlockTitle,
+  List,
+  ListItem,
+  useStore,
+} from "framework7-react";
 
 import { handleShowGuideInMap, parseStyle } from "../js/f7Helpers";
 
@@ -16,7 +23,13 @@ function TabShortListViewContent() {
           .map((f, i) => (
             <ListItem
               key={i}
-              onClick={() => handleShowGuideInMap(f)}
+              onClick={() => {
+                f7.store.dispatch("trackAnalyticsEvent", {
+                  eventName: "guideClickedInShortList",
+                  guideId: f.get("guideId"),
+                });
+                handleShowGuideInMap(f);
+              }}
               title={f.get("title")}
               badge={f.get("length")}
             >
