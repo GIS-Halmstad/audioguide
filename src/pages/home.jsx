@@ -42,17 +42,38 @@ const HomePage = () => {
     notificationFull.current.open();
   };
 
-  // useStore hook where we need reactivity
+  // useStore hook where we need reactivity.
   const loadingError = useStore("loadingError");
   const geolocationError = useStore("geolocationError");
-  const loading = useStore("loading");
 
+  // Needed to determine an accurate title for the navbar.
+  const loading = useStore("loading");
+  const activeGuideObject = useStore("activeGuideObject");
+  const activeStopNumber = useStore("activeStopNumber");
+
+  // Controls the visibility of the background layer switcher.
   const [backgroundLayersActionsGrid, setBackgroundLayersActionsGrid] =
     useState(false);
 
   useEffect(() => {
     loadingError !== null && showNotificationFull();
   }, [loadingError]);
+
+  // Set title based on activeGuideObject or loading.
+  const [navbarTitle, setNavbarTitle] = useState("Laddar…");
+  useEffect(() => {
+    if (loading) {
+      setNavbarTitle("Laddar…");
+    } else if (activeGuideObject && activeStopNumber) {
+      setNavbarTitle(
+        `${activeGuideObject.line.get("title")} - ${activeStopNumber} av ${
+          Object.entries(activeGuideObject.points).length
+        }`
+      );
+    } else {
+      setNavbarTitle("Audioguide");
+    }
+  }, [activeGuideObject, activeStopNumber, loading]);
 
   // Check if app was launched with pid and/or gid params.
   // If so, let's pre-select the point or guide feature.
@@ -128,7 +149,7 @@ const HomePage = () => {
         <NavLeft>
           <Link iconF7="menu" iconMaterial="menu" panelOpen="left" iconOnly />
         </NavLeft>
-        <NavTitle sliding>{loading ? "Laddar…" : "Audioguide"}</NavTitle>
+        <NavTitle sliding>{navbarTitle}</NavTitle>
         <NavRight>
           <Link
             iconIos="f7:funnel"
