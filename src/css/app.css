@@ -96,17 +96,26 @@ body.loading #splash-screen {
 }
 @media (min-width: 1024px) {
   .expandable-cards-grid .card {
-    width: calc((100% - var(--f7-card-expandable-margin-horizontal) * 5) / 4);
+    width: calc((100% - var(--f7-card-expandable-margin-horizontal) * 4) / 3);
+    margin-right: 0;
   }
-  .expandable-cards-grid .card:nth-child(n + 2) {
-    margin-left: 0;
+}
+
+/* Sheet Modal */
+@media ((min-width: 460px)) {
+  .sheet-modal {
+    /* set max width */
+    width: 400px;
+    /* add some shadow */
+    box-shadow: var(--f7-card-box-shadow);
+    margin-left: var(--f7-message-margin);
   }
 }
 
 /* Limit width of .sheet-modal on large screens */
-@media (min-width: 640px) {
+@media (min-width: 960px) {
   .sheet-modal {
-    max-width: 450px;
+    margin-left: calc(var(--f7-panel-width) + var(--f7-message-margin));
   }
 }
 
