@@ -1,6 +1,17 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { getDevice } from "framework7/lite/bundle";
-import { f7, f7ready, App, View, Panel } from "framework7-react";
+import {
+  f7,
+  f7ready,
+  App,
+  View,
+  Panel,
+  Popup,
+  Page,
+  LoginScreenTitle,
+  List,
+  BlockFooter,
+} from "framework7-react";
 import { Framework7Parameters } from "framework7/types";
 
 import capacitorApp from "../js/capacitor-app";
@@ -13,6 +24,8 @@ import DemoMessageSheet from "./DemoMessageSheet";
 const Audioguide = () => {
   console.log("Audioguide renders");
   const device = getDevice();
+
+  const [orientationUnsupported, setOrientationUnsupported] = useState(false);
 
   useEffect(() => {
     // Fix viewport scale on mobiles
@@ -27,6 +40,8 @@ const Audioguide = () => {
           `${viewPortContent}, maximum-scale=1, user-scalable=no`
         );
     }
+
+    isOrientationSupported();
   }, []);
 
   const f7params: Framework7Parameters = {
@@ -52,11 +67,28 @@ const Audioguide = () => {
     },
   };
 
+  const isOrientationSupported = () => {
+    if (window.screen && window.screen.orientation) {
+      if (
+        window.screen.height < window.screen.width &&
+        window.screen.height < 560
+      ) {
+        setOrientationUnsupported(true);
+      } else {
+        setOrientationUnsupported(false);
+      }
+    }
+  };
+
   f7ready(async () => {
     // Init capacitor APIs (see capacitor-app.js)
     if (f7.device.capacitor) {
       capacitorApp.init(f7);
     }
+
+    // Listen for orientation changes and show an info banner
+    // if screen height is too small.
+    window.addEventListener("orientationchange", isOrientationSupported);
 
     // Let's initiate the OL map. It will read the store
     // value that we just set, so it's important it comes
@@ -87,6 +119,22 @@ const Audioguide = () => {
       </Panel>
 
       <View url="/" main className="safe-areas" />
+
+      {/* Unsupported Orientation Popup */}
+      <Popup id="orientation-unsupported" opened={orientationUnsupported}>
+        <Page noToolbar noNavbar noSwipeback loginScreen>
+          <LoginScreenTitle>Rotera skärmen</LoginScreenTitle>
+          <List inset>
+            <BlockFooter>
+              <p>
+                För att Audioguide ska fungera behövs mer skärmyta än vad som är
+                tillgängligt i det här läget.
+              </p>
+              <p>Vänligen rotera din enhet.</p>
+            </BlockFooter>
+          </List>
+        </Page>
+      </Popup>
     </App>
   );
 };
