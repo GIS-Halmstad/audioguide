@@ -459,6 +459,25 @@ const convertFeaturesToGuideObject = (features) => {
   return ro;
 };
 
+const navigateToStopNumber = (stopNumber) => {
+  // Find the feature with the given stopNumber by looking
+  // into the active layer's source.
+  const stopFeature = activeGuideSource
+    .getFeatures()
+    .find((f) => f.get("stopNumber") === stopNumber);
+
+  // Grab the wanted features coordinates…
+  const coords = stopFeature.getGeometry().getCoordinates();
+  // …and navigate to it.
+  olMap.getView().animate({
+    center: coords,
+    duration: 1000,
+    zoom: 9,
+  });
+  // Finally, tell the Store which stop number we are on.
+  store.dispatch("setActiveStopNumber", stopNumber);
+};
+
 const activateGuide = (guideId, stopNumber) => {
   // Let's grab all points that belong to this line feature
   const features = audioguideLayer
@@ -468,15 +487,9 @@ const activateGuide = (guideId, stopNumber) => {
 
   const activateGuideObject = convertFeaturesToGuideObject(features);
 
-  // Let's grab the starting point's coordinates
-  const activePointFeature = features.find(
-    (f) => f.get("stopNumber") === stopNumber
-  );
-
   // OL must inform the F7 store that it should activate
   // this guide object
   store.dispatch("setActiveGuideObject", activateGuideObject);
-  store.dispatch("setActiveStopNumber", stopNumber);
 
   // Add features to source
   activeGuideSource.addFeatures(features);
@@ -487,30 +500,10 @@ const activateGuide = (guideId, stopNumber) => {
   activeGuideLayer.setVisible(true);
 
   // Finally, navigate to starting point
-  animateToPoint(activePointFeature.getGeometry().getCoordinates());
-};
-
-const animateToPoint = (coords) => {
-  olMap.getView().animate({
-    center: coords,
-    duration: 1000,
-    zoom: 9,
-  });
+  navigateToStopNumber(stopNumber);
 };
 
 const goToStopNumber = (stopNumber) => {
-  // Helper function that does the real job.
-  const navigateToStop = (stopNumber) => {
-    const stopFeature = activeGuideSource
-      .getFeatures()
-      .find((f) => f.get("stopNumber") === stopNumber);
-
-    const coords = stopFeature.getGeometry().getCoordinates();
-    animateToPoint(coords);
-
-    store.dispatch("setActiveStopNumber", stopNumber);
-  };
-
   const audioElement = document.querySelector("audio");
   if (audioElement && !audioElement.paused) {
     const confirmMessage =
@@ -519,10 +512,10 @@ const goToStopNumber = (stopNumber) => {
       // On OK, navigate to another stop
       audioElement.pause();
       audioElement.currentTime = 0;
-      navigateToStop(stopNumber);
+      navigateToStopNumber(stopNumber);
     });
   } else {
-    navigateToStop(stopNumber);
+    navigateToStopNumber(stopNumber);
   }
 };
 
