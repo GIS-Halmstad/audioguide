@@ -116,6 +116,9 @@ function selectedStyleFunction(feature, actualResolution) {
   // started with a pre-selected feature and the View hasn't yet
   // animated close enough.
   const normalStyle = styleFunction(feature, POINT_TEXT_VISIBILITY_THRESHOLD);
+
+  // We want to make some changes to the "normal" style of our Points and Lines.
+  // First, let's find out what type of geometry we're dealing with.
   if (feature.getGeometry().getType() === "Point") {
     // If app is launched with a point pre-selected, there won't be anything
     // to read the radius from, as the style is hidden at the zoom level
@@ -460,20 +463,36 @@ const convertFeaturesToGuideObject = (features) => {
 };
 
 const navigateToStopNumber = (stopNumber) => {
-  // Find the feature with the given stopNumber by looking
-  // into the active layer's source.
-  const stopFeature = activeGuideSource
-    .getFeatures()
-    .find((f) => f.get("stopNumber") === stopNumber);
+  // We want to do three things here:
+  // - Remove the selection style from all features, except for the current one
+  // - Set selection style to the current feature
+  // - Grab current feature's coordinates and navigate to it
 
-  // Grab the wanted features coordinates…
-  const coords = stopFeature.getGeometry().getCoordinates();
-  // …and navigate to it.
+  // Will hold the selected stop number's coordinates.
+  let coords = [0, 0];
+
+  // Loop through all features in the active guide.
+  activeGuideSource.getFeatures().forEach((f) => {
+    // The selected feature gets special treatment
+    if (f.get("stopNumber") === stopNumber) {
+      // Set style to selected…
+      f.setStyle(selectedStyleFunction);
+      // …and grab coordinates.
+      coords = f.getGeometry().getCoordinates();
+    }
+    // All other features get back the "normal", unselected style.
+    else {
+      f.setStyle(styleFunction);
+    }
+  });
+
+  // Animate to the selected feature.
   olMap.getView().animate({
     center: coords,
     duration: 1000,
     zoom: 9,
   });
+
   // Finally, tell the Store which stop number we are on.
   store.dispatch("setActiveStopNumber", stopNumber);
 };
