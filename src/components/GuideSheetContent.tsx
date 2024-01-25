@@ -23,11 +23,11 @@ function GuideSheetContent({ activeGuideObject, activeStopNumber }) {
   const title = point.get("title");
   const text = point.get("text");
 
-  const showPrev = activeStopNumber !== 1;
+  const isFirstStop = activeStopNumber === 1;
 
-  const showNext =
+  const isLastStop =
     activeGuideObject?.points &&
-    activeStopNumber < Object.entries(activeGuideObject?.points).length;
+    activeStopNumber === Object.entries(activeGuideObject?.points).length;
 
   const handleClickOnCloseGuide = () => {
     f7.dialog.confirm(
@@ -38,6 +38,34 @@ function GuideSheetContent({ activeGuideObject, activeStopNumber }) {
         f7.sheet.close();
       }
     );
+  };
+
+  const handleClickOnGoToPrevious = (): void => {
+    if (isFirstStop) {
+      f7.dialog.confirm(
+        "Du är redan på det första stoppet. Vill du gå tillbaka och hamna på det sista stoppet i guiden?",
+        "Redan i början",
+        () => {
+          goToStopNumber(Object.entries(activeGuideObject?.points).length);
+        }
+      );
+    } else {
+      goToStopNumber(activeStopNumber - 1);
+    }
+  };
+
+  const handleClickOnGoToNext = (): void => {
+    if (isLastStop) {
+      f7.dialog.confirm(
+        "Du är redan på det sista stoppet. Vill du börja om guiden från det första stoppet?",
+        "Sista stoppet",
+        () => {
+          goToStopNumber(1);
+        }
+      );
+    } else {
+      goToStopNumber(activeStopNumber + 1);
+    }
   };
 
   return (
@@ -79,13 +107,10 @@ function GuideSheetContent({ activeGuideObject, activeStopNumber }) {
 
         <Block className="display-flex justify-content-space-between no-margin margin-top-half">
           <Button
-            tonal={showPrev}
+            tonal={!isFirstStop}
             iconMd="material:arrow_back"
             iconIos="f7:chevron_left"
-            disabled={!showPrev}
-            onClick={() => {
-              goToStopNumber(activeStopNumber - 1);
-            }}
+            onClick={handleClickOnGoToPrevious}
           />
           <BlockTitle
             className="no-margin"
@@ -98,13 +123,10 @@ function GuideSheetContent({ activeGuideObject, activeStopNumber }) {
             {title}
           </BlockTitle>
           <Button
-            tonal={showNext}
+            tonal={!isLastStop}
             iconMd="material:arrow_forward"
             iconIos="f7:chevron_right"
-            disabled={!showNext}
-            onClick={() => {
-              goToStopNumber(activeStopNumber + 1);
-            }}
+            onClick={handleClickOnGoToNext}
           />
         </Block>
 
