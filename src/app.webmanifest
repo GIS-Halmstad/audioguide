@@ -3,6 +3,7 @@
     "short_name": "Audioguide",
     "description": "An open-source audioguide app",
     "lang": "sv-SE",
+    "orientation": "portrait-primary",
     "start_url": "../index.html",
     "display": "standalone",
     "background_color": "#000000",

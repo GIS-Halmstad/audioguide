@@ -135,7 +135,7 @@ let f7Instance = null;
 async function initOLMap(f7) {
   f7Instance = f7;
 
-  console.log("Init OL Map ", f7);
+  console.warn("Init OL Map should only run once ", f7);
   const config = f7.store.state.mapConfig;
 
   // Setup projections

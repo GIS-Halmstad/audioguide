@@ -58,8 +58,14 @@ const About = () => {
                   </ul>
                   <hr />
                   <ul>
-                    <li>mapServiceBase: ${f7.store.state.appConfig.mapServiceBase}</li>
-                    <li>mapName: ${f7.store.state.appConfig.mapName}</li>
+                    <li>mapServiceBase: ${
+                      f7.store.state.appConfig.mapServiceBase
+                    }</li>
+                    <li>mapName: ${f7.store.state.appConfig.mapName}</li>  
+                    ${
+                      window.screen.orientation &&
+                      `<li>${window.screen.width}×${window.screen.height} px - ${window.screen.orientation.type}</li>`
+                    }
                   </ul>
                 </div>
               </div>
