@@ -53,12 +53,28 @@ if (store.state.loadingError === null) {
     // Let's save the map config to the store for later use.
     store.dispatch("setMapConfig", washedMapConfig);
 
-    // Grab features from WFSs and save to store
+    // Grab line features from WFSs and save to store
     const allLines = await fetchFromService("line");
     store.dispatch("setAllLines", allLines);
 
+    // Grab point features too
     const allPoints = await fetchFromService("point");
-    store.dispatch("setAllPoints", allPoints);
+
+    // Each point belongs to a line and that line may have a `style`
+    // property. Let's try to find the parent line and add its style
+    // to the `parentStyle` property of the point feature.
+    const allPointsWithStyleFromParentLine = allPoints.map((f) => {
+      const parentLine = allLines.find(
+        (l) => l.get("guideId") === f.get("guideId")
+      );
+      if (parentLine) {
+        // Set the parent style on the point feature by copying line's style.
+        // The third parameter ensures OL doesn't notify any observers - there's no need here.
+        f.set("parentStyle", parentLine.get("style") || null, true);
+      }
+      return f;
+    });
+    store.dispatch("setAllPoints", allPointsWithStyleFromParentLine);
 
     // Extract available categories from all line features.
     // Keep only unique values.
