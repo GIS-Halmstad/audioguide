@@ -125,16 +125,21 @@ The map configuration that you request from the Hajk API, `audio` in this case, 
 
 ### Styling guide lines and points using the `style` attribute in tables
 
-In order to make the guide features (both lines and points) look different depending on the guide, there is a `style` column in both database tables. The type of this column is `jsonb`. They can be `NULL`, but it's recommended to set different styling for the features. To do so, use the following format (make sure to remove the comments!):
+In order to make the guide features (both lines and points) look different depending on the guide, there is a `style` column in both database tables. The type of this column is `jsonb`. They can be `NULL`, but it's recommended to set different styling for the different guides.
+
+If a style property exists on the parent line feature, but is lacking on a point feature, the point feature will inherit its parent's styling. E.g. if a guide's line has `strokeColor: "red"`, but none of the points corresponding to that guide have any `strokeColor` value, all points of that guide will become red.
+
+To set styling, use the following format (make sure to remove the comments!):
 
 ```jsonc
 // The values below are also the defaults that will be applied if `style` is `NULL` or `{}`
 {
-  // Both points and lines
+  // Affects points and lines
   "strokeColor": "orange",
   "strokeWidth": 2
 
-  // Points table only
+  // Affects points only, but can be set on line feature.
+  // This will make all points that belong to this guide to inherit these values.
   "fillColor": "orange",
   "circleRadius": 5,
 }

@@ -45,24 +45,41 @@ let olMap,
   activeGuideLayer;
 
 function styleFunction(feature, resolution) {
-  // Attempt to parse the JSON style from DB
-  let parsedStyle = {};
-  try {
-    parsedStyle = JSON.parse(feature.get("style")) || {};
-  } catch (error) {
-    parsedStyle = {};
-  }
+  /**
+   * Helper: Tries to parse a style object from a JSON string and returns an empty
+   * object if parsing fails.
+   *
+   * @param {string} styleAsJson - The JSON string representing the style object
+   * @return {object} The parsed style object or an empty object
+   */
+  const tryParseStyleFromDB = (styleAsJson) => {
+    try {
+      return JSON.parse(styleAsJson) || {};
+    } catch (error) {
+      return {};
+    }
+  };
+
+  // We need to know if we're dealing with a Point or a LineString
+  const featureType = feature.getGeometry().getType();
+  const stopNumber = feature.get("stopNumber");
+
+  // Let's try and parse the style from the DB
+  const parsedParentStyle = tryParseStyleFromDB(feature.get("parentStyle"));
+  const parsedStyle = tryParseStyleFromDB(feature.get("style"));
 
   // Let's merge the default styles with those (presumably) parsed.
   const { strokeColor, strokeWidth, fillColor, circleRadius } = {
     ...defaultStyle,
+    ...parsedParentStyle, // Will be {} on line features, but it's fine to spread `...{}`
     ...parsedStyle,
   };
 
   return new Style({
-    ...(feature.getGeometry().getType() === "Point" &&
-      // Points should only show when we zoom in
-      resolution <= POINT_VISIBILITY_THRESHOLD && {
+    ...(featureType === "Point" &&
+      // Points should only show when we zoom in, unless it's the first stop.
+      // These are always visible.
+      (resolution <= POINT_VISIBILITY_THRESHOLD || stopNumber === 1) && {
         image: new CircleStyle({
           fill: new Fill({
             color: fillColor,
@@ -71,24 +88,29 @@ function styleFunction(feature, resolution) {
             color: strokeColor,
             width: strokeWidth,
           }),
-          radius: circleRadius,
+          radius: stopNumber === 1 ? circleRadius * 2 : circleRadius,
         }),
         text: new Text({
           textAlign: "center",
           textBaseline: "middle",
-          font: "bold 11pt sans-serif",
+          font: `bold ${stopNumber === 1 ? "20" : "11"}pt sans-serif`,
           text:
+            // Show a long label when user zooms in close enough
             resolution <= POINT_TEXT_VISIBILITY_THRESHOLD
-              ? `${feature.get("stopNumber").toString()}\n${wrapText(
+              ? `${stopNumber.toString()}\n${wrapText(
                   feature.get("title"),
                   32
                 )}`
-              : feature.get("stopNumber").toString(),
+              : // Show only the stop's number if user zooms in close enough.
+              // If user zooms out, show "Start" instead of the number.
+              resolution >= POINT_VISIBILITY_THRESHOLD && stopNumber === 1
+              ? "Start"
+              : stopNumber.toString(),
           fill: new Fill({ color: strokeColor }),
           stroke: new Stroke({ color: "white", width: 2 }),
         }),
       }),
-    ...(feature.getGeometry().getType() === "LineString" && {
+    ...(featureType === "LineString" && {
       stroke: new Stroke({
         color: strokeColor,
         width: strokeWidth,
