@@ -539,7 +539,16 @@ const goToStopNumber = (stopNumber) => {
 };
 
 const deactivateGuide = () => {
-  // Tell the store to unset some "active" objects
+  // Reset style for the active stop number. It seems like we're doing it
+  // on the active guide layer only, but in fact these are the same OL Features
+  // as those in the main audioguide layer. So we reset it here and once we
+  // hide the active layer and show the main layer, this style will apply.
+  const activeStopFeature = activeGuideSource
+    .getFeatures()
+    .find((f) => f.get("stopNumber") === store.state.activeStopNumber);
+  activeStopFeature.setStyle(styleFunction);
+
+  // Tell the store to unset activeStopNumber and activeGuideObject
   store.dispatch("deactivateGuide");
 
   // Hide the active guide layer and clear its source
@@ -552,7 +561,10 @@ const deactivateGuide = () => {
   // Reset the map's padding
   olMap.getView().padding[2] = 0;
 
-  fitToAvailableFeatures();
+  // We could fit to available features here, but
+  // field studies shown that users prefer the map
+  // to remain where they were.
+  // fitToAvailableFeatures();
 };
 
 const getOLMap = () => olMap;
