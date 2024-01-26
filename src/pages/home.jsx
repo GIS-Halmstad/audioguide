@@ -22,6 +22,7 @@ import GuideSheet from "../components/GuideSheet";
 import BackgroundLayersActionsGrid from "../components/BackgroundLayersActionsGrid";
 import TabListViewContent from "../components/TabListViewContent";
 import TabShortListViewContent from "../components/TabShortListViewContent";
+import NavbarTitle from "../components/NavbarTitle";
 
 const HomePage = () => {
   console.log("HomePage init: ", f7);
@@ -53,29 +54,6 @@ const HomePage = () => {
   // Controls the visibility of the background layer switcher.
   const [backgroundLayersActionsGrid, setBackgroundLayersActionsGrid] =
     useState(false);
-
-  // State variable for changing title in the Navbar
-  const defaultTitle =
-    f7.store.state.mapConfig.tools.audioguide.title || "Audioguide";
-  const [navbarTitle, setNavbarTitle] = useState(defaultTitle);
-
-  // Needed to determine an accurate title for the navbar.
-  const activeGuideObject = useStore("activeGuideObject");
-  const activeStopNumber = useStore("activeStopNumber");
-
-  // Listen for changes to the active guide and stop number and set
-  // the title in the navbar accordingly.
-  useEffect(() => {
-    if (activeGuideObject && activeStopNumber) {
-      setNavbarTitle(
-        `${activeGuideObject.line.get("title")} - ${activeStopNumber} av ${
-          Object.entries(activeGuideObject.points).length
-        }`
-      );
-    } else {
-      setNavbarTitle(defaultTitle);
-    }
-  }, [activeGuideObject, activeStopNumber, defaultTitle]);
 
   // Check if app was launched with pid and/or gid params.
   // If so, let's pre-select the point or guide feature.
@@ -151,7 +129,9 @@ const HomePage = () => {
         <NavLeft>
           <Link iconF7="menu" iconMaterial="menu" panelOpen="left" iconOnly />
         </NavLeft>
-        <NavTitle sliding>{navbarTitle}</NavTitle>
+        <NavTitle sliding>
+          <NavbarTitle />
+        </NavTitle>
         <NavRight>
           <Link
             iconIos="f7:funnel"
