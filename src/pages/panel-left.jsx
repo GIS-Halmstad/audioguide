@@ -8,8 +8,14 @@ function PanelLeft() {
     // Tell OL to deselect any features
     f7.emit("olFeatureSelected", []);
 
-    // Tell the Store to select all categories
-    await store.dispatch("setFilteredCategories", store.state.allCategories);
+    // Tell the Store to select all categories if they're not already selected.
+    // This may seem unnecessary, but in fact it eliminates one unneeded render.
+    if (
+      JSON.stringify(store.state.allCategories) !==
+      JSON.stringify(store.state.filteredCategories)
+    ) {
+      await store.dispatch("setFilteredCategories", store.state.allCategories);
+    }
 
     // Ensure that no guide remains active
     store.dispatch("deactivateGuide");

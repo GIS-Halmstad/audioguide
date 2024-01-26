@@ -17,12 +17,12 @@ import {
 
 import { getParamValueFromHash } from "../js/getParamValueFromHash";
 
+import NavbarTitle from "../components/NavbarTitle";
 import GuidePreviewSheet from "../components/GuidePreviewSheet";
 import GuideSheet from "../components/GuideSheet";
 import BackgroundLayersActionsGrid from "../components/BackgroundLayersActionsGrid";
 import TabListViewContent from "../components/TabListViewContent";
 import TabShortListViewContent from "../components/TabShortListViewContent";
-import NavbarTitle from "../components/NavbarTitle";
 
 const HomePage = () => {
   console.log("HomePage init: ", f7);
