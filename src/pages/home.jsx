@@ -44,36 +44,38 @@ const HomePage = () => {
 
   // useStore hook where we need reactivity.
   const loadingError = useStore("loadingError");
-  const geolocationError = useStore("geolocationError");
+  useEffect(() => {
+    loadingError !== null && showNotificationFull();
+  }, [loadingError]);
 
-  // Needed to determine an accurate title for the navbar.
-  const loading = useStore("loading");
-  const activeGuideObject = useStore("activeGuideObject");
-  const activeStopNumber = useStore("activeStopNumber");
+  const geolocationError = useStore("geolocationError");
 
   // Controls the visibility of the background layer switcher.
   const [backgroundLayersActionsGrid, setBackgroundLayersActionsGrid] =
     useState(false);
 
-  useEffect(() => {
-    loadingError !== null && showNotificationFull();
-  }, [loadingError]);
+  // State variable for changing title in the Navbar
+  const defaultTitle =
+    f7.store.state.mapConfig.tools.audioguide.title || "Audioguide";
+  const [navbarTitle, setNavbarTitle] = useState(defaultTitle);
 
-  // Set title based on activeGuideObject or loading.
-  const [navbarTitle, setNavbarTitle] = useState("Laddar…");
+  // Needed to determine an accurate title for the navbar.
+  const activeGuideObject = useStore("activeGuideObject");
+  const activeStopNumber = useStore("activeStopNumber");
+
+  // Listen for changes to the active guide and stop number and set
+  // the title in the navbar accordingly.
   useEffect(() => {
-    if (loading) {
-      setNavbarTitle("Laddar…");
-    } else if (activeGuideObject && activeStopNumber) {
+    if (activeGuideObject && activeStopNumber) {
       setNavbarTitle(
         `${activeGuideObject.line.get("title")} - ${activeStopNumber} av ${
           Object.entries(activeGuideObject.points).length
         }`
       );
     } else {
-      setNavbarTitle("Audioguide");
+      setNavbarTitle(defaultTitle);
     }
-  }, [activeGuideObject, activeStopNumber, loading]);
+  }, [activeGuideObject, activeStopNumber, defaultTitle]);
 
   // Check if app was launched with pid and/or gid params.
   // If so, let's pre-select the point or guide feature.
