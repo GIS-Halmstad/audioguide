@@ -219,7 +219,10 @@ function GuideSheetContent({ activeGuideObject, activeStopNumber }) {
         </Block>
       </div>
 
-      <div className="page-content" style={{ maxHeight: "27vh" }}>
+      <div
+        className="page-content padding-bottom"
+        style={{ maxHeight: "51vh" }}
+      >
         <Block className="no-margin-top">{text}</Block>
         <Button onClick={handleClickOnCloseGuide} className="margin-bottom">
           Avsluta guiden
