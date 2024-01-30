@@ -21,7 +21,7 @@ import {
 import {
   activateGuide,
   getClosestStopNumberFromCurrentPosition,
-} from "../js/olMap";
+} from "../js/openlayers/olMap";
 
 import { getAssets } from "../js/getAssets";
 

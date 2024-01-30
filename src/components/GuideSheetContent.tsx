@@ -4,7 +4,7 @@ import { Block, BlockTitle, Button, Link, f7 } from "framework7-react";
 
 import { getAssets } from "../js/getAssets";
 
-import { goToStopNumber } from "../js/olMap";
+import { goToStopNumber } from "../js/openlayers/olMap";
 
 function GuideSheetContent({ activeGuideObject, activeStopNumber }) {
   console.log(

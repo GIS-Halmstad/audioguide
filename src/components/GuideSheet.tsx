@@ -2,7 +2,7 @@ import React from "react";
 
 import { Sheet, useStore } from "framework7-react";
 
-import { deactivateGuide } from "../js/olMap";
+import { deactivateGuide } from "../js/openlayers/olMap";
 
 import GuideSheetContent from "./GuideSheetContent";
 

@@ -10,7 +10,7 @@ import {
   Button,
 } from "framework7-react";
 
-import { updateFeaturesInMap } from "../js/olMap";
+import { updateFeaturesInMap } from "../js/openlayers/olMap";
 
 function PanelRight() {
   const filteredCategories = useStore("filteredCategories");

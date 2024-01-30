@@ -17,7 +17,7 @@ import capacitorApp from "../js/capacitor-app";
 import routes from "../js/routes";
 import store from "../js/store";
 
-import { enableGeolocation, initOLMap } from "../js/olMap";
+import { enableGeolocation, initOLMap } from "../js/openlayers/olMap";
 import DemoMessageSheet from "./DemoMessageSheet";
 
 const Audioguide = () => {

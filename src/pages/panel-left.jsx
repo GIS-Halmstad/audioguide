@@ -1,7 +1,7 @@
 import React from "react";
 import { List, ListItem, Navbar, Page, f7 } from "framework7-react";
 import store from "../js/store";
-import { updateFeaturesInMap } from "../js/olMap";
+import { updateFeaturesInMap } from "../js/openlayers/olMap";
 
 function PanelLeft() {
   const handleShowAllGuides = async () => {
