@@ -1,10 +1,12 @@
-import "../css/olMap.css";
+import Framework7 from "framework7/types";
+
+import "../../css/olMap.css";
 
 import proj4 from "proj4";
 import { register } from "ol/proj/proj4";
 
 import { Map, View, Feature, Geolocation } from "ol";
-import { ScaleLine } from "ol/control";
+import { Rotate, ScaleLine, Zoom } from "ol/control";
 import Point from "ol/geom/Point";
 // import OSM from "ol/source/OSM";
 // import TileLayer from "ol/layer/Tile";
@@ -13,10 +15,10 @@ import VectorLayer from "ol/layer/Vector";
 import Select from "ol/interaction/Select";
 import { Circle as CircleStyle, Fill, Stroke, Style, Text } from "ol/style";
 
-import store from "./store";
+import store from "../store";
 
 import { createLayersFromConfig } from "./olHelpers";
-import { wrapText } from "./utils";
+import { wrapText } from "../utils";
 
 import {
   DEFAULT_FILL_COLOR,
@@ -25,7 +27,10 @@ import {
   POINT_TEXT_VISIBILITY_THRESHOLD,
   POINT_VISIBILITY_THRESHOLD,
   STROKE_WIDTH,
-} from "./constants";
+} from "../constants";
+
+import BackgroundSwitcherControl from "./BackgroundSwitcherControl";
+import GeolocateControl from "./GeolocateControl";
 
 const defaultStyle = {
   // Takes effect only for points
@@ -155,9 +160,9 @@ function selectedStyleFunction(feature, actualResolution) {
   return normalStyle;
 }
 
-let f7Instance = null;
+let f7Instance: Framework7;
 
-async function initOLMap(f7) {
+async function initOLMap(f7: Framework7) {
   f7Instance = f7;
 
   console.warn("Init OL Map should only run once ", f7);
@@ -211,6 +216,8 @@ async function initOLMap(f7) {
   olMap = new Map({
     target: "map",
     controls: [
+      new Zoom(),
+      new GeolocateControl({ f7Instance }),
       new ScaleLine({
         units: "metric",
         bar: true,
@@ -218,6 +225,14 @@ async function initOLMap(f7) {
         text: false,
         minWidth: 140,
         maxWidth: 240,
+      }),
+      new BackgroundSwitcherControl({ f7Instance }),
+      new Rotate({
+        // autoHide: false,
+        label: `arrow_circle_up`, // transform: rotate(316deg);
+        compassClassName: "icon material-icons",
+        // label: `compass`, // transform: rotate(316deg);
+        // compassClassName: "icon f7-icons",
       }),
     ],
 
@@ -239,7 +254,6 @@ async function initOLMap(f7) {
       minZoom: config.map.minZoom || 0,
       projection: config.map.projection,
       resolutions: config.map.resolutions,
-      units: "m",
       padding: [0, 0, 0, 0], // Can be adjusted, to make room for Sheet overlays
       zoom: config.map.zoom,
     }),

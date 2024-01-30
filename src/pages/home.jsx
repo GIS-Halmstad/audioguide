@@ -11,8 +11,6 @@ import {
   useStore,
   NavLeft,
   NavRight,
-  Fab,
-  Icon,
 } from "framework7-react";
 
 import { getParamValueFromHash } from "../js/getParamValueFromHash";
@@ -49,7 +47,7 @@ const HomePage = () => {
     loadingError !== null && showNotificationFull();
   }, [loadingError]);
 
-  const geolocationError = useStore("geolocationError");
+  // const geolocationError = useStore("geolocationError");
 
   // Controls the visibility of the background layer switcher.
   const [backgroundLayersActionsGrid, setBackgroundLayersActionsGrid] =
@@ -94,6 +92,17 @@ const HomePage = () => {
     }
   }, []);
 
+  useEffect(() => {
+    const handleClickOnFabBackgrounds = () => {
+      setBackgroundLayersActionsGrid(true);
+    };
+    f7.on("showBackgroundSwitcher", handleClickOnFabBackgrounds);
+
+    return () => {
+      f7.off("showBackgroundSwitcher", handleClickOnFabBackgrounds);
+    };
+  }, []);
+
   const onPageBeforeOut = () => {
     f7.notification.close();
   };
@@ -103,20 +112,16 @@ const HomePage = () => {
     if (notificationFull.current) notificationFull.current.destroy();
   };
 
-  const handleClickOnFabBackgrounds = () => {
-    setBackgroundLayersActionsGrid(true);
-  };
-
-  const handleClickOnGeolocation = () => {
-    if (geolocationError === null) {
-      f7.emit("olCenterOnGeolocation");
-    } else {
-      f7.dialog.alert(
-        "För att använda funktionen måste du tillåta appen att ta del av din position.",
-        "Kan inte positionera"
-      );
-    }
-  };
+  // const handleClickOnGeolocation = () => {
+  //   if (geolocationError === null) {
+  //     f7.emit("olCenterOnGeolocation");
+  //   } else {
+  //     f7.dialog.alert(
+  //       "För att använda funktionen måste du tillåta appen att ta del av din position.",
+  //       "Kan inte positionera"
+  //     );
+  //   }
+  // };
 
   return (
     <Page
@@ -182,12 +187,6 @@ const HomePage = () => {
         </Tab>
         <Tab id="tab-map" className="page-content">
           <div id="map" />
-          <Fab position="right-top" onClick={handleClickOnFabBackgrounds}>
-            <Icon ios="f7:layers" md="material:layers" />
-          </Fab>
-          <Fab position="left-top" onClick={handleClickOnGeolocation}>
-            <Icon ios="f7:location" md="material:near_me" />
-          </Fab>
         </Tab>
       </Tabs>
     </Page>

@@ -6,3 +6,87 @@
   height: calc(100% - var(--f7-navbar-height) - var(--f7-tabbar-icons-height));
   width: 100%;
 }
+
+/* 
+  This oddly-named DIV contains all OL map controls. 
+  We want it to be a flex container with a column of buttons to the right. 
+*/
+.ol-overlaycontainer-stopevent {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-end;
+  flex-wrap: nowrap;
+}
+
+/* Style the OL Controls using some of the F7 variables.
+  This is the container for each control. It sets the position, 
+  relative to other controls in this container, as well as unsets
+  some OL defaults, such as outline border etc. */
+.ol-control {
+  z-index: 1500;
+  position: relative;
+  width: var(--f7-fab-size);
+  height: var(--f7-fab-size);
+  margin-top: var(--f7-fab-margin);
+  margin-right: calc(var(--f7-fab-margin) + var(--f7-safe-area-right));
+  border: unset;
+  background-color: unset;
+}
+/* Unset some more OL defaults */
+.ol-rotate,
+.ol-zoom {
+  top: unset;
+  right: unset;
+  left: unset;
+}
+.ol-touch .ol-control button {
+  font-size: unset;
+}
+
+/* Zoom buttons are special in two ways: 
+    - we need another font size
+    - we must add bottom margin to accommodate for the "double button" element
+    */
+.ol-zoom {
+  font-size: calc(var(--f7-fab-size) * 0.4);
+  margin-bottom: var(--f7-fab-size);
+}
+.ol-zoom .ol-zoom-in {
+  border-radius: var(--f7-fab-border-radius) var(--f7-fab-border-radius) 0 0;
+}
+.ol-zoom .ol-zoom-out {
+  border-radius: 0 0 var(--f7-fab-border-radius) var(--f7-fab-border-radius);
+}
+
+/* This is the actual button within the OL control's DIV. */
+.ol-control > button {
+  background-color: var(--f7-toolbar-bg-color, var(--f7-bars-bg-color));
+  width: 100%;
+  height: 100%;
+  border-radius: var(--f7-fab-border-radius);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition-duration: 300ms;
+  overflow: hidden;
+  z-index: 1;
+  margin: 0;
+  padding: 0;
+  box-shadow: var(--f7-fab-box-shadow);
+  font-weight: normal;
+}
+
+/* And here's active state, i.e. how the control looks when user clicks a button */
+.ol-control > button:active,
+.ol-control > button:hover,
+.ol-control > button:focus {
+  outline: none;
+}
+
+/* On Material, we want the button a bit brighter. On iOS, the default is fine, 
+   but this var() would make it darker. So it's not needed on iOS. */
+.md .ol-control > button {
+  color: var(--f7-tabbar-link-inactive-color);
+}

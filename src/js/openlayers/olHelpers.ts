@@ -5,7 +5,7 @@ import TileLayer from "ol/layer/Tile";
 import TileWMS, { Options } from "ol/source/TileWMS";
 import TileGrid from "ol/tilegrid/TileGrid";
 
-import { LayerConfig, LayerType, MapConfig } from "../types/types";
+import { LayerConfig, LayerType, MapConfig } from "../../types/types";
 
 function createLayersFromConfig(
   c: LayerConfig[],
