@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import { f7, Page, Navbar, Block, Button, Link } from "framework7-react";
 
-import { getOLMap } from "../js/olMap";
+import { getOLMap } from "../js/openlayers/olMap";
 
 /**
  * @summary Ensure that the supplied string isn't malformed by parsing it using the DOM.
@@ -17,8 +17,8 @@ function pseudoSanitize(html) {
 
 const About = () => {
   const popup = useRef(null);
-  const audioguideLayersAttribution =
-    f7.store.state.mapConfig.tools.audioguide.audioguideLayersAttribution;
+  const audioguideAttribution =
+    f7.store.state.mapConfig.tools.audioguide.audioguideAttribution || "";
   const aboutPageContentHtml =
     f7.store.state.mapConfig.tools.audioguide.aboutPageContentHtml ||
     "No about text available. Add one by setting a value for the `aboutPageContentHtml` property in tool config.";
@@ -101,7 +101,7 @@ const About = () => {
           </Button>
           <hr />
           <p>
-            &copy; 2023-{new Date().getFullYear()} {audioguideLayersAttribution}
+            &copy; 2023-{new Date().getFullYear()} {audioguideAttribution}
           </p>
           <p>Upphovsrätt kartinnehåll: {attributions}.</p>
           <p>

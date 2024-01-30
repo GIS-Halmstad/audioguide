@@ -85,8 +85,9 @@
                     },
                     "title": "Audioguide",
                     "description": "Audioguide tool",
+                    "audioguideAttribution": "Destination Halmstad, Halmstads kommun",
                     "audioguideLayersAttribution": "Halmstads kommun",
-                    "aboutPageContentHtml": "<p>Lorem <a href=\"tel:+46073123456\">073 123 456</a> ipsum dolor sit amet, consectetur adipiscing elit. Maecenas vitae mi vitae purus congue convallis. Curabitur condimentum dolor sed erat rhoncus mollis. Mauris sed massa vehicula, bibendum diam sit amet, semper massa. Praesent cursus rhoncus mattis. Sed sed laoreet lectus, ac aliquet ipsum. Quisque vel risus ante. Phasellus vel mauris mauris. Nunc rhoncus mi enim, vitae facilisis magna imperdiet nec. Maecenas nec quam ipsum. Vestibulum bibendum interdum elit vel laoreet. Nulla facilisi. Fusce efficitur nisi non tristique pulvinar.</p><p>Nulla in iaculis nibh. Sed sodales eget risus nec lobortis. Pellentesque at dictum nulla, at ultrices mi. Phasellus feugiat, nisi quis egestas facilisis, ex nisl varius nulla, id interdum justo massa volutpat nisl. Integer congue, magna vitae consequat imperdiet, neque enim viverra nibh, eu aliquam nisi sem eget justo. Duis ullamcorper est ac ex dignissim, sit amet commodo massa congue. Vestibulum turpis arcu, interdum eget purus sit amet, rhoncus molestie risus. Integer fringilla molestie eros id pretium. Mauris sit amet diam id urna pulvinar auctor. Mauris sollicitudin malesuada elit in volutpat. Suspendisse blandit erat eget magna porta convallis. Quisque sollicitudin at odio nec maximus. Pellentesque ut ante id nisl iaculis egestas. Cras vestibulum elit ac sagittis semper.</p><p>In eleifend mattis nisi. Cras sit amet interdum nunc. Ut ac libero mattis, sodales orci id, aliquet mi. Curabitur lacinia tristique magna at consectetur. Fusce tempor ante sed aliquam viverra. Curabitur dapibus vehicula lorem ut feugiat. Fusce gravida nunc ligula, nec viverra massa interdum imperdiet. Proin eget velit imperdiet, eleifend nisl sed, suscipit elit. In nunc tellus, commodo nec pharetra nec, tempor porta tortor. Nullam viverra in magna ut lobortis. Pellentesque sed eros non urna varius sollicitudin. Sed maximus orci ac ultrices pellentesque. Nulla mollis sodales diam, nec luctus magna feugiat vel.</p><p>Vestibulum congue a dolor eget auctor. Aenean pulvinar laoreet orci, ac aliquet neque fringilla sit amet. Mauris tellus ligula, aliquet eu leo ac, efficitur ultricies mauris. Maecenas eget urna mi. Aenean nulla dolor, volutpat ut diam id, consequat finibus neque. Pellentesque tincidunt nulla est. Vestibulum ut ex dui.</p><p>Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur vitae mollis leo. Sed elementum sagittis quam eget euismod. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Maecenas et sapien auctor, scelerisque magna ut, tristique dolor. Curabitur vel dui eros. Cras vitae erat sodales, pulvinar nulla sed, consequat tellus. Sed malesuada, dui in aliquet lobortis, nisl justo placerat nulla, nec maximus magna mi in ex. Phasellus sed dictum magna. Nullam in egestas erat, vitae dapibus velit.</p>",
+                    "aboutPageContentHtml": "<p>Välkommen till Halmstads audioguide. Här får du ta del av spännande och dramatiserade guidningar runt om i Halmstad. Audioguden lanserades inför sommaren 2024 med fyra unika guidade turer.</p><p>Du väljer själv om du vill följa en guide eller skapa en helt egen genom att besöka de stopp som passar dig. Håll utkik efter fler guider, vi fyller på löpande.</p><p>Har du frågor om guiden är du välkommen att kontakta <a href=\"https://www.destinationhalmstad.se/uppleva/bra-att-veta/halmstad-tourist-center\">Halmstad Tourist Center</a>.</p>",
                     "target": "left",
                     "position": "left",
                     "visibleAtStart": true,
@@ -148,7 +149,7 @@
         "wmslayers": [
             {
                 "id": "58",
-                "caption": "Lantmäteriets topografiska karta (nedtonad)",
+                "caption": "Nedtonad",
                 "internalLayerName": "",
                 "url": "https://karta.halmstad.se/geoserver/ext_lm/wms",
                 "customGetMapUrl": "",
@@ -228,7 +229,7 @@
             },
             {
                 "id": "72",
-                "caption": "Lantmäteriets topografiska karta (färg)",
+                "caption": "Färg",
                 "internalLayerName": "",
                 "url": "https://karta.halmstad.se/geoserver/ext_lm/wms",
                 "customGetMapUrl": "",
@@ -308,7 +309,7 @@
             },
             {
                 "id": "pxkat3",
-                "caption": "Flygfoto 2023",
+                "caption": "Flygfoto",
                 "internalLayerName": "Flygfoto 2023",
                 "url": "https://karta.halmstad.se/geoserver/bmf/wms",
                 "customGetMapUrl": "",
