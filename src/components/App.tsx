@@ -149,10 +149,10 @@ const Audioguide = () => {
           <List inset>
             <BlockFooter>
               <p>
-                För att Audioguide ska fungera behövs mer skärmyta än vad som är
-                tillgängligt i det här läget.
+                För att Audioguiden ska fungera behöver du ha din skärm i
+                stående läge.
               </p>
-              <p>Vänligen rotera din enhet.</p>
+              <p>Rotera din enhet och fortsätt upptäcka Halmstad.</p>
             </BlockFooter>
           </List>
         </Page>
