@@ -143,6 +143,9 @@
             ],
             "constrainOnlyCenter": true,
             "constrainResolution": true
+        },
+        "app": {
+            "color": "#2c3f5c"
         }
     },
     "layersConfig": {

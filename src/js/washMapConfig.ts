@@ -9,6 +9,7 @@ type NewConfig = {
   map: any;
   layersTree: any;
   backgrounds: any;
+  app: any;
 };
 
 const extractLayers = (config: any, layers: any[]) => {
@@ -45,7 +46,7 @@ const washMapConfig = (originalConfig: OriginalConfig) => {
 
   // Start by grabbing two properties, as-is in the original config. We
   // won't use all settings, but it's a good start anyway.
-  const { projections, map } = originalConfig.mapConfig;
+  const { projections, map, app = {} } = originalConfig.mapConfig;
 
   // Next, extract the two tool settings that we do use in this app.
   const tools: any = {
@@ -71,11 +72,12 @@ const washMapConfig = (originalConfig: OriginalConfig) => {
   );
 
   const newConfig: NewConfig = {
+    app,
+    backgrounds,
+    layersTree,
+    map,
     projections,
     tools,
-    map,
-    layersTree,
-    backgrounds,
   };
   return newConfig;
 };

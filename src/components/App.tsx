@@ -106,6 +106,9 @@ const Audioguide = () => {
   const f7params: Framework7Parameters = {
     name: "Audioguide",
     theme: "auto",
+    colors: {
+      primary: store.state.mapConfig.app?.color || "#007aff", // Allow custom primary color, fallback to F7 default
+    },
     store: store,
     routes: routes,
     // Input settings
