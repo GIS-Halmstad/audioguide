@@ -8,8 +8,7 @@ import { f7, useStore } from "framework7-react";
  */
 function NavbarTitle() {
   // State variable for changing title in the Navbar
-  const defaultTitle =
-    f7.store.state.mapConfig.tools.audioguide.title || "Audioguide";
+  const defaultTitle = f7.store.state.mapConfig.ui?.name || "Audioguide";
   const [navbarTitle, setNavbarTitle] = useState(defaultTitle);
 
   // Needed to determine an accurate title for the navbar.

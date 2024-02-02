@@ -133,6 +133,7 @@ const HomePage = () => {
       <Navbar sliding={false}>
         <NavLeft>
           <Link iconF7="menu" iconMaterial="menu" panelOpen="left" iconOnly />
+          <img src="logo.png" className="app-logo" />
         </NavLeft>
         <NavTitle sliding>
           <NavbarTitle />

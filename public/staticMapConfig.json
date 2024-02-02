@@ -144,8 +144,15 @@
             "constrainOnlyCenter": true,
             "constrainResolution": true
         },
-        "app": {
-            "color": "#2c3f5c"
+        "ui": {
+            "showTechnicalInfoDialog": false,
+            "colors": {
+                "primary": "#2c3f5c"
+            },
+            "injectCustomCss": true,
+            "darkMode": false,
+            "name": "Audioguide",
+            "theme": "md"
         }
     },
     "layersConfig": {

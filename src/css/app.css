@@ -39,6 +39,14 @@ body.loading #splash-screen {
   }
 }
 
+.app-logo {
+  max-height: var(--f7-navbar-height);
+  margin-left: calc(
+    var(--f7-card-expandable-margin-horizontal) + var(--f7-safe-area-left)
+  );
+  margin-right: 20px;
+}
+
 /* Left Panel right border when it is visible by breakpoint */
 .panel-left.panel-in-breakpoint:before {
   position: absolute;
@@ -99,6 +107,10 @@ body.loading #splash-screen {
     width: calc((100% - var(--f7-card-expandable-margin-horizontal) * 4) / 3);
     margin-right: 0;
   }
+}
+
+.card-expandable .card-content {
+  width: unset; /* default to 100vw, but this makes makes the card too wide */
 }
 
 /* Sheet Modal */

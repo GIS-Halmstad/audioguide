@@ -45,8 +45,8 @@ const About = () => {
           <div class="popup">
             <div class="page">
               <div class="navbar">
+              <div class="navbar-bg"></div>
                 <div class="navbar-inner">
-                  <div class="navbar-bg"></div>
                   <div class="title">Teknisk information</div>
                   <div class="right"><a  class="link popup-close">Stäng</a></div>
                 </div>
@@ -96,9 +96,11 @@ const About = () => {
           style={{ fontSize: "x-small" }}
           className={"margin-left margin-right margin-bottom"}
         >
-          <Button small onClick={createTechnicalPopup}>
-            Visa teknisk information
-          </Button>
+          {f7.store.state.mapConfig.ui.showTechnicalInfoDialog === true && (
+            <Button small onClick={createTechnicalPopup}>
+              Visa teknisk information
+            </Button>
+          )}
           <hr />
           <p>
             &copy; 2023-{new Date().getFullYear()} {audioguideAttribution}
