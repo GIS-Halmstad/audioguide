@@ -84,6 +84,15 @@ const Audioguide = () => {
     // Let's enable geolocation
     enableGeolocation();
 
+    // See if we need to inject custom CSS
+    if (store.state.mapConfig.ui.injectCustomCss === true) {
+      const customCssResponse = await fetch("custom.css");
+      const customCss = await customCssResponse.text();
+      const styleTag = document.createElement("style");
+      styleTag.innerHTML = customCss;
+      document.head.appendChild(styleTag);
+    }
+
     // Let's tell the store (and React Components using
     // the useStore hook) that we're done initiating.
     store.dispatch("setLoading", false);

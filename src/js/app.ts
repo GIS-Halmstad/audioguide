@@ -53,15 +53,6 @@ if (store.state.loadingError === null) {
     // Let's save the map config to the store for later use.
     store.dispatch("setMapConfig", washedMapConfig);
 
-    // See if we need to inject custom CSS
-    if (store.state.mapConfig.ui.injectCustomCss === true) {
-      const customCssResponse = await fetch("custom.css");
-      const customCss = await customCssResponse.text();
-      const styleTag = document.createElement("style");
-      styleTag.innerHTML = customCss;
-      document.head.appendChild(styleTag);
-    }
-
     // Grab line features from WFSs and save to store
     const allLines = await fetchFromService("line");
     store.dispatch("setAllLines", allLines);
