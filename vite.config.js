@@ -26,6 +26,7 @@ export default async () => {
     },
     server: {
       host: true,
+      port: 3000,
     },
   };
 };
