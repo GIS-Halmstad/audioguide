@@ -24,7 +24,7 @@ function AudioguideCard({ feature }) {
 
     copyToClipboard(
       `${hrefWithoutHash}#g=${feature.get("guideId")}`,
-      "Kopierat!"
+      f7.dialog.alert
     );
   };
 
@@ -61,18 +61,21 @@ function AudioguideCard({ feature }) {
           <Badge color={parseStyle(feature).strokeColor}></Badge>
         </CardHeader>
         {/* Chips with categories and guide length */}
-        <Block className="display-flex justify-content-space-between">
-          <div>
+        <Block>
+          <div
+            className="padding-top-half padding-bottom-half"
+            style={{
+              borderTop: "1px solid var(--f7-md-outline)",
+              borderBottom: "1px solid var(--f7-md-outline)",
+            }}
+          >
             {feature
               .get("categories")
               ?.split(",")
               .map((c: string, i: number) => (
-                <Chip outline text={c} key={i} style={{ marginRight: "2px" }} />
+                <Chip text={c} key={i} style={{ marginRight: "2px" }} />
               ))}
-          </div>
-          <div>
             <Chip
-              outline
               text={feature.get("length")}
               tooltip={`Guidens längd är ${feature.get("length")}`}
               mediaBgColor="blue"
@@ -87,7 +90,6 @@ function AudioguideCard({ feature }) {
         </Block>
 
         <Block>
-          <div className="card-content-padding">{feature.get("text")}</div>
           <Button
             fill
             round
@@ -98,6 +100,7 @@ function AudioguideCard({ feature }) {
           >
             Lyssna på guiden
           </Button>
+          <div className="card-content-padding">{feature.get("text")}</div>
           <Button
             round
             onClick={handleCopyLinkToGuide}

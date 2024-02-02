@@ -33,7 +33,7 @@ function PanelLeft() {
   return (
     <Page>
       <Navbar title="Meny" />
-      <List strong outlineIos dividersIos insetMd accordionList>
+      <List dividers insetMd accordionList>
         <ListItem
           title="Alla guider"
           panelClose

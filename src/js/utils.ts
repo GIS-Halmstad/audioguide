@@ -9,8 +9,10 @@ export const wrapText = (s: string, w: number) =>
 
 export const copyToClipboard = (
   s: string,
-  a: string | null = "Adressen har kopierats till urklipp"
+  alertFunction?: Function,
+  a: string | null = "Länken har kopierats."
 ) => {
+  const alert = alertFunction || window.alert;
   const blobText = new Blob([s], {
     type: "text/plain",
   });
@@ -25,6 +27,8 @@ export const copyToClipboard = (
     () => {
       if (a !== null) alert(a);
     },
-    () => {}
+    () => {
+      alert("Kunde inte kopiera");
+    }
   );
 };

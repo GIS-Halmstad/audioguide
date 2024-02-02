@@ -91,8 +91,8 @@ function PanelRight() {
                     filteredCategories.includes(c)
                   ) {
                     f7.dialog.alert(
-                      "Minst en kategori måste vara vald",
-                      "Varning"
+                      "Du måste välja minst en kategori, annars ser du inga audioguider.",
+                      "Hoppsan!"
                     );
                   }
                 }}
@@ -115,7 +115,6 @@ function PanelRight() {
         {f7.store.state.allCategories.length !==
           f7.store.state.filteredCategories.length && (
           <Button
-            color="red"
             small
             onClick={() => {
               // Set filtered categories to all available
@@ -128,7 +127,7 @@ function PanelRight() {
               updateFeaturesInMap();
 
               // Close the panel
-              f7.panel.close("right");
+              // f7.panel.close("right");
             }}
           >
             Återställ filter

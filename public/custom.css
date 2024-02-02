@@ -1,28 +1,66 @@
 :root {
-  --soft-bg-surface: #dfdad1;
-
+  /* Dark main color */
   --f7-theme-color: #2c3f5c;
-  --swiper-theme-color: var(--f7-theme-color);
-  --f7-color-primary: var(--f7-theme-color);
-  --f7-navbar-bg-color: var(--f7-color-primary);
-  --f7-bars-bg-color: var(--f7-color-primary);
-  --f7-navbar-text-color: #fff;
-  --f7-bars-text-color: #fff;
-  --f7-navbar-link-color: #fff;
-  --f7-bars-link-color: #fff;
-  --f7-page-bg-color: #dfdad1; /* sand 40% */
-  --f7-badge-bg-color: #bda891; /* sand 100% */
-  --f7-badge-text-color: var(--f7-md-on-surface);
-  --f7-tabbar-link-active-icon-bg-color: #79b9cb;
-  --f7-tabbar-link-active-color: #fff;
-  --f7-tabbar-link-inactive-color: #fff;
 
-  --f7-card-bg-color: var(--soft-bg-surface);
+  /* A light and dark sand color */
+  --sand-40: #dfdad1;
+  --sand-100: #bda891;
+
+  /* All text displayed on our f7-theme-color will have this color */
+  --on-theme-color: #fff;
+
+  /* Most surfaces have the light sand color */
+  --f7-md-surface: var(--sand-40);
+  --f7-md-surface-1: var(--sand-40);
+
+  /* Used by dividers, HR, etc. */
+  --f7-md-outline: var(--sand-100);
+
+  /* Navbar and Tabbar are Surface 2. We want them in the dark theme color. */
+  --f7-md-surface-2: var(--f7-theme-color);
+
+  /* Navbar and Tabbar need white text because they have the dark theme color as background */
+  --f7-navbar-text-color: var(--on-theme-color);
+  --f7-navbar-link-color: var(--on-theme-color);
+  --f7-tabbar-link-active-color: var(--on-theme-color);
+  --f7-tabbar-link-inactive-color: var(--on-theme-color);
+  --f7-tabbar-link-active-icon-bg-color: #79b9cb;
+
+  --f7-badge-bg-color: var(--sand-100);
+  --f7-badge-text-color: var(--f7-md-on-surface);
+
+  --f7-list-chevron-icon-color: var(--sand-100);
+
   --f7-card-expandable-bg-color: #fff;
 
-  --f7-list-strong-bg-color: #fff;
-  --f7-button-fill-bg-color: var(--f7-theme-color);
+  /* Chips use this as background */
+  --f7-md-secondary-container: var(--sand-100);
 
-  --f7-actions-bg-color: var(--soft-bg-surface);
-  --f7-sheet-bg-color: var(--soft-bg-surface);
+  --swiper-theme-color: var(--f7-theme-color);
+
+  /* --f7-md-on-primary: #ff0000; */
+  /*--f7-color-primary: var(--f7-theme-color);*/
+
+  /* --f7-bars-bg-color: var(--f7-color-primary); */
+  /* --f7-navbar-bg-color: var(--f7-color-primary); */
+  /* --f7-bars-text-color: #fff;
+  --f7-bars-link-color: #fff; */
+
+  /* --f7-page-bg-color: var(--soft-bg-surface);
+  
+  /* --f7-card-bg-color: var(--soft-bg-surface); */
+
+  /* --f7-list-strong-bg-color: #fff;  */
+  /* --f7-button-fill-bg-color: var(--f7-theme-color); */
+
+  /* --f7-actions-bg-color: var(--soft-bg-surface);
+  --f7-sheet-bg-color: var(--soft-bg-surface); */
 }
+
+.card-opened {
+  --f7-card-expandable-bg-color: var(--sand-40);
+}
+
+/* .navbar {
+  --f7-md-on-surface: #fff;
+} */

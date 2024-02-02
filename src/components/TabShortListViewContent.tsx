@@ -16,7 +16,6 @@ function TabShortListViewContent() {
 
   return (
     <>
-      <BlockTitle>Våra guider</BlockTitle>
       <List dividersIos outlineIos strongIos>
         {filteredFeatures
           .filter((f) => f.get("length")) // Only line features will have the "length" property
