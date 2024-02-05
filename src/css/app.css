@@ -81,11 +81,10 @@ body.loading #splash-screen {
 
 /* New Cards */
 
-.cards-grid .card-header {
-  height: 200px;
+.card .card-header {
+  height: 150px;
   background-size: cover;
   background-position: center;
-  color: #fff;
 }
 
 @media (min-width: 768px) {
@@ -168,11 +167,7 @@ body.loading #splash-screen {
   margin-left: -18px;
   margin-top: -3px;
   border-radius: 3px;
-  background: #666;
-}
-
-.active-guide-sheet .swipe-handler:after {
-  background: #ffffff;
+  background-color: #fff;
 }
 
 /* Swiper Element custom styles */
@@ -181,8 +176,13 @@ swiper-container {
   width: 100%;
 }
 
+swiper-container::part(bullet) {
+  background-color: var(--f7-md-surface);
+  opacity: 0.8;
+}
+
 swiper-container::part(bullet-active) {
-  background-color: white;
+  background-color: #fff;
 }
 
 swiper-container .swiper-slide-custom {
@@ -199,12 +199,4 @@ swiper-container .image-container {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-}
-
-.text-label-2 {
-  background-color: rgba(225, 225, 225, 0.8);
-  text-align: center;
-  text-transform: uppercase;
-  font-weight: bold;
-  font-size: 1.2rem;
 }
