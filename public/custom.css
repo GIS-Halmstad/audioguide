@@ -19,6 +19,9 @@
   /* Navbar and Tabbar are Surface 2. We want them in the dark theme color. */
   --f7-md-surface-2: var(--f7-theme-color);
 
+  /* Dialog (promots, alerts) surface color */
+  --f7-md-surface-3: var(--sand-40);
+
   /* Navbar and Tabbar need white text because they have the dark theme color as background */
   --f7-navbar-text-color: var(--on-theme-color);
   --f7-navbar-link-color: var(--on-theme-color);
