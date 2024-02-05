@@ -14,6 +14,7 @@ function GuideSheet() {
     <Sheet
       className="active-guide-sheet"
       style={{ height: "auto", maxHeight: "90vh" }}
+      push
       backdrop={false} // To allow for map navigation
       closeByOutsideClick={false} // To prevent the Sheet from closing when map is clicked
       swipeToStep
