@@ -57,12 +57,12 @@ function AudioguideCard({ feature }) {
             .get("categories")
             ?.split(",")
             .map((c: string, i: number) => (
-              <Chip text={c} key={i} style={{ marginRight: "2px" }} />
+              <Chip text={c} key={i} className="margin-right-half" />
             ))}
           <Chip
             text={feature.get("length")}
             tooltip={`Guidens längd är ${feature.get("length")}`}
-            mediaBgColor="blue"
+            mediaBgColor="primary"
           >
             <Icon
               slot="media"

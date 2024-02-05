@@ -94,7 +94,6 @@ function GuideSheetContent({ activeGuideObject, activeStopNumber }) {
         </swiper-container>
 
         <Link
-          className=""
           style={{
             position: "absolute",
             right: "15px",
