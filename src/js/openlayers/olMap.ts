@@ -31,6 +31,7 @@ import {
 
 import BackgroundSwitcherControl from "./BackgroundSwitcherControl";
 import GeolocateControl from "./GeolocateControl";
+import Layer from "ol/layer/Layer";
 
 const defaultStyle = {
   // Takes effect only for points
@@ -42,14 +43,14 @@ const defaultStyle = {
   strokeWidth: STROKE_WIDTH,
 };
 
-let olMap,
-  audioguideSource,
-  audioguideLayer,
-  geolocation,
-  activeGuideSource,
-  activeGuideLayer;
+let olMap!: Map,
+  audioguideSource: VectorSource,
+  audioguideLayer: VectorLayer<VectorSource>,
+  geolocation: Geolocation,
+  activeGuideSource: VectorSource,
+  activeGuideLayer: VectorLayer<VectorSource>;
 
-function styleFunction(feature, resolution) {
+function styleFunction(feature: Feature, resolution: number) {
   /**
    * Helper: Tries to parse a style object from a JSON string and returns an empty
    * object if parsing fails.
@@ -408,10 +409,6 @@ async function initOLMap(f7: Framework7) {
   updateFeaturesInMap();
 }
 
-const addFeatures = (features) => {
-  audioguideSource.addFeatures(features);
-};
-
 const fitToAvailableFeatures = () => {
   // Fit View to features' extent only if there are
   // no infinite values (which can happen if the Source
@@ -422,12 +419,12 @@ const fitToAvailableFeatures = () => {
 
 const updateFeaturesInMap = () => {
   audioguideSource.clear();
-  addFeatures(store.getters.filteredFeatures.value);
+  audioguideSource.addFeatures(store.getters.filteredFeatures.value);
   olMap.getView().padding[2] = 0;
   fitToAvailableFeatures();
 };
 
-const setBackgroundLayer = (lid) => {
+const setBackgroundLayer = (lid: Layer) => {
   // Go through layers and…
   olMap.getAllLayers().forEach((l) => {
     // …turn off any background layers.
