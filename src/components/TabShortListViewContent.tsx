@@ -32,7 +32,10 @@ function TabShortListViewContent() {
               title={f.get("title")}
               badge={f.get("length")}
             >
-              <Badge slot="media" color={parseStyle(f).strokeColor} />
+              <Badge
+                slot="media"
+                style={{ backgroundColor: parseStyle(f).strokeColor }}
+              />
             </ListItem>
           ))}
       </List>

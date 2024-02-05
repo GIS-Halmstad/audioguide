@@ -103,9 +103,11 @@ export default function GuidePreviewSheetContent({ f }: Props) {
             <div className="text-label-2">
               {lineFeature.get("title")}
               <Badge
-                color={parseStyle(lineFeature).strokeColor}
                 className="margin-left-half"
-                style={{ marginBottom: "3px" }}
+                style={{
+                  backgroundColor: parseStyle(lineFeature).strokeColor,
+                  marginBottom: "3px",
+                }}
               />
             </div>
             <CardContent

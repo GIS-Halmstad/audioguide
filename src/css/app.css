@@ -113,6 +113,12 @@ body.loading #splash-screen {
   width: unset; /* default to 100vw, but this makes makes the card too wide */
 }
 
+@media (min-width: 768px) and (min-height: 670px) {
+  .card-expandable:not(.card-opened) .card-content {
+    width: unset !important; /* in Grid view, we want to unset the width only when card is closed (otherwise, the Badge will be cut off) */
+  }
+}
+
 /* Sheet Modal */
 @media ((min-width: 460px)) {
   .sheet-modal {

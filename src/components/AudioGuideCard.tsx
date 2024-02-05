@@ -58,7 +58,9 @@ function AudioguideCard({ feature }) {
         />
         <CardHeader style={{ height: "60px" }}>
           <div>{feature.get("title")}</div>
-          <Badge color={parseStyle(feature).strokeColor}></Badge>
+          <Badge
+            style={{ backgroundColor: parseStyle(feature).strokeColor }}
+          ></Badge>
         </CardHeader>
         {/* Chips with categories and guide length */}
         <Block>
