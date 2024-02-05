@@ -7,6 +7,16 @@
 export const wrapText = (s: string, w: number) =>
   s.replace(new RegExp(`(?![^\\n]{1,${w}}$)([^\\n]{1,${w}})\\s`, "g"), "$1\n");
 
+export const trimString = (
+  input: string,
+  maxLength: number,
+  endWithEllipsis = true
+) => {
+  const reg = `^.{${maxLength}}.*?\\b`;
+  const regex = new RegExp(reg);
+  return input.match(regex) + (endWithEllipsis ? "…" : "");
+};
+
 export const copyToClipboard = (
   s: string,
   alertFunction?: Function,

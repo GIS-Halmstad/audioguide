@@ -79,43 +79,45 @@ body.loading #splash-screen {
   z-index: 6000;
 }
 
-/* Expandable Cards in Photo List view */
+/* New Cards */
+
+.cards-grid .card-header {
+  height: 200px;
+  background-size: cover;
+  background-position: center;
+  color: #fff;
+}
+
 @media (min-width: 768px) {
-  .expandable-cards-grid {
+  .cards-grid {
     display: flex;
     flex-wrap: wrap;
   }
-  .expandable-cards-grid .card {
+  .cards-grid .card {
     flex-shrink: 10;
     min-width: 0;
   }
 }
 @media (min-width: 768px) and (max-width: 1023px) {
-  .expandable-cards-grid .card {
-    width: calc((100% - var(--f7-card-expandable-margin-horizontal) * 3) / 2);
+  .cards-grid .card {
+    width: calc(
+      (100% - calc(var(--f7-card-expandable-margin-horizontal) * 2) * 3) / 2
+    );
   }
-  .expandable-cards-grid .card:nth-child(2),
-  .expandable-cards-grid .card:nth-child(4) {
+  .cards-grid .card:nth-child(2),
+  .cards-grid .card:nth-child(4) {
     margin-left: 0;
   }
-  .expandable-cards-grid .card:nth-child(n + 3) {
+  .cards-grid .card:nth-child(n + 3) {
     margin-top: 0;
   }
 }
 @media (min-width: 1024px) {
-  .expandable-cards-grid .card {
-    width: calc((100% - var(--f7-card-expandable-margin-horizontal) * 4) / 3);
+  .cards-grid .card {
+    width: calc(
+      (100% - calc(var(--f7-card-expandable-margin-horizontal) * 2) * 4) / 3
+    );
     margin-right: 0;
-  }
-}
-
-.card-expandable .card-content {
-  width: unset; /* default to 100vw, but this makes makes the card too wide */
-}
-
-@media (min-width: 768px) and (min-height: 670px) {
-  .card-expandable:not(.card-opened) .card-content {
-    width: unset !important; /* in Grid view, we want to unset the width only when card is closed (otherwise, the Badge will be cut off) */
   }
 }
 
