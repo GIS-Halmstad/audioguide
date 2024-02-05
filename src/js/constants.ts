@@ -1,4 +1,5 @@
 export const DEFAULT_FILL_COLOR = "orange";
+export const DEFAULT_ON_FILL_COLOR = "black";
 export const DEFAULT_STROKE_COLOR = "orange";
 export const POINT_CIRCLE_RADIUS = 5;
 export const POINT_TEXT_VISIBILITY_THRESHOLD = 0.6;

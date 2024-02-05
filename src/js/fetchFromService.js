@@ -24,7 +24,9 @@ const fetchFromService = async (type = "line") => {
     const json = await response.json();
     const features = new GeoJSON().readFeatures(json);
     // Let's remove any line features that are inactivated in the DB.
-    return features.filter((f) => f.get("active") !== false);
+    return features
+      .filter((f) => f.get("active") !== false)
+      .sort((a, b) => a.get("sortOrder") - b.get("sortOrder"));
   } catch (error) {
     throw new Error(`Fetching ${type} geometries from service failed`, {
       cause: error,

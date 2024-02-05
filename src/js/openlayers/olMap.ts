@@ -18,30 +18,17 @@ import { Circle as CircleStyle, Fill, Stroke, Style, Text } from "ol/style";
 import store from "../store";
 
 import { createLayersFromConfig } from "./olHelpers";
+import { parseStyle } from "../f7Helpers";
 import { wrapText } from "../utils";
 
 import {
-  DEFAULT_FILL_COLOR,
-  DEFAULT_STROKE_COLOR,
-  POINT_CIRCLE_RADIUS,
   POINT_TEXT_VISIBILITY_THRESHOLD,
   POINT_VISIBILITY_THRESHOLD,
-  STROKE_WIDTH,
 } from "../constants";
 
 import BackgroundSwitcherControl from "./BackgroundSwitcherControl";
 import GeolocateControl from "./GeolocateControl";
 import Layer from "ol/layer/Layer";
-
-const defaultStyle = {
-  // Takes effect only for points
-  fillColor: DEFAULT_FILL_COLOR,
-  circleRadius: POINT_CIRCLE_RADIUS,
-
-  // Affects both points and lines
-  strokeColor: DEFAULT_STROKE_COLOR,
-  strokeWidth: STROKE_WIDTH,
-};
 
 let olMap!: Map,
   audioguideSource: VectorSource,
@@ -50,7 +37,7 @@ let olMap!: Map,
   activeGuideSource: VectorSource,
   activeGuideLayer: VectorLayer<VectorSource>;
 
-function styleFunction(feature: Feature, resolution: number) {
+function styleFunction(feature: Feature<GeometryType>, resolution: number) {
   /**
    * Helper: Tries to parse a style object from a JSON string and returns an empty
    * object if parsing fails.
@@ -58,28 +45,16 @@ function styleFunction(feature: Feature, resolution: number) {
    * @param {string} styleAsJson - The JSON string representing the style object
    * @return {object} The parsed style object or an empty object
    */
-  const tryParseStyleFromDB = (styleAsJson) => {
-    try {
-      return JSON.parse(styleAsJson) || {};
-    } catch (error) {
-      return {};
-    }
-  };
 
   // We need to know if we're dealing with a Point or a LineString
   const featureType = feature.getGeometry().getType();
   const stopNumber = feature.get("stopNumber");
 
   // Let's try and parse the style from the DB
-  const parsedParentStyle = tryParseStyleFromDB(feature.get("parentStyle"));
-  const parsedStyle = tryParseStyleFromDB(feature.get("style"));
 
   // Let's merge the default styles with those (presumably) parsed.
-  const { strokeColor, strokeWidth, fillColor, circleRadius } = {
-    ...defaultStyle,
-    ...parsedParentStyle, // Will be {} on line features, but it's fine to spread `...{}`
-    ...parsedStyle,
-  };
+  const { strokeColor, strokeWidth, fillColor, circleRadius } =
+    parseStyle(feature);
 
   return new Style({
     ...(featureType === "Point" &&

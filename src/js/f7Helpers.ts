@@ -3,13 +3,16 @@ import {
   DEFAULT_STROKE_COLOR,
   STROKE_WIDTH,
   DEFAULT_FILL_COLOR,
+  DEFAULT_ON_FILL_COLOR,
   POINT_CIRCLE_RADIUS,
 } from "../js/constants";
+import { Feature } from "ol";
 
 type StyleObject = {
   strokeColor?: string;
   strokeWidth?: number;
   fillColor?: string;
+  onFillColor?: string;
   circleRadius?: number;
 };
 
@@ -37,19 +40,38 @@ export const handleShowGuideInMap = async (
   f7.emit("olFeatureSelected", [feature], 600);
 };
 
+const _defaultStyle = {
+  // Takes effect only for points
+  fillColor: DEFAULT_FILL_COLOR,
+  circleRadius: POINT_CIRCLE_RADIUS,
+
+  // Affects both points and lines
+  strokeColor: DEFAULT_STROKE_COLOR,
+  strokeWidth: STROKE_WIDTH,
+  onFillColor: DEFAULT_ON_FILL_COLOR,
+};
+
+const _tryParseStyleFromDB = (styleAsJson: string) => {
+  try {
+    return JSON.parse(styleAsJson) || {};
+  } catch (error) {
+    return {};
+  }
+};
+
 /**
  * Parses the style of a feature.
  *
- * @param {ol.Feature} feature - The feature to parse the style from.
+ * @param {Feature} feature - The feature to parse the style from.
  * @returns {StyleObject} The parsed style object.
  */
-export const parseStyle = (feature: ol.Feature): StyleObject => {
-  return (
-    JSON.parse(feature.get("style")) || {
-      strokeColor: DEFAULT_STROKE_COLOR,
-      strokeWidth: STROKE_WIDTH,
-      fillColor: DEFAULT_FILL_COLOR,
-      circleRadius: POINT_CIRCLE_RADIUS,
-    }
-  );
+export const parseStyle = (feature: Feature): StyleObject => {
+  const parsedParentStyle = _tryParseStyleFromDB(feature.get("parentStyle"));
+  const parsedStyle = _tryParseStyleFromDB(feature.get("style"));
+  const mergedStyle = {
+    ..._defaultStyle,
+    ...parsedParentStyle, // Will be {} on line features, but it's fine to spread `...{}`
+    ...parsedStyle,
+  };
+  return mergedStyle;
 };

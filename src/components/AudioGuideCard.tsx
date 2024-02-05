@@ -1,5 +1,6 @@
 import React from "react";
 import {
+  Badge,
   Button,
   Card,
   CardContent,
@@ -37,7 +38,24 @@ function AudioguideCard({ feature }) {
           borderBottomWidth: "10px",
           borderBottomStyle: "solid",
         }}
-      />
+      >
+        {feature.get("highlightLabel") && (
+          <Badge
+            style={{
+              backgroundColor:
+                parseStyle(feature).fillColor || "var(--f7-md-surface)",
+              color:
+                parseStyle(feature).onFillColor || "var(--f7-md-on-surface)",
+
+              position: "absolute",
+              top: "var(--f7-typography-margin)",
+              right: "var(--f7-typography-margin)",
+            }}
+          >
+            {feature.get("highlightLabel")}
+          </Badge>
+        )}
+      </CardHeader>
       <CardContent>
         <div
           className="margin-bottom"
