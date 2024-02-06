@@ -62,20 +62,28 @@ export const handleShowAllGuides = async (): Promise<void> => {
  */
 export const handleCopyLinkToGuide = (
   guideId?: number,
-  stopNumber?: number
+  stopNumber?: number,
+  customParamsString: string = ""
 ): void => {
   // Remove any possibly existing hash params and grab the first part.
   const hrefWithoutHash: string = window.location.href.split("#")[0];
 
-  // Find out if there's an guideId and add it to the link if so.
-  const guideIdString: string = guideId ? `#g=${guideId}` : "";
+  // Find out if there's a guideId and add it to the link if so.
+  const guideIdString: string = guideId ? `g=${guideId}` : "";
 
-  // If there's an guideId, find out if there's a stopNumber and add it to the link if so.
+  // If there's a guideId, find out if there's a stopNumber and add it to the link if so.
   const stopNumberString: string =
     guideId && stopNumber ? `&p=${stopNumber}` : "";
 
+  const paramsString =
+    guideIdString +
+    stopNumberString +
+    (customParamsString.length > 0 ? "&" + customParamsString : "");
+
   copyToClipboard(
-    `${hrefWithoutHash}${guideIdString}${stopNumberString}`,
+    paramsString.length > 0
+      ? hrefWithoutHash + "#" + paramsString
+      : hrefWithoutHash,
     f7.dialog.alert
   );
 };

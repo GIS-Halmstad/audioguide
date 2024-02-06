@@ -217,7 +217,14 @@ export default function GuidePreviewSheetContent({ f }: Props) {
           </List>
           <Block>
             <Button
-              onClick={() => handleCopyLinkToGuide(lineFeature.get("guideId"))}
+              onClick={() =>
+                handleCopyLinkToGuide(
+                  lineFeature.get("guideId"),
+                  pointFeature !== null
+                    ? pointFeature.get("stopNumber")
+                    : undefined
+                )
+              }
             >
               Kopiera länk
             </Button>
