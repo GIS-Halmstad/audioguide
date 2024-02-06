@@ -75,11 +75,18 @@ export const handleCopyLinkToGuide = (
   const stopNumberString: string =
     guideId && stopNumber ? `&p=${stopNumber}` : "";
 
+  // Construct a string from the above. If there's a guide and stop, as well
+  // as a custom string, let's make sure to put an ampersand in between. Else,
+  // don't put any ampersand in the string.
   const paramsString =
     guideIdString +
     stopNumberString +
-    (customParamsString.length > 0 ? "&" + customParamsString : "");
+    (customParamsString.length > 0
+      ? ((guideIdString + stopNumberString).length > 0 ? "&" : "") +
+        customParamsString
+      : "");
 
+  // Put it all together, put a hash in front of params, if they exist, else don't.
   copyToClipboard(
     paramsString.length > 0
       ? hrefWithoutHash + "#" + paramsString
