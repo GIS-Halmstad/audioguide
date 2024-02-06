@@ -71,7 +71,6 @@ function GuidePreviewSheet() {
       swipeToClose
       swipeToStep
       backdrop={false} // To allow for map navigation
-      push
       opened={sheetVisible}
       onSheetOpened={(s: Sheet) => adjustForHeight(getSheetRealHeight(s))}
       onSheetStepOpen={(s: Sheet) => adjustForHeight(getSheetRealHeight(s))}
