@@ -1,6 +1,6 @@
 import React from "react";
-import { f7, Page, Navbar, Block, Button } from "framework7-react";
-import { copyToClipboard } from "../js/utils";
+import { Page, Navbar, Block, Button } from "framework7-react";
+import { handleCopyLinkToGuide } from "../js/f7Helpers";
 
 const Share = () => (
   <Page>
@@ -12,11 +12,7 @@ const Share = () => (
       </p>
     </Block>
     <Block>
-      <Button
-        fill
-        large
-        onClick={() => copyToClipboard(window.location.href, f7.dialog.alert)}
-      >
+      <Button fill large onClick={() => handleCopyLinkToGuide()}>
         Kopiera länk
       </Button>
     </Block>

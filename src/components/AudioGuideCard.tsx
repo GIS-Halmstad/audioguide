@@ -13,21 +13,15 @@ import {
 } from "framework7-react";
 
 import { getAssets } from "../js/getAssets";
-import { handleShowGuideInMap, parseStyle } from "../js/f7Helpers";
-import { copyToClipboard, trimString } from "../js/utils";
+import {
+  handleCopyLinkToGuide,
+  handleShowGuideInMap,
+  parseStyle,
+} from "../js/f7Helpers";
+import { trimString } from "../js/utils";
 
 function AudioguideCard({ feature }) {
   const images = getAssets(feature, "images");
-
-  const handleCopyLinkToGuide = () => {
-    // Remove any possibly existing hash params and grab the first part.
-    const hrefWithoutHash = window.location.href.split("#")[0];
-
-    copyToClipboard(
-      `${hrefWithoutHash}#g=${feature.get("guideId")}`,
-      f7.dialog.alert
-    );
-  };
 
   return (
     <Card>
@@ -107,7 +101,9 @@ function AudioguideCard({ feature }) {
 
       <CardFooter>
         <Link onClick={() => handleShowGuideInMap(feature, 600)}>Läs mer</Link>
-        <Link onClick={handleCopyLinkToGuide}>Kopiera länk</Link>
+        <Link onClick={() => handleCopyLinkToGuide(feature.get("guideId"))}>
+          Kopiera länk
+        </Link>
       </CardFooter>
     </Card>
   );

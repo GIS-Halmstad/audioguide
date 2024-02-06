@@ -1,5 +1,7 @@
+import { Feature } from "ol";
 import { f7 } from "framework7-react";
 import { updateFeaturesInMap } from "./openlayers/olMap";
+import { copyToClipboard } from "./utils";
 
 import {
   DEFAULT_STROKE_COLOR,
@@ -7,8 +9,7 @@ import {
   DEFAULT_FILL_COLOR,
   DEFAULT_ON_FILL_COLOR,
   POINT_CIRCLE_RADIUS,
-} from "../js/constants";
-import { Feature } from "ol";
+} from "./constants";
 
 type StyleObject = {
   strokeColor?: string;
@@ -51,6 +52,32 @@ export const handleShowAllGuides = async (): Promise<void> => {
 
   // …and that we close the panel.
   f7.panel.close("left");
+};
+
+/**
+ * Handles copying the link to a specific guide.
+ * @param guideId The ID of the guide.
+ * @param stopNumber The stop number of the guide.
+ * @returns void
+ */
+export const handleCopyLinkToGuide = (
+  guideId?: number,
+  stopNumber?: number
+): void => {
+  // Remove any possibly existing hash params and grab the first part.
+  const hrefWithoutHash: string = window.location.href.split("#")[0];
+
+  // Find out if there's an guideId and add it to the link if so.
+  const guideIdString: string = guideId ? `#g=${guideId}` : "";
+
+  // If there's an guideId, find out if there's a stopNumber and add it to the link if so.
+  const stopNumberString: string =
+    guideId && stopNumber ? `&p=${stopNumber}` : "";
+
+  copyToClipboard(
+    `${hrefWithoutHash}${guideIdString}${stopNumberString}`,
+    f7.dialog.alert
+  );
 };
 
 /**

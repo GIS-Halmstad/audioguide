@@ -24,7 +24,7 @@ import { getAssets } from "../js/getAssets";
 
 // Type imports and definitions
 import { Feature, geom } from "openlayers";
-import { parseStyle } from "../js/f7Helpers";
+import { handleCopyLinkToGuide, parseStyle } from "../js/f7Helpers";
 
 type Props = {
   f: Feature;
@@ -215,6 +215,13 @@ export default function GuidePreviewSheetContent({ f }: Props) {
               </ListItem>
             ))}
           </List>
+          <Block>
+            <Button
+              onClick={() => handleCopyLinkToGuide(lineFeature.get("guideId"))}
+            >
+              Kopiera länk
+            </Button>
+          </Block>
         </div>
       </>
     )
