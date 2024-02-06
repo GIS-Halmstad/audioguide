@@ -22,6 +22,8 @@ import BackgroundLayersActionsGrid from "../components/BackgroundLayersActionsGr
 import TabListViewContent from "../components/TabListViewContent";
 import TabShortListViewContent from "../components/TabShortListViewContent";
 
+import { handleShowAllGuides } from "../js/f7Helpers";
+
 const HomePage = () => {
   console.log("HomePage init: ", f7);
   const notificationFull = useRef(null);
@@ -133,7 +135,9 @@ const HomePage = () => {
       <Navbar sliding={false}>
         <NavLeft>
           <Link iconF7="menu" iconMaterial="menu" panelOpen="left" iconOnly />
-          <img src="logo.png" className="app-logo" />
+          <Link className="no-padding" onClick={handleShowAllGuides}>
+            <img src="logo.png" className="app-logo" />
+          </Link>
         </NavLeft>
         <NavTitle sliding>
           <NavbarTitle />
