@@ -154,3 +154,51 @@ export const parseStyle = (feature: Feature): StyleObject => {
   };
   return mergedStyle;
 };
+
+/**
+ * Toggles fullscreen mode for the target element.
+ * @param e - The event triggering the fullscreen toggle.
+ */
+export const toggleFullscreen = (e: Event): void => {
+  const target = e.target as HTMLElement | null;
+  if (!target) return;
+
+  // If browser supports the Fullscreen API…
+  if (typeof target.requestFullscreen === "function") {
+    // If there's no current fullscreen element…
+    if (!document.fullscreenElement) {
+      // Add fullscreen class, used in CSS to change background position
+      // from cover to contain, as well as to show the close button on top
+      // off the image.
+      target.classList.add("fullscreen");
+      target.requestFullscreen().catch((err: Error) => {
+        console.error(
+          `Error attempting to enable fullscreen mode: ${err.message} (${err.name})`
+        );
+      });
+    }
+    // …else if there's a current fullscreen element, we should exit fullscreen.
+    else {
+      document.fullscreenElement.classList.remove("fullscreen");
+      document.exitFullscreen();
+    }
+  }
+  // Fallback for iOS on iPhone, where the Fullscreen API is not supported.
+  else {
+    console.info(
+      "Fullscreen API not supported, using fallback",
+      target.dataset.imgSrc
+    );
+
+    // Change URL to image that covers this DIV, use URL from the data-img-src attribute.
+    document
+      .getElementById("fullscreen-image")
+      ?.setAttribute(
+        "style",
+        "background-image: url(" + target.dataset.imgSrc + ")"
+      );
+
+    // Make the entire container visible.
+    document.getElementById("fullscreen-container")?.classList.add("visible");
+  }
+};

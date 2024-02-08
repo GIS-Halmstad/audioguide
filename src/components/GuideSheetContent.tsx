@@ -5,6 +5,7 @@ import { Block, BlockTitle, Button, Link, f7 } from "framework7-react";
 import { getAssets } from "../js/getAssets";
 
 import { goToStopNumber } from "../js/openlayers/olMap";
+import { toggleFullscreen } from "../js/f7Helpers";
 
 function GuideSheetContent({ activeGuideObject, activeStopNumber }) {
   console.log(
@@ -77,18 +78,25 @@ function GuideSheetContent({ activeGuideObject, activeStopNumber }) {
           onClick={() => f7.sheet.stepToggle(".active-guide-sheet")}
         />
 
-        <swiper-container
-          cssMode="true"
-          pagination
-          space-between="50"
-          color="white"
-        >
+        <swiper-container cssMode="true" pagination space-between="50">
           {images.map((src, i) => (
             <swiper-slide key={i} className="swiper-slide-custom">
               <div
                 className="image-container"
                 style={{ backgroundImage: `url(${src})` }}
-              />
+                data-img-src={src}
+                onClick={toggleFullscreen}
+              >
+                <Link
+                  style={{
+                    position: "absolute",
+                    right: "15px",
+                    top: "15px",
+                    color: "white",
+                  }}
+                  iconF7="xmark_circle_fill"
+                />
+              </div>
             </swiper-slide>
           ))}
         </swiper-container>

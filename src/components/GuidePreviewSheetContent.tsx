@@ -24,7 +24,11 @@ import { getAssets } from "../js/getAssets";
 
 // Type imports and definitions
 import { Feature, geom } from "openlayers";
-import { handleCopyLinkToGuide, parseStyle } from "../js/f7Helpers";
+import {
+  handleCopyLinkToGuide,
+  parseStyle,
+  toggleFullscreen,
+} from "../js/f7Helpers";
 
 type Props = {
   f: Feature;
@@ -70,7 +74,7 @@ export default function GuidePreviewSheetContent({ f }: Props) {
       typeof from === "number"
         ? from
         : getClosestStopNumberFromCurrentPosition(lineFeature?.get("guideId"));
-    activateGuide(lineFeature?.get("guideId"), fromStopNumber);
+    activateGuide(lineFeature.get("guideId"), fromStopNumber);
   };
 
   const images = getAssets(lineFeature, "images");
@@ -102,7 +106,19 @@ export default function GuidePreviewSheetContent({ f }: Props) {
                 <div
                   className="image-container"
                   style={{ backgroundImage: `url(${src})` }}
-                />
+                  data-img-src={src}
+                  onClick={toggleFullscreen}
+                >
+                  <Link
+                    style={{
+                      position: "absolute",
+                      right: "15px",
+                      top: "15px",
+                      color: "white",
+                    }}
+                    iconF7="xmark_circle_fill"
+                  />
+                </div>
               </swiper-slide>
             ))}
           </swiper-container>
@@ -209,7 +225,14 @@ export default function GuidePreviewSheetContent({ f }: Props) {
           <BlockTitle medium>Stopp längst vägen</BlockTitle>
           <List>
             {listOfStops.map((s, i) => (
-              <ListItem key={i}>
+              <ListItem
+                link="#"
+                sheetClose
+                onClick={() => {
+                  handleActivateGuide(s.stopNumber);
+                }}
+                key={i}
+              >
                 <Badge slot="media">{s.stopNumber}</Badge>
                 <div slot="title">{s.title}</div>
               </ListItem>

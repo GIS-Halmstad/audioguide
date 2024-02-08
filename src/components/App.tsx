@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { getDevice } from "framework7/lite/bundle";
 import {
-  f7ready,
   App,
-  View,
+  BlockFooter,
+  f7ready,
+  Link,
+  List,
+  LoginScreenTitle,
+  Page,
   Panel,
   Popup,
-  Page,
-  LoginScreenTitle,
-  List,
-  BlockFooter,
+  View,
 } from "framework7-react";
 import Framework7, { Framework7Parameters } from "framework7/types";
 
@@ -151,7 +152,11 @@ const Audioguide = () => {
       <View url="/" main className="safe-areas" />
 
       {/* Unsupported Orientation Popup */}
-      <Popup id="orientation-unsupported" opened={orientationUnsupported}>
+      <Popup
+        id="orientation-unsupported"
+        opened={orientationUnsupported}
+        style={{ zIndex: 12600 }} /* Ensure it shows above any Sheet dialogs */
+      >
         <Page noToolbar noNavbar noSwipeback loginScreen>
           <LoginScreenTitle>Rotera skärmen</LoginScreenTitle>
           <List inset>
@@ -165,6 +170,32 @@ const Audioguide = () => {
           </List>
         </Page>
       </Popup>
+
+      {/* A container used as a fallback for browsers that don't support
+        the FullScreen API (eg. iPhone). */}
+      <div
+        id="fullscreen-container"
+        className="safe-areas"
+        onClick={() => {
+          // Whenever a click occurs here (or bubbles up from the
+          // close button located within this DIV), let's remove
+          // the .visible class.
+          document
+            .getElementById("fullscreen-container")
+            ?.classList.remove("visible");
+        }}
+      >
+        <Link
+          style={{
+            position: "absolute",
+            right: "calc(15px + var(--f7-safe-area-right))",
+            top: "calc(15px + var(--f7-safe-area-top))",
+            color: "white",
+          }}
+          iconF7="xmark_circle_fill"
+        />
+        <div id="fullscreen-image" />
+      </div>
     </App>
   );
 };
