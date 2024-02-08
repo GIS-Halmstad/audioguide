@@ -204,11 +204,8 @@ async function initOLMap(f7: Framework7) {
       }),
       new BackgroundSwitcherControl({ f7Instance }),
       new Rotate({
-        // autoHide: false,
-        label: `arrow_circle_up`, // transform: rotate(316deg);
-        compassClassName: "icon material-icons",
-        // label: `compass`, // transform: rotate(316deg);
-        // compassClassName: "icon f7-icons",
+        autoHide: false,
+        label: "",
       }),
     ],
 

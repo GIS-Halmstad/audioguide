@@ -85,6 +85,24 @@
   outline: none;
 }
 
+/* The Rotate Control, with its compass icon, is a bit special */
+.ol-control.ol-rotate {
+  position: absolute;
+  top: var(--f7-fab-margin);
+  left: calc(var(--f7-fab-margin) + var(--f7-safe-area-left));
+  margin: 0;
+}
+
+.ol-control.ol-rotate button {
+  border-radius: 50%;
+  background-color: unset;
+}
+.ol-control.ol-rotate .ol-compass {
+  background-image: url("compass.svg");
+  width: 100%;
+  height: 100%;
+}
+
 /* On Material, we want the button a bit brighter. On iOS, the default is fine, 
    but this var() would make it darker. So it's not needed on iOS. */
 .md .ol-control > button {
