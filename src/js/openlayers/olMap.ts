@@ -302,9 +302,11 @@ async function initOLMap(f7: Framework7) {
   // Finally, add the geolocation layer
   olMap.addLayer(geolocationLayer);
 
+  const hitTolerance = config.map.hitTolerance || 0;
+
   // Setup the select interaction…
   const selectInteraction = new Select({
-    hitTolerance: 20,
+    hitTolerance,
     layers: [audioguideLayer], // We want to only get hits from the audioguide layer
     style: selectedStyleFunction,
   });
@@ -505,7 +507,7 @@ const navigateToStopNumber = (stopNumber) => {
   store.dispatch("setActiveStopNumber", stopNumber);
 };
 
-const activateGuide = (guideId, stopNumber) => {
+const activateGuide = (guideId: number, stopNumber: number) => {
   // Let's grab all points that belong to this line feature
   const features = audioguideLayer
     .getSource()

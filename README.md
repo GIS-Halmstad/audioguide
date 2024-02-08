@@ -124,6 +124,29 @@ The map configuration that you request from the Hajk API, `audio` in this case, 
 }
 ```
 
+### Configuring the OpenLayers map using the `map` property in `mapConfig`
+
+The following options from `mapConfig.map` are sent to `ol.View` when the View is initiated:
+
+```js
+center: mapConfig.map.center,
+constrainOnlyCenter: mapConfig.map.constrainOnlyCenter,
+constrainResolution:
+  mapConfig.map.constrainResolutionMobile ?? mapConfig.map.constrainResolution,
+extent: mapConfig.map.extent.length > 0 ? mapConfig.map.extent : undefined,
+maxZoom: config.map.maxZoom || 24,
+minZoom: mapConfig.map.minZoom || 0,
+projection: mapConfig.map.projection,
+resolutions: mapConfig.map.resolutions,
+zoom: mapConfig.map.zoom
+```
+
+In addition, the `hitTolerance` parameter is sent to the `ol.interaction.Select` constructor:
+
+```js
+hitTolerance: mapConfig.map.hitTolerance || 0;
+```
+
 ## Adding guides, including media assets, and styling them
 
 ### Styling guide lines and points using the `style` attribute in tables

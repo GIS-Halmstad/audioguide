@@ -115,6 +115,7 @@
                 6283796
             ],
             "projection": "EPSG:3008",
+            "hitTolerance": 40,
             "zoom": 0,
             "maxZoom": 10,
             "minZoom": 0,
