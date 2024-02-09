@@ -98,7 +98,7 @@
   background-color: unset;
 }
 .ol-control.ol-rotate .ol-compass {
-  background-image: url("compass.svg");
+  background-image: url("./../../public/compass.svg");
   width: 100%;
   height: 100%;
 }
