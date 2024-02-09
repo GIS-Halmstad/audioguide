@@ -112,23 +112,30 @@ function GuideSheetContent({ activeGuideObject, activeStopNumber }) {
           onClick={handleClickOnCloseGuide}
         />
 
-        <Block className="display-flex justify-content-space-between no-margin margin-top-half">
+        <Block className="display-flex justify-content-space-between align-items-center no-margin margin-top-half">
           <Button
             tonal={!isFirstStop}
             iconMd="material:arrow_back"
             iconIos="f7:chevron_left"
             onClick={handleClickOnGoToPrevious}
           />
-          <BlockTitle
-            className="no-margin"
+          <div
             style={{
-              height: "var(--f7-button-height)",
-              lineHeight:
-                "calc(var(--f7-button-height) - var(--f7-button-border-width, 0) * 2)",
+              display: "flex",
+              flexDirection: "column",
+              flex: 1,
+              alignItems: "center",
             }}
           >
-            {title}
-          </BlockTitle>
+            <b>{`${activeGuideObject.line.get(
+              "title"
+            )} (${activeStopNumber} av ${
+              Object.entries(activeGuideObject.points).length
+            })`}</b>
+            <span className="padding-left-half padding-right-half">
+              {title}
+            </span>
+          </div>
           <Button
             tonal={!isLastStop}
             iconMd="material:arrow_forward"
