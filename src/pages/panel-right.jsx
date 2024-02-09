@@ -57,114 +57,109 @@ function PanelRight() {
   return (
     <Page>
       <Navbar title="Kategorifilter" />
-      <div
-        className="display-flex flex-direction-column justify-content-space-between"
-        style={{ height: "100%" }}
-      >
-        <div>
-          {activeGuideObject !== null && (
-            <>
-              <Block>
-                Kategorifiltret är inaktivt eftersom du redan valt en specifik
-                guide. Rensa valet för att tillåta filtering.
-              </Block>
-              <Button
-                onClick={() => {
-                  cleanUpSelection();
-                  updateFeaturesInMap();
-                }}
-              >
-                Återställ filtering
-              </Button>
-            </>
-          )}
-          {activeGuideObject === null && (
-            <List outlineIos strongMd strongIos>
-              {f7.store.state.allCategories.map((c, i) => {
-                return (
-                  <ListItem
-                    key={i}
-                    checkbox
-                    checked={filteredCategories.includes(c)}
-                    disabled={
-                      // If this checkbox is the last one that's selected,
-                      // disallow unchecking it.
-                      filteredCategories.length <= 1 &&
-                      filteredCategories.includes(c)
-                        ? true
-                        : false
-                    }
-                    onClick={() => {
-                      // If user tries to click on the last selected checkbox,
-                      // display an alert saying that it's not allowed to deselect it.
-                      if (
+      {activeGuideObject !== null && (
+        <>
+          <Block>
+            Kategorifiltret är inaktiverat eftersom en guide är aktiv. Avsluta
+            guiden och kom tillbaka för att kunna se och filtrera kategorierna.
+          </Block>
+        </>
+      )}
+
+      {activeGuideObject === null && (
+        <>
+          <div
+            className="display-flex flex-direction-column justify-content-space-between"
+            style={{ height: "100%" }}
+          >
+            <div>
+              <List outlineIos strongMd strongIos>
+                {f7.store.state.allCategories.map((c, i) => {
+                  return (
+                    <ListItem
+                      key={i}
+                      checkbox
+                      checked={filteredCategories.includes(c)}
+                      disabled={
+                        // If this checkbox is the last one that's selected,
+                        // disallow unchecking it.
                         filteredCategories.length <= 1 &&
                         filteredCategories.includes(c)
-                      ) {
-                        f7.dialog.alert(
-                          "Du måste välja minst en kategori, annars ser du inga audioguider.",
-                          "Hoppsan!"
-                        );
+                          ? true
+                          : false
                       }
-                    }}
-                    onChange={handleCategoryChange}
-                    title={c}
-                    name={c}
-                  />
-                );
-              })}
-            </List>
-          )}
-          <Block>
-            <Button
-              fill
-              className="margin-bottom"
-              onClick={() => f7.panel.close("right")}
-            >
-              Filtrera
-            </Button>
-            {f7.store.state.allCategories.length !==
-              f7.store.state.filteredCategories.length && (
-              <Button
-                small
-                onClick={() => {
-                  // Set filtered categories to all available
-                  f7.store.dispatch(
-                    "setFilteredCategories",
-                    f7.store.state.allCategories
+                      onClick={() => {
+                        // If user tries to click on the last selected checkbox,
+                        // display an alert saying that it's not allowed to deselect it.
+                        if (
+                          filteredCategories.length <= 1 &&
+                          filteredCategories.includes(c)
+                        ) {
+                          f7.dialog.alert(
+                            "Du måste välja minst en kategori, annars ser du inga audioguider.",
+                            "Hoppsan!"
+                          );
+                        }
+                      }}
+                      onChange={handleCategoryChange}
+                      title={c}
+                      name={c}
+                    />
                   );
+                })}
+              </List>
+              <Block>
+                <Button
+                  fill
+                  className="margin-bottom"
+                  onClick={() => f7.panel.close("right")}
+                >
+                  Filtrera
+                </Button>
+                {f7.store.state.allCategories.length !==
+                  f7.store.state.filteredCategories.length && (
+                  <Button
+                    small
+                    onClick={() => {
+                      // Set filtered categories to all available
+                      f7.store.dispatch(
+                        "setFilteredCategories",
+                        f7.store.state.allCategories
+                      );
 
-                  // Update map
-                  updateFeaturesInMap();
+                      // Update map
+                      updateFeaturesInMap();
 
-                  // Close the panel
-                  // f7.panel.close("right");
-                }}
-              >
-                Återställ filter
-              </Button>
-            )}
-          </Block>
-        </div>
-        <div>
-          {filteredCategories.length !==
-            f7.store.state.allCategories.length && (
-            <Block>
-              <Button
-                onClick={() =>
-                  handleCopyLinkToGuide(
-                    undefined,
-                    undefined,
-                    getEncodedURIComponentFromCurrentFilteredCategories()
-                  )
-                }
-              >
-                Kopiera länk till valda
-              </Button>
-            </Block>
-          )}
-        </div>
-      </div>
+                      // Close the panel
+                      // f7.panel.close("right");
+                    }}
+                  >
+                    Återställ filter
+                  </Button>
+                )}
+              </Block>
+            </div>
+            <div>
+              {filteredCategories.length !==
+                f7.store.state.allCategories.length && (
+                <Block>
+                  <Button
+                    onClick={() =>
+                      handleCopyLinkToGuide(
+                        undefined,
+                        undefined,
+                        getEncodedURIComponentFromCurrentFilteredCategories()
+                      )
+                    }
+                  >
+                    Kopiera länk till valda
+                  </Button>
+                </Block>
+              )}
+            </div>
+          </div>
+        </>
+      )}
     </Page>
   );
 }
