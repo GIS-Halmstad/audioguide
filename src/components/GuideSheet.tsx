@@ -8,7 +8,6 @@ import GuideSheetContent from "./GuideSheetContent";
 
 function GuideSheet() {
   const activeGuideObject = useStore("activeGuideObject");
-  const activeStopNumber = useStore("activeStopNumber");
 
   return (
     <Sheet
@@ -26,10 +25,7 @@ function GuideSheet() {
       }}
     >
       {activeGuideObject !== null && (
-        <GuideSheetContent
-          activeGuideObject={activeGuideObject}
-          activeStopNumber={activeStopNumber}
-        />
+        <GuideSheetContent activeGuideObject={activeGuideObject} />
       )}
     </Sheet>
   );

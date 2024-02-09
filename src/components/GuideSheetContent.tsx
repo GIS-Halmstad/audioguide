@@ -1,20 +1,14 @@
 import React from "react";
 
-import { Block, BlockTitle, Button, Link, f7 } from "framework7-react";
+import { Block, Button, Link, f7, useStore } from "framework7-react";
 
 import { getAssets } from "../js/getAssets";
 
 import { goToStopNumber } from "../js/openlayers/olMap";
 import { toggleFullscreen } from "../js/f7Helpers";
 
-function GuideSheetContent({ activeGuideObject, activeStopNumber }) {
-  console.log(
-    "Render GuideSheetContent: ",
-    activeGuideObject,
-    activeStopNumber,
-    typeof activeStopNumber,
-    Object.entries(activeGuideObject.points).length
-  );
+function GuideSheetContent({ activeGuideObject }) {
+  const activeStopNumber = useStore("activeStopNumber");
 
   const point = activeGuideObject.points[activeStopNumber];
 
