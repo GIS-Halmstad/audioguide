@@ -138,6 +138,24 @@ function GuideSheetContent({ activeGuideObject }) {
           />
         </Block>
 
+        {videos[0] && (
+          <Block className="no-margin margin-top-half margin-bottom">
+            <video
+              controls
+              src={videos[0]}
+              style={{ width: "100%" }}
+              onPlay={() => {
+                if ("mediaSession" in navigator) {
+                  navigator.mediaSession.metadata = new MediaMetadata({
+                    title: `${activeStopNumber}: ${point.get("title")}`,
+                    artist: activeGuideObject.line.get("title"),
+                    // TODO: Consider adding artwork
+                  });
+                }
+              }}
+            ></video>
+          </Block>
+        )}
         <Block className="no-margin margin-top-half margin-bottom">
           <audio
             controls
