@@ -24,11 +24,7 @@ import { getAssets } from "../js/getAssets";
 
 // Type imports and definitions
 import { Feature, geom } from "openlayers";
-import {
-  handleCopyLinkToGuide,
-  parseStyle,
-  toggleFullscreen,
-} from "../js/f7Helpers";
+import { handleCopyLinkToGuide, parseStyle } from "../js/f7Helpers";
 
 type Props = {
   f: Feature;
@@ -107,7 +103,6 @@ export default function GuidePreviewSheetContent({ f }: Props) {
                   className="image-container"
                   style={{ backgroundImage: `url(${src})` }}
                   data-img-src={src}
-                  // onClick={toggleFullscreen}
                   onClick={() => f7.emit("showFullscreenSwiper", images)}
                 >
                   <Link

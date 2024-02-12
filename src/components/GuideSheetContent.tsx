@@ -5,7 +5,6 @@ import { Block, Button, Link, f7, useStore } from "framework7-react";
 import { getAssets } from "../js/getAssets";
 
 import { goToStopNumber } from "../js/openlayers/olMap";
-import { toggleFullscreen } from "../js/f7Helpers";
 
 function GuideSheetContent({ activeGuideObject }) {
   const activeStopNumber = useStore("activeStopNumber");
@@ -79,7 +78,6 @@ function GuideSheetContent({ activeGuideObject }) {
                 className="image-container"
                 style={{ backgroundImage: `url(${src})` }}
                 data-img-src={src}
-                // onClick={toggleFullscreen}
                 onClick={() => f7.emit("showFullscreenSwiper", images)}
               >
                 <Link
