@@ -20,6 +20,7 @@ import store from "../js/store";
 
 import { enableGeolocation, initOLMap } from "../js/openlayers/olMap";
 import DemoMessageSheet from "./DemoMessageSheet";
+import FullscreenSwiper from "./FullscreenSwiper";
 
 const Audioguide = () => {
   console.log("Audioguide renders");
@@ -170,6 +171,8 @@ const Audioguide = () => {
           </List>
         </Page>
       </Popup>
+
+      <FullscreenSwiper />
 
       {/* A container used as a fallback for browsers that don't support
         the FullScreen API (eg. iPhone). */}

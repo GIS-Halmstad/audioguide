@@ -107,7 +107,8 @@ export default function GuidePreviewSheetContent({ f }: Props) {
                   className="image-container"
                   style={{ backgroundImage: `url(${src})` }}
                   data-img-src={src}
-                  onClick={toggleFullscreen}
+                  // onClick={toggleFullscreen}
+                  onClick={() => f7.emit("showFullscreenSwiper", images)}
                 >
                   <Link
                     style={{
