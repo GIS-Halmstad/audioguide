@@ -1,4 +1,6 @@
-import { Feature } from "ol";
+import { Feature } from "openlayers";
+import { StyleObject } from "../types/types";
+
 import { f7 } from "framework7-react";
 import { updateFeaturesInMap } from "./openlayers/olMap";
 import { copyToClipboard } from "./utils";
@@ -10,14 +12,6 @@ import {
   DEFAULT_ON_FILL_COLOR,
   POINT_CIRCLE_RADIUS,
 } from "./constants";
-
-type StyleObject = {
-  strokeColor?: string;
-  strokeWidth?: number;
-  fillColor?: string;
-  onFillColor?: string;
-  circleRadius?: number;
-};
 
 /**
  * Function to handle showing all guides. The task that we must complete in order
@@ -98,12 +92,12 @@ export const handleCopyLinkToGuide = (
 /**
  * Handles showing the guide in the map.
  *
- * @param {ol.Feature} feature - The feature to be selected in the map.
+ * @param {Feature} feature - The feature to be selected in the map.
  * @param {number} delay - The delay time in milliseconds. Defaults to 0.
  * @return {Promise<void>} - A Promise that resolves when the function is complete.
  */
 export const handleShowGuideInMap = async (
-  feature: ol.Feature,
+  feature: Feature,
   delay: number = 0
 ): Promise<void> => {
   // If there's a delay, let's to let the Expandable Card animation happen.
@@ -130,6 +124,10 @@ const _defaultStyle = {
   onFillColor: DEFAULT_ON_FILL_COLOR,
 };
 
+/**
+ * Helper: Tries to parse a style object from a JSON string and returns an empty
+ * object if parsing fails.
+ */
 const _tryParseStyleFromDB = (styleAsJson: string) => {
   try {
     return JSON.parse(styleAsJson) || {};
@@ -153,52 +151,4 @@ export const parseStyle = (feature: Feature): StyleObject => {
     ...parsedStyle,
   };
   return mergedStyle;
-};
-
-/**
- * Toggles fullscreen mode for the target element.
- * @param e - The event triggering the fullscreen toggle.
- */
-export const toggleFullscreen = (e: Event): void => {
-  const target = e.target as HTMLElement | null;
-  if (!target) return;
-
-  // If browser supports the Fullscreen API…
-  if (typeof target.requestFullscreen === "function") {
-    // If there's no current fullscreen element…
-    if (!document.fullscreenElement) {
-      // Add fullscreen class, used in CSS to change background position
-      // from cover to contain, as well as to show the close button on top
-      // off the image.
-      target.classList.add("fullscreen");
-      target.requestFullscreen().catch((err: Error) => {
-        console.error(
-          `Error attempting to enable fullscreen mode: ${err.message} (${err.name})`
-        );
-      });
-    }
-    // …else if there's a current fullscreen element, we should exit fullscreen.
-    else {
-      document.fullscreenElement.classList.remove("fullscreen");
-      document.exitFullscreen();
-    }
-  }
-  // Fallback for iOS on iPhone, where the Fullscreen API is not supported.
-  else {
-    console.info(
-      "Fullscreen API not supported, using fallback",
-      target.dataset.imgSrc
-    );
-
-    // Change URL to image that covers this DIV, use URL from the data-img-src attribute.
-    document
-      .getElementById("fullscreen-image")
-      ?.setAttribute(
-        "style",
-        "background-image: url(" + target.dataset.imgSrc + ")"
-      );
-
-    // Make the entire container visible.
-    document.getElementById("fullscreen-container")?.classList.add("visible");
-  }
 };

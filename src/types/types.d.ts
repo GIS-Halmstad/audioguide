@@ -116,3 +116,11 @@ export type MapConfig = {
   confirmOnWindowClose: boolean;
   drawerStatic: boolean;
 };
+
+export type StyleObject = {
+  strokeColor: string;
+  strokeWidth: number;
+  fillColor: string;
+  onFillColor: string;
+  circleRadius: number;
+};
