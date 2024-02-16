@@ -90,7 +90,7 @@ function AudioguideCard({ feature }) {
           </div>
 
           <div className="short-description">
-            {trimString(feature.get("text"), 180)}
+            {trimString(feature.get("text"), 165)}
           </div>
           <Button
             fill
@@ -100,7 +100,7 @@ function AudioguideCard({ feature }) {
             onClick={() => handleShowGuideInMap(feature, 600)}
             className="margin-top margin-bottom"
           >
-            Mer om guiden
+            Upplev guiden
           </Button>
         </CardContent>
       </Card>

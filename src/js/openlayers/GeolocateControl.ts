@@ -13,7 +13,7 @@ class GeolocateControl extends Control {
     const options = opts || {};
 
     const button = document.createElement("button");
-    button.innerHTML = `<i class="icon f7-icons">location</i>`;
+    button.innerHTML = `<i class="icon material-icons">my_location</i>`;
 
     const element = document.createElement("div");
     element.className = "ol-geolocate ol-unselectable ol-control";

@@ -1,6 +1,6 @@
 import React from "react";
 
-import AudioguideCard from "./AudioguideCard";
+import AudioguideCard from "./AudioGuideCard";
 import { useStore } from "framework7-react";
 
 function TabListViewContent() {

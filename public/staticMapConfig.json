@@ -37,13 +37,13 @@
                             "infobox": ""
                         },
                         {
-                            "id": "72",
+                            "id": "pxkat3",
                             "visibleAtStart": false,
                             "drawOrder": 0,
                             "infobox": ""
                         },
                         {
-                            "id": "pxkat3",
+                            "id": "111",
                             "visibleAtStart": false,
                             "drawOrder": 0,
                             "infobox": ""
@@ -160,7 +160,7 @@
         "wmslayers": [
             {
                 "id": "58",
-                "caption": "Nedtonad",
+                "caption": "Lantmäteriet",
                 "internalLayerName": "",
                 "url": "https://karta.halmstad.se/geoserver/ext_lm/wms",
                 "customGetMapUrl": "",
@@ -239,86 +239,6 @@
                 "zIndex": null
             },
             {
-                "id": "72",
-                "caption": "Färg",
-                "internalLayerName": "",
-                "url": "https://karta.halmstad.se/geoserver/ext_lm/wms",
-                "customGetMapUrl": "",
-                "owner": "",
-                "date": "1676970543436",
-                "content": "",
-                "legend": "",
-                "legendIcon": "",
-                "projection": "EPSG:3008",
-                "layers": [
-                    "topografiska_farg"
-                ],
-                "layersInfo": [
-                    {
-                        "id": "topografiska_farg",
-                        "caption": "",
-                        "legend": "",
-                        "legendIcon": "",
-                        "infobox": "",
-                        "style": "",
-                        "queryable": ""
-                    }
-                ],
-                "searchFields": null,
-                "displayFields": null,
-                "visibleAtStart": false,
-                "tiled": true,
-                "showAttributeTableButton": false,
-                "opacity": 1,
-                "maxZoom": -1,
-                "minZoom": -1,
-                "minMaxZoomAlertOnToggleOnly": false,
-                "singleTile": false,
-                "hidpi": true,
-                "useCustomDpiList": true,
-                "customDpiList": [
-                    {
-                        "pxRatio": 0,
-                        "dpi": 90
-                    },
-                    {
-                        "pxRatio": 2,
-                        "dpi": 180
-                    },
-                    {
-                        "pxRatio": 3,
-                        "dpi": 270
-                    }
-                ],
-                "customRatio": 0,
-                "imageFormat": "image/png8",
-                "serverType": "geoserver",
-                "attribution": "Lantmäteriet",
-                "searchUrl": "",
-                "searchPropertyName": "",
-                "searchDisplayName": "",
-                "secondaryLabelFields": "",
-                "searchShortDisplayName": "",
-                "searchOutputFormat": "",
-                "searchGeometryField": "",
-                "infoVisible": true,
-                "infoTitle": "",
-                "infoText": "",
-                "infoUrl": "https://www.lantmateriet.se/globalassets/geodata/geodatatjanster/tf_twk.pdf",
-                "infoUrlText": "Öppna teckenförklaring i nytt fönster",
-                "infoOwner": "",
-                "timeSliderVisible": false,
-                "timeSliderStart": "",
-                "timeSliderEnd": "",
-                "version": "1.1.1",
-                "infoFormat": "application/json",
-                "infoClickSortProperty": "",
-                "infoClickSortDesc": true,
-                "infoClickSortType": "string",
-                "hideExpandArrow": false,
-                "zIndex": null
-            },
-            {
                 "id": "pxkat3",
                 "caption": "Flygfoto",
                 "internalLayerName": "Flygfoto 2023",
@@ -375,6 +295,73 @@
                 "infoUrl": "",
                 "infoUrlText": "",
                 "infoOwner": "",
+                "timeSliderVisible": false,
+                "timeSliderStart": "",
+                "timeSliderEnd": "",
+                "version": "1.1.1",
+                "infoFormat": "application/json",
+                "infoClickSortProperty": "",
+                "infoClickSortDesc": true,
+                "infoClickSortType": "string",
+                "hideExpandArrow": false,
+                "zIndex": null
+            },
+            {
+                "id": "111",
+                "caption": "Halmstad 1920",
+                "internalLayerName": "",
+                "url": "https://karta.halmstad.se/geoserver/bmf/wms",
+                "customGetMapUrl": "",
+                "owner": "",
+                "date": "1676968957116",
+                "content": "",
+                "legend": "https://karta.halmstad.se/files/legendbilder/bmf/teckenforklaring_haradsekonomiska_1920.jpg",
+                "legendIcon": "",
+                "projection": "EPSG:3008",
+                "layers": [
+                    "eko20tal"
+                ],
+                "layersInfo": [
+                    {
+                        "id": "eko20tal",
+                        "caption": "",
+                        "legend": "",
+                        "legendIcon": "",
+                        "infobox": "",
+                        "style": "",
+                        "queryable": ""
+                    }
+                ],
+                "searchFields": null,
+                "displayFields": null,
+                "visibleAtStart": false,
+                "tiled": true,
+                "showAttributeTableButton": false,
+                "opacity": 1,
+                "maxZoom": -1,
+                "minZoom": -1,
+                "minMaxZoomAlertOnToggleOnly": false,
+                "singleTile": false,
+                "hidpi": false,
+                "useCustomDpiList": false,
+                "customDpiList": [],
+                "customRatio": 0,
+                "imageFormat": "image/jpeg",
+                "serverType": "geoserver",
+                "attribution": "Halmstads kommun",
+                "searchUrl": "",
+                "searchPropertyName": "",
+                "searchDisplayName": "",
+                "secondaryLabelFields": "",
+                "searchShortDisplayName": "",
+                "searchOutputFormat": "",
+                "searchGeometryField": "",
+                "infoVisible": true,
+                "infoTitle": "Om Häradsekonomiska kartan",
+                "infoText": "Häradsekonomiska kartan (1859-1934) baserades på laga skifteskartor och beskriver markanvändning, vegetation, bebyggelse, kommunikationer och gränser. \n\nHäradsekonomiska kartan producerades under en avsevärd tidsperiod. Innehållet, kvalitén och även manér skiftar, men det är ändå en sammanhållen serie.",
+                "infoUrl": "https://karta.halmstad.se/files/legendbilder/bmf/teckenforklaring_haradsekonomiska_1920.jpg",
+                "infoUrlText": "Teckenförklaring",
+                "infoOwner": "Källa: Lantmäteriet",
                 "timeSliderVisible": false,
                 "timeSliderStart": "",
                 "timeSliderEnd": "",

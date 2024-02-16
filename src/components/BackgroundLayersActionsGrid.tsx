@@ -14,9 +14,9 @@ function LayerButton({ layer }) {
         width="48"
         style={{
           maxWidth: "100%",
+          borderRadius: "8px",
           ...(isActive && {
-            borderRadius: "8px",
-            borderColor: "gray",
+            borderColor: "var(--f7-md-outline)",
             borderStyle: "solid",
           }),
         }}
