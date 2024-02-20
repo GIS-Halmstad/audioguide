@@ -107,17 +107,7 @@ export default function GuidePreviewSheetContent({ f }: Props) {
                   style={{ backgroundImage: `url(${src})` }}
                   data-img-src={src}
                   onClick={() => f7.emit("showFullscreenSwiper", images)}
-                >
-                  <Link
-                    style={{
-                      position: "absolute",
-                      right: "15px",
-                      top: "15px",
-                      color: "white",
-                    }}
-                    iconF7="xmark_circle_fill"
-                  />
-                </div>
+                ></div>
               </swiper-slide>
             ))}
           </swiper-container>
