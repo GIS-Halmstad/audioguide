@@ -15,6 +15,8 @@ import {
   Link,
 } from "framework7-react";
 
+import Markdown from "react-markdown";
+
 import {
   activateGuide,
   getClosestStopNumberFromCurrentPosition,
@@ -25,6 +27,7 @@ import { getAssets } from "../js/getAssets";
 // Type imports and definitions
 import { Feature, geom } from "openlayers";
 import { handleCopyLinkToGuide, parseStyle } from "../js/f7Helpers";
+import { prepareStringFromDbForMarkdown } from "../js/utils";
 
 type Props = {
   f: Feature;
@@ -217,7 +220,11 @@ export default function GuidePreviewSheetContent({ f }: Props) {
             maxHeight: "27vh",
           }}
         >
-          <Block className="no-margin-top">{lineFeature.get("text")}</Block>
+          <Block className="no-margin-top">
+            <Markdown
+              children={prepareStringFromDbForMarkdown(lineFeature.get("text"))}
+            />
+          </Block>
           <BlockTitle medium>Stopp längst vägen</BlockTitle>
           <List>
             {listOfStops.map((s, i) => (

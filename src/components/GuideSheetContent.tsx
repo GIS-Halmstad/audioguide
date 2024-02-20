@@ -1,10 +1,12 @@
 import React from "react";
+import Markdown from "react-markdown";
 
 import { Block, Button, Link, f7, useStore } from "framework7-react";
 
 import { getAssets } from "../js/getAssets";
 
 import { goToStopNumber } from "../js/openlayers/olMap";
+import { prepareStringFromDbForMarkdown } from "../js/utils";
 
 function GuideSheetContent({ activeGuideObject }) {
   const activeStopNumber = useStore("activeStopNumber");
@@ -248,7 +250,9 @@ function GuideSheetContent({ activeGuideObject }) {
         className="page-content padding-bottom"
         style={{ maxHeight: "51vh" }}
       >
-        <Block className="no-margin-top">{text}</Block>
+        <Block className="no-margin-top">
+          <Markdown children={prepareStringFromDbForMarkdown(text)} />
+        </Block>
         <Button onClick={handleClickOnCloseGuide} className="margin-bottom">
           Avsluta guiden
         </Button>

@@ -17,6 +17,16 @@ export const trimString = (
   return input.match(regex) + (endWithEllipsis ? "…" : "");
 };
 
+/**
+ * Replaces escaped sequences of new line character in the input string with
+ * their corresponding new line character and returns the result.
+ *
+ * @param {string} str - The input string to be prepared for Markdown.
+ * @returns {string} - The prepared string for Markdown.
+ */
+export const prepareStringFromDbForMarkdown = (str: string): string =>
+  str.replaceAll("\\n", "\n");
+
 export const copyToClipboard = (
   s: string,
   alertFunction?: Function,

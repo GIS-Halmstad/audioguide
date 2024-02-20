@@ -290,6 +290,16 @@ Basically, build the app with `npm run build`. This will result in a `www` folde
 
 ## FAQ
 
+### Can I format the text somehow?
+
+Yes, you can! Value of the text string that you enter into the `text` column in both database tables can be formatted using Markdown. The Audioguide App uses `react-markdown`, which in its turn follows the CommonMark syntax. Please refer to its documentation for details or [follow this quick guide](https://commonmark.org/help/).
+
+Regarding line breaks: to create a new paragraph, type `\n\n` where you want the break to occur. E.g. `This is **some bold text**. \n\nAnd here's a new paragraph.`. This will render to:
+
+> This is **some bold text**.
+
+> And here's a new paragraph.
+
 ### How can I create a link from the About page?
 
 You can customize the contents of about page by modifing the `aboutPageContentHtml` property in your map configuration (see example previously in this file). You can format the contents using HTML. If you want to create an external link, however, you must tell the application not to treat this link as an app link but rather an external web site. Here's an example of how it should look (note the escaped quotation marks, as we're inside JSON):
