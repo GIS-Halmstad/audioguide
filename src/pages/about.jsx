@@ -19,6 +19,8 @@ const About = () => {
   const popup = useRef(null);
   const audioguideAttribution =
     f7.store.state.mapConfig.tools.audioguide.audioguideAttribution || "";
+  const aboutPageTitle =
+    f7.store.state.mapConfig.tools.audioguide.aboutPageTitle || "Om Audioguide";
   const aboutPageContentHtml =
     f7.store.state.mapConfig.tools.audioguide.aboutPageContentHtml ||
     "No about text available. Add one by setting a value for the `aboutPageContentHtml` property in tool config.";
@@ -80,7 +82,7 @@ const About = () => {
 
   return (
     <Page>
-      <Navbar title="Om Audioguide" backLink="Tillbaka" />
+      <Navbar title={aboutPageTitle} backLink="Tillbaka" />
       <div
         className="display-flex flex-direction-column justify-content-space-between"
         style={{ height: "100%" }}
