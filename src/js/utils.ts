@@ -12,9 +12,13 @@ export const trimString = (
   maxLength: number,
   endWithEllipsis = true
 ) => {
-  const reg = `^.{${maxLength}}.*?\\b`;
-  const regex = new RegExp(reg);
-  return input.match(regex) + (endWithEllipsis ? "…" : "");
+  if (input.length < maxLength) {
+    return input;
+  } else {
+    const reg = `^.{${maxLength}}.*?\\b`;
+    const regex = new RegExp(reg);
+    return input.match(regex) + (endWithEllipsis ? "…" : "");
+  }
 };
 
 /**
