@@ -23,10 +23,17 @@ const fetchFromService = async (type = "line") => {
 
     const json = await response.json();
     const features = new GeoJSON().readFeatures(json);
-    // Let's remove any line features that are inactivated in the DB.
-    return features
-      .filter((f) => f.get("active") !== false)
-      .sort((a, b) => a.get("sortOrder") - b.get("sortOrder"));
+    // Depending on if it's points or lines we fetch, we need to sort them differently.
+    if (type === "point") {
+      // Points should be sorted by stop number
+      return features.sort((a, b) => a.get("stopNumber") - b.get("stopNumber"));
+    } else {
+      // Line features should first be filtered out if inactivated in the database.
+      // Also, sort on the sortOrder column.
+      return features
+        .filter((f) => f.get("active") !== false)
+        .sort((a, b) => a.get("sortOrder") - b.get("sortOrder"));
+    }
   } catch (error) {
     throw new Error(`Fetching ${type} geometries from service failed`, {
       cause: error,
