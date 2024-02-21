@@ -213,8 +213,8 @@ swiper-container .image-container {
 #fullscreen-swiper .link {
   z-index: 14001;
   position: absolute;
-  right: 15px;
-  top: 15px;
+  top: calc(15px + var(--f7-safe-area-top));
+  right: calc(15px + var(--f7-safe-area-right));
   color: #fff;
 }
 
