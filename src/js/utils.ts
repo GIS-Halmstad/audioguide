@@ -52,3 +52,20 @@ export const copyToClipboard = (
     }
   );
 };
+
+/**
+ * Function to generate a URL source string from the original image source,
+ * basically adds a "-thumbnail" just before the file extension.
+ * @param originalString The original image source
+ * @returns The thumbnail image source
+ */
+export const thumbalizeImageSource = (originalString: string): string => {
+  let lastDotIndex: number = originalString.lastIndexOf(".");
+
+  let stringWithoutExtension: string = originalString.slice(0, lastDotIndex);
+
+  let newString: string =
+    stringWithoutExtension + "-thumbnail" + originalString.slice(lastDotIndex);
+
+  return newString;
+};

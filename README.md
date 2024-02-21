@@ -185,6 +185,10 @@ If you wish to use relative URLs, here's the recommended approach.
 
 The assets must be placed inside the corresponding directory within `public/media/{guideId}/{optional stopNumber if point feature}/{"images"|"audios"|"videos"}/{fileName.extension}`.
 
+##### Important note regarding image thumbnails
+
+In order to reduce bandwidth usage, the app expects images to exist in two copies: one main, called e.g. `image-1.webp` and one thumbnail, called `image-1-thumbnail.webp`. So it's the `-thumbnail` part that should be added just in front of the file extension. However, in the database, you should only refer to the original filename, without the `-thumbnail` part.
+
 For example, consider the following data in the table:
 
 ```sql

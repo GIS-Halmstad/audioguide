@@ -27,7 +27,10 @@ import { getAssets } from "../js/getAssets";
 // Type imports and definitions
 import { Feature, geom } from "openlayers";
 import { handleCopyLinkToGuide, parseStyle } from "../js/f7Helpers";
-import { prepareStringFromDbForMarkdown } from "../js/utils";
+import {
+  prepareStringFromDbForMarkdown,
+  thumbalizeImageSource,
+} from "../js/utils";
 
 type Props = {
   f: Feature;
@@ -104,8 +107,9 @@ export default function GuidePreviewSheetContent({ f }: Props) {
               <swiper-slide key={i} className="swiper-slide-custom">
                 <div
                   className="image-container"
-                  style={{ backgroundImage: `url(${src})` }}
-                  data-img-src={src}
+                  style={{
+                    backgroundImage: `url(${thumbalizeImageSource(src)})`,
+                  }}
                   onClick={() => f7.emit("showFullscreenSwiper", images)}
                 ></div>
               </swiper-slide>

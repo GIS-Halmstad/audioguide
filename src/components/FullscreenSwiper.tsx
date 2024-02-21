@@ -31,7 +31,6 @@ const FullscreenSwiper = () => {
               <div
                 className="image-container"
                 style={{ backgroundImage: `url(${src})` }}
-                data-img-src={src}
               ></div>
             </swiper-slide>
           ))}
