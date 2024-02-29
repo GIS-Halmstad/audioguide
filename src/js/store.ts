@@ -104,6 +104,7 @@ const store = createStore({
     },
     setActiveGuideObject({ state }, v) {
       state.activeGuideObject = v;
+      document.querySelector("html")?.classList.add("has-active-guide");
       trackEvent("guideActivated", {
         props: { guideId: v?.line.get("guideId") },
       });
@@ -126,6 +127,8 @@ const store = createStore({
           stopNumber: state.activeStopNumber,
         },
       });
+
+      document.querySelector("html")?.classList.remove("has-active-guide");
 
       // Unset the active guide and stop number
       state.activeStopNumber = null;
