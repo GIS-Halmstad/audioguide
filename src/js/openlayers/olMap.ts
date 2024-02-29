@@ -7,7 +7,7 @@ import { register } from "ol/proj/proj4";
 
 import { Map, View, Feature, Geolocation } from "ol";
 import { Rotate, ScaleLine, Zoom } from "ol/control";
-import Point from "ol/geom/Point";
+import { Geometry, Point } from "ol/geom";
 // import OSM from "ol/source/OSM";
 // import TileLayer from "ol/layer/Tile";
 import VectorSource from "ol/source/Vector";
@@ -29,6 +29,7 @@ import {
 import BackgroundSwitcherControl from "./BackgroundSwitcherControl";
 import GeolocateControl from "./GeolocateControl";
 import Layer from "ol/layer/Layer";
+import { StyleFunction } from "openlayers";
 
 let olMap!: Map,
   audioguideSource: VectorSource,
@@ -109,7 +110,7 @@ function styleFunction(feature: Feature<GeometryType>, resolution: number) {
 }
 
 // eslint-disable-next-line
-function selectedStyleFunction(feature, actualResolution) {
+function selectedStyleFunction(feature: Feature<Geometry>): StyleFunction {
   // We ignore the actualResolution and favor the smallest one
   // that is used as a threshold in our style definition, i.e.
   // POINT_TEXT_VISIBILITY_THRESHOLD. This way we ensure that
