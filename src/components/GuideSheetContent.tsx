@@ -11,6 +11,8 @@ import {
   thumbalizeImageSource,
 } from "../js/utils";
 
+import { parseStyle } from "../js/f7Helpers";
+
 function GuideSheetContent({ activeGuideObject }) {
   const activeStopNumber = useStore("activeStopNumber");
 
@@ -76,7 +78,16 @@ function GuideSheetContent({ activeGuideObject }) {
           onClick={() => f7.sheet.stepToggle(".active-guide-sheet")}
         />
 
-        <swiper-container cssMode="true" pagination space-between="50">
+        <swiper-container
+          cssMode="true"
+          pagination
+          space-between="50"
+          style={{
+            borderBottomColor: parseStyle(activeGuideObject.line).strokeColor,
+            borderBottomWidth: "10px",
+            borderBottomStyle: "solid",
+          }}
+        >
           {images.map((src, i) => (
             <swiper-slide key={i} className="swiper-slide-custom">
               <div
