@@ -89,6 +89,15 @@ body.loading #splash-screen {
   z-index: 6000;
 }
 
+/* In desktop mode, don't soften the panel corner. Btw, the reason why 
+   specificity of this selector is such (preceded by .md and .ios) is to
+   avoid adding "!important". Without it, another selector that _adds_ 
+   border-radius would take precedence.*/
+.md .panel-left.panel-in-breakpoint,
+.ios .panel-left.panel-in-breakpoint {
+  border-radius: 0px;
+}
+
 /* Hide navbar link which opens left panel when it is visible by breakpoint */
 .panel-left.panel-in-breakpoint ~ .view .navbar .panel-open[data-panel="left"] {
   display: none;
