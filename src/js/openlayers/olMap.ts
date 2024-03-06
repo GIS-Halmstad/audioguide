@@ -22,6 +22,9 @@ import { parseStyle } from "../f7Helpers";
 import { wrapText } from "../utils";
 
 import {
+  LAYER_NAME_ACTIVE_GUIDE,
+  LAYER_NAME_ALL_GUIDES,
+  LAYER_NAME_GEOLOCATION,
   POINT_TEXT_VISIBILITY_THRESHOLD,
   POINT_VISIBILITY_THRESHOLD,
 } from "../constants";
@@ -38,7 +41,7 @@ let olMap!: Map,
   activeGuideSource: VectorSource,
   activeGuideLayer: VectorLayer<VectorSource>;
 
-function styleFunction(feature: Feature<GeometryType>, resolution: number) {
+function styleFunction(feature: Feature, resolution: number) {
   /**
    * Helper: Tries to parse a style object from a JSON string and returns an empty
    * object if parsing fails.
@@ -169,7 +172,7 @@ async function initOLMap(f7: Framework7) {
     source: audioguideSource,
     layerType: "system",
     zIndex: 5000,
-    name: "pluginAudioguideAllGuides",
+    name: LAYER_NAME_ALL_GUIDES,
     caption: "All audioguides",
     declutter: true,
     style: styleFunction,
@@ -182,7 +185,7 @@ async function initOLMap(f7: Framework7) {
     source: activeGuideSource,
     layerType: "system",
     zIndex: 5001,
-    name: "pluginAudioguideActiveGuide",
+    name: LAYER_NAME_ACTIVE_GUIDE,
     caption: "Active audioguide",
     visible: false, // Start with hidden
     declutter: true,
@@ -293,7 +296,7 @@ async function initOLMap(f7: Framework7) {
   const geolocationLayer = new VectorLayer({
     source: geolocationSource,
     layerType: "system",
-    name: "pluginAudioguideGeolocation",
+    name: LAYER_NAME_GEOLOCATION,
     caption: "Audioguide Geolocation",
   });
 
@@ -305,22 +308,53 @@ async function initOLMap(f7: Framework7) {
   // Setup the select interaction…
   const selectInteraction = new Select({
     hitTolerance,
-    layers: [audioguideLayer], // We want to only get hits from the audioguide layer
     style: selectedStyleFunction,
+    filter: (feature, layer) => {
+      // Select interaction should meet a couple of conditions before a
+      // click is permitted:
+      if (
+        // If the layer clicked is anything else than our two allowed layers, ignore selection.
+        [LAYER_NAME_ACTIVE_GUIDE, LAYER_NAME_ALL_GUIDES].includes(
+          layer.get("name")
+        ) === false
+      ) {
+        return false;
+      } else if (
+        // Next, ignore selection if there's an active guide AND user clicked
+        // on anything but a point.
+        store.state.activeGuideObject !== null &&
+        feature.getGeometry()?.getType() !== "Point"
+      ) {
+        return false;
+      } else {
+        return true;
+      }
+    },
   });
 
   // …and interaction handler.
   selectInteraction.on("select", async (e) => {
-    f7.emit("olFeatureSelected", e.selected);
-    // check if e.selected is an array but is not empty
-    if (e.selected?.length > 0) {
-      const guideId = e.selected[0].get("guideId");
-      const stopNumber = e.selected[0].get("stopNumber");
-      store.dispatch("trackAnalyticsEvent", {
-        eventName: "guideClickedInMap",
-        guideId,
-        ...(stopNumber && { stopNumber }),
-      });
+    if (store.state.activeGuideObject === null) {
+      // If there's no active guide yet, let's allow for feature selection.
+      f7.emit("olFeatureSelected", e.selected);
+      // check if e.selected is an array but is not empty
+      if (e.selected?.length > 0) {
+        const guideId = e.selected[0].get("guideId");
+        const stopNumber = e.selected[0].get("stopNumber");
+        store.dispatch("trackAnalyticsEvent", {
+          eventName: "guideClickedInMap",
+          guideId,
+          ...(stopNumber && { stopNumber }),
+        });
+      }
+    } else {
+      // Else, if there already is an active guide and the click got through,
+      // it means that user clicked on a stop. Let's navigate to it.
+      if (e.selected?.length > 0) {
+        // Just some more safety checks.
+        const stopNumber = e.selected[0].get("stopNumber");
+        goToStopNumber(stopNumber);
+      }
     }
   });
 
@@ -530,7 +564,7 @@ const activateGuide = (guideId: number, stopNumber: number) => {
   navigateToStopNumber(stopNumber);
 };
 
-const goToStopNumber = (stopNumber) => {
+const goToStopNumber = (stopNumber: number) => {
   const audioElement = document.querySelector("audio");
   if (audioElement && !audioElement.paused) {
     const confirmMessage =
