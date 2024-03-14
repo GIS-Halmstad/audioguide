@@ -251,10 +251,7 @@ function GuideSheetContent({ activeGuideObject }) {
         </Block>
       </div>
 
-      <div
-        className="page-content padding-bottom"
-        style={{ maxHeight: "51vh" }}
-      >
+      <div className="page-content padding-bottom">
         <Block className="no-margin-top">
           <Markdown children={prepareStringFromDbForMarkdown(text)} />
         </Block>
