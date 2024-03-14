@@ -35,8 +35,8 @@ node_modules/
 Thumbs.db
 
 # Specific runtime assets in public
-public/media
-public/backgroundThumbs
+public/media/*
+public/backgroundThumbs/*
 
 # Capacitor
 ios/App/public/
