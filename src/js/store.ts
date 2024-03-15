@@ -59,7 +59,7 @@ if (appConfig?.analytics?.type === "plausible") {
 const store = createStore({
   state: {
     loadingError: appConfigLoadingError, // null or error
-    geolocationError: null,
+    geolocationStatus: "disabled", // "disabled", "pending", "granted", "denied"
     loading: true,
     appConfig: appConfig, // null (if appConfigLoadingError is set) or a valid appConfig
     mapConfig: {},
@@ -81,8 +81,18 @@ const store = createStore({
     setLoadingError({ state }, v) {
       state.loadingError = v;
     },
-    setGeolocationError({ state }, v) {
-      state.geolocationError = v;
+    setGeolocationStatus({ state }, v) {
+      state.geolocationStatus = v;
+      // Remove all previous geolocation classes
+      document
+        .querySelector("html")
+        ?.classList.remove(
+          "has-geolocation-disabled",
+          "has-geolocation-denied",
+          "has-geolocation-granted",
+          "has-geolocation-pending"
+        );
+      document.querySelector("html")?.classList.add(`has-geolocation-${v}`);
     },
     setLoading({ state }, v) {
       state.loading = v;
@@ -140,8 +150,8 @@ const store = createStore({
     loadingError({ state }) {
       return state.loadingError;
     },
-    geolocationError({ state }) {
-      return state.geolocationError;
+    geolocationStatus({ state }) {
+      return state.geolocationStatus;
     },
     loading({ state }) {
       return state.loading;

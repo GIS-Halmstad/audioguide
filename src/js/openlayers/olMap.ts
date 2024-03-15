@@ -1,4 +1,5 @@
 import Framework7 from "framework7/types";
+import { StyleFunction } from "openlayers";
 
 import "../../css/olMap.css";
 
@@ -7,7 +8,7 @@ import { register } from "ol/proj/proj4";
 
 import { Map, View, Feature, Geolocation } from "ol";
 import { Rotate, ScaleLine, Zoom } from "ol/control";
-import { Geometry, Point } from "ol/geom";
+import { Geometry, Point, Polygon } from "ol/geom";
 // import OSM from "ol/source/OSM";
 // import TileLayer from "ol/layer/Tile";
 import VectorSource from "ol/source/Vector";
@@ -32,12 +33,14 @@ import {
 import BackgroundSwitcherControl from "./BackgroundSwitcherControl";
 import GeolocateControl from "./GeolocateControl";
 import Layer from "ol/layer/Layer";
-import { StyleFunction } from "openlayers";
+import { GeolocationError } from "ol/Geolocation";
 
 let olMap!: Map,
   audioguideSource: VectorSource,
   audioguideLayer: VectorLayer<VectorSource>,
   geolocation: Geolocation,
+  geolocationPositionFeature: Feature<Point>,
+  geolocationAccuracyFeature: Feature<Polygon>,
   activeGuideSource: VectorSource,
   activeGuideLayer: VectorLayer<VectorSource>;
 
@@ -244,26 +247,12 @@ async function initOLMap(f7: Framework7) {
     projection: olMap.getView().getProjection(),
   });
 
-  // Handle geolocation error
-  geolocation.on("error", function (error) {
-    // TODO: Add error show to user.
-    console.warn(error);
-
-    // Dispatch the error only if its code differs from the one in state
-    store.state.geolocationError?.code !== error.code &&
-      store.dispatch("setGeolocationError", error);
-  });
-
-  // Create an accuracy feature…
-  const geolocationAccuracyFeature = new Feature();
-  // …and ensure its geometry gets updated when geolocation
-  // accuracy changes.
-  geolocation.on("change:accuracyGeometry", () => {
-    geolocationAccuracyFeature.setGeometry(geolocation.getAccuracyGeometry());
-  });
+  // Create an accuracy feature. We don't need any special
+  // styling, the default OL polygon style is fine.
+  geolocationAccuracyFeature = new Feature();
 
   // Create a position feature…
-  const geolocationPositionFeature = new Feature();
+  geolocationPositionFeature = new Feature();
   geolocationPositionFeature.setStyle(
     new Style({
       image: new CircleStyle({
@@ -279,14 +268,62 @@ async function initOLMap(f7: Framework7) {
     })
   );
 
-  //  …and make sure we update its geometry when geolocation
-  // says that the position has changed.
-  geolocation.on("change:position", function () {
-    const coordinates = geolocation.getPosition();
-    geolocationPositionFeature.setGeometry(
-      coordinates ? new Point(coordinates) : null
-    );
+  // Update position feature's geometry when geolocation changes. Also, do
+  // some other updates if this is the first time geolocation is enabled.
+  geolocation.on("change:position", (e) => {
+    if (e.target.getTracking() === true && e.target.getPosition()) {
+      // If tracking is enabled and we have a position,
+      // let's grab current position's coordinates and set our position feature's
+      // geometry to the new coordinates.
+      const coordinates = geolocation.getPosition();
+      geolocationPositionFeature.setGeometry(
+        coordinates ? new Point(coordinates) : null
+      );
+
+      // If the current geolocationStatus is not yet "granted"
+      if (store.state.geolocationStatus !== "granted") {
+        store.dispatch("setGeolocationStatus", "granted");
+      }
+
+      // If position's old value was undefined, it means this
+      // is the first time geolocation was enabled and we must
+      // hide the preloader and center on user's location.
+      if (e.oldValue === undefined) {
+        f7Instance.preloader.hide();
+        centerOnGeolocation();
+      }
+    }
   });
+
+  /**
+   * @summary Update geolocation status to pending when user
+   * clicks on the enable geolocation button.
+   * @description This handler's main function is to update the geolocation status
+   * and show a pending indicator to the user, to reflect the ongoing geolocation process.
+   * What happens next depends on the outcome of the attempted geolocating process:
+   * - If successful, the geolocation's "position" property changes, meaning that
+   *   the program's flow continues in the "change:position" handler.
+   * - If unsuccessful, the program's flow continues in the "error" handler.
+   */
+  geolocation.on("change:tracking", (e) => {
+    if (e.target.getTracking() === true) {
+      // If tracking changes to true, we can tell that we're in the pending mode
+      // awaiting user's permission as well as the actual response from the hardware.
+      store.dispatch("setGeolocationStatus", "pending");
+      // Show pending indicator and enable tracking.
+      f7Instance.preloader.show();
+    } else {
+      store.dispatch("setGeolocationStatus", "disabled");
+    }
+  });
+
+  // Update the accuracy feature's geometry when the accuracy changes.
+  geolocation.on("change:accuracyGeometry", () => {
+    geolocationAccuracyFeature.setGeometry(geolocation.getAccuracyGeometry());
+  });
+
+  // Handle geolocation error
+  geolocation.on("error", handleGeolocationError);
 
   // The Geolocation features will need a source and a layer
   // to be added to.
@@ -390,22 +427,7 @@ async function initOLMap(f7: Framework7) {
     }
   });
 
-  f7.on("olCenterOnGeolocation", () => {
-    // View.animate() actually wants two coordinates (to center on),
-    // while getExtent() returns an array of four coordinates. In case
-    // of Point features, we might as well use getCoordinates() (or
-    // even getFirstCoordinates()) and we'd still end up with the same
-    // first two elements. So we go for getExtent() for that reason.
-    if (geolocationPositionFeature.getGeometry() === undefined) {
-      console.warn("Could not get geolocation");
-    } else {
-      olMap.getView().animate({
-        center: geolocationPositionFeature.getGeometry().getExtent(),
-        zoom: 10,
-        duration: 3000,
-      });
-    }
-  });
+  f7.on("olCenterOnGeolocation", centerOnGeolocation);
 
   f7.on("adjustForHeight", (overlayHeight) => {
     // The "padding" member of the View instance is an Array where
@@ -417,6 +439,57 @@ async function initOLMap(f7: Framework7) {
 
   updateFeaturesInMap();
 }
+
+const handleGeolocationError = (error: GeolocationError) => {
+  console.error("Geolocation error:", error);
+
+  // First things first: hide the preloader to unblock the UI.
+  f7Instance.preloader.hide();
+
+  // Next, disable tracking. This will also set geolocation status to "disabled",
+  // but we'll correct it soon (as an error should have status "denied").
+  geolocation.setTracking(false);
+
+  // Cleanup the map by unsetting features' geometries.
+  geolocationAccuracyFeature.setGeometry(undefined);
+  geolocationPositionFeature.setGeometry(undefined);
+
+  let errorMessage: string;
+  switch (error.code) {
+    case 1:
+      errorMessage =
+        "För att fastställa position behöver appen din tillåtelse. Ändra i enhetens inställningar och ladda om appen.";
+      break;
+    default:
+      errorMessage = error.message;
+      break;
+  }
+
+  f7Instance.dialog.alert(
+    errorMessage,
+    error.code !== 1 ? "Positioneringsfel" : ""
+  );
+
+  // Finally, ensure the correct geolocation status.
+  store.dispatch("setGeolocationStatus", "denied");
+};
+
+const centerOnGeolocation = () => {
+  // View.animate() actually wants two coordinates (to center on),
+  // while getExtent() returns an array of four coordinates. In case
+  // of Point features, we might as well use getCoordinates() (or
+  // even getFirstCoordinates()) and we'd still end up with the same
+  // first two elements. So we go for getExtent() for that reason.
+  if (geolocationPositionFeature.getGeometry() === undefined) {
+    console.warn("Could not get geolocation");
+  } else {
+    olMap.getView().animate({
+      center: geolocationPositionFeature.getGeometry().getExtent(),
+      zoom: 10,
+      duration: 3000,
+    });
+  }
+};
 
 const fitToAvailableFeatures = () => {
   // Fit View to features' extent only if there are
@@ -454,11 +527,30 @@ const getLayerVisibility = (lid) => {
     ?.getVisible();
 };
 
+/**
+ * @summary Main handler that enables geolocation.
+ * @description When user clicks the geolocate button, this function is called.
+ * The main outcome of this is that the tracking property of the geolocation
+ * object changes. Therefore, to further follow the program's flow, refer to the
+ * geolocation.on("change:tracking") handler.
+ */
 const enableGeolocation = () => {
   try {
+    if (
+      geolocation.getTracking() === true &&
+      store.state.geolocationStatus === "denied"
+    ) {
+      // If user has previously denied, let's disable tracking before
+      // re-enabling it.
+      geolocation.setTracking(false);
+    }
+
     geolocation.setTracking(true);
   } catch (error) {
-    console.error("enableGeolocation: ", error);
+    // Normally, we wouldn't get here, as setTracking()
+    // throws an error that is caught by the geolocation.on("error")
+    // handler. But, who knows what weird cases may occur out in the wild.
+    handleGeolocationError(error);
   }
 };
 

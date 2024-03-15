@@ -56,7 +56,9 @@ export default function GuidePreviewSheetContent({ f }: Props) {
     lineFeature = f;
   }
 
-  const geolocationError = useStore("geolocationError");
+  // We need to know if geolocation is available, as this determines
+  // which start buttons will be shown.
+  const geolocationStatus = useStore("geolocationStatus");
 
   const listOfStops: StopObject[] = useMemo(() => {
     return f7.store.state.allPoints
@@ -180,7 +182,7 @@ export default function GuidePreviewSheetContent({ f }: Props) {
                 Starta från stopp {pointFeature.get("stopNumber")}
               </Button>
             ) : (
-              geolocationError === null && (
+              geolocationStatus === "granted" && (
                 <Button
                   style={{ width: "100%" }}
                   fill
@@ -195,8 +197,8 @@ export default function GuidePreviewSheetContent({ f }: Props) {
             )}
             <Button
               style={{ width: "100%" }}
-              fill={geolocationError !== null} // fill if this action is primary (i.e. if geolocation isn't available)
-              large={geolocationError !== null} // large if this action is primary (i.e. if geolocation isn't available)
+              fill={geolocationStatus !== "granted"} // fill if this action is primary (i.e. if geolocation isn't available)
+              large={geolocationStatus !== "granted"} // large if this action is primary (i.e. if geolocation isn't available)
               round
               sheetClose
               onClick={() => handleActivateGuide(1)}

@@ -49,8 +49,6 @@ const HomePage = () => {
     loadingError !== null && showNotificationFull();
   }, [loadingError]);
 
-  // const geolocationError = useStore("geolocationError");
-
   // Controls the visibility of the background layer switcher.
   const [backgroundLayersActionsGrid, setBackgroundLayersActionsGrid] =
     useState(false);
@@ -113,17 +111,6 @@ const HomePage = () => {
     // Destroy toasts when page removed
     if (notificationFull.current) notificationFull.current.destroy();
   };
-
-  // const handleClickOnGeolocation = () => {
-  //   if (geolocationError === null) {
-  //     f7.emit("olCenterOnGeolocation");
-  //   } else {
-  //     f7.dialog.alert(
-  //       "För att använda funktionen måste du tillåta appen att ta del av din position.",
-  //       "Kan inte positionera"
-  //     );
-  //   }
-  // };
 
   return (
     <Page

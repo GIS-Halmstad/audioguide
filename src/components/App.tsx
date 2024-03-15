@@ -83,9 +83,6 @@ const Audioguide = () => {
     // its event bus for sending events between the Map and F7's UI.
     await initOLMap(f7);
 
-    // Let's enable geolocation
-    enableGeolocation();
-
     // See if we need to inject custom CSS
     if (store.state.mapConfig.ui.injectCustomCss === true) {
       const customCssResponse = await fetch("custom.css");
@@ -101,6 +98,12 @@ const Audioguide = () => {
     store.dispatch("trackAnalyticsEvent", {
       eventName: "loadSuccess",
     });
+
+    // Let's set the correct CSS geolocation status class
+    document
+      .querySelector("html")
+      ?.classList.add(`has-geolocation-${store.state.geolocationStatus}`);
+
     console.log("APP INIT DONE, current state", store.state);
   };
 
