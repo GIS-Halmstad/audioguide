@@ -18,7 +18,7 @@ import capacitorApp from "../js/capacitor-app";
 import routes from "../js/routes";
 import store from "../js/store";
 
-import { enableGeolocation, initOLMap } from "../js/openlayers/olMap";
+import { initOLMap } from "../js/openlayers/olMap";
 import DemoMessageSheet from "./DemoMessageSheet";
 import FullscreenSwiper from "./FullscreenSwiper";
 

@@ -280,7 +280,8 @@ async function initOLMap(f7: Framework7) {
         coordinates ? new Point(coordinates) : null
       );
 
-      // If the current geolocationStatus is not yet "granted"
+      // If the current geolocationStatus is not yet "granted", updated it,
+      // as we've obviously been granted permission since we have a position.
       if (store.state.geolocationStatus !== "granted") {
         store.dispatch("setGeolocationStatus", "granted");
       }
@@ -300,10 +301,14 @@ async function initOLMap(f7: Framework7) {
    * clicks on the enable geolocation button.
    * @description This handler's main function is to update the geolocation status
    * and show a pending indicator to the user, to reflect the ongoing geolocation process.
-   * What happens next depends on the outcome of the attempted geolocating process:
-   * - If successful, the geolocation's "position" property changes, meaning that
-   *   the program's flow continues in the "change:position" handler.
-   * - If unsuccessful, the program's flow continues in the "error" handler.
+   * There are two possible flows here:
+   * 1. Tracking is enabled. In this case what happens next depends is determined by the
+   *    outcome of the attempted geolocation process:
+   *    - If successful, the geolocation's "position" property changes, meaning that
+   *      the program's flow continues in the "change:position" handler.
+   *    - If unsuccessful, the program's flow continues in the "error" handler.
+   * 2. Tracking is disabled. In this case we must unset the UI here, as no "change:position"
+   *    will be triggered.
    */
   geolocation.on("change:tracking", (e) => {
     if (e.target.getTracking() === true) {
@@ -314,12 +319,24 @@ async function initOLMap(f7: Framework7) {
       f7Instance.preloader.show();
     } else {
       store.dispatch("setGeolocationStatus", "disabled");
+      // Cleanup the map by unsetting features' geometries.
+      geolocationAccuracyFeature.setGeometry(undefined);
+      geolocationPositionFeature.setGeometry(undefined);
     }
   });
 
   // Update the accuracy feature's geometry when the accuracy changes.
   geolocation.on("change:accuracyGeometry", () => {
     geolocationAccuracyFeature.setGeometry(geolocation.getAccuracyGeometry());
+  });
+
+  // If Geolocation's heading changes, let's update the View's rotation.
+  geolocation.on("change:heading", (e) => {
+    if (geolocation.getHeading() !== undefined) {
+      olMap.getView().animate({
+        rotation: geolocation.getHeading(),
+      });
+    }
   });
 
   // Handle geolocation error
@@ -484,8 +501,9 @@ const centerOnGeolocation = () => {
     console.warn("Could not get geolocation");
   } else {
     olMap.getView().animate({
-      center: geolocationPositionFeature.getGeometry().getExtent(),
-      zoom: 10,
+      center: geolocation.getPosition(),
+      rotation: geolocation.getHeading(),
+      zoom: 8,
       duration: 3000,
     });
   }
@@ -546,6 +564,23 @@ const enableGeolocation = () => {
     }
 
     geolocation.setTracking(true);
+  } catch (error) {
+    // Normally, we wouldn't get here, as setTracking()
+    // throws an error that is caught by the geolocation.on("error")
+    // handler. But, who knows what weird cases may occur out in the wild.
+    handleGeolocationError(error);
+  }
+};
+
+const disableGeolocation = () => {
+  try {
+    // Disable tracking
+    geolocation.setTracking(false);
+
+    // Reset rotation
+    olMap.getView().animate({
+      rotation: 0,
+    });
   } catch (error) {
     // Normally, we wouldn't get here, as setTracking()
     // throws an error that is caught by the geolocation.on("error")
@@ -710,6 +745,7 @@ export {
   setBackgroundLayer,
   getLayerVisibility,
   enableGeolocation,
+  disableGeolocation,
   getClosestStopNumberFromCurrentPosition,
   activateGuide,
   deactivateGuide,
