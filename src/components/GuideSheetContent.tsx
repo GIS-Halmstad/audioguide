@@ -102,6 +102,8 @@ function GuideSheetContent({ activeGuideObject }) {
             <swiper-slide key={i} className="swiper-slide-custom">
               <video
                 controls
+                controlsList="nodownload"
+                poster={images[0]}
                 src={src}
                 style={{ width: "100%" }}
                 onPlay={() => {
@@ -183,6 +185,7 @@ function GuideSheetContent({ activeGuideObject }) {
         <Block className="no-margin margin-top-half margin-bottom">
           <audio
             controls
+            controlsList="nodownload"
             src={audios[0]}
             style={{ width: "100%" }}
             onPlay={() => {
