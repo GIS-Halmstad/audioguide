@@ -12,7 +12,6 @@ import {
 } from "../js/utils";
 
 import { parseStyle } from "../js/f7Helpers";
-import { color } from "openlayers";
 
 function GuideSheetContent({ activeGuideObject }) {
   const activeStopNumber = useStore("activeStopNumber");
