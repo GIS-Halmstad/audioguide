@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Markdown from "react-markdown";
 
 import { Block, Button, Link, f7, useStore } from "framework7-react";
@@ -29,6 +29,14 @@ function GuideSheetContent({ activeGuideObject }) {
   const isLastStop =
     activeGuideObject?.points &&
     activeStopNumber === Object.entries(activeGuideObject?.points).length;
+
+  useEffect(() => {
+    // Ensure that the Swiper is updated regarding, it's probable that
+    // the amount of images have changed.
+    const swiperEl = f7.swiper.get(".active-guide-sheet swiper-container");
+    swiperEl?.update();
+    swiperEl?.slideTo(0);
+  });
 
   const handleClickOnCloseGuide = () => {
     f7.dialog.confirm(
@@ -79,23 +87,51 @@ function GuideSheetContent({ activeGuideObject }) {
         />
 
         <swiper-container
-          cssMode="true"
-          pagination
-          space-between="50"
+          css-mode={true}
+          loop={false} // Can't be true, as it breaks the .slideTo() in the useEffect
+          pagination={true}
+          initial-slide={0}
+          space-between={5}
           style={{
             borderBottomColor: parseStyle(activeGuideObject.line).strokeColor,
             borderBottomWidth: "10px",
             borderBottomStyle: "solid",
           }}
         >
-          {images.map((src, i) => (
+          {videos.map((src, i) => (
             <swiper-slide key={i} className="swiper-slide-custom">
+              <video
+                controls
+                src={src}
+                style={{ width: "100%" }}
+                onPlay={() => {
+                  if ("mediaSession" in navigator) {
+                    navigator.mediaSession.metadata = new MediaMetadata({
+                      title: `${activeStopNumber}: ${point.get("title")}`,
+                      artist: activeGuideObject.line.get("title"),
+                      // TODO: Consider adding artwork
+                    });
+                  }
+                }}
+              ></video>
+            </swiper-slide>
+          ))}
+          {images.map((src, i) => (
+            <swiper-slide
+              key={videos.length + i} // We don't want i to restart on 0, hence add up to the amount of videos
+              className="swiper-slide-custom"
+            >
               <div
                 className="image-container"
                 style={{
                   backgroundImage: `url(${thumbalizeImageSource(src)})`,
                 }}
-                onClick={() => f7.emit("showFullscreenSwiper", images)}
+                onClick={() =>
+                  f7.emit("showFullscreenSwiper", {
+                    sources: images,
+                    currentIndex: i,
+                  })
+                }
               ></div>
             </swiper-slide>
           ))}
@@ -144,24 +180,6 @@ function GuideSheetContent({ activeGuideObject }) {
           />
         </Block>
 
-        {videos[0] && (
-          <Block className="no-margin margin-top-half margin-bottom">
-            <video
-              controls
-              src={videos[0]}
-              style={{ width: "100%" }}
-              onPlay={() => {
-                if ("mediaSession" in navigator) {
-                  navigator.mediaSession.metadata = new MediaMetadata({
-                    title: `${activeStopNumber}: ${point.get("title")}`,
-                    artist: activeGuideObject.line.get("title"),
-                    // TODO: Consider adding artwork
-                  });
-                }
-              }}
-            ></video>
-          </Block>
-        )}
         <Block className="no-margin margin-top-half margin-bottom">
           <audio
             controls

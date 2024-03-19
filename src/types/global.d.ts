@@ -7,11 +7,12 @@ declare global {
         React.HTMLAttributes<HTMLElement>,
         HTMLElement
       > & {
-        navigation: string;
-        pagination: boolean;
-        class: string;
-        cssMode: string;
-        spaceBetween: string;
+        navigation?: string;
+        pagination?: boolean;
+        "initial-slide"?: number;
+        class?: string;
+        "css-mode"?: string;
+        "space-between"?: string;
       };
       "swiper-slide": React.DetailedHTMLProps<
         React.HTMLAttributes<HTMLElement>,

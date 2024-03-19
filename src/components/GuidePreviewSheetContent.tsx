@@ -96,9 +96,11 @@ export default function GuidePreviewSheetContent({ f }: Props) {
 
           {/* Swiper component with guide photos */}
           <swiper-container
-            cssMode="true"
-            pagination
-            space-between="50"
+            css-mode={true}
+            loop={true}
+            pagination={true}
+            initial-slide={0}
+            space-between={5}
             style={{
               borderBottomColor: parseStyle(lineFeature).strokeColor,
               borderBottomWidth: "10px",
@@ -112,7 +114,12 @@ export default function GuidePreviewSheetContent({ f }: Props) {
                   style={{
                     backgroundImage: `url(${thumbalizeImageSource(src)})`,
                   }}
-                  onClick={() => f7.emit("showFullscreenSwiper", images)}
+                  onClick={() =>
+                    f7.emit("showFullscreenSwiper", {
+                      sources: images,
+                      currentIndex: i,
+                    })
+                  }
                 ></div>
               </swiper-slide>
             ))}

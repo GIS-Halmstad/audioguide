@@ -248,6 +248,7 @@ swiper-container .image-container {
   left: 0;
   right: 0;
   z-index: 14000;
+  background-color: #000;
 }
 #fullscreen-swiper .link {
   z-index: 14001;
@@ -262,6 +263,5 @@ swiper-container .image-container {
   width: 100%;
 }
 #fullscreen-swiper swiper-container .image-container {
-  background-color: #000;
   background-size: contain;
 }
