@@ -12,6 +12,7 @@ import {
 } from "../js/utils";
 
 import { parseStyle } from "../js/f7Helpers";
+import { color } from "openlayers";
 
 function GuideSheetContent({ activeGuideObject }) {
   const activeStopNumber = useStore("activeStopNumber");
@@ -105,7 +106,11 @@ function GuideSheetContent({ activeGuideObject }) {
                 controlsList="nodownload"
                 poster={images[0]}
                 src={src}
-                style={{ width: "100%" }}
+                style={{
+                  width: "100%",
+                  height: "95%",
+                  backgroundColor: "#000",
+                }}
                 onPlay={() => {
                   if ("mediaSession" in navigator) {
                     navigator.mediaSession.metadata = new MediaMetadata({
