@@ -32,6 +32,7 @@ import {
 
 import BackgroundSwitcherControl from "./BackgroundSwitcherControl";
 import GeolocateControl from "./GeolocateControl";
+import RotateWithNorthLockControl from "./RotateWithNorthLockControl";
 import Layer from "ol/layer/Layer";
 import { GeolocationError } from "ol/Geolocation";
 
@@ -210,9 +211,10 @@ async function initOLMap(f7: Framework7) {
         maxWidth: 240,
       }),
       new BackgroundSwitcherControl({ f7Instance }),
-      new Rotate({
+      new RotateWithNorthLockControl({
         autoHide: false,
         label: "",
+        f7Instance,
       }),
     ],
 
@@ -330,9 +332,12 @@ async function initOLMap(f7: Framework7) {
     geolocationAccuracyFeature.setGeometry(geolocation.getAccuracyGeometry());
   });
 
-  // If Geolocation's heading changes, let's update the View's rotation.
+  // If Geolocation's heading changes and user didn't lock north up, let's update the View's rotation.
   geolocation.on("change:heading", (e) => {
-    if (geolocation.getHeading() !== undefined) {
+    if (
+      geolocation.getHeading() !== undefined &&
+      store.state.northLock === false
+    ) {
       olMap.getView().animate({
         rotation: geolocation.getHeading(),
       });

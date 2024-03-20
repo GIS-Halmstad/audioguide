@@ -60,6 +60,7 @@ const store = createStore({
   state: {
     loadingError: appConfigLoadingError, // null or error
     geolocationStatus: "disabled", // "disabled", "pending", "granted", "denied"
+    northLock: false,
     loading: true,
     appConfig: appConfig, // null (if appConfigLoadingError is set) or a valid appConfig
     mapConfig: {},
@@ -93,6 +94,14 @@ const store = createStore({
           "has-geolocation-pending"
         );
       document.querySelector("html")?.classList.add(`has-geolocation-${v}`);
+    },
+    setNorthLock({ state }, v) {
+      state.northLock = v;
+      if (v === true) {
+        document.querySelector("html")?.classList.add(`has-north-lock`);
+      } else {
+        document.querySelector("html")?.classList.remove(`has-north-lock`);
+      }
     },
     setLoading({ state }, v) {
       state.loading = v;
@@ -152,6 +161,9 @@ const store = createStore({
     },
     geolocationStatus({ state }) {
       return state.geolocationStatus;
+    },
+    northLock({ state }) {
+      return state.northLock;
     },
     loading({ state }) {
       return state.loading;
