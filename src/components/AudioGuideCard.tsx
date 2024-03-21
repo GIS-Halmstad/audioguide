@@ -39,7 +39,7 @@ function AudioguideCard({ feature }) {
               <Chip text={c} key={i} className="margin-right-half" />
             ))}
         </Block>
-        <BlockTitle>Längd</BlockTitle>
+        <BlockTitle>Guidens längd</BlockTitle>
         <Block>
           <Chip
             text={feature.get("length")}
