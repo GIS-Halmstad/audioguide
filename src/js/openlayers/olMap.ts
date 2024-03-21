@@ -425,20 +425,40 @@ async function initOLMap(f7: Framework7) {
    * @param {Array} f - An array with the feature to be selected. Empty to deselect.
    * @param {number} [delay=0] - Optional delay added before running the zoom animation.
    */
-  f7.on("olFeatureSelected", (f, delay = 0) => {
+  f7.on("olFeatureSelected", (f: Feature[], delay = 0) => {
+    // If the selection array is empty, let's deselect everything.
     if (f.length === 0) {
-      // If something else emitted the event with an empty selection array,
-      // let's deselect here too.
-      selectInteraction.getFeatures().clear();
-    } else {
-      // It looks as we'll be adding a feature to the selection, programmatically.
-      selectInteraction.getFeatures().clear();
+      // Show all in this layer (that were previously hidden), by setting style to default
+      audioguideSource.getFeatures().forEach((feature) => {
+        // Neat way to reset a feature's style is to unset any previous
+        // override. This will fall back to the layer's default style,
+        // hence showing the feature again.
+        feature.setStyle(undefined);
+      });
 
+      // The actual deselection is handled by clearing the
+      // feature collection of the select interaction.
+      selectInteraction.getFeatures().clear();
+    }
+    // Else, if the selection array is not empty, there's a feature
+    // that should be added to the selection interaction programmatically.
+    else {
+      // First, hide all features, except those that belong to the currently
+      // selected guide (we determine it by looking at the guideId).
+      audioguideSource.getFeatures().forEach((feature) => {
+        if (feature.get("guideId") !== f[0].get("guideId")) {
+          // A neat way to hide a feature is to set its style to a new
+          // Style, which contains no styling at all (empty object).
+          feature.setStyle(new Style({}));
+        }
+      });
+      // Next, clear any possible previously selected features…
+      selectInteraction.getFeatures().clear();
+      // …and add the newly selected feature to the select interaction's feature collection.
       selectInteraction.getFeatures().push(f[0]);
 
-      // Zoom to feature
+      // Finally, zoom to selection, perhaps using a delay.
       const selectionExtent = f[0].getGeometry().getExtent();
-
       if (delay === 0) {
         olMap.getView().fit(selectionExtent, { duration: 1000 });
       } else {
