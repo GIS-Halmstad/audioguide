@@ -21,11 +21,11 @@
     "last 5 Firefox versions"
   ],
   "dependencies": {
-    "@capacitor/android": "^5.7.3",
+    "@capacitor/android": "^5.7.4",
     "@capacitor/app": "^5.0.7",
     "@capacitor/browser": "^5.2.0",
-    "@capacitor/core": "^5.7.3",
-    "@capacitor/ios": "^5.7.3",
+    "@capacitor/core": "^5.7.4",
+    "@capacitor/ios": "^5.7.4",
     "@capacitor/keyboard": "^5.0.8",
     "@capacitor/splash-screen": "^5.0.7",
     "@capacitor/status-bar": "^5.0.7",
@@ -33,6 +33,7 @@
     "framework7": "^8.3.2",
     "framework7-icons": "^5.0.5",
     "framework7-react": "^8.3.2",
+    "kompas": "^0.0.2",
     "material-icons": "^1.13.12",
     "ol": "^9.0.0",
     "plausible-tracker": "^0.3.8",
@@ -45,7 +46,7 @@
     "swiper": "^11.0.7"
   },
   "devDependencies": {
-    "@capacitor/cli": "^5.7.3",
+    "@capacitor/cli": "^5.7.4",
     "@types/openlayers": "^4.6.23",
     "@types/proj4": "^2.5.5",
     "@types/react": "^18.2.67",
@@ -58,6 +59,6 @@
     "eslint-plugin-react": "^7.34.1",
     "eslint-plugin-react-hooks": "^4.6.0",
     "postcss-preset-env": "^9.5.2",
-    "vite": "^5.1.6"
+    "vite": "^5.2.2"
   }
 }
