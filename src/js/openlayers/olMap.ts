@@ -1,6 +1,5 @@
 import Framework7 from "framework7/types";
 import { StyleFunction } from "openlayers";
-import kompas from "kompas";
 
 import "../../css/olMap.css";
 
@@ -8,7 +7,7 @@ import proj4 from "proj4";
 import { register } from "ol/proj/proj4";
 
 import { Map, View, Feature, Geolocation } from "ol";
-import { Rotate, ScaleLine, Zoom } from "ol/control";
+import { ScaleLine, Zoom } from "ol/control";
 import { Geometry, Point, Polygon } from "ol/geom";
 // import OSM from "ol/source/OSM";
 // import TileLayer from "ol/layer/Tile";
@@ -40,6 +39,8 @@ import { GeolocationError } from "ol/Geolocation";
 let olMap!: Map,
   audioguideSource: VectorSource,
   audioguideLayer: VectorLayer<VectorSource>,
+  compassWebkitListener: (e: DeviceOrientationEvent) => void,
+  compassAbsoluteListener: (e: DeviceOrientationEvent) => void,
   geolocation: Geolocation,
   geolocationPositionFeature: Feature<Point>,
   geolocationAccuracyFeature: Feature<Polygon>,
@@ -557,108 +558,98 @@ const setBackgroundLayer = (lid: Layer) => {
   });
 };
 
-const getLayerVisibility = (lid) => {
+const getLayerVisibility = (lid: string | undefined) => {
   return olMap
     ?.getAllLayers()
     .find((l) => l.get("lid") === lid)
     ?.getVisible();
 };
 
-function trackCompass() {
-  kompas()
-    .watch()
-    .on("heading", (heading: number = 0) => {
-      // Don't rotate if map is animating (e.g. due to an ongoing zoom), as that would
-      // stop the animation. Also, don't rotate if north is locked.
-      if (
-        olMap.getView().getAnimating() === true ||
-        store.state.northLock === true
-      ) {
-        return;
-      }
-
-      // Convert heading from degrees to radians, negation because otherwise we'll end up
-      // rotating the background in the wrong direction.
-      const inRad = -(heading / 180) * Math.PI;
-
-      // If Geolocation's heading changes and user didn't lock north up, let's update the View's rotation.
-      // heading comes in degrees, but we need it in radians
-      olMap.getView().setRotation(inRad);
-    });
-}
-
-/**
- * @summary Main handler that enables compass.
- * @description When user clicks the geolocate button for the first time
- * geolocation is enabled and this function is called as well. Once active,
- * there's no need to disable compass: we have a north lock check, so user
- * can disable the rotation at any time.
- */
 const enableCompass = () => {
-  if (
-    window.DeviceOrientationEvent &&
-    typeof DeviceOrientationEvent.requestPermission === "function"
-  ) {
-    // iOS 14.5 and above wants us to explicitly ask for permission
-    // locate.addEventListener("click", function () {
-    DeviceOrientationEvent.requestPermission()
-      .then(trackCompass)
-      .catch(function (error: Error) {
-        console.error(error);
-        f7Instance.dialog.alert(error.message, "Kompassfel");
-      });
-    // });
-  } else if ("ondeviceorientationabsolute" in window) {
-    trackCompass();
-  } else {
-    console.warn("No device orientation provided by device");
+  if (!window["DeviceOrientationEvent"]) {
+    console.warn("DeviceOrientation API not available");
+    return;
+  }
+  let lastHeading: number;
+
+  const callback = (heading: number = 0) => {
+    // Don't rotate if map is animating (e.g. due to an ongoing zoom), as that would
+    // stop the animation. Also, don't rotate if north is locked.
+    if (
+      olMap.getView().getAnimating() === true ||
+      store.state.northLock === true
+    ) {
+      return;
+    }
+
+    // Convert heading from degrees to radians, negation because otherwise we'll end up
+    // rotating the background in the wrong direction.
+    const inRad = -(heading / 180) * Math.PI;
+
+    olMap.getView().setRotation(inRad);
+  };
+
+  // compassAbsoluteListener and compassWebkitListener are in the global scope
+  // so that we can set them in this function but also use in disableCompass(),
+  // in order to unsubscribe from the listeners when compass is disabled.
+  compassAbsoluteListener = (e: DeviceOrientationEvent) => {
+    if (!e.absolute || e.alpha === null || e.beta === null || e.gamma === null)
+      return;
+
+    // Determine heading
+    let heading = -(e.alpha + (e.beta * e.gamma) / 90);
+    heading -= Math.floor(heading / 360) * 360; // Wrap into range [0,360].
+
+    // If heading changed, announce to the callback
+    if (heading !== lastHeading) {
+      lastHeading = heading;
+      callback(heading);
+    }
+  };
+
+  compassWebkitListener = (e) => {
+    // Determine heading, the easy way
+    let heading = e.webkitCompassHeading;
+
+    // If heading changed, announce to the callback
+    if (heading !== null && !isNaN(heading) && heading !== lastHeading) {
+      lastHeading = heading;
+      callback(heading);
+    }
+  };
+
+  const addListeners = () => {
+    if ("ondeviceorientationabsolute" in window) {
+      window.addEventListener(
+        "deviceorientationabsolute",
+        compassAbsoluteListener
+      );
+    } else {
+      window.addEventListener("deviceorientation", compassWebkitListener);
+    }
+  };
+
+  // Devices that support the Permission API must be asked for permission.
+  if (typeof DeviceOrientationEvent["requestPermission"] === "function") {
+    DeviceOrientationEvent["requestPermission"]().then((response) => {
+      if (response === "granted") {
+        addListeners();
+      } else console.warn("Permission for DeviceMotionEvent not granted");
+    });
+  }
+  // For other devices, let's just add the listeners
+  else {
+    addListeners();
   }
 };
 
-// function startCompassListener(callback: (compass: number) => void) {
-//   if (!window["DeviceOrientationEvent"]) {
-//     console.warn("DeviceOrientation API not available");
-//     return;
-//   }
-
-//   let lastHeading: number;
-
-//   const absoluteListener = (e: DeviceOrientationEvent) => {
-//     if (!e.absolute || e.alpha == null || e.beta == null || e.gamma == null)
-//       return;
-//     let compass = -(e.alpha + (e.beta * e.gamma) / 90);
-//     compass -= Math.floor(compass / 360) * 360; // Wrap into range [0,360].
-//     window.removeEventListener("deviceorientation", webkitListener);
-//     if (compass != lastHeading) {
-//       lastHeading = compass;
-//       callback(compass);
-//     }
-//   };
-//   const webkitListener = (e) => {
-//     let compass = e.webkitCompassHeading;
-//     if (compass != null && !isNaN(compass)) {
-//       if (compass != lastHeading) {
-//         lastHeading = compass;
-//         callback(compass);
-//       }
-//       window.removeEventListener("deviceorientationabsolute", absoluteListener);
-//     }
-//   };
-
-//   function addListeners() {
-//     // Add both listeners, and if either succeeds then remove the other one.
-//     window.addEventListener("deviceorientationabsolute", absoluteListener);
-//     window.addEventListener("deviceorientation", webkitListener);
-//   }
-
-//   if (typeof DeviceOrientationEvent["requestPermission"] === "function") {
-//     DeviceOrientationEvent["requestPermission"]().then((response) => {
-//       if (response == "granted") {
-//         addListeners();
-//       } else console.warn("Permission for DeviceMotionEvent not granted");
-//     });
-//   } else addListeners();
-// }
+const disableCompass = () => {
+  window.removeEventListener(
+    "deviceorientationabsolute",
+    compassAbsoluteListener
+  );
+  window.removeEventListener("deviceorientation", compassWebkitListener);
+};
 
 /**
  * @summary Main handler that enables geolocation.
@@ -860,7 +851,7 @@ export {
   setBackgroundLayer,
   getLayerVisibility,
   enableCompass,
-  // startCompassListener,
+  disableCompass,
   enableGeolocation,
   disableGeolocation,
   getClosestStopNumberFromCurrentPosition,
