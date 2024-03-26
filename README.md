@@ -317,6 +317,31 @@ You can customize the contents of about page by modifing the `aboutPageContentHt
 
 There is a [Vite](https://vitejs.dev) bundler setup. It compiles and bundles all "front-end" resources. You should work only with files located in `/src` folder. Vite config located in `vite.config.js`.
 
+#### HTTPS in development
+
+If you want Vite to serve the project over HTTPS during development (handy to test certain features that require a secure connection, such as Geolocation), you must do the following:
+
+1. Generate SSL certificates: You'll need SSL certificates for HTTPS. You can generate a self-signed certificate for development purposes using tools like OpenSSL. Here's a basic command to generate a self-signed certificate:
+
+```shell
+openssl req -x509 -out localhost.crt -keyout localhost.key \
+  -newkey rsa:2048 -nodes -sha256 \
+  -subj '/CN=localhost' -extensions EXT -config <( \
+   printf "[dn]\nCN=localhost\n[req]\ndistinguished_name = dn\n[EXT]\nsubjectAltName=DNS:localhost\nkeyUsage=digitalSignature\nextendedKeyUsage=serverAuth")
+
+```
+
+2. Uncomment the `https` section in vite.config.js, so you have this part active:
+
+```js
+https: {
+  key: fs.readFileSync("localhost.key"),
+  cert: fs.readFileSync("localhost.crt"),
+},
+```
+
+3. Start the development server as usual with `npm run dev`.
+
 ### Assets
 
 Assets (icons, splash screens) source images located in `assets-src` folder. To generate your own icons and splash screen images, you will need to replace all assets in this directory with your own images (pay attention to image size and format), and run the following command in the project directory:

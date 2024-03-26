@@ -1,4 +1,5 @@
 import path from "path";
+import fs from "fs";
 import react from "@vitejs/plugin-react";
 
 const SRC_DIR = path.resolve(__dirname, "./src");
@@ -27,6 +28,12 @@ export default async () => {
     server: {
       host: true,
       port: 3000,
+      // Make sure to generate the required certificates,
+      // see README.md for details.
+      // https: {
+      //   key: fs.readFileSync("localhost.key"),
+      //   cert: fs.readFileSync("localhost.crt"),
+      // },
     },
   };
 };
