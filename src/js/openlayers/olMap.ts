@@ -9,7 +9,7 @@ import { register } from "ol/proj/proj4";
 import { Map, View, Feature } from "ol";
 import Geolocation, { GeolocationError } from "ol/Geolocation";
 import { ScaleLine, Zoom } from "ol/control";
-import { containsCoordinate } from "ol/extent";
+import { Extent, containsCoordinate } from "ol/extent";
 import { Geometry, Point, Polygon } from "ol/geom";
 // import OSM from "ol/source/OSM";
 // import TileLayer from "ol/layer/Tile";
@@ -38,6 +38,7 @@ import RotateWithNorthLockControl from "./RotateWithNorthLockControl";
 import Layer from "ol/layer/Layer";
 
 let olMap!: Map,
+  constrainedExtent: Extent | undefined,
   audioguideSource: VectorSource,
   audioguideLayer: VectorLayer<VectorSource>,
   compassWebkitListener: (e: DeviceOrientationEvent) => void,
@@ -199,6 +200,9 @@ async function initOLMap(f7: Framework7) {
     style: styleFunction,
   });
 
+  constrainedExtent =
+    config.map.extent.length > 0 ? config.map.extent : undefined;
+
   // Setup Map and View
   olMap = new Map({
     target: "map",
@@ -234,7 +238,7 @@ async function initOLMap(f7: Framework7) {
       constrainOnlyCenter: config.map.constrainOnlyCenter,
       constrainResolution:
         config.map.constrainResolutionMobile ?? config.map.constrainResolution,
-      extent: config.map.extent.length > 0 ? config.map.extent : undefined,
+      extent: constrainedExtent,
       maxZoom: config.map.maxZoom || 24,
       minZoom: config.map.minZoom || 0,
       projection: config.map.projection,
@@ -276,29 +280,24 @@ async function initOLMap(f7: Framework7) {
   // Update position feature's geometry when geolocation changes. Also, do
   // some other updates if this is the first time geolocation is enabled.
   geolocation.on("change:position", (e) => {
-    if (e.target.getTracking() === true && e.target.getPosition()) {
-      // If tracking is enabled and we have a position, let's ensure
-      // that user is within our Map's extent.
-      const coordinates = geolocation.getPosition();
-      const viewExtent = olMap.getView().calculateExtent();
-      const userWithinMap = containsCoordinate(viewExtent, coordinates);
+    const coordinates = geolocation.getPosition();
+    if (e.target.getTracking() === true && coordinates !== undefined) {
+      // If there's a extent constrained specified int the map config, let's ensure
+      // the user's current location is within that extent. Otherwise, let's assume
+      // the user is within the map's extent.
+      const userWithinMap =
+        constrainedExtent !== undefined
+          ? containsCoordinate(constrainedExtent, coordinates)
+          : true;
 
       if (userWithinMap === true) {
         // Set position feature's geometry to the new coordinates.
-        geolocationPositionFeature.setGeometry(
-          coordinates ? new Point(coordinates) : null
-        );
+        geolocationPositionFeature.setGeometry(new Point(coordinates));
 
-        // If the current geolocationStatus is not yet "granted", updated it,
-        // as we've obviously been granted permission since we have a position.
+        // If the current geolocationStatus is anything else than "granted", updated it.
+        // Usually this means that we can hide the preloader and center on location too.
         if (store.state.geolocationStatus !== "granted") {
           store.dispatch("setGeolocationStatus", "granted");
-        }
-
-        // If position's old value was undefined, it means this
-        // is the first time geolocation was enabled and we must
-        // hide the preloader and center on user's location.
-        if (e.oldValue === undefined) {
           f7Instance.preloader.hide();
           centerOnGeolocation();
         }
