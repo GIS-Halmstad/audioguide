@@ -22,6 +22,9 @@ import ErrorApp from "../components/ErrorApp";
 import fetchFromService from "./fetchFromService";
 
 import washMapConfig from "./washMapConfig";
+import { preventAndroidBackButton } from "./utils";
+
+preventAndroidBackButton();
 
 // The second argument is empty because… type definition for dispatch().
 store.dispatch("trackAnalyticsPageview", {});
