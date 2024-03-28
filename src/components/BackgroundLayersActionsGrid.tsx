@@ -32,30 +32,31 @@ function BackgroundLayersActionsGrid({
 }) {
   const backgrounds = f7.store.state.mapConfig.backgrounds;
 
-  // We have only room for 6 layers in slots of 3 layers each.
-  const slot1 = [backgrounds[0], backgrounds[1], backgrounds[2]].filter(
-    (e) => e !== undefined
-  );
-  // const slot2 = [backgrounds[3], backgrounds[4], backgrounds[5]].filter(
-  //   (e) => e !== undefined
-  // );
+  // Ensure we filter out any undefined values
+  const filteredBackgrounds = backgrounds.filter((b) => b !== undefined);
+
+  // Split backgrounds into slots of three items per slot.
+  const slots = [];
+  for (let i = 0; i < filteredBackgrounds.length; i += 3) {
+    slots.push(filteredBackgrounds.slice(i, i + 3));
+  }
 
   return (
     <Actions
       grid={true}
       opened={backgroundLayersActionsGrid}
       onActionsClosed={() => setBackgroundLayersActionsGrid(false)}
+      className="background-layers-actions-grid"
     >
-      <ActionsGroup>
-        {slot1.map((b, i) => {
-          return <LayerButton key={i} layer={b} />;
-        })}
-      </ActionsGroup>
-      {/* <ActionsGroup>
-        {slot2.map((b, i) => {
-          return <LayerButton key={i} layer={b} />;
-        })}
-      </ActionsGroup> */}
+      {slots.map((slot, i) => {
+        return (
+          <ActionsGroup key={i}>
+            {slot.map((b, i) => {
+              return <LayerButton key={i} layer={b} />;
+            })}
+          </ActionsGroup>
+        );
+      })}
     </Actions>
   );
 }

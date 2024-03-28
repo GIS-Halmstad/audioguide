@@ -118,8 +118,7 @@ body.loading #splash-screen {
   z-index: 6000;
 }
 
-/* New Cards */
-
+/* Cards displayed in main Guides View */
 .card .card-header {
   height: 150px;
   background-size: cover;
@@ -157,6 +156,12 @@ body.loading #splash-screen {
     );
     margin-right: 0;
   }
+}
+
+/* Background layer picker */
+.background-layers-actions-grid {
+  /* If there are many layers, we want the grid to be scrollable */
+  max-height: 60vh;
 }
 
 /* Sheet Modal */
