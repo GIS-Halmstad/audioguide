@@ -4,11 +4,20 @@ TBA
 
 ## Requirements
 
-### The Database
+The Audioguide App needs to retrive the lines and points features from a location. Currently, there are two options:
+
+- from a WFS service
+- from two GeoJSON files
+
+### Option 1: The WFS service
+
+There are many options to serve data as WFS, but one common solution is a spatial database (e.g PostGIS) and a server component (such as GeoServer or QGIS Server).
+
+#### The Database
 
 To set up the Audioguide App, you need to create two tables in your spatial database:
 
-### audioguide_line
+##### audioguide_line
 
 ```sql
 -- public.audioguide_line definition
@@ -34,7 +43,7 @@ CREATE TABLE public.audioguide_line (
 CREATE INDEX sidx_audioguide_line_geom ON public.audioguide_line USING gist (geom);
 ```
 
-#### audioguide_point
+##### audioguide_point
 
 ```sql
 -- public.audioguide_point definition
@@ -60,21 +69,34 @@ CREATE TABLE public.audioguide_point (
 CREATE INDEX sidx_audioguide_point_geom ON public.audioguide_point USING gist (geom);
 ```
 
-### The OGC WFS Service
+#### The OGC WFS Service
 
-You need to publish the tables mentioned above using a WFS service that can output features as `application/json`. Make sure to note the workspace, workspace's namespace, layers' SRS, as well as the URL to the WFS service.
+Once you have the spatial data in a database, you need to expose it using a WFS service that can output features as `application/json`. Make sure to note the workspace, workspace's namespace, layers' SRS, as well as the URL to the WFS service. The Audioguide App expects the WFS layers to be called the same as the tables, i.e. `audioguide_line` and `audioguide_point`.
 
-### Optional: The Hajk API
+### Option 2: GeoJSON files
+
+If you want a simpler setup, without any WFS service nor database involved, you can opt for the static GeoJSON file solution. In this case you must:
+
+- create two GeoJSON files (`lines.geojson` and `points.geojson`). Populate them with data. Refer to the provided database table structure above - the attributes must be called the same and have the same data types as in the database example.
+- edit you Audioguide config (see next sections) and set `"useStaticGeoJSON"` to `true`.
+
+### The tool configuration
+
+Apart from the line and point features themselves, Audioguide has a configuration file that must be provided. Similarly to the geodata features, the configuration can be provided in two ways: using an API or using a static JSON configuration file.
+
+#### Option A: The Hajk API
 
 The Audioguide App is designed to work seamlessly with Hajk's API. If you have a recent version of the Hajk API running, you can configure the app to use your API instead of the built-in static configuration file. This allows you to easily update the app's configuration and push it to clients without requiring them to update the app itself.
 
-Please note that using the Hajk API is optional. You can also use the built-in static `simpleMapConfig.json` file to configure the Audioguide App.
+#### Option B: Static JSON configuration
+
+Instead of the Hajk API, you can also use the static `simpleMapConfig.json` file to configure the Audioguide App.
 
 ## Example Configuration
 
 ### Static Configuration
 
-To use the static configuration, make sure to set `useStaticMapConfig` to `true` in your `public/appConfig.json` file. This will load the app's configuration from `public/staticMapConfig.json`. For more details on how to configure the map's extent, available projections, references to WMS layers used as backgrounds, and more, please refer to the `staticMapConfig.json` file.
+To use the static configuration (option B), make sure to set `useStaticMapConfig` to `true` in your `public/appConfig.json` file. This will load the app's configuration from `public/staticMapConfig.json`. For more details on how to configure the map's extent, available projections, references to WMS layers used as backgrounds, and more, please refer to the `staticMapConfig.json` file.
 
 ### Using Hajk's API to Retrieve Configuration
 
@@ -105,6 +127,10 @@ The map configuration that you request from the Hajk API, `audio` in this case, 
   "type": "audioguide",
   "index": 0,
   "options": {
+    // Whether to use the WFS (option 1) or static GeoJSON (option 2) to read geographic features
+    "useStaticGeoJSON": false,
+
+    // If using WFS, we must provide more connection details
     "serviceSettings": {
       "url": "http://localhost:8080/geoserver/ows", // URL to WFS service that exposes the audioguide_line and audioguide_point layers
       "srsName": "EPSG:3008", // SRS
@@ -340,7 +366,7 @@ https: {
 },
 ```
 
-3. Start the development server as usual with `npm run dev`.
+3. Start the development server as usual with `npm run dev`.1
 
 ### Assets
 

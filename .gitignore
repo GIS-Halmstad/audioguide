@@ -2,6 +2,10 @@
 localhost.crt
 localhost.key
 
+# GeoJSON files
+lines.geojson
+points.geojson
+
 
 # Logs
 logs

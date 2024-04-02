@@ -125,12 +125,26 @@ const _defaultStyle = {
 };
 
 /**
- * Helper: Tries to parse a style object from a JSON string and returns an empty
- * object if parsing fails.
+ * Helper: Tries to return a JSON style object from whatever it gets,
+ * (either a string or an object). Returns an empty object if parsing fails
+ * or there's nothing to parse.
  */
-const _tryParseStyleFromDB = (styleAsJson: string) => {
+const _tryParseStyleFromDB = (
+  styleAsJson: string | JSON | undefined | null
+) => {
   try {
-    return JSON.parse(styleAsJson) || {};
+    if (styleAsJson === undefined || styleAsJson === null) {
+      return {};
+    } else if (typeof styleAsJson === "string") {
+      // If layer was read via WFS, the style attribute is a JSON string,
+      // as WFS doesn't support the JSON datatype (even though the
+      // column is a JSONB in PG). Let's parse it.
+      return JSON.parse(styleAsJson) || {};
+    } else if (typeof styleAsJson === "object") {
+      // If layer comes from GeoJSON, the style attribute already
+      // is in the JSON format. Let's return as-is.
+      return styleAsJson;
+    }
   } catch (error) {
     return {};
   }
