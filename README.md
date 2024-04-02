@@ -2,16 +2,23 @@
 
 TBA
 
+## System requirements
+
+Out-of-the-box, this app users some fairly modern features and Web APIs, such as top-level awaits (introduced in ES2022) and the WEBP image format. This means that the minimal system requirements (browser-wise) are:
+
+- Android: Chrome 89 or later, Firefox 89 or later
+- iOS 15 or later
+
 ## Requirements
 
-The Audioguide App needs to retrive the lines and points features from a location. Currently, there are two options:
+The Audioguide App does not come with built-in audio guides: you must produce the geometries, photos, audio files, optional videos and provide them to the app. Regarding the geospatial data (the lines and points of your audio guides), there are two options:
 
-- from a WFS service
-- from two GeoJSON files
+- layers from a WFS service
+- feature collections from GeoJSON files
 
 ### Option 1: The WFS service
 
-There are many options to serve data as WFS, but one common solution is a spatial database (e.g PostGIS) and a server component (such as GeoServer or QGIS Server).
+There are many options to serve data as WFS, but one common solution is to store the spatial data in a database (e.g PostGIS) and expose them via the OGC WFS service using tools such as GeoServer or QGIS Server.
 
 #### The Database
 
@@ -82,11 +89,11 @@ If you want a simpler setup, without any WFS service nor database involved, you 
 
 ### The tool configuration
 
-Apart from the line and point features themselves, Audioguide has a configuration file that must be provided. Similarly to the geodata features, the configuration can be provided in two ways: using an API or using a static JSON configuration file.
+Apart from the line and point features themselves, Audioguide has a configuration file that must be provided. Similarly to the spatial data, this configuration can be provided in two ways: using an API or using a static JSON configuration file.
 
 #### Option A: The Hajk API
 
-The Audioguide App is designed to work seamlessly with Hajk's API. If you have a recent version of the Hajk API running, you can configure the app to use your API instead of the built-in static configuration file. This allows you to easily update the app's configuration and push it to clients without requiring them to update the app itself.
+The Audioguide App is designed to work seamlessly with Hajk's API. If you already have the Hajk API running, you can configure the app to use your API instead of the built-in static configuration file. This allows you to easily update the app's configuration and push it to clients without requiring them to update the app itself.
 
 #### Option B: Static JSON configuration
 
@@ -120,17 +127,19 @@ If you want to retrieve the configuration from Hajk's API, make sure to include 
 }
 ```
 
-The map configuration that you request from the Hajk API, `audio` in this case, should include the following tool in its tools array of objects:
+Hajk's API has the notion of _map configs_, that for some historical reasons is called `mapName` in the `appConfig.json` file. The map config that you request from the Hajk API, `audio` in the example above, must (apart from the usual Hajk map config properties) include the `audioguide` tool.
+
+**The structure of this object configures the Audioguide App itself. This structure applies whether you use the Hajk API or provide this configuration as part of the `simpleMapConfig.json` file.**
 
 ```jsonc
 {
-  "type": "audioguide",
-  "index": 0,
+  "type": "audioguide", // Tool name. Must be exacly "audioguide".
+  "index": 0, // Sort order among other tools. Currently not used.
   "options": {
-    // Whether to use the WFS (option 1) or static GeoJSON (option 2) to read geographic features
+    // Whether to use the WFS (option 1) or static GeoJSON (option 2) to read geographic features.
     "useStaticGeoJSON": false,
 
-    // If using WFS, we must provide more connection details
+    // If using WFS, we must provide more connection details.
     "serviceSettings": {
       "url": "http://localhost:8080/geoserver/ows", // URL to WFS service that exposes the audioguide_line and audioguide_point layers
       "srsName": "EPSG:3008", // SRS
@@ -143,16 +152,17 @@ The map configuration that you request from the Hajk API, `audio` in this case, 
     "audioguideLayersAttribution": "Halmstads kommun", // Used to specify the owner/copyright holder of the audioguide map layers (i.e. audioguide_line and audioguide_point). Shown in the About panel.
     "aboutPageTitle": "Om Audioguide",
     "aboutPageContentHtml": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing <a href=\"https://www.halmstad.se\" class=\"external link\" target=\"_system\">elit</a>. Maecenas vitae mi vitae purus congue convallis. Curabitur condimentum dolor sed erat rhoncus mollis. Mauris sed massa vehicula, bibendum diam sit amet, semper massa. Praesent cursus rhoncus mattis. Sed sed laoreet lectus, ac aliquet ipsum. Quisque vel risus ante. Phasellus vel mauris mauris. Nunc rhoncus mi enim, vitae facilisis magna imperdiet nec. Maecenas nec quam ipsum. Vestibulum bibendum interdum elit vel laoreet. Nulla facilisi. Fusce efficitur nisi non tristique pulvinar.</p><p>Nulla in iaculis nibh. Sed sodales eget risus nec lobortis. Pellentesque at dictum nulla, at ultrices mi. Phasellus feugiat, nisi quis egestas facilisis, ex nisl varius nulla, id interdum justo massa volutpat nisl. Integer congue, magna vitae consequat imperdiet, neque enim viverra nibh, eu aliquam nisi sem eget justo. Duis ullamcorper est ac ex dignissim, sit amet commodo massa congue. Vestibulum turpis arcu, interdum eget purus sit amet, rhoncus molestie risus. Integer fringilla molestie eros id pretium. Mauris sit amet diam id urna pulvinar auctor. Mauris sollicitudin malesuada elit in volutpat. Suspendisse blandit erat eget magna porta convallis. Quisque sollicitudin at odio nec maximus. Pellentesque ut ante id nisl iaculis egestas. Cras vestibulum elit ac sagittis semper.</p><p>In eleifend mattis nisi. Cras sit amet interdum nunc. Ut ac libero mattis, sodales orci id, aliquet mi. Curabitur lacinia tristique magna at consectetur. Fusce tempor ante sed aliquam viverra. Curabitur dapibus vehicula lorem ut feugiat. Fusce gravida nunc ligula, nec viverra massa interdum imperdiet. Proin eget velit imperdiet, eleifend nisl sed, suscipit elit. In nunc tellus, commodo nec pharetra nec, tempor porta tortor. Nullam viverra in magna ut lobortis. Pellentesque sed eros non urna varius sollicitudin. Sed maximus orci ac ultrices pellentesque. Nulla mollis sodales diam, nec luctus magna feugiat vel.</p><p>Vestibulum congue a dolor eget auctor. Aenean pulvinar laoreet orci, ac aliquet neque fringilla sit amet. Mauris tellus ligula, aliquet eu leo ac, efficitur ultricies mauris. Maecenas eget urna mi. Aenean nulla dolor, volutpat ut diam id, consequat finibus neque. Pellentesque tincidunt nulla est. Vestibulum ut ex dui.</p><p>Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur vitae mollis leo. Sed elementum sagittis quam eget euismod. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Maecenas et sapien auctor, scelerisque magna ut, tristique dolor. Curabitur vel dui eros. Cras vitae erat sodales, pulvinar nulla sed, consequat tellus. Sed malesuada, dui in aliquet lobortis, nisl justo placerat nulla, nec maximus magna mi in ex. Phasellus sed dictum magna. Nullam in egestas erat, vitae dapibus velit.</p>",
-    "target": "left",
-    "position": "right",
-    "visibleAtStart": true,
-    "visibleForGroups": []
+    "target": "left", // Hajk-specific, currently not used
+    "position": "right", // Hajk-specific, currently not used
+    "visibleAtStart": true, // Hajk-specific, currently not used
+    "visibleForGroups": [] // Hajk-specific, relevant only if you serve this config via Hajk's API and have the ActiveDirectory filtering enabled
   }
 }
 ```
 
 ### Configuring the OpenLayers map using the `map` property in `mapConfig`
 
+There are a couple of OpenLayers-specific settings that you can put in your map config that are sent directly to the OpenLayers' `View`.
 The following options from `mapConfig.map` are sent to `ol.View` when the View is initiated:
 
 ```js
