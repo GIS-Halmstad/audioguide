@@ -32,13 +32,16 @@ const FullscreenSwiper = () => {
           pagination={true}
           initial-slide={startIndex}
           space-between={5}
+          zoom={true}
         >
           {images.map((src: string, i: number) => (
             <swiper-slide key={i} className="swiper-slide-custom">
-              <div
-                className="image-container"
-                style={{ backgroundImage: `url(${src})` }}
-              ></div>
+              <div className="swiper-zoom-container">
+                <div
+                  className="image-container swiper-zoom-target"
+                  style={{ backgroundImage: `url(${src})` }}
+                ></div>
+              </div>
             </swiper-slide>
           ))}
         </swiper-container>
