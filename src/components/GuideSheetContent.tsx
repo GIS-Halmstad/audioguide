@@ -167,13 +167,17 @@ function GuideSheetContent({ activeGuideObject }) {
               flexDirection: "column",
               flex: 1,
               alignItems: "center",
+              textAlign: "center",
             }}
           >
-            <b>{`${activeGuideObject.line.get(
-              "title"
-            )} (${activeStopNumber} av ${
-              Object.entries(activeGuideObject.points).length
-            })`}</b>
+            <b>
+              {`${activeGuideObject.line.get(
+                "title"
+              )} (${activeStopNumber}\u00A0av\u00A0${
+                // \u00A0 is a non-breaking space: we want "x of y" to appear on the same line
+                Object.entries(activeGuideObject.points).length
+              })`}
+            </b>
             <span className="padding-left-half padding-right-half">
               {title}
             </span>
