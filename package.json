@@ -48,8 +48,8 @@
     "@capacitor/cli": "^5.7.4",
     "@types/openlayers": "^4.6.23",
     "@types/proj4": "^2.5.5",
-    "@types/react": "^18.2.73",
-    "@types/react-dom": "^18.2.23",
+    "@types/react": "^18.2.74",
+    "@types/react-dom": "^18.2.24",
     "@vitejs/plugin-react": "^4.2.1",
     "cordova-res": "^0.15.4",
     "cpy-cli": "^5.0.0",
@@ -57,7 +57,7 @@
     "eslint": "^8.57.0",
     "eslint-plugin-react": "^7.34.1",
     "eslint-plugin-react-hooks": "^4.6.0",
-    "postcss-preset-env": "^9.5.3",
-    "vite": "^5.2.7"
+    "postcss-preset-env": "^9.5.4",
+    "vite": "^5.2.8"
   }
 }
