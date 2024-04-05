@@ -22,7 +22,7 @@ import BackgroundLayersActionsGrid from "../components/BackgroundLayersActionsGr
 import TabListViewContent from "../components/TabListViewContent";
 import TabShortListViewContent from "../components/TabShortListViewContent";
 
-import { handleShowAllGuides } from "../js/f7Helpers";
+import { handleShowAllGuides, handleShowGuideInMap } from "../js/f7Helpers";
 
 const HomePage = () => {
   console.log("HomePage init: ", f7);
@@ -80,14 +80,10 @@ const HomePage = () => {
         );
       }
 
-      // If the filtering of Features resulted in a match…
+      // If the filtering of Features resulted in a match, show guide in map.
       if (preSelectedFeature.length !== 0) {
-        // …let's tell the rest of the App that we want to
-        // pre-select a feature…
-        f7.emit("olFeatureSelected", preSelectedFeature);
-
-        // …and switch to the map tab.
-        f7.tab.show("#tab-map");
+        // Add a slight delay to ensure correct animation in Map.
+        handleShowGuideInMap(preSelectedFeature[0], 600);
       }
     }
   }, []);
