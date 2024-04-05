@@ -104,6 +104,11 @@ const Audioguide = () => {
       .querySelector("html")
       ?.classList.add(`has-geolocation-${store.state.geolocationStatus}`);
 
+    // Unset the hash query parameters, if there are any
+    if (window.location.hash) {
+      window.location.hash = "";
+    }
+
     console.log("APP INIT DONE, current state", store.state);
   };
 
