@@ -25,7 +25,9 @@ function AudioguideCard({ feature }) {
 
   // Each guide needs a unique ID that must start with a
   // letter to be a valid DOM ID.
-  const popoverId = "popover-" + f7.utils.id();
+  // Due to a faulty TS definition in F7, I disable the rule: id() does not require two arguments.
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const popoverId = "popover-" + (f7.utils as any).id();
 
   return (
     <>
