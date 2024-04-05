@@ -34,7 +34,7 @@ const About = () => {
     .join(", ");
 
   const createTechnicalPopup = () => {
-    console.log(f7.store.state);
+    console.info("Current State", f7.store.state);
     const deviceDetection = Object.entries(f7.device)
       .filter((a) => typeof a[1] !== "function")
       .map((a) => `<li>${a[0]}: ${a[1]}</li>`)

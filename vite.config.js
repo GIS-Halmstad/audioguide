@@ -12,7 +12,7 @@ export default async () => {
     base: "",
     publicDir: PUBLIC_DIR,
     build: {
-      target: "es2022", // If we want to support older targets, remove line this and add vite-top-level-await plugin
+      target: "es2022", // If we want to support older targets, remove line and add vite-top-level-await plugin
       outDir: BUILD_DIR,
       assetsInlineLimit: 0,
       emptyOutDir: true,
