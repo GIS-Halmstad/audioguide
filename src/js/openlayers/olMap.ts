@@ -49,22 +49,12 @@ let olMap!: Map,
   activeGuideSource: VectorSource,
   activeGuideLayer: VectorLayer<VectorSource>;
 
-function styleFunction(feature: Feature, resolution: number) {
-  /**
-   * Helper: Tries to parse a style object from a JSON string and returns an empty
-   * object if parsing fails.
-   *
-   * @param {string} styleAsJson - The JSON string representing the style object
-   * @return {object} The parsed style object or an empty object
-   */
-
+function normalStyleFunction(feature: Feature, resolution: number) {
   // We need to know if we're dealing with a Point or a LineString
-  const featureType = feature.getGeometry().getType();
+  const featureType = feature.getGeometry()?.getType();
   const stopNumber = feature.get("stopNumber");
 
-  // Let's try and parse the style from the DB
-
-  // Let's merge the default styles with those (presumably) parsed.
+  // Let's extract any custom styles that may exist on the given feature.
   const { strokeColor, strokeWidth, fillColor, circleRadius } =
     parseStyle(feature);
 
@@ -86,7 +76,7 @@ function styleFunction(feature: Feature, resolution: number) {
         text: new Text({
           textAlign: "center",
           textBaseline: "middle",
-          font: `bold ${stopNumber === 1 ? "20" : "11"}pt sans-serif`,
+          font: `bold ${stopNumber === 1 ? "18" : "11"}pt sans-serif`,
           text:
             // Show a long label when user zooms in close enough
             resolution <= POINT_TEXT_VISIBILITY_THRESHOLD
@@ -109,7 +99,8 @@ function styleFunction(feature: Feature, resolution: number) {
         width: strokeWidth,
       }),
       text: new Text({
-        placement: "line",
+        placement:
+          POINT_TEXT_VISIBILITY_THRESHOLD < resolution ? "point" : "line",
         overflow: true,
         font: "bold 12pt sans-serif",
         text: feature.get("title").toString(),
@@ -121,7 +112,7 @@ function styleFunction(feature: Feature, resolution: number) {
 }
 
 // eslint-disable-next-line
-function selectedStyleFunction(feature: Feature<Geometry>): StyleFunction {
+function selectedStyleFunction(feature: Feature<Geometry>): Style {
   // We ignore the actualResolution and favor the smallest one
   // that is used as a threshold in our style definition, i.e.
   // POINT_TEXT_VISIBILITY_THRESHOLD. This way we ensure that
@@ -130,20 +121,103 @@ function selectedStyleFunction(feature: Feature<Geometry>): StyleFunction {
   // we could run into "getImage() is not available" when the app
   // started with a pre-selected feature and the View hasn't yet
   // animated close enough.
-  const normalStyle = styleFunction(feature, POINT_TEXT_VISIBILITY_THRESHOLD);
+  const normalStyle = normalStyleFunction(
+    feature,
+    POINT_TEXT_VISIBILITY_THRESHOLD
+  );
 
   // We want to make some changes to the "normal" style of our Points and Lines.
   // First, let's find out what type of geometry we're dealing with.
-  if (feature.getGeometry().getType() === "Point") {
-    // If app is launched with a point pre-selected, there won't be anything
+  if (feature.getGeometry()?.getType() === "Point") {
+    // We want to increase the radius of selected points. First, let's grab
+    // current radius. Note that if the app is launched with a
+    // point pre-selected, there won't be anything
     // to read the radius from, as the style is hidden at the zoom level
     // from start. So we must fallback to a standard value.
     const normalRadius = normalStyle.getImage().getRadius() || 5;
+
+    // Increase the Point's size…
     normalStyle.getImage().setRadius(normalRadius * 3);
+    // …and make the text a bit larger.
     normalStyle.getText().setFont("bold 15pt sans-serif");
-  } else if (feature.getGeometry().getType() === "LineString") {
+  } else if (feature.getGeometry()?.getType() === "LineString") {
+    // We want to increase the stroke width of selected lines.
     const normalStrokeWidth = normalStyle.getStroke().getWidth();
     normalStyle.getStroke().setWidth(normalStrokeWidth * 1.5);
+    // Also, let's remove the label: once a guide is selected, the
+    // label will be visible in the UI anyway, so there's no need
+    // to clutter the map with this text.
+    normalStyle.setText(new Text({}));
+  }
+  return normalStyle;
+}
+
+function selectedActiveStyleFunction(
+  feature: Feature,
+  resolution: number
+): Style {
+  // We need to know if we're dealing with a Point or a LineString
+  const featureType = feature.getGeometry()?.getType();
+  const stopNumber = feature.get("stopNumber");
+
+  // Let's extract any custom styles that may exist on the given feature.
+  const { strokeColor, strokeWidth, fillColor, circleRadius } =
+    parseStyle(feature);
+
+  return new Style({
+    ...(featureType === "Point" && { // Active Points should always be visible.
+      image: new CircleStyle({
+        fill: new Fill({
+          color: fillColor,
+        }),
+        stroke: new Stroke({
+          color: strokeColor,
+          width: strokeWidth,
+        }),
+        radius: circleRadius * 2,
+      }),
+      text: new Text({
+        textAlign: "center",
+        textBaseline: "middle",
+        font: `bold 18pt sans-serif`,
+        text:
+          // Show a long label when user zooms in close enough
+          resolution <= POINT_TEXT_VISIBILITY_THRESHOLD
+            ? `${stopNumber.toString()}\n${wrapText(feature.get("title"), 32)}`
+            : // Show only the stop's number if user zooms in close enough.
+            // If user zooms out, show "Start" instead of the number.
+            resolution >= POINT_VISIBILITY_THRESHOLD && stopNumber === 1
+            ? "Start"
+            : stopNumber.toString(),
+        fill: new Fill({ color: strokeColor }),
+        stroke: new Stroke({ color: "white", width: 2 }),
+      }),
+    }),
+    ...(featureType === "LineString" && {
+      stroke: new Stroke({
+        color: strokeColor,
+        width: strokeWidth,
+      }),
+      text: new Text({
+        placement:
+          POINT_TEXT_VISIBILITY_THRESHOLD < resolution ? "point" : "line",
+        overflow: true,
+        font: "bold 12pt sans-serif",
+        text: feature.get("title").toString(),
+        fill: new Fill({ color: strokeColor }),
+        stroke: new Stroke({ color: "white", width: 2 }),
+      }),
+    }),
+  });
+}
+
+function activeStyleFunction(feature: Feature<Geometry>): Style {
+  const normalStyle = normalStyleFunction(feature, POINT_VISIBILITY_THRESHOLD);
+  if (feature.getGeometry()?.getType() === "Point") {
+  } else if (feature.getGeometry()?.getType() === "LineString") {
+    // When a guide is active, there's no need to show the line's label.
+    // It's visible in the UI anyway.
+    normalStyle.setText(new Text({}));
   }
   return normalStyle;
 }
@@ -183,7 +257,7 @@ async function initOLMap(f7: Framework7) {
     name: LAYER_NAME_ALL_GUIDES,
     caption: "All audioguides",
     declutter: true,
-    style: styleFunction,
+    style: normalStyleFunction,
   });
 
   activeGuideSource = new VectorSource({
@@ -197,7 +271,7 @@ async function initOLMap(f7: Framework7) {
     caption: "Active audioguide",
     visible: false, // Start with hidden
     declutter: true,
-    style: styleFunction,
+    style: activeStyleFunction,
   });
 
   constrainedExtent =
@@ -247,6 +321,11 @@ async function initOLMap(f7: Framework7) {
       zoom: config.map.zoom,
     }),
   });
+
+  // Setup listener for view's resolution change
+  // olMap.getView().on("change:resolution", (e) => {
+  //   console.log(`${e.oldValue} -> ${e.target.getResolution()}`);
+  // });
 
   // Setup geolocation
   geolocation = new Geolocation({
@@ -485,6 +564,10 @@ async function initOLMap(f7: Framework7) {
   olMap.addInteraction(selectInteraction);
 
   updateFeaturesInMap();
+  console.log("OL Map Init Done");
+  console.log("Map:", olMap);
+  console.log("Audioguide Layer", audioguideLayer);
+  console.log("Active Guide Layer", activeGuideLayer);
 }
 
 const handleGeolocationError = (error: GeolocationError) => {
@@ -753,7 +836,7 @@ const convertFeaturesToGuideObject = (features) => {
   return ro;
 };
 
-const navigateToStopNumber = (stopNumber) => {
+const navigateToStopNumber = (stopNumber: number) => {
   // We want to do three things here:
   // - Remove the selection style from all features, except for the current one
   // - Set selection style to the current feature
@@ -767,13 +850,13 @@ const navigateToStopNumber = (stopNumber) => {
     // The selected feature gets special treatment
     if (f.get("stopNumber") === stopNumber) {
       // Set style to selected…
-      f.setStyle(selectedStyleFunction);
+      f.setStyle(selectedActiveStyleFunction);
       // …and grab coordinates.
       coords = f.getGeometry().getCoordinates();
     }
-    // All other features get back the "normal", unselected style.
+    // All other features go back active layer's default style.
     else {
-      f.setStyle(styleFunction);
+      f.setStyle(undefined);
     }
   });
 
@@ -837,7 +920,7 @@ const deactivateGuide = () => {
   const activeStopFeature = activeGuideSource
     .getFeatures()
     .find((f) => f.get("stopNumber") === store.state.activeStopNumber);
-  activeStopFeature.setStyle(styleFunction);
+  activeStopFeature.setStyle(normalStyleFunction);
 
   // Tell the store to unset activeStopNumber and activeGuideObject
   store.dispatch("deactivateGuide");
