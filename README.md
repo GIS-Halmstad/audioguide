@@ -146,6 +146,7 @@ Hajk's API has the notion of _map configs_, that for some historical reasons is 
       "featureNS": "https://pg.halmstad.se", // Workspace's namespace
       "featurePrefix": "pg" // Workspace name
     },
+    "preselectedCategories": ["Historia"], // Specify which categories are selected on start. Set to empty to start with all selected.
     "title": "Audioguide",
     "description": "Audioguide tool",
     "audioguideAttribution": "Destination Halmstad, Halmstads kommun", // Used as main attribution, i.e. it should specify the audioguide tool's "owner". Shown in the About panel.
@@ -331,7 +332,7 @@ Basically, build the app with `npm run build`. This will result in a `www` folde
 
 ## FAQ
 
-### Can I format the text somehow?
+### Can I format the text?
 
 Yes, you can! Value of the text string that you enter into the `text` column in both database tables can be formatted using Markdown. The Audioguide App uses `react-markdown`, which in its turn follows the CommonMark syntax. Please refer to its documentation for details or [follow this quick guide](https://commonmark.org/help/).
 
@@ -348,6 +349,15 @@ You can customize the contents of about page by modifing the `aboutPageContentHt
 ```json
 "Here's a <a href=\"https://www.halmstad.se\" class=\"external link\" target=\"_system\">link</a>."
 ```
+
+### I don't want the app to start with all the available categories visible. Is that possible?
+
+Yes! You have two options:
+
+- A: Use the `c` hash parameter. See [Available start up URL parameters](#available-start-up-url-parameters) for more info.
+- B: Set a value to `preselectedCategories` in the map config. The value must be an array of strings and contain only valid categories. This way users that reach your app without any value in the `c` hash param will see these categories as pre-selected on start.
+
+---
 
 ### Vite
 

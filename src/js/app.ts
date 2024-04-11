@@ -88,9 +88,28 @@ if (store.state.loadingError === null) {
 
     // When the Store was initiated, filteredCategories was set to the value
     // of the `c` param in URL. If `c` is empty (i.e. no specific category is
-    // pre-selected), we want all categories to be selected on start.
+    // pre-selected), we want to check if there are pre-selected categories in
+    // map config (and set filteredCategories to those), or else set filtered
+    // to all categories.
     if (store.state.filteredCategories.length === 0) {
-      store.dispatch("setFilteredCategories", categories);
+      // Let's check if there are pre-selected categories in map config
+      const preselectedCategories =
+        store.state.mapConfig.tools.audioguide.preselectedCategories || [];
+      if (preselectedCategories.length > 0) {
+        // If there are pre-selected categories, let's ensure that
+        // they're valid (i.e. exist among available categories).
+        const validPreselectedCategories = preselectedCategories.filter(
+          (c: string) => categories.includes(c)
+        );
+
+        if (validPreselectedCategories.length > 0) {
+          store.dispatch("setFilteredCategories", validPreselectedCategories);
+        } else {
+          store.dispatch("setFilteredCategories", categories);
+        }
+      } else {
+        store.dispatch("setFilteredCategories", categories);
+      }
     }
   } catch (error) {
     store.dispatch("setLoadingError", error);
