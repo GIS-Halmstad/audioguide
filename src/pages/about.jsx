@@ -109,10 +109,11 @@ const About = () => {
           </p>
           <p>Upphovsrätt kartinnehåll: {attributions}.</p>
           <p>
-            Licens källkod: MIT.{" "}
+            Byggt med{" "}
             <Link href="https://github.com/GIS-Halmstad/audioguide" external>
-              Projektet på GitHub
+              The Audioguide App
             </Link>
+            .
           </p>
         </div>
       </div>

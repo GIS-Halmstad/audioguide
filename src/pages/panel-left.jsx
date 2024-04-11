@@ -14,9 +14,15 @@ function PanelLeft() {
           panelClose
           onClick={handleShowAllGuides}
         />
-        {/* <ListItem title="Jämför kartor" />
-        <ListItem title="Skriv ut" /> */}
         <ListItem link="/share/" title="Dela" />
+        {
+          // For iOS and Android, if we're not in Standalone mode yet, let's
+          // show a link to the installation instructions page.
+          f7.device.standalone === false &&
+            (f7.device.ios === true || f7.device.android === true) && (
+              <ListItem link="/install/" title="Installera appen" />
+            )
+        }
         <ListItem link="/about/" title={aboutPageTitle} />
       </List>
     </Page>
