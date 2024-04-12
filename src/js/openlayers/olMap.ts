@@ -278,7 +278,7 @@ async function initOLMap(f7: Framework7) {
   });
 
   constrainedExtent =
-    config.map.extent.length > 0 ? config.map.extent : undefined;
+    config.map.extent?.length > 0 ? config.map.extent : undefined;
 
   // Setup Map and View
   olMap = new Map({
