@@ -3,6 +3,8 @@ import { Actions, ActionsButton, ActionsGroup, f7 } from "framework7-react";
 
 import { getLayerVisibility, setBackgroundLayer } from "../js/openlayers/olMap";
 
+import { LayerConfig } from "../types/types";
+
 function LayerButton({ layer }) {
   const isActive = getLayerVisibility(layer.id);
 
@@ -30,13 +32,13 @@ function BackgroundLayersActionsGrid({
   backgroundLayersActionsGrid,
   setBackgroundLayersActionsGrid,
 }) {
-  const backgrounds = f7.store.state.mapConfig.backgrounds;
+  const backgrounds: LayerConfig[] = f7.store.state.mapConfig.backgrounds;
 
   // Ensure we filter out any undefined values
   const filteredBackgrounds = backgrounds.filter((b) => b !== undefined);
 
   // Split backgrounds into slots of three items per slot.
-  const slots = [];
+  const slots: LayerConfig[][] = [];
   for (let i = 0; i < filteredBackgrounds.length; i += 3) {
     slots.push(filteredBackgrounds.slice(i, i + 3));
   }
