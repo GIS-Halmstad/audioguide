@@ -1,5 +1,4 @@
 import Framework7 from "framework7/types";
-import { StyleFunction } from "openlayers";
 
 import "../../css/olMap.css";
 
@@ -11,8 +10,8 @@ import Geolocation, { GeolocationError } from "ol/Geolocation";
 import { ScaleLine, Zoom } from "ol/control";
 import { Extent, containsCoordinate } from "ol/extent";
 import { Geometry, Point, Polygon } from "ol/geom";
-// import OSM from "ol/source/OSM";
-// import TileLayer from "ol/layer/Tile";
+import OSM from "ol/source/OSM";
+import TileLayer from "ol/layer/Tile";
 import VectorSource from "ol/source/Vector";
 import VectorLayer from "ol/layer/Vector";
 import Select from "ol/interaction/Select";
@@ -28,6 +27,7 @@ import {
   LAYER_NAME_ACTIVE_GUIDE,
   LAYER_NAME_ALL_GUIDES,
   LAYER_NAME_GEOLOCATION,
+  LAYER_NAME_OSM,
   POINT_TEXT_VISIBILITY_THRESHOLD,
   POINT_VISIBILITY_THRESHOLD,
 } from "../constants";
@@ -294,7 +294,9 @@ async function initOLMap(f7: Framework7) {
         minWidth: 140,
         maxWidth: 240,
       }),
-      new BackgroundSwitcherControl({ f7Instance }),
+      ...(config.map.osmBackgroundOnly !== true
+        ? [new BackgroundSwitcherControl({ f7Instance })]
+        : []),
       new RotateWithNorthLockControl({
         autoHide: false,
         label: "",
@@ -303,9 +305,17 @@ async function initOLMap(f7: Framework7) {
     ],
 
     layers: [
-      // new TileLayer({
-      //   source: new OSM(),
-      // }),
+      ...(config.map.osmBackgroundOnly === true
+        ? [
+            new TileLayer({
+              caption: "OpenStreetMap",
+              layerType: "background",
+              lid: LAYER_NAME_OSM,
+              name: LAYER_NAME_OSM,
+              source: new OSM(),
+            }),
+          ]
+        : []),
       audioguideLayer,
       activeGuideLayer,
       ...backgroundLayers,

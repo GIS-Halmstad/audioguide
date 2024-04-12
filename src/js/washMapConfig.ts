@@ -48,10 +48,9 @@ const washMapConfig = (originalConfig: OriginalConfig) => {
   // won't use all settings, but it's a good start anyway.
   const { projections, map, ui = {} } = originalConfig.mapConfig;
 
-  // Next, extract the two tool settings that we do use in this app.
+  // Next, extract the tools that we do use in this app.
   const tools: any = {
     audioguide: extractToolSettings("audioguide"),
-    layercomparer: extractToolSettings("layercomparer"),
   };
 
   // Next, we want to prepare a new structure for the background and usual
@@ -59,11 +58,14 @@ const washMapConfig = (originalConfig: OriginalConfig) => {
   // config, so let's store it.
   const layerswitcherConfig = extractToolSettings("layerswitcher");
 
-  // Grab background layers
-  const backgrounds = extractLayers(
-    originalConfig.layersConfig,
-    layerswitcherConfig.baselayers
-  );
+  // Grab background layers, unless map config says we only use OSM
+  const backgrounds =
+    map.osmBackgroundOnly !== true
+      ? extractLayers(
+          originalConfig.layersConfig,
+          layerswitcherConfig.baselayers
+        )
+      : [];
 
   // Grab layers tree
   const layersTree = extractLayers(

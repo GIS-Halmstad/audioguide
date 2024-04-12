@@ -9,3 +9,4 @@ export const STROKE_WIDTH = 2;
 export const LAYER_NAME_ACTIVE_GUIDE = "pluginAudioguideActiveGuide";
 export const LAYER_NAME_ALL_GUIDES = "pluginAudioguideAllGuides";
 export const LAYER_NAME_GEOLOCATION = "pluginAudioguideGeolocation";
+export const LAYER_NAME_OSM = "backgroundOSM";

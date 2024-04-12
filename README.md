@@ -185,6 +185,12 @@ In addition, the `hitTolerance` parameter is sent to the `ol.interaction.Select`
 hitTolerance: mapConfig.map.hitTolerance || 0;
 ```
 
+Finally, there's one more option available which comes in handy when you want to run the Audioguide App as a static app, without any dependencies from external APIs or OGC (WMS) services. This option tells the Audioguide App to rely on the OpenStreetMap as a background. Please note that this will effectivly disable any other background layers you may have configured in your map config (the `layerswitcher` tool's options).
+
+```js
+osmBackgroundOnly: false; // Set to true to use OSM and disable all other backgrounds
+```
+
 ## Adding guides, including media assets, and styling them
 
 ### Styling guide lines and points using the `style` attribute in tables
@@ -356,6 +362,16 @@ Yes! You have two options:
 
 - A: Use the `c` hash parameter. See [Available start up URL parameters](#available-start-up-url-parameters) for more info.
 - B: Set a value to `preselectedCategories` in the map config. The value must be an array of strings and contain only valid categories. This way users that reach your app without any value in the `c` hash param will see these categories as pre-selected on start.
+
+### How do I use this app as a fully static app?
+
+There are three settings you must change in order to tell the app to do three separate things:
+
+1. In `public/appConfig.json`, set `useStaticMapConfig` to `true`. _Why? To tell the app that to grab its configuration from a static JSON file, effectively eliminating the need of the Hajk backend and its API._
+1. In `public/simpleMapConfig.json` locate the `audioguide` tool's options and set the `useStaticGeoJSON` property to `true`. _Why? To tell the app to read its audioguide geometries (the lines and points) from two static GeoJSON files, effectively eliminating the need of a WMS service._
+1. In `public/simpleMapConfig.json`, in `mapConfig.map`, locate `osmBackgroundOnly` and set it to `true`. _Why? Because by using the OpenStreetMap as the background layer, you eliminate the need of supplying your own background from a WMS service._
+
+When configured like this, the Audioguide App becomes a fully static app, requesting data only from your server (and the OpenStreetMap WMTS service, of course).
 
 ---
 
