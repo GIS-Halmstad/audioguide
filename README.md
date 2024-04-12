@@ -1,24 +1,22 @@
 # The Audioguide App
 
-TBA
+## Client Requirements
 
-## System requirements
-
-Out-of-the-box, this app users some fairly modern features and Web APIs, such as top-level awaits (introduced in ES2022) and the WEBP image format. This means that the minimal system requirements (browser-wise) are:
+This app utilizes modern features and Web APIs, including top-level awaits (introduced in ES2022) and the WEBP image format. The minimum system requirements for browsers are:
 
 - Android: Chrome 89 or later, Firefox 89 or later
 - iOS 15 or later
 
-## Requirements
+## Configuring the guides
 
-The Audioguide App does not come with built-in audio guides: you must produce the geometries, photos, audio files, optional videos and provide them to the app. Regarding the geospatial data (the lines and points of your audio guides), there are two options:
+The Audioguide App comes without built-in audio guides. You must provide the geometries, photos, audio files, optional videos to the app. The geospatial data for your audio guides can be sourced from two options:
 
-- layers from a WFS service
-- feature collections from GeoJSON files
+- WFS service layers
+- Feature collections from GeoJSON files
 
-### Option 1: The WFS service
+### Option 1: WFS Service
 
-There are many options to serve data as WFS, but one common solution is to store the spatial data in a database (e.g PostGIS) and expose them via the OGC WFS service using tools such as GeoServer or QGIS Server.
+There are several options to serve data as WFS, but one common solution is to store the spatial data in a database (e.g., PostGIS) and expose them via the OGC WFS service using tools such as GeoServer or QGIS Server.
 
 #### The Database
 
@@ -87,15 +85,17 @@ If you want a simpler setup, without any WFS service nor database involved, you 
 - create two GeoJSON files (`lines.geojson` and `points.geojson`). Populate them with data. Refer to the provided database table structure above - the attributes must be called the same and have the same data types as in the database example.
 - edit you Audioguide config (see next sections) and set `"useStaticGeoJSON"` to `true`.
 
-### The tool configuration
+## Configuring the App
 
-Apart from the line and point features themselves, Audioguide has a configuration file that must be provided. Similarly to the spatial data, this configuration can be provided in two ways: using an API or using a static JSON configuration file.
+Apart from the line and point features themselves, the Audioguide App has a configuration file that must be provided. This configuration tells the app which e.g. what projection should be used in the map, which background layers to use, what title should be displayed for the user, etc.
 
-#### Option A: The Hajk API
+Similarly to the spatial data, this configuration can be provided in two ways: using an API or using a static JSON configuration file.
+
+### Option A: The Hajk API
 
 The Audioguide App is designed to work seamlessly with Hajk's API. If you already have the Hajk API running, you can configure the app to use your API instead of the built-in static configuration file. This allows you to easily update the app's configuration and push it to clients without requiring them to update the app itself.
 
-#### Option B: Static JSON configuration
+### Option B: Static JSON configuration
 
 Instead of the Hajk API, you can also use the static `simpleMapConfig.json` file to configure the Audioguide App.
 
@@ -289,7 +289,7 @@ And the result of the configuration above is that:
 - The first stop in the guide with `guideId` 2 will display `1.jpg`.
 - The second stop in the guide with `guideId` 2 will display `2.jpg`.
 
-## Available start up URL parameters
+## Available start-up URL parameters
 
 The Audioguide App accepts some URL hash parameters (the part of the URL string that comes directly after the `#` character). They can be used to control the app's initial settings on launch. The allowed parameters are:
 
