@@ -19,6 +19,8 @@ import routes from "../js/routes";
 import store from "../js/store";
 
 import { initOLMap } from "../js/openlayers/olMap";
+import { preventAndroidBackButton } from "../js/utils";
+
 import DemoMessageSheet from "./DemoMessageSheet";
 import FullscreenSwiper from "./FullscreenSwiper";
 
@@ -69,6 +71,8 @@ const Audioguide = () => {
     if (f7.device.capacitor) {
       capacitorApp.init(f7);
     }
+
+    preventAndroidBackButton(f7);
 
     // Let's check if screen orientation is supported, else show a popup
     isOrientationSupported();

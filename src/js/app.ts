@@ -22,9 +22,6 @@ import ErrorApp from "../components/ErrorApp";
 import fetchFromService from "./fetchFromService";
 
 import washMapConfig from "./washMapConfig";
-import { preventAndroidBackButton } from "./utils";
-
-preventAndroidBackButton();
 
 // The second argument is empty because… type definition for dispatch().
 store.dispatch("trackAnalyticsPageview", {});
@@ -121,7 +118,7 @@ console.log("Init F7 React Plugin");
 Framework7.use(Framework7React);
 
 // Depending on whether we have an error or not, render the App or the ErrorApp.
-const root = createRoot(document.getElementById("app"));
+const root = createRoot(document.getElementById("app") as HTMLElement);
 root.render(
   React.createElement(store.state.loadingError === null ? App : ErrorApp)
 );

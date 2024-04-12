@@ -1,3 +1,5 @@
+import Framework7 from "framework7";
+
 /**
  * @link https://stackoverflow.com/questions/14484787/wrap-text-in-javascript
  * @param {string} s String to be wrapped
@@ -74,9 +76,80 @@ export const thumbalizeImageSource = (originalString: string): string => {
   return newString;
 };
 
-export const preventAndroidBackButton = () => {
+export const preventAndroidBackButton = (f7Instance: Framework7) => {
   history.pushState(null, document.title, location.href);
-  window.addEventListener("popstate", function (event) {
-    history.pushState(null, document.title, location.href);
-  });
+  // Capture the back button event
+  window.addEventListener(
+    "popstate",
+    function (event) {
+      history.pushState(null, document.title, location.href);
+
+      // Let's check if any of the dialog/cards/modals are
+      // open and act accordingly (i.e. close them)
+      const $ = f7Instance.$;
+      if ($(".actions-modal.modal-in").length) {
+        f7Instance.actions.close(".actions-modal.modal-in");
+        return;
+      }
+      if ($(".dialog.modal-in").length) {
+        f7Instance.dialog.close(".dialog.modal-in");
+        return;
+      }
+      if ($(".sheet-modal.modal-in").length) {
+        f7Instance.sheet.close(".sheet-modal.modal-in");
+        return;
+      }
+      if ($(".popover.modal-in").length) {
+        f7Instance.popover.close(".popover.modal-in");
+        return;
+      }
+      if ($(".popup.modal-in").length) {
+        if ($(".popup.modal-in>.view").length) {
+          const currentView = f7Instance.views.get(".popup.modal-in>.view");
+          if (
+            currentView &&
+            currentView.router &&
+            currentView.router.history.length > 1
+          ) {
+            currentView.router.back();
+            return;
+          }
+        }
+        f7Instance.popup.close(".popup.modal-in");
+        return;
+      }
+      if ($(".login-screen.modal-in").length) {
+        f7Instance.loginScreen.close(".login-screen.modal-in");
+        return;
+      }
+
+      if ($(".page-current .searchbar-enabled").length) {
+        f7Instance.searchbar.disable(".page-current .searchbar-enabled");
+        return;
+      }
+
+      if ($(".page-current .card-expandable.card-opened").length) {
+        f7Instance.card.close(".page-current .card-expandable.card-opened");
+        return;
+      }
+
+      // Same goes for views in routers (e.g. our side panels):
+      // hide when user clicks on the back button.
+      const currentView = f7Instance.views.current;
+      if (
+        currentView &&
+        currentView.router &&
+        currentView.router.history.length > 1
+      ) {
+        currentView.router.back();
+        return;
+      }
+
+      if ($(".panel.panel-in").length) {
+        f7Instance.panel.close(".panel.panel-in");
+        return;
+      }
+    },
+    false
+  );
 };
