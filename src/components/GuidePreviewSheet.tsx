@@ -37,27 +37,16 @@ function GuidePreviewSheet() {
     };
   }, [f7, setSelectedFeature, setSheetVisible]);
 
-  const getSheetRealHeight = (s: Sheet): number => {
-    const { opened } = s;
+  const getSheetRealHeight = (s: typeof Sheet): number => {
+    // Find out the real current height of our Sheet
+    const sheetBoundingClientRect = s.el.getBoundingClientRect();
+    const viewportHeight =
+      window.innerHeight || document.documentElement.clientHeight;
+    const realSheetHeight =
+      Math.min(sheetBoundingClientRect.bottom, viewportHeight) -
+      Math.max(sheetBoundingClientRect.top, 0);
 
-    // If the Sheet is closed, we know that element's height is 0.
-    if (opened === false) {
-      return 0;
-    }
-
-    // Else, let's find out if the Sheet is partly or completely opened.
-    const partlyOpened = Array.from(s.el.classList).includes(
-      "modal-in-swipe-step"
-    );
-
-    // If the Sheet is partly opened, we want to get the height of its
-    // first child only (which is the element that holds the first step).
-    // But if the Sheet is completely opened, we want the height of the
-    // parent element, which contains both steps.
-    const height = partlyOpened
-      ? s.el.firstElementChild.firstElementChild.getBoundingClientRect().height
-      : s.el.firstElementChild.getBoundingClientRect().height;
-    return height;
+    return realSheetHeight;
   };
 
   const adjustForHeight = (height: number) => {
@@ -68,13 +57,22 @@ function GuidePreviewSheet() {
     <Sheet
       className="preview-sheet"
       style={{ height: "auto", maxHeight: "90vh" }}
+      breakpoints={[0.2, 0.75, 1.0]}
       swipeToClose
       swipeToStep
       backdrop={false} // To allow for map navigation
       opened={sheetVisible}
-      onSheetOpened={(s: Sheet) => adjustForHeight(getSheetRealHeight(s))}
-      onSheetStepOpen={(s: Sheet) => adjustForHeight(getSheetRealHeight(s))}
-      onSheetStepClose={(s: Sheet) => adjustForHeight(getSheetRealHeight(s))}
+      onSheetOpen={(s: Sheet) => {
+        // When the Sheet has opened for the first time, let's start
+        // at this specific breakpoint.
+        s?.setBreakpoint(0.75);
+      }}
+      onSheetBreakpoint={(s: Sheet) => {
+        adjustForHeight(getSheetRealHeight(s));
+      }}
+      onSheetOpened={(s: Sheet) => {
+        adjustForHeight(getSheetRealHeight(s));
+      }}
       onSheetClosed={(s: Sheet) => {
         // There is the possibility that the closing was initiated by
         // swiping, rather than clicking inside the Map. In this case,
