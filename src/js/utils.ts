@@ -96,7 +96,21 @@ export const preventAndroidBackButton = (f7Instance: Framework7) => {
         return;
       }
       if ($(".sheet-modal.modal-in").length) {
-        f7Instance.sheet.close(".sheet-modal.modal-in");
+        // If there's an active guide…
+        if ($(".sheet-modal.modal-in.active-guide-sheet").length) {
+          // …let's confirm before closing
+          f7Instance.dialog.confirm(
+            "Vill du verkligen avsluta guiden?",
+            "Avsluta guide",
+            () => {
+              // On OK
+              f7Instance.sheet.close(".sheet-modal.modal-in");
+            }
+          );
+        } else {
+          // Otherwise, let's just close it
+          f7Instance.sheet.close(".sheet-modal.modal-in");
+        }
         return;
       }
       if ($(".popover.modal-in").length) {

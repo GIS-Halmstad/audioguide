@@ -33,7 +33,21 @@ var capacitorApp = {
           return;
         }
         if ($(".sheet-modal.modal-in").length) {
-          f7.sheet.close(".sheet-modal.modal-in");
+          // If there's an active guide…
+          if ($(".sheet-modal.modal-in.active-guide-sheet").length) {
+            // …let's confirm before closing
+            f7.dialog.confirm(
+              "Vill du verkligen avsluta guiden?",
+              "Avsluta guide",
+              () => {
+                // On OK
+                f7.sheet.close(".sheet-modal.modal-in");
+              }
+            );
+          } else {
+            // Otherwise, let's just close it
+            f7.sheet.close(".sheet-modal.modal-in");
+          }
           return;
         }
         if ($(".popover.modal-in").length) {
