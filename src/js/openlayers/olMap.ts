@@ -113,6 +113,7 @@ function normalStyleFunction(feature: Feature, resolution: number) {
 
 // eslint-disable-next-line
 function selectedStyleFunction(feature: Feature<Geometry>): Style {
+  const { strokeWidth, circleRadius } = parseStyle(feature);
   // We ignore the actualResolution and favor the smallest one
   // that is used as a threshold in our style definition, i.e.
   // POINT_TEXT_VISIBILITY_THRESHOLD. This way we ensure that
@@ -134,16 +135,17 @@ function selectedStyleFunction(feature: Feature<Geometry>): Style {
     // point pre-selected, there won't be anything
     // to read the radius from, as the style is hidden at the zoom level
     // from start. So we must fallback to a standard value.
-    const normalRadius = normalStyle.getImage().getRadius() || 5;
+    const normalRadius = normalStyle.getImage()?.getRadius() || circleRadius;
 
     // Increase the Point's size…
-    normalStyle.getImage().setRadius(normalRadius * 3);
+    normalStyle.getImage()?.setRadius(normalRadius * 3);
     // …and make the text a bit larger.
-    normalStyle.getText().setFont("bold 15pt sans-serif");
+    normalStyle.getText()?.setFont("bold 15pt sans-serif");
   } else if (feature.getGeometry()?.getType() === "LineString") {
     // We want to increase the stroke width of selected lines.
-    const normalStrokeWidth = normalStyle.getStroke().getWidth();
-    normalStyle.getStroke().setWidth(normalStrokeWidth * 1.5);
+    const normalStrokeWidth =
+      normalStyle.getStroke()?.getWidth() || strokeWidth;
+    normalStyle.getStroke()?.setWidth(normalStrokeWidth * 1.5);
     // Also, let's remove the label: once a guide is selected, the
     // label will be visible in the UI anyway, so there's no need
     // to clutter the map with this text.
@@ -165,7 +167,8 @@ function selectedActiveStyleFunction(
     parseStyle(feature);
 
   return new Style({
-    ...(featureType === "Point" && { // Active Points should always be visible.
+    ...(featureType === "Point" && {
+      // Active Points should always be visible.
       image: new CircleStyle({
         fill: new Fill({
           color: fillColor,
@@ -425,7 +428,9 @@ async function initOLMap(f7: Framework7) {
 
   // Update the accuracy feature's geometry when the accuracy changes.
   geolocation.on("change:accuracyGeometry", () => {
-    geolocationAccuracyFeature.setGeometry(geolocation.getAccuracyGeometry());
+    geolocationAccuracyFeature.setGeometry(
+      geolocation.getAccuracyGeometry() || undefined
+    );
   });
 
   // Handle geolocation error
@@ -542,20 +547,22 @@ async function initOLMap(f7: Framework7) {
       selectInteraction.getFeatures().push(f[0]);
 
       // Finally, zoom to selection, perhaps using a delay.
-      const selectionExtent = f[0].getGeometry().getExtent();
-      if (delay === 0) {
-        olMap.getView().fit(selectionExtent, { duration: 1000 });
-      } else {
-        setTimeout(() => {
+      const selectionExtent = f[0].getGeometry()?.getExtent();
+      if (selectionExtent) {
+        if (delay === 0) {
           olMap.getView().fit(selectionExtent, { duration: 1000 });
-        }, delay);
+        } else {
+          setTimeout(() => {
+            olMap.getView().fit(selectionExtent, { duration: 1000 });
+          }, delay);
+        }
       }
     }
   });
 
   f7.on("olCenterOnGeolocation", centerOnGeolocation);
 
-  f7.on("adjustForHeight", (overlayHeight) => {
+  f7.on("adjustForHeight", (overlayHeight: number) => {
     // The "padding" member of the View instance is an Array where
     // the bottom padding distance is the third element.
     olMap.getView().padding[2] = overlayHeight;
@@ -809,7 +816,7 @@ const getClosestStopNumberFromCurrentPosition = (guideId) => {
           // …let's filter so we only match the current guide's guideId, and…
           f.get("guideId") === guideId &&
           // …only care about the Point features (otherwise, LineStrings would match too)
-          f.getGeometry().getType() === "Point"
+          f.getGeometry()?.getType() === "Point"
         );
       }
     );
@@ -846,13 +853,15 @@ const navigateToStopNumber = (stopNumber: number) => {
   let coords = [0, 0];
 
   // Loop through all features in the active guide.
-  activeGuideSource.getFeatures().forEach((f) => {
+  activeGuideSource.getFeatures().forEach((f: Feature) => {
+    console.log("!!!f: ", f);
     // The selected feature gets special treatment
     if (f.get("stopNumber") === stopNumber) {
       // Set style to selected…
       f.setStyle(selectedActiveStyleFunction);
       // …and grab coordinates.
-      coords = f.getGeometry().getCoordinates();
+      const point = f.getGeometry() as Point;
+      coords = point.getCoordinates();
     }
     // All other features go back active layer's default style.
     else {
@@ -875,7 +884,7 @@ const activateGuide = (guideId: number, stopNumber: number) => {
   // Let's grab all points that belong to this line feature
   const features = audioguideLayer
     .getSource()
-    .getFeatures()
+    ?.getFeatures()
     .filter((f) => f.get("guideId") === guideId);
 
   const activateGuideObject = convertFeaturesToGuideObject(features);
