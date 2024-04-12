@@ -9,7 +9,7 @@ const fetchFromService = async (type = "line") => {
     store.state.mapConfig.tools.audioguide.useStaticGeoJSON || false;
 
   try {
-    let response,
+    let response: Response,
       json = null;
 
     if (useStaticGeoJSON === true) {
