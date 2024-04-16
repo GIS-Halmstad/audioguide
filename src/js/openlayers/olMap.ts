@@ -11,7 +11,7 @@ import Geolocation, { GeolocationError } from "ol/Geolocation";
 import { ScaleLine, Zoom } from "ol/control";
 import { Coordinate } from "ol/coordinate";
 import { Extent, containsCoordinate, getCenter, extend } from "ol/extent";
-import { Geometry, Point, Polygon } from "ol/geom";
+import { Geometry, LineString, Point, Polygon } from "ol/geom";
 import Select from "ol/interaction/Select";
 import Layer from "ol/layer/Layer";
 import TileLayer from "ol/layer/Tile";
@@ -30,6 +30,8 @@ import { wrapText } from "../utils";
 import BackgroundSwitcherControl from "./BackgroundSwitcherControl";
 import GeolocateControl from "./GeolocateControl";
 import RotateWithNorthLockControl from "./RotateWithNorthLockControl";
+
+import { ActiveGuideObject } from "../../types/types";
 
 import {
   LAYER_NAME_ACTIVE_GUIDE,
@@ -114,7 +116,6 @@ function normalStyleFunction(feature: Feature, resolution: number) {
   });
 }
 
-// eslint-disable-next-line
 function selectedStyleFunction(feature: Feature<Geometry>): Style {
   const { strokeWidth, circleRadius } = parseStyle(feature);
   // We ignore the actualResolution and favor the smallest one
@@ -337,11 +338,6 @@ async function initOLMap(f7: Framework7) {
       zoom: config.map.zoom,
     }),
   });
-
-  // Setup listener for view's resolution change
-  // olMap.getView().on("change:resolution", (e) => {
-  //   console.log(`${e.oldValue} -> ${e.target.getResolution()}`);
-  // });
 
   // Setup geolocation
   geolocation = new Geolocation({
@@ -944,8 +940,7 @@ const navigateToStopNumber = (stopNumber: number) => {
   let coords = [0, 0];
 
   // Loop through all features in the active guide.
-  activeGuideSource.getFeatures().forEach((f: Feature) => {
-    console.log("!!!f: ", f);
+  activeGuideSource.getFeatures().forEach((f) => {
     // The selected feature gets special treatment
     if (f.get("stopNumber") === stopNumber) {
       // Set style to selected…
