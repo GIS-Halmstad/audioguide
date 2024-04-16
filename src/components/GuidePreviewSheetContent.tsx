@@ -46,9 +46,9 @@ type StopObject = {
 export default function GuidePreviewSheetContent({ f }: Props) {
   // f can be either a Point or a LineString, so let's find out.
   let pointFeature: Feature | null = null;
-  let lineFeature: Feature | null = null;
+  let lineFeature: Feature;
 
-  if (f.getGeometry().getType() === "Point") {
+  if (f.getGeometry()?.getType() === "Point") {
     pointFeature = f;
     lineFeature = f7.store.state.allLines.find(
       (lf: Feature) => lf.get("guideId") === pointFeature?.get("guideId")
