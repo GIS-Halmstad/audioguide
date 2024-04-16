@@ -1,18 +1,13 @@
 import React from "react";
 
-import {
-  f7,
-  Badge,
-  BlockTitle,
-  List,
-  ListItem,
-  useStore,
-} from "framework7-react";
+import { f7, Badge, List, ListItem, useStore } from "framework7-react";
+
+import { Feature } from "ol";
 
 import { handleShowGuideInMap, parseStyle } from "../js/f7Helpers";
 
 function TabShortListViewContent() {
-  const filteredFeatures = useStore("filteredFeatures");
+  const filteredFeatures = useStore("filteredFeatures") as Feature[];
 
   return (
     <>

@@ -1,10 +1,12 @@
 import React from "react";
 
+import { Feature } from "ol";
+
 import AudioguideCard from "./AudioGuideCard";
 import { useStore } from "framework7-react";
 
 function TabListViewContent() {
-  const filteredFeatures = useStore("filteredFeatures");
+  const filteredFeatures = useStore("filteredFeatures") as Feature[];
 
   return (
     <div className="cards-grid">

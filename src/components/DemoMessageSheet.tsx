@@ -1,6 +1,6 @@
 import React from "react";
 
-import { f7, Block, BlockTitle, Sheet, useStore } from "framework7-react";
+import { Block, BlockTitle, Sheet, useStore } from "framework7-react";
 
 function DemoMessageSheet() {
   const loading = useStore("loading");

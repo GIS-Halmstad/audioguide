@@ -29,7 +29,7 @@ function GuideSheet() {
         // at this specific breakpoint.
         s?.setBreakpoint(0.55);
       }}
-      onSheetBreakpoint={(s, i) => {
+      onSheetBreakpoint={(s: Sheet, i: number) => {
         // When the Sheet's breakpoint changes, we need to
         // calculate the new height of the Sheet and determine
         // how much space can be used for the flexible height scrolling content.

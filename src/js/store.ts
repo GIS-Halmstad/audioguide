@@ -1,13 +1,22 @@
 import { createStore } from "framework7/lite/bundle";
 import { getParamValueFromHash } from "./getParamValueFromHash";
 import { Feature } from "ol";
+import { LineString, Point } from "ol/geom";
+
+import {
+  ActiveGuideObject,
+  AppConfig,
+  GeolocationStatus,
+  MapConfig,
+  StoreState,
+} from "../types/types";
 
 // We will load the appConfig.json dynamically, so admins can change things
 // such as analytics settings or the URLs to layer services on-the-flight, without
 // having to re-deploy the app.
 // Let's prepare a couple of variables that will be populated with values further on.
-let appConfig = {};
-let appConfigLoadingError = null;
+let appConfig: AppConfig | null = null;
+let appConfigLoadingError: Error | null = null;
 
 // Let's try to fetch the appConfig.json.
 try {
@@ -21,7 +30,7 @@ try {
   // be used further on when we initiated the store. In this case,
   // the store will be initiated in a already-failed state, which will
   // lead the App to display an error message directly.
-  appConfigLoadingError = error;
+  appConfigLoadingError = error as Error;
 }
 
 // We have two actions further down that expect these functions
@@ -59,11 +68,11 @@ if (appConfig?.analytics?.type === "plausible") {
 // Create the Store
 const store = createStore({
   state: {
-    loadingError: appConfigLoadingError, // null or error
-    geolocationStatus: "disabled", // "disabled", "pending", "granted", "denied"
+    loadingError: appConfigLoadingError,
+    geolocationStatus: "disabled",
     northLock: false,
     loading: true,
-    appConfig: appConfig, // null (if appConfigLoadingError is set) or a valid appConfig
+    appConfig: appConfig,
     mapConfig: {},
     allLines: [],
     allPoints: [],
@@ -71,8 +80,8 @@ const store = createStore({
     filteredCategories: getParamValueFromHash("c"),
     activeGuideObject: null,
     activeStopNumber: null,
-    selectedFeature: null, // Holds the currently selected feature, as opposed to active, feature
-  },
+    selectedFeature: null,
+  } as StoreState,
 
   actions: {
     trackAnalyticsPageview() {
@@ -81,10 +90,13 @@ const store = createStore({
     trackAnalyticsEvent({}, { eventName, ...rest }) {
       trackEvent(eventName, { props: rest });
     },
-    setLoadingError({ state }, v) {
+    setLoadingError({ state }: { state: StoreState }, v: Error) {
       state.loadingError = v;
     },
-    setGeolocationStatus({ state }, v) {
+    setGeolocationStatus(
+      { state }: { state: StoreState },
+      v: GeolocationStatus
+    ) {
       state.geolocationStatus = v;
       // Remove all previous geolocation classes
       document
@@ -97,7 +109,7 @@ const store = createStore({
         );
       document.querySelector("html")?.classList.add(`has-geolocation-${v}`);
     },
-    setNorthLock({ state }, v) {
+    setNorthLock({ state }: { state: StoreState }, v: boolean) {
       state.northLock = v;
       if (v === true) {
         document.querySelector("html")?.classList.add(`has-north-lock`);
@@ -105,32 +117,35 @@ const store = createStore({
         document.querySelector("html")?.classList.remove(`has-north-lock`);
       }
     },
-    setLoading({ state }, v) {
+    setLoading({ state }: { state: StoreState }, v: boolean) {
       state.loading = v;
     },
-    setMapConfig({ state }, mapConfig) {
+    setMapConfig({ state }: { state: StoreState }, mapConfig: MapConfig) {
       state.mapConfig = mapConfig;
     },
-    setAllLines({ state }, v) {
+    setAllLines({ state }: { state: StoreState }, v: Feature<LineString>[]) {
       state.allLines = v;
     },
-    setAllPoints({ state }, v) {
+    setAllPoints({ state }: { state: StoreState }, v: Feature<Point>[]) {
       state.allPoints = v;
     },
-    setAllCategories({ state }, v) {
+    setAllCategories({ state }: { state: StoreState }, v: string[]) {
       state.allCategories = v;
     },
-    setFilteredCategories({ state }, v) {
+    setFilteredCategories({ state }: { state: StoreState }, v: string[]) {
       state.filteredCategories = v;
     },
-    setActiveGuideObject({ state }, v) {
+    setActiveGuideObject(
+      { state }: { state: StoreState },
+      v: ActiveGuideObject
+    ) {
       state.activeGuideObject = v;
       document.querySelector("html")?.classList.add("has-active-guide");
       trackEvent("guideActivated", {
         props: { guideId: v?.line.get("guideId") },
       });
     },
-    setActiveStopNumber({ state }, v) {
+    setActiveStopNumber({ state }: { state: StoreState }, v: number) {
       state.activeStopNumber = v;
       trackEvent("guideStepShown", {
         props: {
@@ -139,16 +154,16 @@ const store = createStore({
         },
       });
     },
-    setSelectedFeature({ state }, v: Feature | null) {
+    setSelectedFeature({ state }: { state: StoreState }, v: Feature | null) {
       state.selectedFeature = v;
     },
-    deactivateGuide({ state }) {
+    deactivateGuide({ state }: { state: StoreState }) {
       // This time we must do tracking _before_ we deactivate
       // the guide (as it will unset the variables we want to track).
       trackEvent("guideDeactivated", {
         props: {
           guideId: state.activeGuideObject?.line.get("guideId"),
-          stopNumber: state.activeStopNumber,
+          stopNumber: state.activeStopNumber || -1, // shouldn't ever be -1, but since it's TS, let's be safe
         },
       });
 
@@ -161,47 +176,47 @@ const store = createStore({
   },
 
   getters: {
-    loadingError({ state }) {
-      return state.loadingError;
+    loadingError({ state }: { state: StoreState }) {
+      return state.loadingError as Error | null;
     },
-    geolocationStatus({ state }) {
-      return state.geolocationStatus;
+    geolocationStatus({ state }: { state: StoreState }) {
+      return state.geolocationStatus as GeolocationStatus;
     },
-    northLock({ state }) {
-      return state.northLock;
+    northLock({ state }: { state: StoreState }) {
+      return state.northLock as boolean;
     },
-    loading({ state }) {
-      return state.loading;
+    loading({ state }: { state: StoreState }) {
+      return state.loading as boolean;
     },
-    appConfig({ state }) {
-      return state.appConfig;
+    appConfig({ state }: { state: StoreState }) {
+      return state.appConfig as AppConfig | null;
     },
-    mapConfig({ state }) {
-      return state.mapConfig;
+    mapConfig({ state }: { state: StoreState }) {
+      return state.mapConfig as MapConfig;
     },
-    allLines({ state }) {
-      return state.allLines;
+    allLines({ state }: { state: StoreState }) {
+      return state.allLines as Feature<LineString>[];
     },
-    allPoints({ state }) {
-      return state.allPoints;
+    allPoints({ state }: { state: StoreState }) {
+      return state.allPoints as Feature<Point>[];
     },
-    allCategories({ state }) {
-      return state.allCategories;
+    allCategories({ state }: { state: StoreState }) {
+      return state.allCategories as string[];
     },
-    filteredCategories({ state }) {
-      return state.filteredCategories;
+    filteredCategories({ state }: { state: StoreState }) {
+      return state.filteredCategories as string[];
     },
     // A dynamic property that returns only those lines and points
     // that match the category filter selection.
-    filteredFeatures({ state }) {
+    filteredFeatures({ state }: { state: StoreState }) {
       // Determine which line features should be shown by looking
       // into the selected categories state. Only lines
       // with at least one selected category should be shown.
       const filteredLineFeatures = state.allLines
-        .map((f) => {
+        .map((f: Feature<LineString>) => {
           let match = false;
           const currentFeaturesCategories = f.get("categories").split(",");
-          currentFeaturesCategories.forEach((c) => {
+          currentFeaturesCategories.forEach((c: string) => {
             if (state.filteredCategories.includes(c)) {
               match = true;
             }
@@ -212,7 +227,7 @@ const store = createStore({
 
       // Each line feature has a unique ID, save them to an Array.
       const guideIdsOfFilteredLines = filteredLineFeatures.map((lf) =>
-        lf.get("guideId")
+        lf?.get("guideId")
       );
 
       // Filter point features by including only those who's parent
@@ -224,13 +239,13 @@ const store = createStore({
       // Put it all together and return so that OL can take care of it.
       return [...filteredLineFeatures, ...filteredPointFeatures];
     },
-    activeGuideObject({ state }) {
+    activeGuideObject({ state }: { state: StoreState }) {
       return state.activeGuideObject;
     },
-    activeStopNumber({ state }) {
+    activeStopNumber({ state }: { state: StoreState }) {
       return state.activeStopNumber;
     },
-    selectedFeature({ state }) {
+    selectedFeature({ state }: { state: StoreState }) {
       return state.selectedFeature;
     },
   },

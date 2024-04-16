@@ -2,15 +2,17 @@ import React, { useEffect, useState } from "react";
 
 import { f7, Sheet } from "framework7-react";
 
+import { Feature } from "ol";
+
 import GuidePreviewSheetContent from "./GuidePreviewSheetContent";
 
 function GuidePreviewSheet() {
   const [sheetVisible, setSheetVisible] = useState(false);
-  const [selectedFeature, setSelectedFeature] = useState(null);
+  const [selectedFeature, setSelectedFeature] = useState<Feature | null>(null);
 
   useEffect(() => {
     console.log("USEEFFECT subscribe");
-    f7.on("olFeatureSelected", (f) => {
+    f7.on("olFeatureSelected", (f: Feature[]) => {
       // If there's a feature…
       if (f.length > 0) {
         // Was anything else already selected when this got selected?
