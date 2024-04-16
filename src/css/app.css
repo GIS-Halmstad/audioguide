@@ -141,20 +141,12 @@ body.loading #splash-screen {
       (100% - calc(var(--f7-card-expandable-margin-horizontal) * 2) * 3) / 2
     );
   }
-  .cards-grid .card:nth-child(2),
-  .cards-grid .card:nth-child(4) {
-    margin-left: 0;
-  }
-  .cards-grid .card:nth-child(n + 3) {
-    margin-top: 0;
-  }
 }
 @media (min-width: 1024px) {
   .cards-grid .card {
     width: calc(
       (100% - calc(var(--f7-card-expandable-margin-horizontal) * 2) * 4) / 3
     );
-    margin-right: 0;
   }
 }
 
