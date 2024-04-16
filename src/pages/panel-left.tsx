@@ -12,6 +12,8 @@ function PanelLeft() {
         <ListItem
           title="Alla guider"
           panelClose
+          link
+          noChevron
           onClick={handleShowAllGuides}
         />
         <ListItem link="/share/" title="Dela" />
