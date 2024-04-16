@@ -3,18 +3,22 @@ import Framework7 from "framework7/types";
 import "../../css/olMap.css";
 
 import proj4 from "proj4";
+import { transform } from "ol/proj";
 import { register } from "ol/proj/proj4";
 
 import { Map, View, Feature } from "ol";
 import Geolocation, { GeolocationError } from "ol/Geolocation";
 import { ScaleLine, Zoom } from "ol/control";
-import { Extent, containsCoordinate } from "ol/extent";
+import { Coordinate } from "ol/coordinate";
+import { Extent, containsCoordinate, getCenter, extend } from "ol/extent";
 import { Geometry, Point, Polygon } from "ol/geom";
-import OSM from "ol/source/OSM";
-import TileLayer from "ol/layer/Tile";
-import VectorSource from "ol/source/Vector";
-import VectorLayer from "ol/layer/Vector";
 import Select from "ol/interaction/Select";
+import Layer from "ol/layer/Layer";
+import TileLayer from "ol/layer/Tile";
+import VectorLayer from "ol/layer/Vector";
+import OSM from "ol/source/OSM";
+import VectorSource from "ol/source/Vector";
+import { getDistance } from "ol/sphere";
 import { Circle as CircleStyle, Fill, Stroke, Style, Text } from "ol/style";
 
 import store from "../store";
@@ -22,6 +26,10 @@ import store from "../store";
 import { createLayersFromConfig } from "./olHelpers";
 import { parseStyle } from "../f7Helpers";
 import { wrapText } from "../utils";
+
+import BackgroundSwitcherControl from "./BackgroundSwitcherControl";
+import GeolocateControl from "./GeolocateControl";
+import RotateWithNorthLockControl from "./RotateWithNorthLockControl";
 
 import {
   LAYER_NAME_ACTIVE_GUIDE,
@@ -31,11 +39,6 @@ import {
   POINT_TEXT_VISIBILITY_THRESHOLD,
   POINT_VISIBILITY_THRESHOLD,
 } from "../constants";
-
-import BackgroundSwitcherControl from "./BackgroundSwitcherControl";
-import GeolocateControl from "./GeolocateControl";
-import RotateWithNorthLockControl from "./RotateWithNorthLockControl";
-import Layer from "ol/layer/Layer";
 
 let olMap!: Map,
   constrainedExtent: Extent | undefined,
@@ -538,6 +541,9 @@ async function initOLMap(f7: Framework7) {
       // The actual deselection is handled by clearing the
       // feature collection of the select interaction.
       selectInteraction.getFeatures().clear();
+
+      // Tell the store that there's no selection.
+      store.dispatch("setSelectedFeature", null);
     }
     // Else, if the selection array is not empty, there's a feature
     // that should be added to the selection interaction programmatically.
@@ -555,6 +561,9 @@ async function initOLMap(f7: Framework7) {
       selectInteraction.getFeatures().clear();
       // …and add the newly selected feature to the select interaction's feature collection.
       selectInteraction.getFeatures().push(f[0]);
+
+      // Store the selected feature in the store.
+      store.dispatch("setSelectedFeature", f[0]);
 
       // Finally, zoom to selection, perhaps using a delay.
       const selectionExtent = f[0].getGeometry()?.getExtent();
@@ -627,19 +636,91 @@ const handleGeolocationError = (error: GeolocationError) => {
   store.dispatch("setGeolocationStatus", "denied");
 };
 
+/**
+ * Calculates the distance between two coordinates.
+ *
+ * @param {Coordinate} p1 - The first coordinate.
+ * @param {Coordinate} p2 - The second coordinate.
+ * @param {boolean} [showToast=true] - Whether to show a toast with the distance.
+ * @return {void}
+ */
+const calculateDistanceBetweenCoordinates = (
+  p1: Coordinate,
+  p2: Coordinate,
+  showToast = true
+) => {
+  const sourceProjection = olMap.getView().getProjection().getCode(); // Get projection from View
+  const destProjection = "EPSG:4326"; // WGS84 geographic projection
+
+  // Transform the projected coordinates to geographic coordinates
+  const transformedP1 = transform(p1, sourceProjection, destProjection);
+  const transformedP2 = transform(p2, sourceProjection, destProjection);
+
+  const distance = getDistance(transformedP1, transformedP2);
+
+  if (showToast === true && !Number.isNaN(distance)) {
+    const toast = f7Instance.toast.create({
+      icon: '<i class="icon f7-icons">location</i>',
+      position: "center",
+      text: `Avstånd fågelvägen: ${distance.toFixed(0)} m`,
+      closeTimeout: 3000,
+    });
+    toast.open();
+  }
+};
+
 const centerOnGeolocation = () => {
-  // View.animate() actually wants two coordinates (to center on),
-  // while getExtent() returns an array of four coordinates. In case
-  // of Point features, we might as well use getCoordinates() (or
-  // even getFirstCoordinates()) and we'd still end up with the same
-  // first two elements. So we go for getExtent() for that reason.
-  if (geolocationPositionFeature.getGeometry() === undefined) {
+  const geolocationGeometry = geolocationPositionFeature?.getGeometry();
+
+  if (geolocationGeometry === undefined) {
     console.warn("Could not get geolocation");
   } else {
+    let totalExtent: Extent;
+
+    // Extent, needed to possibly extend with the selected feature's extent.
+    const geolocationExtent = geolocationGeometry.getExtent();
+
+    // Center, needed to possibly calculate the distance between two points.
+    const geolocationCenter = getCenter(geolocationExtent);
+
+    // Let's see if there's a selected feature
+    const selectedFeatureGeometry =
+      store.getters.selectedFeature.value?.getGeometry();
+
+    if (selectedFeatureGeometry !== undefined) {
+      const selectedFeatureExtent = selectedFeatureGeometry.getExtent();
+      const selectedFeatureCenter = getCenter(selectedFeatureExtent);
+
+      // Extend the total extent to include both user's position and the selected feature
+      totalExtent = extend(geolocationExtent, selectedFeatureExtent);
+
+      // Next, let's go on and calculate the distance between the two points.
+      calculateDistanceBetweenCoordinates(
+        geolocationCenter,
+        selectedFeatureCenter,
+        true
+      );
+    } else {
+      // Since there was no selected feature, the total extent
+      // equals to the extent of the geolocation feature.
+      totalExtent = geolocationExtent;
+    }
+
+    // Calculate what's needed to fit the extent within the view
+    const resolution = olMap.getView().getResolutionForExtent(totalExtent);
+    const zoom =
+      olMap.getView().getZoomForResolution(resolution) !== Infinity
+        ? (olMap.getView().getZoomForResolution(resolution) ||
+            olMap.getView().getMaxZoom()) - 2
+        : olMap.getView().getMaxZoom() - 3;
+    const center = getCenter(totalExtent);
+    const duration = 3000;
+
     olMap.getView().animate({
-      center: geolocation.getPosition(),
-      zoom: 8,
-      duration: 3000,
+      center,
+      duration,
+      resolution,
+      zoom,
     });
   }
 };

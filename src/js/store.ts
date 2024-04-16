@@ -1,5 +1,6 @@
 import { createStore } from "framework7/lite/bundle";
 import { getParamValueFromHash } from "./getParamValueFromHash";
+import { Feature } from "ol";
 
 // We will load the appConfig.json dynamically, so admins can change things
 // such as analytics settings or the URLs to layer services on-the-flight, without
@@ -70,6 +71,7 @@ const store = createStore({
     filteredCategories: getParamValueFromHash("c"),
     activeGuideObject: null,
     activeStopNumber: null,
+    selectedFeature: null, // Holds the currently selected feature, as opposed to active, feature
   },
 
   actions: {
@@ -136,6 +138,9 @@ const store = createStore({
           stopNumber: v,
         },
       });
+    },
+    setSelectedFeature({ state }, v: Feature | null) {
+      state.selectedFeature = v;
     },
     deactivateGuide({ state }) {
       // This time we must do tracking _before_ we deactivate
@@ -224,6 +229,9 @@ const store = createStore({
     },
     activeStopNumber({ state }) {
       return state.activeStopNumber;
+    },
+    selectedFeature({ state }) {
+      return state.selectedFeature;
     },
   },
 });
