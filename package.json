@@ -46,7 +46,6 @@
   },
   "devDependencies": {
     "@capacitor/cli": "^5.7.4",
-    "@types/openlayers": "^4.6.23",
     "@types/proj4": "^2.5.5",
     "@types/react": "^18.2.74",
     "@types/react-dom": "^18.2.24",

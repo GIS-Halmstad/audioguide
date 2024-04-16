@@ -25,8 +25,9 @@ import {
 import { getAssets } from "../js/getAssets";
 
 // Type imports and definitions
-import { Feature, geom } from "openlayers";
 import { handleCopyLinkToGuide, parseStyle } from "../js/f7Helpers";
+import { Feature } from "ol";
+import { Geometry } from "ol/geom";
 import {
   prepareStringFromDbForMarkdown,
   thumbalizeImageSource,
@@ -39,7 +40,7 @@ type Props = {
 type StopObject = {
   stopNumber: number;
   title: string;
-  geometry: geom.Geometry;
+  geometry: Geometry;
 };
 
 export default function GuidePreviewSheetContent({ f }: Props) {

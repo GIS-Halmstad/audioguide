@@ -1,4 +1,4 @@
-import { Feature } from "openlayers";
+import { Feature } from "ol";
 import { StyleObject } from "../types/types";
 
 import { f7 } from "framework7-react";
