@@ -23,6 +23,7 @@ import TabListViewContent from "../components/TabListViewContent";
 import TabShortListViewContent from "../components/TabShortListViewContent";
 
 import { handleShowAllGuides, handleShowGuideInMap } from "../js/f7Helpers";
+import { updateFeaturesInMap } from "../js/openlayers/olMap";
 
 const HomePage = () => {
   console.log("HomePage init: ", f7);
@@ -156,6 +157,7 @@ const HomePage = () => {
           text="Karta"
           iconIos="f7:map"
           iconMd="material:map"
+          onClick={updateFeaturesInMap}
         />
       </Toolbar>
 
