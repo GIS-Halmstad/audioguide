@@ -31,12 +31,23 @@ function GuideSheetContent({ activeGuideObject }) {
     activeStopNumber === Object.entries(activeGuideObject?.points).length;
 
   useEffect(() => {
-    // Ensure that the Swiper is updated regarding, it's probable that
-    // the amount of images have changed.
     const swiperEl = f7.swiper.get(".active-guide-sheet swiper-container");
-    swiperEl?.update();
-    swiperEl?.slideTo(0);
-  });
+    if (swiperEl) {
+      // Update Swiper to ensure that the correct amount of
+      // image sliders are shown.
+      swiperEl.update();
+      // Also, go to the first image.
+      swiperEl.slideTo(0);
+    }
+
+    const pageContent = document.querySelector(
+      ".active-guide-sheet .page-content"
+    );
+    if (pageContent && pageContent.scrollTop) {
+      // Scroll to top when sheet renders
+      pageContent.scrollTop = 0;
+    }
+  }); // Yes, let's run this on each render
 
   const handleClickOnCloseGuide = () => {
     f7.dialog.confirm(
