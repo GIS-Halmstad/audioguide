@@ -36,8 +36,8 @@ function GuideSheetContent({ activeGuideObject }) {
       // Update Swiper to ensure that the correct amount of
       // image sliders are shown.
       swiperEl.update();
-      // Also, go to the first image.
-      swiperEl.slideTo(0);
+      // Also, go to the first image, but disable the transition by setting its length to 0ms.
+      swiperEl.slideTo(0, 0, false);
     }
 
     const pageContent = document.querySelector(
