@@ -658,7 +658,9 @@ const calculateDistanceBetweenCoordinates = (
     const toast = f7Instance.toast.create({
       icon: '<i class="icon f7-icons">location</i>',
       position: "center",
-      text: `Avstånd fågelvägen: ${distance.toFixed(0)} m`,
+      text: `Du befinner dig cirka ${distance.toFixed(
+        0
+      )} m (fågelvägen) från denna plats.`,
       closeTimeout: 3000,
     });
     toast.open();
