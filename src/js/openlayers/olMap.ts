@@ -995,6 +995,7 @@ const activateGuide = (guideId: number, stopNumber: number) => {
 
 const goToStopNumber = (stopNumber: number) => {
   const audioElement = document.querySelector("audio");
+  const videoElement = document.querySelector("video");
   if (audioElement && !audioElement.paused) {
     const confirmMessage =
       "Ljud spelas upp. Om du byter steg avbryts uppspelning. Är du säker på att du vill byta steg?";
@@ -1002,6 +1003,15 @@ const goToStopNumber = (stopNumber: number) => {
       // On OK, navigate to another stop
       audioElement.pause();
       audioElement.currentTime = 0;
+      navigateToStopNumber(stopNumber);
+    });
+  } else if (videoElement && !videoElement.paused) {
+    const confirmMessage =
+      "Video spelas upp. Om du byter steg avbryts uppspelning. Är du säker på att du vill byta steg?";
+    f7Instance.dialog.confirm(confirmMessage, "Avbryta uppspelning?", () => {
+      // On OK, navigate to another stop
+      videoElement.pause();
+      videoElement.currentTime = 0;
       navigateToStopNumber(stopNumber);
     });
   } else {
