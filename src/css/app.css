@@ -174,7 +174,7 @@ body.loading #splash-screen {
   }
 }
 
-/* Sheet Swipe To Close */
+/* Sheet Swipe Handler */
 
 .sheet-modal {
   --f7-sheet-border-color: transparent;
@@ -190,11 +190,12 @@ body.loading #splash-screen {
   top: 0;
   background: none;
   cursor: pointer;
-  z-index: 10;
+  z-index: 16000;
 }
 
 .swipe-handler:after {
   content: "";
+  z-index: 16000;
   width: 36px;
   height: 6px;
   position: absolute;
@@ -202,8 +203,9 @@ body.loading #splash-screen {
   top: 50%;
   margin-left: -18px;
   margin-top: -3px;
-  border-radius: 3px;
+  border-radius: 5px;
   background-color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.2);
 }
 
 /* Swiper Element custom styles */
@@ -235,6 +237,27 @@ swiper-container .image-container {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+}
+
+.sheet-icon {
+  position: absolute;
+  right: 15px;
+  top: 15px;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 50%;
+}
+
+/* Special style for this expand to fullscreen icon: 
+   we want it to be a little smaller than the other icons 
+   so that we can add some padding. */
+.expand-icon {
+  left: 15px;
+  right: auto;
+}
+.expand-icon i {
+  font-size: 20px;
+  padding: 4px;
 }
 
 /* A Fullscreen Swiper solution */

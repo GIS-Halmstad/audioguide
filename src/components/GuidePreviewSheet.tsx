@@ -61,7 +61,6 @@ function GuidePreviewSheet() {
       style={{ height: "auto", maxHeight: "90vh" }}
       breakpoints={[0.2, 0.75, 1.0]}
       swipeToClose
-      swipeToStep
       backdrop={false} // To allow for map navigation
       opened={sheetVisible}
       onSheetOpen={(s: Sheet) => {

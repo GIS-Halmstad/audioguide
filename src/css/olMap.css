@@ -24,7 +24,6 @@
   relative to other controls in this container, as well as unsets
   some OL defaults, such as outline border etc. */
 .ol-control {
-  z-index: 1500;
   position: relative;
   width: var(--f7-fab-size);
   height: var(--f7-fab-size);
@@ -71,7 +70,6 @@
   justify-content: center;
   transition-duration: 300ms;
   overflow: hidden;
-  z-index: 1;
   margin: 0;
   padding: 0;
   box-shadow: var(--f7-fab-box-shadow);

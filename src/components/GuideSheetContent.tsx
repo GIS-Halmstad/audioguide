@@ -81,13 +81,10 @@ function GuideSheetContent({ activeGuideObject }) {
     <>
       {/* Initial step in the sheet must be within .sheet-modal-swipe-step */}
       <div className="sheet-modal-swipe-step">
-        <div
-          className="swipe-handler"
-          onClick={() => f7.sheet.stepToggle(".active-guide-sheet")}
-        />
+        <div className="swipe-handler" />
 
         <swiper-container
-          css-mode={true}
+          css-mode={false} // FIXME: Seems troublesome when set to true on iOS Safari, false for now but keep in mind.
           loop={false} // Can't be true, as it breaks the .slideTo() in the useEffect
           pagination={true}
           initial-slide={0}
@@ -132,25 +129,24 @@ function GuideSheetContent({ activeGuideObject }) {
                 style={{
                   backgroundImage: `url(${thumbalizeImageSource(src)})`,
                 }}
+              ></div>
+              <Link
+                iconF7="expand"
+                className="sheet-icon expand-icon"
                 onClick={() =>
                   f7.emit("showFullscreenSwiper", {
                     sources: images,
                     currentIndex: i,
                   })
                 }
-              ></div>
+              />
             </swiper-slide>
           ))}
         </swiper-container>
 
         <Link
-          style={{
-            position: "absolute",
-            right: "15px",
-            top: "15px",
-            color: "white",
-          }}
-          iconF7="xmark_circle_fill"
+          className="sheet-icon"
+          iconF7="xmark_circle"
           onClick={handleClickOnCloseGuide}
         />
 

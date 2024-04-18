@@ -27,7 +27,7 @@ const FullscreenSwiper = () => {
       <div id="fullscreen-swiper" className="safe-areas">
         <Link iconF7="xmark_circle_fill" onClick={handleHideFullscreenSwiper} />
         <swiper-container
-          css-mode={true}
+          css-mode={false} // FIXME: Seems troublesome when set to true on iOS Safari, false for now but keep in mind.
           loop={true}
           pagination={true}
           initial-slide={startIndex}

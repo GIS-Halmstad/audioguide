@@ -90,14 +90,11 @@ export default function GuidePreviewSheetContent({ f }: Props) {
         {/* Initial step in the sheet must be within .sheet-modal-swipe-step */}
         <div className="sheet-modal-swipe-step">
           {/* Swipe to close handler */}
-          <div
-            className="swipe-handler"
-            onClick={() => f7.sheet.stepToggle(".preview-sheet")}
-          ></div>
+          <div className="swipe-handler"></div>
 
           {/* Swiper component with guide photos */}
           <swiper-container
-            css-mode={true}
+            css-mode={false} // FIXME: Seems troublesome when set to true on iOS Safari, false for now but keep in mind.
             loop={true}
             pagination={true}
             initial-slide={0}
@@ -115,27 +112,26 @@ export default function GuidePreviewSheetContent({ f }: Props) {
                   style={{
                     backgroundImage: `url(${thumbalizeImageSource(src)})`,
                   }}
+                ></div>
+                <Link
+                  iconF7="expand"
+                  className="sheet-icon expand-icon"
                   onClick={() =>
                     f7.emit("showFullscreenSwiper", {
                       sources: images,
                       currentIndex: i,
                     })
                   }
-                ></div>
+                />
               </swiper-slide>
             ))}
           </swiper-container>
 
           {/* Click to close button */}
           <Link
-            style={{
-              position: "absolute",
-              right: "15px",
-              top: "15px",
-              color: "white",
-            }}
+            className="sheet-icon"
             sheetClose=".preview-sheet"
-            iconF7="xmark_circle_fill"
+            iconF7="xmark_circle"
           />
 
           {/* Guide title and chips */}
