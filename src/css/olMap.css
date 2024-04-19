@@ -102,12 +102,12 @@ html.has-geolocation-granted .ol-control.ol-geolocate button {
   border: 3px solid var(--f7-md-surface-2);
 }
 .ol-control.ol-rotate .ol-compass {
-  background-image: url("./../../public/compass.svg");
+  background-image: url("../assets/compass.svg");
   width: 100%;
   height: 100%;
 }
 html.has-north-lock .ol-control.ol-rotate .ol-compass {
-  background-image: url("./../../public/compass-north-lock.svg");
+  background-image: url("../assets/compass-north-lock.svg");
 }
 
 /* On Material, we want the button a bit brighter. On iOS, the default is fine, 
