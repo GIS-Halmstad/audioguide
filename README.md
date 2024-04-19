@@ -303,7 +303,8 @@ The Audioguide App accepts some URL hash parameters (the part of the URL string 
 
 A lot of Audioguide's look and feel can be customized. The important places to look out for include:
 
-- `public/logo.png`
+- `public/navbar-logo.svg`
+- `public/bottom-ornament.svg`
 - `public/custom.css`
 - The map configuration (or `public/staticMapConfig.json`, if you're using static map config). Look for the `ui` property and its children, such as:
   - `colors.primary`: to set a default primary color
