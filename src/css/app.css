@@ -65,12 +65,14 @@ body.loading #splash-screen {
 
 /* Navbar should go straight up, outside the viewport */
 .has-active-guide .view-main .navbar {
-  top: calc(0px - var(--f7-navbar-height));
+  top: calc(0px - var(--f7-navbar-height) - var(--f7-safe-area-top));
 }
 
 /* Toolbar (or rather, "tab bar") goes straight to the bottom, outside the viewport */
 .has-active-guide .view-main .tabbar {
-  bottom: calc(0px - var(--f7-tabbar-icons-height));
+  bottom: calc(
+    0px - var(--f7-tabbar-icons-height) - var(--f7-safe-area-bottom)
+  );
 }
 
 /* Map is inside a .page-content element, which by default 
@@ -85,6 +87,15 @@ body.loading #splash-screen {
    Map can fill the viewport */
 .has-active-guide #map {
   height: 100%;
+}
+
+/* Map control buttons container must be moved down a bit
+   so that the controls won't overlap UI elements as clock/battery.*/
+.has-active-guide .ol-overlaycontainer-stopevent {
+  margin-top: var(--f7-safe-area-top);
+  margin-bottom: var(--f7-safe-area-bottom);
+  margin-left: var(--f7-safe-area-left);
+  margin-right: var(--f7-safe-area-right);
 }
 
 /** END: HIDE NAVBAR AND TABBAR WHEN A GUIDE IS ACTIVE **/
