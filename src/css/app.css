@@ -53,26 +53,32 @@ body.loading #splash-screen {
   }
 }
 
-/** START: HIDE NAVBAR WHEN A GUIDE IS ACTIVE **/
+/** START: HIDE NAVBAR AND TABBAR WHEN A GUIDE IS ACTIVE **/
 
 /* These element need a transition */
-.navbar,
-.page-content,
+.view-main .navbar,
+.view-main .tabbar,
+/* #tab-map.page-content, // TODO: check later, but for now it causes serious glitches/#map height of 0px, on Safari 17.4*/
 #map {
   transition: all 1s ease;
 }
 
 /* Navbar should go straight up, outside the viewport */
-.has-active-guide .navbar {
+.has-active-guide .view-main .navbar {
   top: calc(0px - var(--f7-navbar-height));
 }
 
-/* Map, as well as everything else, is inside a .page-content
-   element, which by default has some padding (to accomodate for the
-   navbar). We need to remove that padding, so that we can tell map
+/* Toolbar (or rather, "tab bar") goes straight to the bottom, outside the viewport */
+.has-active-guide .view-main .tabbar {
+  bottom: calc(0px - var(--f7-tabbar-icons-height));
+}
+
+/* Map is inside a .page-content element, which by default 
+   has some padding (to accommodate for the navbar). We need 
+   to remove that padding, so that we can tell map
    to expand vertically to 100%. */
-.has-active-guide .page-content {
-  padding-top: 0;
+.has-active-guide #tab-map.page-content {
+  padding: 0;
 }
 
 /* Now, when padding's on parent element has been removed, 
@@ -81,7 +87,7 @@ body.loading #splash-screen {
   height: 100%;
 }
 
-/** END: HIDE NAVBAR WHEN A GUIDE IS ACTIVE **/
+/** END: HIDE NAVBAR AND TABBAR WHEN A GUIDE IS ACTIVE **/
 
 /* Left Panel right border when it is visible by breakpoint */
 .panel-left.panel-in-breakpoint:before {
