@@ -39,12 +39,18 @@ body.loading #splash-screen {
   }
 }
 
-.app-logo {
-  max-height: var(--f7-navbar-height);
-  margin-left: calc(
-    var(--f7-card-expandable-margin-horizontal) + var(--f7-safe-area-left)
-  );
-  margin-right: 20px;
+/* Style the app logo in navbar */
+.navbar-inner .title {
+  flex-grow: 1; /* To make the A element that holds the IMG take up all available space */
+}
+.navbar a.link.app-logo img {
+  max-height: calc(var(--f7-navbar-height) * 0.8);
+}
+
+@media (max-width: 768px) {
+  .navbar a.link.app-logo {
+    justify-content: center;
+  }
 }
 
 /** START: HIDE NAVBAR WHEN A GUIDE IS ACTIVE **/
@@ -258,6 +264,13 @@ swiper-container .image-container {
 .expand-icon i {
   font-size: 20px;
   padding: 4px;
+}
+
+.sheet-bottom-ornament {
+  display: block;
+  max-width: 115px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* A Fullscreen Swiper solution */

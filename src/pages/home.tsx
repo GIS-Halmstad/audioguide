@@ -15,7 +15,6 @@ import {
 
 import { getParamValueFromHash } from "../js/getParamValueFromHash";
 
-import NavbarTitle from "../components/NavbarTitle";
 import GuidePreviewSheet from "../components/GuidePreviewSheet";
 import GuideSheet from "../components/GuideSheet";
 import BackgroundLayersActionsGrid from "../components/BackgroundLayersActionsGrid";
@@ -119,12 +118,11 @@ const HomePage = () => {
       <Navbar sliding={false}>
         <NavLeft>
           <Link iconF7="menu" iconMaterial="menu" panelOpen="left" iconOnly />
-          <Link className="no-padding" onClick={handleShowAllGuides}>
-            <img src="logo.png" className="app-logo" />
-          </Link>
         </NavLeft>
-        <NavTitle sliding>
-          <NavbarTitle />
+        <NavTitle>
+          <Link className="app-logo no-padding " onClick={handleShowAllGuides}>
+            <img src="navbar-logo.svg" />
+          </Link>
         </NavTitle>
         <NavRight>
           <Link

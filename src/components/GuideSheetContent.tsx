@@ -294,6 +294,13 @@ function GuideSheetContent({ activeGuideObject }) {
         <Button onClick={handleClickOnCloseGuide} className="margin-bottom">
           Avsluta guiden
         </Button>
+        <Block>
+          <img
+            src="bottom-ornament.svg"
+            className="sheet-bottom-ornament"
+            alt="Decorative bottom ornament"
+          />
+        </Block>
       </div>
     </>
   );

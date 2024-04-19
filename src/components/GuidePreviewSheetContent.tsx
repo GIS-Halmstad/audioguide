@@ -255,6 +255,13 @@ export default function GuidePreviewSheetContent({ f }: Props) {
               Kopiera länk
             </Button>
           </Block>
+          <Block>
+            <img
+              src="bottom-ornament.svg"
+              className="sheet-bottom-ornament"
+              alt="Decorative bottom ornament"
+            />
+          </Block>
         </div>
       </>
     )
