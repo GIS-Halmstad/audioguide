@@ -1,7 +1,7 @@
 {
-    "name": "Audioguide",
-    "short_name": "Audioguide",
-    "description": "An open-source audioguide app",
+    "name": "Halmstad Stories - Audioguide",
+    "short_name": "Halmstad Stories",
+    "description": "Välkommen till Halmstads audioguide. Här får du ta del av spännande och dramatiserade guidningar runt om i Halmstad.",
     "lang": "sv-SE",
     "orientation": "portrait-primary",
     "start_url": "../index.html",
