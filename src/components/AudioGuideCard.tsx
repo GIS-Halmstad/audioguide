@@ -105,7 +105,13 @@ function AudioguideCard({ feature }) {
             round
             large
             cardClose
-            onClick={() => handleShowGuideInMap(feature, 600)}
+            onClick={() => {
+              f7.store.dispatch("trackAnalyticsEvent", {
+                eventName: "guideClickedInPhotoList",
+                guideId: feature.get("guideId"),
+              });
+              handleShowGuideInMap(feature, 600);
+            }}
             className="margin-top margin-bottom"
           >
             Upplev guiden
