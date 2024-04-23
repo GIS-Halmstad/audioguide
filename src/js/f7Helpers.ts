@@ -44,6 +44,12 @@ export const handleShowAllGuides = async (): Promise<void> => {
   // Ensure we go to the List view…
   f7.tab.show("#tab-list");
 
+  // …and that it's scrolled up all the way to the top…
+  const tabList = document.getElementById("tab-list");
+  if (tabList?.scrollTop) {
+    tabList.scrollTop = 0;
+  }
+
   // …and that we close the panel.
   f7.panel.close("left");
 };
