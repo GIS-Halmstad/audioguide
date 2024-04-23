@@ -320,16 +320,16 @@ Refer to the section on `public/appConfig.json` and its `analytics` property to 
 
 Below is a documentation of which events Audioguide sends. Refer to Plausible documentation to see how you add those events to your instance.
 
-| Event name                | Event data                             |
-| ------------------------- | -------------------------------------- |
-| `loadSuccess`             | -                                      |
-| `loadError`               | `reason: string`                       |
-| `guideClickedInPhotoList` | `guideId: number`                      |
-| `guideClickedInShortList` | `guideId: number`                      |
-| `guideClickedInMap`       | `guideId: number, stopNumber?: number` |
-| `guideActivated`          | `guideId: number`                      |
-| `guideDeactivated`        | `guideId: number, stopNumber: number`  |
-| `guideStepShown`          | `guideId: number, stopNumber: number`  |
+| Event name                | Event data                             | Triggered by                                                                                                                                                                                      |
+| ------------------------- | -------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `loadSuccess`             | -                                      | Successful initial app load.                                                                                                                                                                      |
+| `loadError`               | `reason: string`                       | Failed initial app load.                                                                                                                                                                          |
+| `guideClickedInPhotoList` | `guideId: number`                      | User click on guide in the photos card view.                                                                                                                                                      |
+| `guideClickedInShortList` | `guideId: number`                      | User click on guide in the short list view.                                                                                                                                                       |
+| `guideClickedInMap`       | `guideId: number, stopNumber?: number` | User click on guide in the map view. Also contains `stopNumber` if a specific point was clicked.                                                                                                  |
+| `guideActivated`          | `guideId: number`                      | Guide activated (using any of the available methods, see above).                                                                                                                                  |
+| `guideDeactivated`        | `guideId: number, stopNumber: number`  | An active guide is closed by the user. `stopNumber` is the point at which guide was deactivated.                                                                                                  |
+| `guideStepShown`          | `guideId: number, stopNumber: number`  | A point in a guide becomes active. Could be either on initial guide activation (i.e. when `guideActivated` is triggered too), or when user navigates between stops (using previous/next buttons). |
 
 ## Deploy notes
 
