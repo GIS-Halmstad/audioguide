@@ -88,7 +88,7 @@
 
 /* The Geolocate button has an "Location activated" mode. */
 html.has-geolocation-granted .ol-control.ol-geolocate button {
-  border: 3px dashed var(--f7-tabbar-link-inactive-color);
+  border: 3px solid var(--f7-tabbar-link-active-icon-bg-color);
 }
 
 /* The Rotate Control, with its compass icon, is a bit special */
