@@ -53,6 +53,10 @@ body.loading #splash-screen {
   }
 }
 
+a.external.link {
+  text-decoration: underline;
+}
+
 /** START: HIDE NAVBAR AND TABBAR WHEN A GUIDE IS ACTIVE **/
 
 /* These element need a transition */

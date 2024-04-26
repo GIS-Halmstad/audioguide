@@ -15,7 +15,7 @@ import {
   Link,
 } from "framework7-react";
 
-import Markdown from "react-markdown";
+import AudioguideMarkdown from "../js/AudioguideMarkdown";
 
 import {
   activateGuide,
@@ -221,9 +221,9 @@ export default function GuidePreviewSheetContent({ f }: Props) {
           }}
         >
           <Block className="no-margin-top">
-            <Markdown
-              children={prepareStringFromDbForMarkdown(lineFeature.get("text"))}
-            />
+            <AudioguideMarkdown>
+              {prepareStringFromDbForMarkdown(lineFeature.get("text"))}
+            </AudioguideMarkdown>
           </Block>
           <BlockTitle medium>Stopp längst vägen</BlockTitle>
           <List>

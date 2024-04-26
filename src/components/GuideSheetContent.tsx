@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import Markdown from "react-markdown";
 
 import { Block, Button, Link, f7, useStore } from "framework7-react";
 
@@ -10,6 +9,8 @@ import {
   prepareStringFromDbForMarkdown,
   thumbalizeImageSource,
 } from "../js/utils";
+
+import AudioguideMarkdown from "../js/AudioguideMarkdown";
 
 import { parseStyle } from "../js/f7Helpers";
 
@@ -289,7 +290,9 @@ function GuideSheetContent({ activeGuideObject }) {
 
       <div className="page-content padding-bottom">
         <Block className="no-margin-top">
-          <Markdown children={prepareStringFromDbForMarkdown(text)} />
+          <AudioguideMarkdown>
+            {prepareStringFromDbForMarkdown(text)}
+          </AudioguideMarkdown>
         </Block>
         <Button onClick={handleClickOnCloseGuide} className="margin-bottom">
           Avsluta guiden

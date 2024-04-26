@@ -14,11 +14,10 @@ import {
   f7,
 } from "framework7-react";
 
-import Markdown from "react-markdown";
-
 import { getAssets } from "../js/getAssets";
 import { handleShowGuideInMap, parseStyle } from "../js/f7Helpers";
 import { trimString, prepareStringFromDbForMarkdown } from "../js/utils";
+import AudioguideMarkdown from "../js/AudioguideMarkdown";
 
 function AudioguideCard({ feature }) {
   const images = getAssets(feature, "images");
@@ -94,11 +93,11 @@ function AudioguideCard({ feature }) {
           </div>
 
           <div className="short-description">
-            <Markdown
-              children={prepareStringFromDbForMarkdown(
+            <AudioguideMarkdown>
+              {prepareStringFromDbForMarkdown(
                 trimString(feature.get("text"), 165)
               )}
-            />
+            </AudioguideMarkdown>
           </div>
           <Button
             fill
