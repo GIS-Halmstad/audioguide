@@ -59,7 +59,15 @@ const About = () => {
                     ${deviceDetection}
                   </ul>
                   <hr />
+                    <ul>
+                    <li>allLines: ${f7.store.state.allLines?.length}</li>
+                    <li>allPoints: ${f7.store.state.allPoints?.length}</li>
+                    </ul>
+                  <hr />
                   <ul>
+                    <li>useStaticMapConfig: ${
+                      f7.store.state.appConfig.useStaticMapConfig
+                    }</li>
                     <li>mapServiceBase: ${
                       f7.store.state.appConfig.mapServiceBase
                     }</li>
