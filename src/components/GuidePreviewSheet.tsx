@@ -5,13 +5,14 @@ import { f7, Sheet } from "framework7-react";
 import { Feature } from "ol";
 
 import GuidePreviewSheetContent from "./GuidePreviewSheetContent";
+import { log, warn } from "../js/logger";
 
 function GuidePreviewSheet() {
   const [sheetVisible, setSheetVisible] = useState(false);
   const [selectedFeature, setSelectedFeature] = useState<Feature | null>(null);
 
   useEffect(() => {
-    console.log("USEEFFECT subscribe");
+    warn("[GuidePreviewSheet.tsx] useEffect subscribe");
     f7.on("olFeatureSelected", (f: Feature[]) => {
       // If there's a feature…
       if (f.length > 0) {
@@ -34,7 +35,7 @@ function GuidePreviewSheet() {
     });
 
     return () => {
-      console.log("USEEFFECT unsubscribe");
+      log("[GuidePreviewSheet.tsx] useEffect unsubscribe");
       f7.off("olFeatureSelected");
     };
   }, [f7, setSelectedFeature, setSheetVisible]);

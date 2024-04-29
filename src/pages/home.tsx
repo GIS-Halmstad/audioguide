@@ -23,9 +23,10 @@ import TabShortListViewContent from "../components/TabShortListViewContent";
 
 import { handleShowAllGuides, handleShowGuideInMap } from "../js/f7Helpers";
 import { updateFeaturesInMap } from "../js/openlayers/olMap";
+import { info } from "../js/logger";
 
 const HomePage = () => {
-  console.log("HomePage init: ", f7);
+  info("[home.tsx] F7 is: ", f7);
   const notificationFull = useRef(null);
 
   const showNotificationFull = () => {

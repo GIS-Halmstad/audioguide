@@ -2,6 +2,7 @@ import React, { useRef } from "react";
 import { f7, Page, Navbar, Block, Button, Link } from "framework7-react";
 
 import { getOLMap } from "../js/openlayers/olMap";
+import { info } from "../js/logger";
 
 /**
  * @summary Ensure that the supplied string isn't malformed by parsing it using the DOM.
@@ -34,7 +35,7 @@ const About = () => {
     .join(", ");
 
   const createTechnicalPopup = () => {
-    console.info("Current State", f7.store.state);
+    info("[about.tsx] Store is:", f7.store.state);
     const deviceDetection = Object.entries(f7.device)
       .filter((a) => typeof a[1] !== "function")
       .map((a) => `<li>${a[0]}: ${a[1]}</li>`)

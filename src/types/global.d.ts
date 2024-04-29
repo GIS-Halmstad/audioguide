@@ -1,3 +1,5 @@
+import "vite/client";
+
 export {};
 
 declare global {

@@ -12,6 +12,7 @@ import {
 
 import { updateFeaturesInMap } from "../js/openlayers/olMap";
 import { handleCopyLinkToGuide } from "../js/f7Helpers";
+import { warn } from "../js/logger";
 
 function PanelRight() {
   const filteredCategories = useStore("filteredCategories");
@@ -50,7 +51,7 @@ function PanelRight() {
       );
       updateFeaturesInMap();
     } else {
-      console.warn("SHOULD NOT SHOW");
+      warn("[panel-right.ts] This should never show.");
     }
   };
 

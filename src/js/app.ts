@@ -23,6 +23,7 @@ import UnsupportedOsApp from "../components/UnsupportedOsApp";
 import fetchFromService from "./fetchFromService";
 
 import washMapConfig from "./washMapConfig";
+import { info } from "../js/logger";
 
 // Let's see if the client meets our system requirements. It's a bit hard
 // to guess which Android version are truly supported, so we will ignore
@@ -74,7 +75,7 @@ if (unsupportedOs) {
       );
       const mapConfig = await mapConfigResponse.json();
       const washedMapConfig = washMapConfig(mapConfig);
-      console.log("washedMapConfig: ", washedMapConfig);
+      info("[app.ts] Map config loaded:", washedMapConfig);
       // Let's save the map config to the store for later use.
       store.dispatch("setMapConfig", washedMapConfig);
 
@@ -139,7 +140,6 @@ if (unsupportedOs) {
   }
 
   // No matter what, let's setup the F7 App and the React plugin.
-  console.log("Init F7 React Plugin");
   Framework7.use(Framework7React);
 
   // Depending on whether we have an error or not, render the App or the ErrorApp.

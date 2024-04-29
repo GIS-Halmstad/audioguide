@@ -20,12 +20,13 @@ import store from "../js/store";
 
 import { initOLMap } from "../js/openlayers/olMap";
 import { preventAndroidBackButton } from "../js/utils";
+import { info, log, warn } from "../js/logger";
 
 import DemoMessageSheet from "./DemoMessageSheet";
 import FullscreenSwiper from "./FullscreenSwiper";
 
 const Audioguide = () => {
-  console.log("Audioguide renders");
+  info("[App.tsx] App renders");
   const device = getDevice();
 
   const [orientationUnsupported, setOrientationUnsupported] = useState(false);
@@ -53,7 +54,7 @@ const Audioguide = () => {
   };
 
   const __init = async (f7: Framework7) => {
-    console.warn("f7ready should also only run once", f7);
+    warn("[App.tsx] f7ready (should only run once)");
     // Fix viewport scale on mobiles
     if ((f7.device.ios || f7.device.android) && f7.device.standalone) {
       const viewPortContent = document
@@ -113,13 +114,13 @@ const Audioguide = () => {
       window.location.hash = "";
     }
 
-    console.log("APP INIT DONE, current state", store.state);
+    log("[App.tsx] App init done. Store is:", store.state);
   };
 
   // The main "constructor" for this component. Runs once, sets
   // up the
   useEffect(() => {
-    console.warn("Should only run once");
+    warn("[App.tsx] useEffect subscribe (should only run once)");
 
     f7ready(async (f7) => {
       __init(f7);

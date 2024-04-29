@@ -26,6 +26,7 @@ import store from "../store";
 import { createLayersFromConfig } from "./olHelpers";
 import { parseStyle } from "../f7Helpers";
 import { wrapText } from "../utils";
+import { info, warn } from "../logger";
 
 import BackgroundSwitcherControl from "./BackgroundSwitcherControl";
 import GeolocateControl from "./GeolocateControl";
@@ -234,7 +235,7 @@ let f7Instance: Framework7;
 async function initOLMap(f7: Framework7) {
   f7Instance = f7;
 
-  console.warn("Init OL Map should only run once ", f7);
+  warn("[olMap.ts] Init OL Map (should only run once)");
   const config = f7.store.state.mapConfig;
 
   // Setup projections
@@ -586,10 +587,11 @@ async function initOLMap(f7: Framework7) {
   olMap.addInteraction(selectInteraction);
 
   updateFeaturesInMap();
-  console.log("OL Map Init Done");
-  console.log("Map:", olMap);
-  console.log("Audioguide Layer", audioguideLayer);
-  console.log("Active Guide Layer", activeGuideLayer);
+  info("[olMap.ts] OL Map Init done. Here are some useful variables:");
+  info("olMap: ", olMap);
+  info("audioguideLayer", audioguideLayer);
+  info("activeGuideLayer", activeGuideLayer);
+  info("[olMap.ts]");
 }
 
 const handleGeolocationError = (error: GeolocationError) => {
@@ -671,7 +673,7 @@ const centerOnGeolocation = () => {
   const geolocationGeometry = geolocationPositionFeature?.getGeometry();
 
   if (geolocationGeometry === undefined) {
-    console.warn("Could not get geolocation");
+    warn("[olMap.ts] Could not get geolocation");
   } else {
     let totalExtent: Extent;
 
@@ -761,7 +763,7 @@ const getLayerVisibility = (lid: string | undefined) => {
 
 const enableCompass = () => {
   if (!window["DeviceOrientationEvent"]) {
-    console.warn("DeviceOrientation API not available");
+    warn("[olMap.ts] DeviceOrientation API not available");
     return;
   }
   let lastHeading: number;
@@ -828,7 +830,7 @@ const enableCompass = () => {
     DeviceOrientationEvent["requestPermission"]().then((response) => {
       if (response === "granted") {
         addListeners();
-      } else console.warn("Permission for DeviceMotionEvent not granted");
+      } else console.error("Permission for DeviceMotionEvent not granted");
     });
   }
   // For other devices, let's just add the listeners
