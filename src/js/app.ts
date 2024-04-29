@@ -3,7 +3,7 @@ import React from "react";
 import { createRoot } from "react-dom/client";
 
 // Import Framework7
-import Framework7 from "framework7/lite/bundle";
+import Framework7, { getDevice } from "framework7/lite/bundle";
 
 // Import Framework7-React Plugin
 import Framework7React from "framework7-react";
@@ -19,109 +19,134 @@ import "../css/app.css";
 import store from "./store";
 import App from "../components/App";
 import ErrorApp from "../components/ErrorApp";
+import UnsupportedOsApp from "../components/UnsupportedOsApp";
 import fetchFromService from "./fetchFromService";
 
 import washMapConfig from "./washMapConfig";
 
-// The second argument is empty because… type definition for dispatch().
-store.dispatch("trackAnalyticsPageview", {});
+// Let's see if the client meets our system requirements. It's a bit hard
+// to guess which Android version are truly supported, so we will ignore
+// that part. But for iOS, it's clear that the WebP image format requires
+// iOS 14, while top-level awaits require iOS 15, so the latter sets our requirements.
+const { os, osVersion } = getDevice();
+const osVersionNumber = parseFloat(osVersion);
+const unsupportedOs =
+  !Number.isNaN(osVersionNumber) && os === "ios" && osVersionNumber < 15;
 
-// It is possible that we already have an error that occurred when the Store fetched
-// the appConfig.json. So let's do a check here. If Store was initiated without an error,
-// let's fetch the map config and continue with setting up the app.
-if (store.state.loadingError === null) {
-  try {
-    // Let's give the user a chance to override the MapServiceBase URL
-    const mapServiceBaseUrl =
-      localStorage.getItem("overrideMapServiceBaseUrl") ||
-      store.state.appConfig.mapServiceBase;
-    // Fetch the map config, which contains layers
-    // definitions and is required before we can create
-    // the OpenLayers map and add layers.
-    //
-    // Allow for supplying of static map config by setting `useStaticMapConfig`
-    // to `true` in appConfig.json. If it exists, no Hajk backend needs to be
-    // running and the application will look for a file named `staticMapConfig.json`.
-    const mapConfigResponse = await fetch(
-      store.state.appConfig.useStaticMapConfig === true
-        ? "staticMapConfig.json"
-        : `${mapServiceBaseUrl}/config/${store.state.appConfig.mapName}`
-    );
-    const mapConfig = await mapConfigResponse.json();
-    const washedMapConfig = washMapConfig(mapConfig);
-    console.log("washedMapConfig: ", washedMapConfig);
-    // Let's save the map config to the store for later use.
-    store.dispatch("setMapConfig", washedMapConfig);
+if (unsupportedOs) {
+  // Let's put this render into a separate app flow – there's no need
+  // to do the other things we'd in the normal app flow, since we won't
+  // be able to render the App component anyway.
 
-    // Grab line features from WFSs and save to store
-    const allLines = await fetchFromService("line");
-    store.dispatch("setAllLines", allLines);
+  // Init the F7 App and the React plugin
+  Framework7.use(Framework7React);
 
-    // Grab point features too
-    const allPoints = await fetchFromService("point");
+  // Render the Unsupported OS App
+  const root = createRoot(document.getElementById("app") as HTMLElement);
+  root.render(React.createElement(UnsupportedOsApp));
+} else {
+  // This is the normal app flow.
 
-    // Each point belongs to a line and that line may have a `style`
-    // property. Let's try to find the parent line and add its style
-    // to the `parentStyle` property of the point feature.
-    const allPointsWithStyleFromParentLine = allPoints.map((f) => {
-      const parentLine = allLines.find(
-        (l) => l.get("guideId") === f.get("guideId")
+  // N.B. The second argument is empty because… type definition for dispatch().
+  store.dispatch("trackAnalyticsPageview", {});
+
+  // It is possible that we already have an error that occurred when the Store fetched
+  // the appConfig.json. So let's do a check here. If Store was initiated without an error,
+  // let's fetch the map config and continue with setting up the app.
+  if (store.state.loadingError === null) {
+    try {
+      // Let's give the user a chance to override the MapServiceBase URL
+      const mapServiceBaseUrl =
+        localStorage.getItem("overrideMapServiceBaseUrl") ||
+        store.state.appConfig.mapServiceBase;
+
+      // Fetch the map config, which contains layers
+      // definitions and is required before we can create
+      // the OpenLayers map and add layers.
+      //
+      // Allow for supplying of static map config by setting `useStaticMapConfig`
+      // to `true` in appConfig.json. If it exists, no Hajk backend needs to be
+      // running and the application will look for a file named `staticMapConfig.json`.
+      const mapConfigResponse = await fetch(
+        store.state.appConfig.useStaticMapConfig === true
+          ? "staticMapConfig.json"
+          : `${mapServiceBaseUrl}/config/${store.state.appConfig.mapName}`
       );
-      if (parentLine) {
-        // Set the parent style on the point feature by copying line's style.
-        // The third parameter ensures OL doesn't notify any observers - there's no need here.
-        f.set("parentStyle", parentLine.get("style") || null, true);
-      }
-      return f;
-    });
-    store.dispatch("setAllPoints", allPointsWithStyleFromParentLine);
+      const mapConfig = await mapConfigResponse.json();
+      const washedMapConfig = washMapConfig(mapConfig);
+      console.log("washedMapConfig: ", washedMapConfig);
+      // Let's save the map config to the store for later use.
+      store.dispatch("setMapConfig", washedMapConfig);
 
-    // Extract available categories from all line features.
-    // Keep only unique values.
-    const categories = Array.from(
-      new Set(allLines.flatMap((f) => f.get("categories").split(",")))
-    );
-    store.dispatch("setAllCategories", categories);
+      // Grab line features from WFSs and save to store
+      const allLines = await fetchFromService("line");
+      store.dispatch("setAllLines", allLines);
 
-    // When the Store was initiated, filteredCategories was set to the value
-    // of the `c` param in URL. If `c` is empty (i.e. no specific category is
-    // pre-selected), we want to check if there are pre-selected categories in
-    // map config (and set filteredCategories to those), or else set filtered
-    // to all categories.
-    if (store.state.filteredCategories.length === 0) {
-      // Let's check if there are pre-selected categories in map config
-      const preselectedCategories =
-        store.state.mapConfig.tools.audioguide.preselectedCategories || [];
-      if (preselectedCategories.length > 0) {
-        // If there are pre-selected categories, let's ensure that
-        // they're valid (i.e. exist among available categories).
-        const validPreselectedCategories = preselectedCategories.filter(
-          (c: string) => categories.includes(c)
+      // Grab point features too
+      const allPoints = await fetchFromService("point");
+
+      // Each point belongs to a line and that line may have a `style`
+      // property. Let's try to find the parent line and add its style
+      // to the `parentStyle` property of the point feature.
+      const allPointsWithStyleFromParentLine = allPoints.map((f) => {
+        const parentLine = allLines.find(
+          (l) => l.get("guideId") === f.get("guideId")
         );
+        if (parentLine) {
+          // Set the parent style on the point feature by copying line's style.
+          // The third parameter ensures OL doesn't notify any observers - there's no need here.
+          f.set("parentStyle", parentLine.get("style") || null, true);
+        }
+        return f;
+      });
+      store.dispatch("setAllPoints", allPointsWithStyleFromParentLine);
 
-        if (validPreselectedCategories.length > 0) {
-          store.dispatch("setFilteredCategories", validPreselectedCategories);
+      // Extract available categories from all line features.
+      // Keep only unique values.
+      const categories = Array.from(
+        new Set(allLines.flatMap((f) => f.get("categories").split(",")))
+      );
+      store.dispatch("setAllCategories", categories);
+
+      // When the Store was initiated, filteredCategories was set to the value
+      // of the `c` param in URL. If `c` is empty (i.e. no specific category is
+      // pre-selected), we want to check if there are pre-selected categories in
+      // map config (and set filteredCategories to those), or else set filtered
+      // to all categories.
+      if (store.state.filteredCategories.length === 0) {
+        // Let's check if there are pre-selected categories in map config
+        const preselectedCategories =
+          store.state.mapConfig.tools.audioguide.preselectedCategories || [];
+        if (preselectedCategories.length > 0) {
+          // If there are pre-selected categories, let's ensure that
+          // they're valid (i.e. exist among available categories).
+          const validPreselectedCategories = preselectedCategories.filter(
+            (c: string) => categories.includes(c)
+          );
+
+          if (validPreselectedCategories.length > 0) {
+            store.dispatch("setFilteredCategories", validPreselectedCategories);
+          } else {
+            store.dispatch("setFilteredCategories", categories);
+          }
         } else {
           store.dispatch("setFilteredCategories", categories);
         }
-      } else {
-        store.dispatch("setFilteredCategories", categories);
       }
+    } catch (error) {
+      store.dispatch("setLoadingError", error);
     }
-  } catch (error) {
-    store.dispatch("setLoadingError", error);
   }
+
+  // No matter what, let's setup the F7 App and the React plugin.
+  console.log("Init F7 React Plugin");
+  Framework7.use(Framework7React);
+
+  // Depending on whether we have an error or not, render the App or the ErrorApp.
+  const root = createRoot(document.getElementById("app") as HTMLElement);
+  root.render(
+    React.createElement(store.state.loadingError === null ? App : ErrorApp)
+  );
 }
-
-// No matter what, let's setup the F7 App and the React plugin.
-console.log("Init F7 React Plugin");
-Framework7.use(Framework7React);
-
-// Depending on whether we have an error or not, render the App or the ErrorApp.
-const root = createRoot(document.getElementById("app") as HTMLElement);
-root.render(
-  React.createElement(store.state.loadingError === null ? App : ErrorApp)
-);
-
 // Always remove the loading class, so the React app underneath is shown.
 document.body.classList.remove("loading");
