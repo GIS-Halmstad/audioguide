@@ -199,92 +199,93 @@ function GuideSheetContent({ activeGuideObject }) {
         </Block>
 
         <Block className="no-margin margin-top-half margin-bottom">
-          <audio
-            controls
-            controlsList="nodownload"
-            src={audios[0]}
-            style={{ width: "100%" }}
-            onPlay={() => {
-              if ("mediaSession" in navigator) {
-                navigator.mediaSession.metadata = new MediaMetadata({
-                  title: `${activeStopNumber}: ${point.get("title")}`,
-                  artist: activeGuideObject.line.get("title"),
-                  // TODO: Consider adding artwork
-                });
+          {audios.map((src, i) => (
+            <audio
+              key={i}
+              controls
+              controlsList="nodownload"
+              src={src}
+              style={{ width: "100%" }}
+              onPlay={() => {
+                if ("mediaSession" in navigator) {
+                  navigator.mediaSession.metadata = new MediaMetadata({
+                    title: `${activeStopNumber}: ${point.get("title")}`,
+                    artist: activeGuideObject.line.get("title"),
+                    // TODO: Consider adding artwork
+                  });
 
-                navigator.mediaSession.setActionHandler("play", () => {
-                  document.querySelector("audio")?.play();
-                });
+                  navigator.mediaSession.setActionHandler("play", () => {
+                    document.querySelector("audio")?.play();
+                  });
 
-                navigator.mediaSession.setActionHandler("stop", () => {
-                  document.querySelector("audio")?.pause();
-                });
+                  navigator.mediaSession.setActionHandler("stop", () => {
+                    document.querySelector("audio")?.pause();
+                  });
 
-                navigator.mediaSession.setActionHandler("pause", () => {
-                  document.querySelector("audio")?.pause();
-                });
+                  navigator.mediaSession.setActionHandler("pause", () => {
+                    document.querySelector("audio")?.pause();
+                  });
 
-                navigator.mediaSession.setActionHandler(
-                  "seekbackward",
-                  (event) => {
-                    let skipTime = event.seekOffset || 10; // default skip time to 10 seconds
-                    const audio = document.querySelector("audio");
-                    if (audio) {
-                      audio.currentTime = Math.max(
-                        audio.currentTime - skipTime,
-                        0
-                      );
+                  navigator.mediaSession.setActionHandler(
+                    "seekbackward",
+                    (event) => {
+                      let skipTime = event.seekOffset || 10; // default skip time to 10 seconds
+                      const audio = document.querySelector("audio");
+                      if (audio) {
+                        audio.currentTime = Math.max(
+                          audio.currentTime - skipTime,
+                          0
+                        );
+                      }
                     }
-                  }
-                );
+                  );
 
-                navigator.mediaSession.setActionHandler(
-                  "seekforward",
-                  (event) => {
-                    let skipTime = event.seekOffset || 10; // default skip time to 10 seconds
-                    const audio = document.querySelector("audio");
-                    if (audio) {
-                      audio.currentTime = Math.min(
-                        audio.currentTime + skipTime,
-                        audio.duration
-                      );
+                  navigator.mediaSession.setActionHandler(
+                    "seekforward",
+                    (event) => {
+                      let skipTime = event.seekOffset || 10; // default skip time to 10 seconds
+                      const audio = document.querySelector("audio");
+                      if (audio) {
+                        audio.currentTime = Math.min(
+                          audio.currentTime + skipTime,
+                          audio.duration
+                        );
+                      }
                     }
-                  }
-                );
+                  );
 
-                // These would work, but I'm not sure it's a good idea
-                // to change step from the lock screen controls.
-                // navigator.mediaSession.setActionHandler(
-                //   "previoustrack",
-                //   () => {
-                //     goToStopNumber(activeStopNumber - 1);
-                //   }
-                // );
+                  // These would work, but I'm not sure it's a good idea
+                  // to change step from the lock screen controls.
+                  // navigator.mediaSession.setActionHandler(
+                  //   "previoustrack",
+                  //   () => {
+                  //     goToStopNumber(activeStopNumber - 1);
+                  //   }
+                  // );
 
-                // navigator.mediaSession.setActionHandler("nexttrack", () => {
-                //   goToStopNumber(activeStopNumber + 1);
-                // });
-              }
-            }}
-            onPause={() => {
-              if ("mediaSession" in navigator) {
-                navigator.mediaSession.playbackState = "paused";
-              }
-            }}
-            // Works, but not a good idea as it cleans up the title upon done listening
-            // onEnded={() => {
-            //   if (
-            //     "mediaSession" in navigator &&
-            //     navigator.mediaSession.metadata
-            //   ) {
-            //     // Clear the mediaSession metadata when the audio track has ended
-            //     navigator.mediaSession.metadata = null;
-            //     console.log("Audio track ended, cleared mediaSession");
-            //   }
-            // }}
-          >
-            <a href={audios[0]}>Ladda ner ljudfilen</a>
-          </audio>
+                  // navigator.mediaSession.setActionHandler("nexttrack", () => {
+                  //   goToStopNumber(activeStopNumber + 1);
+                  // });
+                }
+              }}
+              onPause={() => {
+                if ("mediaSession" in navigator) {
+                  navigator.mediaSession.playbackState = "paused";
+                }
+              }}
+              // Works, but not a good idea as it cleans up the title upon done listening
+              // onEnded={() => {
+              //   if (
+              //     "mediaSession" in navigator &&
+              //     navigator.mediaSession.metadata
+              //   ) {
+              //     // Clear the mediaSession metadata when the audio track has ended
+              //     navigator.mediaSession.metadata = null;
+              //     console.log("Audio track ended, cleared mediaSession");
+              //   }
+              // }}
+            ></audio>
+          ))}
         </Block>
       </div>
 
