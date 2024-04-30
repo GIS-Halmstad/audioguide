@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     namespace "se.halmstad.audioguide"
-    compileSdkVersion rootProject.ext.compileSdkVersion
+    compileSdk rootProject.ext.compileSdkVersion
     defaultConfig {
         applicationId "se.halmstad.audioguide"
         minSdkVersion rootProject.ext.minSdkVersion
