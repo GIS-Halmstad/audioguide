@@ -32,8 +32,6 @@ import BackgroundSwitcherControl from "./BackgroundSwitcherControl";
 import GeolocateControl from "./GeolocateControl";
 import RotateWithNorthLockControl from "./RotateWithNorthLockControl";
 
-import { ActiveGuideObject } from "../../types/types";
-
 import {
   LAYER_NAME_ACTIVE_GUIDE,
   LAYER_NAME_ALL_GUIDES,
@@ -41,6 +39,7 @@ import {
   LAYER_NAME_OSM,
   POINT_TEXT_VISIBILITY_THRESHOLD,
   POINT_VISIBILITY_THRESHOLD,
+  START_POINT_VISIBILITY_THRESHOLD,
 } from "../constants";
 
 let olMap!: Map,
@@ -67,8 +66,10 @@ function normalStyleFunction(feature: Feature, resolution: number) {
   return new Style({
     ...(featureType === "Point" &&
       // Points should only show when we zoom in, unless it's the first stop.
-      // These are always visible.
-      (resolution <= POINT_VISIBILITY_THRESHOLD || stopNumber === 1) && {
+      // These should show a bit earlier.
+      (resolution <= POINT_VISIBILITY_THRESHOLD ||
+        (stopNumber === 1 &&
+          resolution <= START_POINT_VISIBILITY_THRESHOLD)) && {
         image: new CircleStyle({
           fill: new Fill({
             color: fillColor,
@@ -105,11 +106,15 @@ function normalStyleFunction(feature: Feature, resolution: number) {
         width: strokeWidth,
       }),
       text: new Text({
-        placement:
-          POINT_TEXT_VISIBILITY_THRESHOLD < resolution ? "point" : "line",
+        placement: "point",
+
         overflow: true,
         font: "bold 12pt sans-serif",
-        text: feature.get("title").toString(),
+        // Show LineString's label only until we're close enough to show
+        // Point's label
+        text:
+          resolution > POINT_TEXT_VISIBILITY_THRESHOLD &&
+          feature.get("title").toString(),
         fill: new Fill({ color: strokeColor }),
         stroke: new Stroke({ color: "white", width: 2 }),
       }),
