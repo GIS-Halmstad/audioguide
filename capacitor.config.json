@@ -1,7 +1,6 @@
 {
   "appId": "se.halmstad.audioguide",
   "appName": "Halmstad Stories",
-  "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "www",
   "plugins": {
