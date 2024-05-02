@@ -10,6 +10,7 @@ import {
   MapConfig,
   StoreState,
 } from "../types/types";
+import { log } from "./logger";
 
 // We will load the appConfig.json dynamically, so admins can change things
 // such as analytics settings or the URLs to layer services on-the-flight, without
@@ -147,6 +148,11 @@ const store = createStore({
     },
     setActiveStopNumber({ state }: { state: StoreState }, v: number) {
       state.activeStopNumber = v;
+      log(
+        `Activated stop number ${v} in guide ID ${state.activeGuideObject?.line.get(
+          "guideId"
+        )}`
+      );
       trackEvent("guideStepShown", {
         props: {
           guideId: state.activeGuideObject?.line.get("guideId"),
