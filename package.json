@@ -3,8 +3,13 @@
   "private": true,
   "version": "1.0.0",
   "description": "Audioguide",
-  "repository": "",
   "license": "MIT",
+  "author": "Jacob Wodzyński",
+  "homepage": "https://github.com/GIS-Halmstad/audioguide#readme",
+  "repository": "https://github.com/GIS-Halmstad/audioguide.git",
+  "bugs": {
+    "url": "https://github.com/GIS-Halmstad/audioguide/issues"
+  },
   "type": "module",
   "scripts": {
     "start": "npm run dev",

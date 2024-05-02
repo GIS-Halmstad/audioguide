@@ -41,6 +41,9 @@ export default defineConfig({
       },
     },
   ],
+  define: {
+    APP_VERSION: JSON.stringify(process.env.npm_package_version),
+  },
   root: SRC_DIR,
   base: "",
   publicDir: PUBLIC_DIR,

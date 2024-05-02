@@ -121,8 +121,8 @@ const About = () => {
             Byggt med{" "}
             <Link href="https://github.com/GIS-Halmstad/audioguide" external>
               The Audioguide App
-            </Link>
-            .
+            </Link>{" "}
+            {APP_VERSION}
           </p>
         </div>
       </div>
