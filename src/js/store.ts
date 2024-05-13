@@ -153,10 +153,13 @@ const store = createStore({
           "guideId"
         )}`
       );
+      const guideId = state.activeGuideObject?.line.get("guideId");
+      const stopNumber = v;
       trackEvent("guideStepShown", {
         props: {
-          guideId: state.activeGuideObject?.line.get("guideId"),
-          stopNumber: v,
+          guideId,
+          stopNumber,
+          guideIdStopNumber: `${guideId}-${stopNumber}`,
         },
       });
     },
@@ -166,10 +169,13 @@ const store = createStore({
     deactivateGuide({ state }: { state: StoreState }) {
       // This time we must do tracking _before_ we deactivate
       // the guide (as it will unset the variables we want to track).
+      const guideId = state.activeGuideObject?.line.get("guideId");
+      const stopNumber = state.activeStopNumber as number;
       trackEvent("guideDeactivated", {
         props: {
-          guideId: state.activeGuideObject?.line.get("guideId"),
-          stopNumber: state.activeStopNumber || -1, // shouldn't ever be -1, but since it's TS, let's be safe
+          guideId,
+          stopNumber,
+          guideIdStopNumber: `${guideId}-${stopNumber}`,
         },
       });
 

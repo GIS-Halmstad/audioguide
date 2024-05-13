@@ -507,7 +507,10 @@ async function initOLMap(f7: Framework7) {
         store.dispatch("trackAnalyticsEvent", {
           eventName: "guideClickedInMap",
           guideId,
-          ...(stopNumber && { stopNumber }),
+          ...(stopNumber && {
+            stopNumber,
+            guideIdStopNumber: `${guideId}-${stopNumber}`,
+          }),
         });
       }
     } else {
