@@ -26,7 +26,7 @@ function PanelLeft() {
             // show a link to the installation instructions page.
             f7.device.standalone === false &&
               (f7.device.ios === true || f7.device.android === true) && (
-                <ListItem link="/install/" title="Installera appen" />
+                <ListItem link="/install/" title="Ladda ner som app" />
               )
           }
           <ListItem link="/about/" title={aboutPageTitle} />
