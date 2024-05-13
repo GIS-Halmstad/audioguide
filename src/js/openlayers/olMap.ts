@@ -595,11 +595,11 @@ async function initOLMap(f7: Framework7) {
   olMap.addInteraction(selectInteraction);
 
   updateFeaturesInMap();
-  info("[olMap.ts] OL Map Init done. Here are some useful variables:");
-  info("olMap: ", olMap);
-  info("audioguideLayer", audioguideLayer);
-  info("activeGuideLayer", activeGuideLayer);
-  info("[olMap.ts]");
+  info("[olMap.ts] Some important variables:");
+  info(" - olMap: ", olMap);
+  info(" - audioguideLayer", audioguideLayer);
+  info(" - activeGuideLayer", activeGuideLayer);
+  info("[olMap.ts] OL Map Init done.");
 }
 
 const handleGeolocationError = (error: GeolocationError) => {
