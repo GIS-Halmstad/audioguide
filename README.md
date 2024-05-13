@@ -291,13 +291,14 @@ And the result of the configuration above is that:
 
 ## Available start-up URL parameters
 
-The Audioguide App accepts some URL hash parameters (the part of the URL string that comes directly after the `#` character). They can be used to control the app's initial settings on launch. The allowed parameters are:
+The Audioguide App accepts some optional URL hash parameters (the part of the URL string that comes directly after the `#` character). They can be used to control the app's initial settings on launch. The allowed parameters are:
 
 - `c`: the category that will be pre-selected.
   - Users can pre-select multiple categories, just ensure to send a comma-separated list.
   - You must properly encode the strings. For example, a category called `Sport & Ö-liv` should be encoded as `Sport%20%26%20%C3%96-liv`, while `The Foo/Bar Category` should be encoded as `The%20Foo%2FBar%20category`.
 - `g`: makes it possible to start the app with a certain guide pre-selected. The value of `g` must match the value of `guideId` in the line features table.
 - `p`: makes it possible to start the app with a specific point in a guide pre-selected. The value of `p` must correspond to the `stopNumber` value in the point features table. _Note that this requires the `g` parameter to be present as well (otherwise there is no way to know which point should be selected, as `stopNumber`s are not unique in the table)_.
+- `a`: if `g` (and optionally `p`) are supplied, the guide/point will by default be started in preview mode. By setting `a=1`, this behavior will changed and initiate the app with the selected guide/point in active mode (i.e. with the guide activated, the point selected, player ready to start playing, etc).
 
 ## Styling and branding
 

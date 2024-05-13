@@ -12,7 +12,7 @@ import {
 
 import AudioguideMarkdown from "../js/AudioguideMarkdown";
 
-import { parseStyle } from "../js/f7Helpers";
+import { handleCopyLinkToGuide, parseStyle } from "../js/f7Helpers";
 
 function GuideSheetContent({ activeGuideObject }) {
   const activeStopNumber = useStore("activeStopNumber");
@@ -294,6 +294,20 @@ function GuideSheetContent({ activeGuideObject }) {
           <AudioguideMarkdown>
             {prepareStringFromDbForMarkdown(text)}
           </AudioguideMarkdown>
+        </Block>
+        <Block>
+          <Button
+            className="margin-bottom"
+            onClick={() =>
+              handleCopyLinkToGuide(
+                activeGuideObject.line.get("guideId"),
+                activeStopNumber,
+                "a=1" // Will create a link to an active guide.
+              )
+            }
+          >
+            Kopiera länk till stopp
+          </Button>
         </Block>
         <Button onClick={handleClickOnCloseGuide} className="margin-bottom">
           Avsluta guiden

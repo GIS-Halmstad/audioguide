@@ -14,11 +14,15 @@ import {
 } from "framework7-react";
 import Framework7, { Framework7Parameters } from "framework7/types";
 
+import { Feature } from "ol";
+
 import capacitorApp from "../js/capacitor-app";
 import routes from "../js/routes";
 import store from "../js/store";
 
-import { initOLMap } from "../js/openlayers/olMap";
+import { activateGuide, initOLMap } from "../js/openlayers/olMap";
+import { getParamValueFromHash } from "../js/getParamValueFromHash";
+import { handleShowGuideInMap } from "../js/f7Helpers";
 import { preventAndroidBackButton } from "../js/utils";
 import { info, log, warn } from "../js/logger";
 
@@ -50,6 +54,75 @@ const Audioguide = () => {
       } else {
         setOrientationUnsupported(false);
       }
+    }
+  };
+
+  const initiateWithHashParams = async (f7: Framework7) => {
+    // Check if app was launched with pid and/or gid params.
+    // If so, let's pre-select the point or guide feature.
+    const gid = Number(getParamValueFromHash("g")[0]);
+
+    // If there's no gid, let's bail out.
+    if (Number.isNaN(gid)) {
+      return;
+    }
+
+    // If there's a gid, let's check for a pid. Note that this could
+    // be undefined and it is expected at this stage.
+    const pid = Number(getParamValueFromHash("p")[0]);
+
+    // Let's ensure that the line and point features that are
+    // requested really exist by attempting to pre-select them.
+    //
+    // Start with an empty Array, which is the expected
+    // format for a collection of OL Features (even though we'll
+    // be sending only one Feature at most, we still use the Array).
+    let preSelectedFeature = [];
+
+    // If a specific point has been requested, using PID, let's pre-select it.
+    if (!Number.isNaN(pid)) {
+      preSelectedFeature = f7.store.state.allPoints.filter(
+        (p: Feature) => p.get("guideId") === gid && p.get("stopNumber") === pid
+      );
+    } else {
+      // Else if there's a GID but no PID, it means that
+      // the whole guide has been requested.
+      preSelectedFeature = f7.store.state.allLines.filter(
+        (l: Feature) => l.get("guideId") === gid
+      );
+    }
+
+    // We should always have at least one pre-selected feature.
+    if (preSelectedFeature.length < 1) {
+      warn(
+        `Could not pre-select guide/stop using the supplied parameters. gid: ${gid}, pid: ${pid}. Starting without any pre-selection.`
+      );
+      return;
+    }
+
+    // Let's start if we should start with guide activated or just a preview.
+    const startWithActiveGuide = Number(getParamValueFromHash("a")[0]) === 1;
+
+    // From now on, there are two ways the program flow can take:
+    //  - launch a specific point in a specific guide in _active_ mode, or
+    //  - launch specific guide (and optionally specific point) in _preview_ mode.
+    // Which mode it is in depends on the value of startWithActiveGuide, which in
+    // its turn is read from the 'a' query hash parameter.
+    if (startWithActiveGuide === true) {
+      // Let's add a delay to allow for animation in Map.
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
+      // Then, switch to the map tab.
+      f7.tab.show("#tab-map");
+
+      // Finally, let's activate the guide. If pid is NaN, let's activate
+      // on the first point in guide.
+      activateGuide(gid, pid || 1);
+    } else {
+      // We got here because startWithActive was false. It means that
+      // we should launch the application in preview mode, with a specific
+      // guide (and optionally a specific point) selected.
+      handleShowGuideInMap(preSelectedFeature[0], 600);
     }
   };
 
@@ -108,6 +181,9 @@ const Audioguide = () => {
     document
       .querySelector("html")
       ?.classList.add(`has-geolocation-${store.state.geolocationStatus}`);
+
+    // Check for start parameters in URLs hash query
+    initiateWithHashParams(f7);
 
     // Unset the hash query parameters, if there are any
     if (window.location.hash) {
