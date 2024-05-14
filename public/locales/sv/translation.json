@@ -1,0 +1,117 @@
+{
+    "common": {
+        "appName": "Halmstad Stories",
+        "backLink": "Tillbaka",
+        "copyLink": "Kopiera länk",
+        "linkCopied": "Länken har kopierats.",
+        "linkNotCopied": "Kunde inte kopiera",
+        "now": "Nu",
+        "close": "Stäng",
+        "buttonOk": "OK",
+        "buttonCancel": "Avbryt",
+        "xOfY": "av"
+    },
+    "loadError": {
+        "title": "Laddningsfel",
+        "message": "Appen kunde inte ladda alla nödvändiga komponenter. Du kan försöka att ladda om genom att svepa uppåt.",
+        "showTechnicalDetails": "Tekniska detaljer",
+        "overrideMapServiceBaseUrlPrompt": "Ange egen URL till tjänsten. Lämna tomt för att använda standardvärde.",
+        "overrideMapServiceBaseUrlButton": "Ange egen URL till tjänsten",
+        "resetMapServiceBaseUrlPrompt": "URL:en har återställs till standardvärde. Appen kommer nu att ladda om.",
+        "resetMapServiceBaseUrlButton": "Nollställ egen URL till tjänsten"
+    },
+    "tabbar": {
+        "list": "Bildlista",
+        "shortList": "Lista",
+        "map": "Karta"
+    },
+    "rotationUnsupported": {
+        "title": "Rotera skärmen",
+        "message1": "För att Audioguiden ska fungera behöver du ha din skärm i stående läge.",
+        "message2": "Rotera din enhet och fortsätt upptäcka Halmstad."
+    },
+    "share": {
+        "title": "Dela länk",
+        "instructions": "Du kan kopiera länken till Halmstad Stories till urklipp på din enhet för att sedan kunna klistra in det i exempelvis ett meddelande."
+    },
+    "menu": {
+        "title": "Meny",
+        "allGuides": "Alla guider",
+        "share": "Dela länk",
+        "install": "Ladda ner som app",
+        "about": "Om Halmstad Stories"
+    },
+    "panelRight": {
+        "categoryFilter": "Kategorifilter",
+        "filterUnavailableMessage": "Kategorifiltret är inaktiverat eftersom en guide är aktiv. Avsluta guiden och kom tillbaka för att kunna se och filtrera kategorierna.",
+        "noCategoriesSelectedMessage": "Du måste välja minst en kategori, annars ser du inga guider.",
+        "noCategoriesSelectedTitle": "Hoppsan!",
+        "filterButton": "Filtrera",
+        "resetFilterButton": "Återställ filter",
+        "copyLink": "Kopiera länk till valda"
+    },
+    "error404": {
+        "title": "Hittades ej",
+        "oops": "Ojdå!",
+        "message": "Här var det något som gick fel. Vi ber om ursäkt för det inträffade."
+    },
+    "errorUnsupportedOs": {
+        "title": "Ditt system stöds inte 😔",
+        "message": "Appen kan tyvärr inte ladda på din enhet eftersom systemkraven inte uppnås. Om möjligt, uppgradera till iOS 15 eller senare, eller använd en annan enhet. Halmstad Stories fungerar även på datorn."
+    },
+    "install": {
+        "title": "Ladda ner som app",
+        "introMessage": "För att få en så bra upplevelse från möjligt i appen kan du lägga till den på din enhet.",
+        "instructionsIos": "För att lägga till appen på iOS trycker du på Dela-knappen (den kan se ut som en pil som pekar uppåt). I menyn som kommer fram väljer du \"Lägg till på hemskrämen\".",
+        "instructionsAndroid": "För att lägga till appen på Android behöver du välja din webbläsares meny (visas ofta som tre prickar, \"…\") och trycka på \"Installera appen\".",
+        "instructionsOther": "'Titta i din webbläsare efter knappar så som \"Dela\", \"Installera\", eller \"Lägg till på hemskärmen\"."
+    },
+    "about": {
+        "title": "Om Halmstad Stories",
+        "pageContentHtml": "<p>Välkommen till Halmstads audioguide. Här får du ta del av spännande och dramatiserade guidningar runt om i Halmstad. Audioguden lanserades inför sommaren 2024 med fyra unika guidade turer.</p><p>Du väljer själv om du vill följa en guide eller skapa en helt egen genom att besöka de stopp som passar dig. Håll utkik efter fler guider, vi fyller på löpande.</p><p>Har du frågor om guiden är du välkommen att kontakta <a href=\"https://www.destinationhalmstad.se/uppleva/bra-att-veta/halmstad-tourist-center\" class=\"external link\" target=\"_system\">Halmstad Tourist Center</a>.</p>",
+        "showTechnicalInfoButton": "Visa teknisk information",
+        "technicalInfo": "Teknisk information",
+        "mapCopyrightCaption": "Upphovsrätt kartinnehåll",
+        "builtWith": "Byggt med"
+    },
+    "audioguideCard": {
+        "category": "Kategori",
+        "guidesLength": "Guidens längd",
+        "guidesLengthTooltip": "Guidens längd är {{length}}",
+        "startGuideButton": "Upplev guiden"
+    },
+    "demo": {
+        "title": "Detta är ett demo",
+        "message1": "Hej och välkommen till Halmstad Stories!",
+        "message2": "Observera att det du ser är en mycket tidig demoversion av produkten där ingenting är klart. Du kommer att upptäcka konstigheter, saker och ting kommer att bete sig annorlunda än väntat och funktioner kommer saknas.",
+        "message3": "Det här meddelandet kommer visas varje gång appen startar."
+    },
+    "guidePreviewSheetContent": {
+        "startFromStopNumber": "Starta från stopp {{stopNumber}}",
+        "startFromClosestStop": "Starta från närmaste",
+        "startFromFirstStop": "Starta från början",
+        "stopsAlongTheGuide": "Stopp längst vägen"
+    },
+    "guideSheetContent": {
+        "closeGuideDialogTitle": "Avsluta guide",
+        "closeGuideDialogMessage": "Vill du verkligen avsluta guiden?",
+        "alreadyOnFirstStopDialogTitle": "Redan i början",
+        "alreadyOnFirstStopDialogMessage": "Du är redan på det första stoppet. Vill du gå tillbaka och hamna på det sista stoppet i guiden?",
+        "alreadyOnLastStopDialogTitle": "Sista stoppet",
+        "alreadyOnLastStopDialogMessage": "Du är redan på det sista stoppet. Vill du börja om guiden från det första stoppet?",
+        "copyLinkToCurrentStop": "Kopiera länk till stopp",
+        "closeGuideButton": "Avsluta guiden"
+    },
+    "olMap": {
+        "startPointLabel": "Start",
+        "userOutsideMapTitle": "Du är utanför kartan",
+        "userOutsideMapMessage": "För att kunna visa din position i kartan behöver du vara inom dess utbredningsområde. Du kan fortfarande använda appen, men du kommer inte kunna se din position i kartan.",
+        "locationErrorTitle": "Positioneringsfel",
+        "locationErrorPermission": "För att fastställa position behöver appen din tillåtelse. Ändra i enhetens inställningar och ladda om appen.",
+        "locationErrorOther": "Det gick inte att hämta platsinformationen eftersom en eller flera interna källor stötte på ett fel.",
+        "distanceToPoint": "Du befinner dig cirka {{distance}} m (fågelvägen) från denna plats.",
+        "confirmAbortPlaybackTitle": "Avbryt uppspelning?",
+        "confirmAbortAudioPlaybackMessage": "Ljud spelas upp. Om du byter steg avbryts uppspelning. Är du säker på att du vill byta steg?",
+        "confirmAbortVideoPlaybackMessage": "Video spelas upp. Om du byter steg avbryts uppspelning. Är du säker på att du vill byta steg?"
+    }
+}

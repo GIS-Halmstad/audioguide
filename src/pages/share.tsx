@@ -1,22 +1,27 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { Page, Navbar, Block, Button } from "framework7-react";
 import { handleCopyLinkToGuide } from "../js/f7Helpers";
 
-const Share = () => (
-  <Page>
-    <Navbar title="Dela länk" backLink="Tillbaka"></Navbar>
-    <Block>
-      <p>
-        Du kan kopiera länken till Audioguiden till urklipp på din enhet för att
-        sedan kunna klistra in det i exempelvis ett meddelande.
-      </p>
-    </Block>
-    <Block>
-      <Button fill large onClick={() => handleCopyLinkToGuide()}>
-        Kopiera länk
-      </Button>
-    </Block>
-  </Page>
-);
+const Share = () => {
+  const { t } = useTranslation("share");
+
+  return (
+    <Page>
+      <Navbar
+        title={t("title")}
+        backLink={t("backLink", { ns: "common" })}
+      ></Navbar>
+      <Block>
+        <p>{t("instructions")}</p>
+      </Block>
+      <Block>
+        <Button fill large onClick={() => handleCopyLinkToGuide()}>
+          {t("copyLink", { ns: "common" })}
+        </Button>
+      </Block>
+    </Page>
+  );
+};
 
 export default Share;

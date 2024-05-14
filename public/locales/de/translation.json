@@ -1,0 +1,117 @@
+{
+    "common": {
+        "appName": "Halmstad Stories",
+        "backLink": "Zurück",
+        "copyLink": "Link kopieren",
+        "linkCopied": "Der Link wurde kopiert",
+        "linkNotCopied": "Der Link konnte nicht kopiert werden",
+        "now": "Jetzt",
+        "close": "Schließen",
+        "buttonOk": "OK",
+        "buttonCancel": "Abbrechen",
+        "xOfY": "von"
+    },
+    "loadError": {
+        "title": "Ladefehler",
+        "message": "Die App konnte nicht alle notwendigen Komponenten laden. Sie können versuchen, durch Wischen nach oben neu zu laden.",
+        "showTechnicalDetails": "Technische Details",
+        "overrideMapServiceBaseUrlPrompt": "Geben Sie eine benutzerdefinierte URL für den Dienst ein. Lassen Sie das Feld leer, um den Standardwert zu verwenden.",
+        "overrideMapServiceBaseUrlButton": "Benutzerdefinierte URL für den Dienst eingeben",
+        "resetMapServiceBaseUrlPrompt": "Die URL wurde auf den Standardwert zurückgesetzt. Die App wird jetzt neu geladen.",
+        "resetMapServiceBaseUrlButton": "Benutzerdefinierte URL zurücksetzen"
+    },
+    "tabbar": {
+        "list": "Fotoliste",
+        "shortList": "Liste",
+        "map": "Karte"
+    },
+    "rotationUnsupported": {
+        "title": "Bildschirm drehen",
+        "message1": "Um diese App zu verwenden, müssen Sie Ihr Gerät in den Hochformatmodus drehen.",
+        "message2": "Bitte drehen Sie Ihr Gerät und setzen Sie die Entdeckung von Halmstad fort."
+    },
+    "share": {
+        "title": "Link teilen",
+        "instructions": "Sie können den Link zum Audioguide in die Zwischenablage Ihres Geräts kopieren, um ihn leicht in eine Nachricht oder eine andere Anwendung einzufügen."
+    },
+    "menu": {
+        "title": "Menü",
+        "allGuides": "Alle Guides",
+        "share": "Link teilen",
+        "install": "Als App herunterladen",
+        "about": "Über Halmstad Stories"
+    },
+    "panelRight": {
+        "categoryFilter": "Kategorienfilter",
+        "filterUnavailableMessage": "Der Kategorienfilter ist deaktiviert, weil ein Guide aktiv ist. Beenden Sie den Guide und kehren Sie zurück, um die Kategorien anzuzeigen und zu filtern.",
+        "noCategoriesSelectedMessage": "Sie müssen mindestens eine Kategorie auswählen, sonst sehen Sie keine Guides.",
+        "noCategoriesSelectedTitle": "Hoppla!",
+        "filterButton": "Filtern",
+        "resetFilterButton": "Filter zurücksetzen",
+        "copyLink": "Link kopieren"
+    },
+    "error404": {
+        "title": "Nicht gefunden",
+        "oops": "Hoppla!",
+        "message": "Etwas ist schiefgegangen. Wir entschuldigen uns für die Unannehmlichkeiten."
+    },
+    "errorUnsupportedOs": {
+        "title": "Ihr System wird nicht unterstützt 😔",
+        "message": "Leider kann die App auf Ihrem Gerät nicht geladen werden, da die Systemanforderungen nicht erfüllt sind. Wenn möglich, aktualisieren Sie auf iOS 15 oder höher oder verwenden Sie ein anderes Gerät. Halmstad Stories funktioniert auch auf dem Desktop."
+    },
+    "install": {
+        "title": "Als App herunterladen",
+        "introMessage": "Um die bestmögliche Erfahrung mit der App zu erzielen, können Sie sie auf Ihr Gerät hinzufügen.",
+        "instructionsIos": "Um die App auf iOS hinzuzufügen, tippen Sie auf die Schaltfläche Teilen (sie sieht möglicherweise wie ein Pfeil nach oben aus). Wählen Sie im angezeigten Menü \"Zum Startbildschirm hinzufügen\".",
+        "instructionsAndroid": "Um die App auf Android hinzuzufügen, müssen Sie das Menü Ihres Browsers auswählen (oft dargestellt durch drei Punkte, \"...\") und auf \"App installieren\" tippen.",
+        "instructionsOther": "Suchen Sie in Ihrem Browser nach Schaltflächen wie \"Teilen\", \"Installieren\" oder \"Zum Startbildschirm hinzufügen\"."
+    },
+    "about": {
+        "title": "Über Halmstad Stories",
+        "pageContentHtml": "<p>Willkommen bei Halmstad's Audioführer. Hier können Sie spannende und dramatisierte Touren rund um Halmstad genießen. Der Audioführer wurde vor dem Sommer 2024 mit vier einzigartigen geführten Touren gestartet.</p><p>Sie können wählen, ob Sie einem Guide folgen oder Ihren eigenen erstellen möchten, indem Sie die Stationen besuchen, die Ihnen gefallen. Halten Sie Ausschau nach weiteren Guides, da wir ständig neue hinzufügen.</p><p>Wenn Sie Fragen zum Guide haben, können Sie sich gerne an das <a href=\"https://www.destinationhalmstad.se/en/experience/good-to-know/halmstad-tourist-center\" class=\"external link\" target=\"_system\">Halmstad Tourist Center</a> wenden.</p>",
+        "showTechnicalInfoButton": "Technische Informationen anzeigen",
+        "technicalInfo": "Technische Informationen",
+        "mapCopyrightCaption": "Kartendaten urheberrechtlich geschützt",
+        "builtWith": "Erstellt mit"
+    },
+    "audioguideCard": {
+        "category": "Kategorie",
+        "guidesLength": "Länge des Guides",
+        "guidesLengthTooltip": "Die Länge des Guides beträgt {{length}}",
+        "startGuideButton": "Los geht's!"
+    },
+    "demo": {
+        "title": "Dies ist eine Demo",
+        "message1": "Hallo und willkommen bei den Halmstad Stories!",
+        "message2": "Bitte beachten Sie, dass es sich bei dem, was Sie sehen, um eine sehr frühe Demo-Version des Produkts handelt, bei der nichts endgültig ist. Sie werden Eigenheiten feststellen, Dinge werden sich anders verhalten als erwartet und Funktionen werden fehlen.",
+        "message3": "Diese Nachricht wird jedes Mal angezeigt, wenn die App gestartet wird."
+    },
+    "guidePreviewSheetContent": {
+        "startFromStopNumber": "Starten Sie von der Haltestelle {{stopNumber}}",
+        "startFromClosestStop": "Starten Sie von der nächstgelegenen Haltestelle",
+        "startFromFirstStop": "Starten Sie von Anfang an",
+        "stopsAlongTheGuide": "Haltestellen entlang des Weges"
+    },
+    "guideSheetContent": {
+        "closeGuideDialogTitle": "Guide schließen",
+        "closeGuideDialogMessage": "Möchten Sie den Guide wirklich schließen?",
+        "alreadyOnFirstStopDialogTitle": "Bereits am Anfang",
+        "alreadyOnFirstStopDialogMessage": "Sie sind bereits an der ersten Haltestelle. Möchten Sie zurückgehen und am Ende des Guides landen?",
+        "alreadyOnLastStopDialogTitle": "Letzte Haltestelle",
+        "alreadyOnLastStopDialogMessage": "Sie sind bereits an der letzten Haltestelle. Möchten Sie den Guide vom ersten Halt aus neu starten?",
+        "copyLinkToCurrentStop": "Link zur Haltestelle kopieren",
+        "closeGuideButton": "Guide schließen"
+    },
+    "olMap": {
+        "startPointLabel": "Start",
+        "userOutsideMapTitle": "Sie befinden sich außerhalb der Karte",
+        "userOutsideMapMessage": "Um Ihre Position auf der Karte anzuzeigen, müssen Sie sich innerhalb ihres Abdeckungsbereichs befinden. Sie können die App trotzdem verwenden, aber Sie werden Ihre Position auf der Karte nicht sehen können.",
+        "locationErrorTitle": "Positionsfehler",
+        "locationErrorPermission": "Um Ihren Standort zu bestimmen, benötigt die App Ihre Erlaubnis. Bitte ändern Sie Ihre Geräteeinstellungen und laden Sie die App neu.",
+        "locationErrorOther": "Standortinformationen konnten aufgrund eines Fehlers, der von einer oder mehreren internen Quellen verursacht wurde, nicht abgerufen werden.",
+        "distanceToPoint": "Sie sind ungefähr {{distance}} m (Luftlinie) von diesem Standort entfernt.",
+        "confirmAbortPlaybackTitle": "Wiedergabe abbrechen?",
+        "confirmAbortAudioPlaybackMessage": "Audio wird gerade abgespielt. Das Ändern von Schritten unterbricht die Wiedergabe. Sind Sie sicher, dass Sie die Schritte ändern möchten?",
+        "confirmAbortVideoPlaybackMessage": "Video wird gerade abgespielt. Das Ändern von Schritten unterbricht die Wiedergabe. Sind Sie sicher, dass Sie die Schritte ändern möchten?"
+    }
+}

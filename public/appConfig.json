@@ -1,8 +1,15 @@
 {
     "useStaticMapConfig": true,
-    "mapServiceBase": "http://localhost:3002/api/v2",
-    "mapName": "audio",
+    "mapServiceBase": "",
+    "mapName": "",
     "showDemoMessage": false,
+    "availableLanguages": [
+        "sv",
+        "en",
+        "de",
+        "dk"
+    ],
+    "fallbackLanguage": "sv",
     "analytics": {
         "type": "plausible",
         "domain": "audioguide.example.com",

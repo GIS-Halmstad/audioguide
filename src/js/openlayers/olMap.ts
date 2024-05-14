@@ -2,6 +2,8 @@ import Framework7 from "framework7/types";
 
 import "../../css/olMap.css";
 
+import i18n from "../i18n";
+
 import proj4 from "proj4";
 import { transform } from "ol/proj";
 import { register } from "ol/proj/proj4";
@@ -94,7 +96,7 @@ function normalStyleFunction(feature: Feature, resolution: number) {
               : // Show only the stop's number if user zooms in close enough.
               // If user zooms out, show "Start" instead of the number.
               resolution >= POINT_VISIBILITY_THRESHOLD && stopNumber === 1
-              ? "Start"
+              ? i18n.t("startPointLabel", { ns: "olMap" })
               : stopNumber.toString(),
           fill: new Fill({ color: strokeColor }),
           stroke: new Stroke({ color: "white", width: 2 }),
@@ -200,7 +202,7 @@ function selectedActiveStyleFunction(
             : // Show only the stop's number if user zooms in close enough.
             // If user zooms out, show "Start" instead of the number.
             resolution >= POINT_VISIBILITY_THRESHOLD && stopNumber === 1
-            ? "Start"
+            ? i18n.t("startPointLabel", { ns: "olMap" })
             : stopNumber.toString(),
         fill: new Fill({ color: strokeColor }),
         stroke: new Stroke({ color: "white", width: 2 }),
@@ -403,8 +405,8 @@ async function initOLMap(f7: Framework7) {
         // the preloader, show an informative alert and disable geolocation and compass.
         f7Instance.preloader.hide();
         f7Instance.dialog.alert(
-          "För att kunna visa din position i kartan behöver du vara inom dess utbredningsområde. Du kan fortfarande använda appen, men du kommer inte kunna se din position i kartan.",
-          "Du är utanför kartan"
+          i18n.t("userOutsideMapMessage", { ns: "olMap" }),
+          i18n.t("userOutsideMapTitle", { ns: "olMap" })
         );
         disableCompass();
         disableGeolocation();
@@ -619,13 +621,11 @@ const handleGeolocationError = (error: GeolocationError) => {
   let errorMessage: string;
   switch (error.code) {
     case 1:
-      errorMessage =
-        "För att fastställa position behöver appen din tillåtelse. Ändra i enhetens inställningar och ladda om appen.";
+      errorMessage = i18n.t("locationErrorPermission", { ns: "olMap" });
       break;
 
     case 2:
-      errorMessage =
-        "Det gick inte att hämta platsinformationen eftersom en eller flera interna källor stötte på ett fel.";
+      errorMessage = i18n.t("locationErrorOther", { ns: "olMap" });
       break;
 
     default:
@@ -635,7 +635,7 @@ const handleGeolocationError = (error: GeolocationError) => {
 
   f7Instance.dialog.alert(
     errorMessage,
-    error.code !== 1 ? "Positioneringsfel" : ""
+    error.code !== 1 ? i18n.t("locationErrorTitle", { ns: "olMap" }) : ""
   );
 
   // Finally, ensure the correct geolocation status.
@@ -668,9 +668,10 @@ const calculateDistanceBetweenCoordinates = (
     const toast = f7Instance.toast.create({
       icon: '<i class="icon f7-icons">location</i>',
       position: "center",
-      text: `Du befinner dig cirka ${distance.toFixed(
-        0
-      )} m (fågelvägen) från denna plats.`,
+      text: i18n.t("distanceToPoint", {
+        ns: "olMap",
+        distance: distance.toFixed(0),
+      }),
       closeTimeout: 3000,
     });
     toast.open();
@@ -1007,23 +1008,37 @@ const goToStopNumber = (stopNumber: number) => {
   const audioElement = document.querySelector("audio");
   const videoElement = document.querySelector("video");
   if (audioElement && !audioElement.paused) {
-    const confirmMessage =
-      "Ljud spelas upp. Om du byter steg avbryts uppspelning. Är du säker på att du vill byta steg?";
-    f7Instance.dialog.confirm(confirmMessage, "Avbryta uppspelning?", () => {
-      // On OK, navigate to another stop
-      audioElement.pause();
-      audioElement.currentTime = 0;
-      navigateToStopNumber(stopNumber);
+    const confirmMessage = i18n.t("confirmAbortAudioPlaybackMessage", {
+      ns: "olMap",
     });
+    f7Instance.dialog.confirm(
+      confirmMessage,
+      i18n.t("confirmAbortPlaybackTitle", {
+        ns: "olMap",
+      }),
+      () => {
+        // On OK, navigate to another stop
+        audioElement.pause();
+        audioElement.currentTime = 0;
+        navigateToStopNumber(stopNumber);
+      }
+    );
   } else if (videoElement && !videoElement.paused) {
-    const confirmMessage =
-      "Video spelas upp. Om du byter steg avbryts uppspelning. Är du säker på att du vill byta steg?";
-    f7Instance.dialog.confirm(confirmMessage, "Avbryta uppspelning?", () => {
-      // On OK, navigate to another stop
-      videoElement.pause();
-      videoElement.currentTime = 0;
-      navigateToStopNumber(stopNumber);
+    const confirmMessage = i18n.t("confirmAbortVideoPlaybackMessage", {
+      ns: "olMap",
     });
+    f7Instance.dialog.confirm(
+      confirmMessage,
+      i18n.t("confirmAbortPlaybackTitle", {
+        ns: "olMap",
+      }),
+      () => {
+        // On OK, navigate to another stop
+        videoElement.pause();
+        videoElement.currentTime = 0;
+        navigateToStopNumber(stopNumber);
+      }
+    );
   } else {
     navigateToStopNumber(stopNumber);
   }

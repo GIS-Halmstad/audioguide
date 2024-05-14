@@ -1,8 +1,10 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 import { Block, BlockTitle, Sheet, useStore } from "framework7-react";
 
 function DemoMessageSheet() {
+  const { t } = useTranslation("demo");
   const loading = useStore("loading");
   return (
     <Sheet
@@ -15,17 +17,10 @@ function DemoMessageSheet() {
     >
       <div className="swipe-handler"></div>
       <div>
-        <BlockTitle>Detta är ett demo</BlockTitle>
-        <Block>Hej och välkommen till Audioguide!</Block>
-        <Block>
-          Observera att det du ser är en mycket tidig demoversion av produkten
-          där ingenting är klart. Du kommer att upptäcka konstigheter, saker och
-          ting kommer att bete sig annorlunda än väntat och funktioner kommer
-          saknas.
-        </Block>
-        <Block>
-          Det här meddelandet kommer visas varje gång appen startar.
-        </Block>
+        <BlockTitle>{t("title")}</BlockTitle>
+        <Block>{t("message1")}</Block>
+        <Block>{t("message2")}</Block>
+        <Block>{t("message3")}</Block>
       </div>
     </Sheet>
   );

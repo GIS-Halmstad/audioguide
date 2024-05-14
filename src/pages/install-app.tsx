@@ -1,27 +1,26 @@
 import React from "react";
 import { Page, Navbar, Block } from "framework7-react";
+import { useTranslation } from "react-i18next";
 
 const InstallApp = ({ f7router }) => {
+  const { t } = useTranslation("install");
   let instructions = "";
 
   if (f7router.app.device.ios) {
-    instructions =
-      'För att lägga till appen på iOS trycker du på Dela-knappen (den kan se ut som en pil som pekar uppåt). I menyn som kommer fram väljer du "Lägg till på hemskrämen".';
+    instructions = t("instructionsIos");
   } else if (f7router.app.device.android) {
-    instructions =
-      'För att lägga till appen på Android behöver du välja din webbläsares meny (visas ofta som tre prickar, "…") och trycka på "Installera appen".';
+    instructions = t("instructionsAndroid");
   } else {
-    instructions =
-      'Titta i din webbläsare efter knappar så som "Dela", "Installera", eller "Lägg till på hemskärmen".';
+    instructions = t("instructionsOther");
   }
   return (
     <Page>
-      <Navbar title="Ladda ner som app" backLink="Tillbaka"></Navbar>
+      <Navbar
+        title={t("title")}
+        backLink={t("backLink", { ns: "common" })}
+      ></Navbar>
       <Block>
-        <p>
-          För att få en så bra upplevelse från möjligt i appen kan du lägga till
-          den på din enhet.
-        </p>
+        <p>{t("introMessage")}</p>
         <p>{instructions}</p>
       </Block>
     </Page>

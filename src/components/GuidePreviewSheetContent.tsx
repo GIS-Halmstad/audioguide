@@ -1,6 +1,8 @@
 // Imports
 import React, { useMemo } from "react";
 
+import { useTranslation } from "react-i18next";
+
 import {
   f7,
   Block,
@@ -44,6 +46,7 @@ type StopObject = {
 };
 
 export default function GuidePreviewSheetContent({ f }: Props) {
+  const { t } = useTranslation("guidePreviewSheetContent");
   // f can be either a Point or a LineString, so let's find out.
   let pointFeature: Feature | null = null;
   let lineFeature: Feature;
@@ -159,8 +162,11 @@ export default function GuidePreviewSheetContent({ f }: Props) {
                   <Chip text={c} key={i} style={{ marginRight: "2px" }} />
                 ))}
               <Chip
-                text={lineFeature.get("length")}
-                tooltip={`Guidens längd är ${lineFeature.get("length")}`}
+                text={f.get("length")}
+                tooltip={t("guidesLengthTooltip", {
+                  length: f.get("length"),
+                  ns: "audioguideCard",
+                })}
                 mediaBgColor="primary"
               >
                 <Icon
@@ -183,7 +189,9 @@ export default function GuidePreviewSheetContent({ f }: Props) {
                   handleActivateGuide(pointFeature?.get("stopNumber"));
                 }}
               >
-                Starta från stopp {pointFeature.get("stopNumber")}
+                {t("startFromStopNumber", {
+                  stopNumber: pointFeature.get("stopNumber"),
+                })}
               </Button>
             ) : (
               geolocationStatus === "granted" && (
@@ -195,7 +203,7 @@ export default function GuidePreviewSheetContent({ f }: Props) {
                   sheetClose
                   onClick={() => handleActivateGuide()}
                 >
-                  Starta från närmaste
+                  {t("startFromClosestStop")}
                 </Button>
               )
             )}
@@ -208,7 +216,7 @@ export default function GuidePreviewSheetContent({ f }: Props) {
               onClick={() => handleActivateGuide(1)}
               className="margin-top"
             >
-              Starta från början
+              {t("startFromFirstStop")}
             </Button>
           </Block>
         </div>
@@ -225,7 +233,7 @@ export default function GuidePreviewSheetContent({ f }: Props) {
               {prepareStringFromDbForMarkdown(lineFeature.get("text"))}
             </AudioguideMarkdown>
           </Block>
-          <BlockTitle medium>Stopp längst vägen</BlockTitle>
+          <BlockTitle medium>{t("stopsAlongTheGuide")}</BlockTitle>
           <List>
             {listOfStops.map((s, i) => (
               <ListItem
@@ -252,7 +260,7 @@ export default function GuidePreviewSheetContent({ f }: Props) {
                 )
               }
             >
-              Kopiera länk
+              {t("copyLink", { ns: "common" })}
             </Button>
           </Block>
           <Block>

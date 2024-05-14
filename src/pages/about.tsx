@@ -3,6 +3,7 @@ import { f7, Page, Navbar, Block, Button, Link } from "framework7-react";
 
 import { getOLMap } from "../js/openlayers/olMap";
 import { info } from "../js/logger";
+import { useTranslation } from "react-i18next";
 
 /**
  * @summary Ensure that the supplied string isn't malformed by parsing it using the DOM.
@@ -10,21 +11,17 @@ import { info } from "../js/logger";
  * @param {string} html
  * @returns
  */
-function pseudoSanitize(html) {
+function pseudoSanitize(html: string) {
   const doc = document.createElement("div");
   doc.innerHTML = html;
   return doc.innerHTML;
 }
 
 const About = () => {
+  const { t } = useTranslation(["about", "common"]);
   const popup = useRef(null);
   const audioguideAttribution =
     f7.store.state.mapConfig.tools.audioguide.audioguideAttribution || "";
-  const aboutPageTitle =
-    f7.store.state.mapConfig.tools.audioguide.aboutPageTitle || "Om Audioguide";
-  const aboutPageContentHtml =
-    f7.store.state.mapConfig.tools.audioguide.aboutPageContentHtml ||
-    "No about text available. Add one by setting a value for the `aboutPageContentHtml` property in tool config.";
 
   // Every time we render, we want to get a list of attributions
   // from currently visible layers (hence, no useEffect here).
@@ -50,8 +47,10 @@ const About = () => {
               <div class="navbar">
               <div class="navbar-bg"></div>
                 <div class="navbar-inner">
-                  <div class="title">Teknisk information</div>
-                  <div class="right"><a  class="link popup-close">Stäng</a></div>
+                  <div class="title">${t("technicalInfo")}</div>
+                  <div class="right"><a  class="link popup-close">${t("close", {
+                    ns: "common",
+                  })}</a></div>
                 </div>
               </div>
               <div class="page-content">
@@ -91,7 +90,7 @@ const About = () => {
 
   return (
     <Page>
-      <Navbar title={aboutPageTitle} backLink="Tillbaka" />
+      <Navbar title={t("title")} backLink={t("backLink", { ns: "common" })} />
       <div
         className="display-flex flex-direction-column justify-content-space-between"
         style={{ height: "100%" }}
@@ -99,7 +98,7 @@ const About = () => {
         <Block className="page-content" style={{ marginTop: 0 }}>
           <div
             dangerouslySetInnerHTML={{
-              __html: pseudoSanitize(aboutPageContentHtml),
+              __html: pseudoSanitize(t("pageContentHtml")),
             }}
           />
         </Block>
@@ -109,16 +108,18 @@ const About = () => {
         >
           {f7.store.state.mapConfig.ui.showTechnicalInfoDialog === true && (
             <Button small onClick={createTechnicalPopup}>
-              Visa teknisk information
+              {t("showTechnicalInfoButton")}
             </Button>
           )}
           <hr />
           <p>
             &copy; 2023-{new Date().getFullYear()} {audioguideAttribution}
           </p>
-          <p>Upphovsrätt kartinnehåll: {attributions}.</p>
           <p>
-            Byggt med{" "}
+            {t("mapCopyrightCaption")}: {attributions}.
+          </p>
+          <p>
+            {t("builtWith")}{" "}
             <Link href="https://github.com/GIS-Halmstad/audioguide" external>
               The Audioguide App
             </Link>{" "}

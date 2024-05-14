@@ -1,5 +1,7 @@
 import Framework7 from "framework7";
 
+import i18n from "./i18n";
+
 /**
  * @link https://stackoverflow.com/questions/14484787/wrap-text-in-javascript
  * @param {string} s String to be wrapped
@@ -36,7 +38,7 @@ export const prepareStringFromDbForMarkdown = (str: string): string =>
 export const copyToClipboard = (
   s: string,
   alertFunction?: Function,
-  a: string | null = "Länken har kopierats."
+  a: string | null = i18n.t("linkCopied", { ns: "common" })
 ) => {
   const alert = alertFunction || window.alert;
   const blobText = new Blob([s], {
@@ -54,7 +56,7 @@ export const copyToClipboard = (
       if (a !== null) alert(a);
     },
     () => {
-      alert("Kunde inte kopiera");
+      alert(i18n.t("linkNotCopied", { ns: "common" }));
     }
   );
 };
@@ -100,8 +102,8 @@ export const preventAndroidBackButton = (f7Instance: Framework7) => {
         if ($(".sheet-modal.modal-in.active-guide-sheet").length) {
           // …let's confirm before closing
           f7Instance.dialog.confirm(
-            "Vill du verkligen avsluta guiden?",
-            "Avsluta guide",
+            i18n.t("closeGuideDialogMessage", { ns: "guideSheetContent" }),
+            i18n.t("closeGuideDialogTitle", { ns: "guideSheetContent" }),
             () => {
               // On OK
               f7Instance.sheet.close(".sheet-modal.modal-in");

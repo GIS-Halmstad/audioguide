@@ -87,8 +87,6 @@
                     "description": "Audioguide tool",
                     "audioguideAttribution": "Destination Halmstad, Halmstads kommun",
                     "audioguideLayersAttribution": "Halmstads kommun",
-                    "aboutPageTitle": "Om Halmstad Stories",
-                    "aboutPageContentHtml": "<p>Välkommen till Halmstads audioguide. Här får du ta del av spännande och dramatiserade guidningar runt om i Halmstad. Audioguden lanserades inför sommaren 2024 med fyra unika guidade turer.</p><p>Du väljer själv om du vill följa en guide eller skapa en helt egen genom att besöka de stopp som passar dig. Håll utkik efter fler guider, vi fyller på löpande.</p><p>Har du frågor om guiden är du välkommen att kontakta <a href=\"https://www.destinationhalmstad.se/uppleva/bra-att-veta/halmstad-tourist-center\" class=\"external link\" target=\"_system\">Halmstad Tourist Center</a>.</p>",
                     "target": "left",
                     "position": "left",
                     "visibleAtStart": true,

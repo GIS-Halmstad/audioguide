@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 import { Block, Button, Link, f7, useStore } from "framework7-react";
 
@@ -15,6 +16,7 @@ import AudioguideMarkdown from "../js/AudioguideMarkdown";
 import { handleCopyLinkToGuide, parseStyle } from "../js/f7Helpers";
 
 function GuideSheetContent({ activeGuideObject }) {
+  const { t } = useTranslation("guideSheetContent");
   const activeStopNumber = useStore("activeStopNumber");
 
   const point = activeGuideObject.points[activeStopNumber];
@@ -52,8 +54,8 @@ function GuideSheetContent({ activeGuideObject }) {
 
   const handleClickOnCloseGuide = () => {
     f7.dialog.confirm(
-      "Vill du verkligen avsluta guiden?",
-      "Avsluta guide",
+      t("closeGuideDialogMessage"),
+      t("closeGuideDialogTitle"),
       () => {
         // On OK
         f7.sheet.close();
@@ -64,8 +66,8 @@ function GuideSheetContent({ activeGuideObject }) {
   const handleClickOnGoToPrevious = (): void => {
     if (isFirstStop) {
       f7.dialog.confirm(
-        "Du är redan på det första stoppet. Vill du gå tillbaka och hamna på det sista stoppet i guiden?",
-        "Redan i början",
+        t("alreadyOnFirstStopDialogMessage"),
+        t("alreadyOnFirstStopDialogTitle"),
         () => {
           goToStopNumber(Object.entries(activeGuideObject?.points).length);
         }
@@ -78,8 +80,8 @@ function GuideSheetContent({ activeGuideObject }) {
   const handleClickOnGoToNext = (): void => {
     if (isLastStop) {
       f7.dialog.confirm(
-        "Du är redan på det sista stoppet. Vill du börja om guiden från det första stoppet?",
-        "Sista stoppet",
+        t("alreadyOnLastStopDialogMessage"),
+        t("alreadyOnLastStopDialogTitle"),
         () => {
           goToStopNumber(1);
         }
@@ -181,7 +183,9 @@ function GuideSheetContent({ activeGuideObject }) {
             <b>
               {`${activeGuideObject.line.get(
                 "title"
-              )} (${activeStopNumber}\u00A0av\u00A0${
+              )} (${activeStopNumber}\u00A0${t("xOfY", {
+                ns: "common",
+              })}\u00A0${
                 // \u00A0 is a non-breaking space: we want "x of y" to appear on the same line
                 Object.entries(activeGuideObject.points).length
               })`}
@@ -306,11 +310,11 @@ function GuideSheetContent({ activeGuideObject }) {
               )
             }
           >
-            Kopiera länk till stopp
+            {t("copyLinkToCurrentStop")}
           </Button>
         </Block>
         <Button onClick={handleClickOnCloseGuide} className="margin-bottom">
-          Avsluta guiden
+          {t("closeGuideButton")}
         </Button>
         <Block>
           <img

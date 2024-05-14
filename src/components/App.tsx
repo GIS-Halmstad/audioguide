@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { getDevice } from "framework7/lite/bundle";
 import {
   App,
   BlockFooter,
   f7ready,
-  Link,
   List,
   LoginScreenTitle,
   Page,
@@ -31,6 +31,7 @@ import FullscreenSwiper from "./FullscreenSwiper";
 
 const Audioguide = () => {
   info("[App.tsx] App renders");
+  const { t } = useTranslation("rotationUnsupported");
   const device = getDevice();
 
   const [orientationUnsupported, setOrientationUnsupported] = useState(false);
@@ -222,8 +223,8 @@ const Audioguide = () => {
       androidOverlaysWebView: false,
     },
     dialog: {
-      buttonOk: "OK",
-      buttonCancel: "Avbryt",
+      buttonOk: t("buttonOk", { ns: "common" }),
+      buttonCancel: t("buttonCancel", { ns: "common" }),
       autoFocus: true,
     },
   };
@@ -248,14 +249,11 @@ const Audioguide = () => {
         style={{ zIndex: 12600 }} /* Ensure it shows above any Sheet dialogs */
       >
         <Page noToolbar noNavbar noSwipeback loginScreen>
-          <LoginScreenTitle>Rotera skärmen</LoginScreenTitle>
+          <LoginScreenTitle>{t("title")}</LoginScreenTitle>
           <List inset>
             <BlockFooter>
-              <p>
-                För att Audioguiden ska fungera behöver du ha din skärm i
-                stående läge.
-              </p>
-              <p>Rotera din enhet och fortsätt upptäcka Halmstad.</p>
+              <p>{t("message1")}</p>
+              <p>{t("message2")}</p>
             </BlockFooter>
           </List>
         </Page>

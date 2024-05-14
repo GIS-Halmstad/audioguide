@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import {
   f7,
   Page,
@@ -15,6 +16,7 @@ import { handleCopyLinkToGuide } from "../js/f7Helpers";
 import { warn } from "../js/logger";
 
 function PanelRight() {
+  const { t } = useTranslation("panelRight");
   const filteredCategories = useStore("filteredCategories");
   const activeGuideObject = useStore("activeGuideObject");
 
@@ -57,13 +59,10 @@ function PanelRight() {
 
   return (
     <Page>
-      <Navbar title="Kategorifilter" />
+      <Navbar title={t("categoryFilter")} />
       {activeGuideObject !== null && (
         <>
-          <Block>
-            Kategorifiltret är inaktiverat eftersom en guide är aktiv. Avsluta
-            guiden och kom tillbaka för att kunna se och filtrera kategorierna.
-          </Block>
+          <Block>{t("filterUnavailableMessage")}</Block>
         </>
       )}
 
@@ -97,8 +96,8 @@ function PanelRight() {
                           filteredCategories.includes(c)
                         ) {
                           f7.dialog.alert(
-                            "Du måste välja minst en kategori, annars ser du inga audioguider.",
-                            "Hoppsan!"
+                            t("noCategoriesSelectedMessage"),
+                            t("noCategoriesSelectedTitle")
                           );
                         }
                       }}
@@ -115,7 +114,7 @@ function PanelRight() {
                   className="margin-bottom"
                   onClick={() => f7.panel.close("right")}
                 >
-                  Filtrera
+                  {t("filterButton")}
                 </Button>
                 {f7.store.state.allCategories.length !==
                   f7.store.state.filteredCategories.length && (
@@ -135,7 +134,7 @@ function PanelRight() {
                       // f7.panel.close("right");
                     }}
                   >
-                    Återställ filter
+                    {t("resetFilterButton")}
                   </Button>
                 )}
               </Block>
@@ -153,7 +152,7 @@ function PanelRight() {
                       )
                     }
                   >
-                    Kopiera länk till valda
+                    {t("copyLink")}
                   </Button>
                 </Block>
               )}

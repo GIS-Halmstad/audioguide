@@ -11,6 +11,9 @@ import {
   useStore,
   NavLeft,
   NavRight,
+  Popover,
+  List,
+  ListItem,
 } from "framework7-react";
 
 import GuidePreviewSheet from "../components/GuidePreviewSheet";
@@ -22,9 +25,13 @@ import TabShortListViewContent from "../components/TabShortListViewContent";
 import { handleShowAllGuides } from "../js/f7Helpers";
 import { updateFeaturesInMap } from "../js/openlayers/olMap";
 import { info } from "../js/logger";
+import { getI18n, useTranslation } from "react-i18next";
 
 const HomePage = () => {
+  const { t } = useTranslation("tabbar");
   info("[home.tsx] F7 is: ", f7);
+  const i18n = getI18n();
+  console.log("!!!i18n: ", i18n);
   const notificationFull = useRef(null);
 
   const showNotificationFull = () => {
@@ -32,10 +39,10 @@ const HomePage = () => {
     if (!notificationFull.current) {
       notificationFull.current = f7.notification.create({
         icon: '<i class="icon f7-icons">xmark_octagon_fill</i>',
-        title: "Audioguide",
-        titleRightText: "nu",
-        subtitle: "Laddningsfel",
-        text: "Ett fel uppstod. Vi ber om ursäkt för det inträffade.",
+        title: i18n.t("appName", { ns: "common" }),
+        titleRightText: i18n.t("now", { ns: "common" }),
+        subtitle: i18n.t("title", { ns: "loadError" }),
+        text: i18n.t("message", { ns: "loadError" }),
       });
     }
     // Open it
@@ -89,6 +96,7 @@ const HomePage = () => {
           </Link>
         </NavTitle>
         <NavRight>
+          <Link iconF7="globe" iconOnly popoverOpen=".popover-menu" />
           <Link
             iconIos="f7:funnel"
             iconMd="material:filter_alt"
@@ -102,21 +110,21 @@ const HomePage = () => {
         <Link
           tabLink="#tab-list"
           tabLinkActive
-          text="Bildlista"
+          text={t("list")}
           iconIos="f7:list_bullet_below_rectangle"
           iconMd="material:ballot"
         />
 
         <Link
           tabLink="#tab-short-list"
-          text="Lista"
+          text={t("shortList")}
           iconIos="f7:list_bullet"
           iconMd="material:list"
         />
 
         <Link
           tabLink="#tab-map"
-          text="Karta"
+          text={t("map")}
           iconIos="f7:map"
           iconMd="material:map"
           onClick={updateFeaturesInMap}
@@ -129,6 +137,44 @@ const HomePage = () => {
         backgroundLayersActionsGrid={backgroundLayersActionsGrid}
         setBackgroundLayersActionsGrid={setBackgroundLayersActionsGrid}
       />
+
+      <Popover className="popover-menu">
+        <List>
+          <ListItem
+            popoverClose
+            title="sv"
+            selected={i18n.resolvedLanguage === "sv"}
+            onClick={() => i18n.changeLanguage("sv")}
+          />
+          <ListItem
+            popoverClose
+            title="en"
+            selected={i18n.resolvedLanguage === "en"}
+            onClick={() => i18n.changeLanguage("en")}
+          />
+          <ListItem
+            popoverClose
+            title="dk"
+            selected={i18n.resolvedLanguage === "dk"}
+            onClick={() => i18n.changeLanguage("dk")}
+          />
+          <ListItem
+            popoverClose
+            title="de"
+            selected={i18n.resolvedLanguage === "de"}
+            onClick={() => i18n.changeLanguage("de")}
+          />
+          {/* {i18n.languages.map((lang, i) => (
+            <ListItem
+              key={i}
+              popoverClose
+              title={lang.toUpperCase()}
+              selected={i18n.language === lang}
+              onClick={() => i18n.changeLanguage(lang)}
+            />
+          ))} */}
+        </List>
+      </Popover>
 
       <Tabs>
         <Tab id="tab-list" className="page-content" tabActive>

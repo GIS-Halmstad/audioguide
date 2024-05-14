@@ -15,6 +15,9 @@ import "framework7/css/bundle";
 import "../css/icons.css";
 import "../css/app.css";
 
+// Import translations
+import "./i18n";
+
 // Import App Component
 import store from "./store";
 import App from "../components/App";

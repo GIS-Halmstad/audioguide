@@ -14,12 +14,15 @@ import {
   f7,
 } from "framework7-react";
 
+import { useTranslation } from "react-i18next";
+
 import { getAssets } from "../js/getAssets";
 import { handleShowGuideInMap, parseStyle } from "../js/f7Helpers";
 import { trimString, prepareStringFromDbForMarkdown } from "../js/utils";
 import AudioguideMarkdown from "../js/AudioguideMarkdown";
 
 function AudioguideCard({ feature }) {
+  const { t } = useTranslation("audioguideCard");
   const images = getAssets(feature, "images");
 
   // Each guide needs a unique ID that must start with a
@@ -31,7 +34,7 @@ function AudioguideCard({ feature }) {
   return (
     <>
       <Popover id={popoverId}>
-        <BlockTitle>Kategori</BlockTitle>
+        <BlockTitle>{t("category")}</BlockTitle>
         <Block>
           {feature
             .get("categories")
@@ -40,11 +43,13 @@ function AudioguideCard({ feature }) {
               <Chip text={c} key={i} className="margin-right-half" />
             ))}
         </Block>
-        <BlockTitle>Guidens längd</BlockTitle>
+        <BlockTitle>{t("guidesLength")}</BlockTitle>
         <Block>
           <Chip
             text={feature.get("length")}
-            tooltip={`Guidens längd är ${feature.get("length")}`}
+            tooltip={t("guidesLengthTooltip", {
+              length: feature.get("length"),
+            })}
             mediaBgColor="primary"
           >
             <Icon
@@ -113,7 +118,7 @@ function AudioguideCard({ feature }) {
             }}
             className="margin-top margin-bottom"
           >
-            Upplev guiden
+            {t("startGuideButton")}
           </Button>
         </CardContent>
       </Card>

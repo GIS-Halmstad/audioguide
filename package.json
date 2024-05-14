@@ -38,6 +38,8 @@
     "framework7": "^8.3.3",
     "framework7-icons": "^5.0.5",
     "framework7-react": "^8.3.3",
+    "i18next": "^23.11.3",
+    "i18next-browser-languagedetector": "^7.2.1",
     "material-icons": "^1.13.12",
     "ol": "^9.1.0",
     "plausible-tracker": "^0.3.8",
@@ -45,6 +47,7 @@
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-i18next": "^14.1.1",
     "react-markdown": "^9.0.1",
     "skeleton-elements": "^4.0.1",
     "swiper": "^11.1.1"

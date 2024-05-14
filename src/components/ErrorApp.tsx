@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 import {
   f7,
@@ -19,6 +20,7 @@ import {
 import store from "../js/store";
 
 const ErrorApp = () => {
+  const { t } = useTranslation(["loadError", "common"]);
   useEffect(() => {
     console.error(store.state.loadingError);
     store.dispatch("trackAnalyticsEvent", {
@@ -28,18 +30,15 @@ const ErrorApp = () => {
   }, []);
 
   return (
-    <App name="Audioguide" theme="auto">
+    <App name={t("appName", { ns: "common" })} theme="auto">
       <View main className="safe-areas">
         <Page ptr onPtrRefresh={() => window.location.reload()}>
-          <Navbar title="Audioguide" />
-          <Card title="Laddningsfel" outline>
-            <CardContent>
-              Appen kunde inte ladda alla nödvändiga komponenter. Du kan försöka
-              att ladda om genom att svepa uppåt.
-            </CardContent>
+          <Navbar title={t("appName", { ns: "common" })} />
+          <Card title={t("title")} outline>
+            <CardContent>{t("message")}</CardContent>
             <CardContent>
               <List insetMd accordionList>
-                <ListItem accordionItem title="Tekniska detaljer">
+                <ListItem accordionItem title={t("showTechnicalDetails")}>
                   <AccordionContent>
                     <Block>
                       <Button
@@ -47,7 +46,7 @@ const ErrorApp = () => {
                         className="margin-top margin-bottom"
                         onClick={() => {
                           f7.dialog.prompt(
-                            "Ange egen URL till mapservice-tjänsten. Lämna tomt för att använda standardvärde.",
+                            t("overrideMapServiceBaseUrlPrompt"),
                             (url) => {
                               localStorage.setItem(
                                 "overrideMapServiceBaseUrl",
@@ -58,21 +57,21 @@ const ErrorApp = () => {
                           );
                         }}
                       >
-                        Ange egen URL till tjänsten
+                        {t("overrideMapServiceBaseUrlButton")}
                       </Button>
                       <Button
                         color="red"
                         onClick={() => {
                           localStorage.removeItem("overrideMapServiceBaseUrl");
                           f7.dialog.alert(
-                            "URL:en har återställs till standardvärde. Appen kommer nu att ladda om.",
+                            t("resetMapServiceBaseUrlPrompt"),
                             () => {
                               window.location.reload();
                             }
                           );
                         }}
                       >
-                        Nollställ egen URL till tjänsten
+                        {t("resetMapServiceBaseUrlButton")}
                       </Button>
                     </Block>
                     <CardFooter
@@ -81,7 +80,7 @@ const ErrorApp = () => {
                     >
                       <hr />
                       <p>{store.state.loadingError.toString()}</p>
-                      <p>Error timestamp: {new Date().toLocaleTimeString()}</p>
+                      <p>{new Date().toLocaleTimeString()}</p>
                     </CardFooter>
                   </AccordionContent>
                 </ListItem>
