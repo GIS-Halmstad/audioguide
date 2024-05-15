@@ -31,7 +31,7 @@ const HomePage = () => {
   const { t } = useTranslation("tabbar");
   info("[home.tsx] F7 is: ", f7);
   const i18n = getI18n();
-  console.log("!!!i18n: ", i18n);
+  const { availableLanguages } = f7.store.getters.appConfig.value;
   const notificationFull = useRef(null);
 
   const showNotificationFull = () => {
@@ -140,39 +140,19 @@ const HomePage = () => {
 
       <Popover className="popover-menu">
         <List>
-          <ListItem
-            popoverClose
-            title="sv"
-            selected={i18n.resolvedLanguage === "sv"}
-            onClick={() => i18n.changeLanguage("sv")}
-          />
-          <ListItem
-            popoverClose
-            title="en"
-            selected={i18n.resolvedLanguage === "en"}
-            onClick={() => i18n.changeLanguage("en")}
-          />
-          <ListItem
-            popoverClose
-            title="dk"
-            selected={i18n.resolvedLanguage === "dk"}
-            onClick={() => i18n.changeLanguage("dk")}
-          />
-          <ListItem
-            popoverClose
-            title="de"
-            selected={i18n.resolvedLanguage === "de"}
-            onClick={() => i18n.changeLanguage("de")}
-          />
-          {/* {i18n.languages.map((lang, i) => (
+          {availableLanguages.map((lang: string, i: number) => (
             <ListItem
               key={i}
               popoverClose
               title={lang.toUpperCase()}
-              selected={i18n.language === lang}
+              style={{
+                textAlign: "center",
+                backgroundColor:
+                  i18n.resolvedLanguage === lang ? "lightgray" : "unset",
+              }}
               onClick={() => i18n.changeLanguage(lang)}
             />
-          ))} */}
+          ))}
         </List>
       </Popover>
 
