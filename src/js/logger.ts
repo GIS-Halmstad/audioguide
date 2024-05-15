@@ -7,7 +7,7 @@
  */
 
 // Setup the debug mode constant
-const debugEnabled =
+export const debugEnabled =
   import.meta.env.DEV ||
   new URLSearchParams(window.location.search).get("__debug__") === "";
 
