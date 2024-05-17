@@ -7,6 +7,14 @@ This app utilizes modern features and Web APIs, including top-level awaits (intr
 - Android: Chrome 89 or later, Firefox 89 or later
 - iOS 15 or later
 
+## Internationalization (i18n)
+
+The Audioguide App uses [i18next](https://www.i18next.com/) for internationalization. This means that all the text in the app, including the user interface and the guides, can be translated into different languages.
+
+The translation files for the app itself are stored in the `public/locales` folder.
+
+For the guides, the translations are stored in the same table as the geometries. Since we don't want to duplicate the geometries, we store the translations in separate columns for each language, with the column name being the language code (e.g. "en" for English or "sv" for Swedish - refer to ISO 639 for more language codes).
+
 ## Configuring the guides
 
 The Audioguide App comes without built-in audio guides. You must provide the geometries, photos, audio files, optional videos to the app. The geospatial data for your audio guides can be sourced from two options:
@@ -34,14 +42,15 @@ To set up the Audioguide App, you need to create two tables in your spatial data
 CREATE TABLE public.audioguide_line (
   "guideId" int2 NOT NULL,
   active bool NOT NULL DEFAULT true,
-  title text NOT NULL,
-  "text" text NOT NULL,
+  "activeLanguages" text[] NOT NULL,
+  "title"-{lang} text NOT NULL,
+  "text"-{lang} text NOT NULL,
+  "length"-{lang} text NOT NULL DEFAULT 0,
+  "highlightLabel"-{lang} text NULL,
   categories text NULL,
   images text NULL,
-  length text NOT NULL DEFAULT 0,
   "style" jsonb NULL,
   "sortOrder" int2 NOT NULL DEFAULT 1,
-  "highlightLabel" text NULL,
   geom public.geometry(linestring, 3008) NOT NULL,
   CONSTRAINT audioguide_line_pk PRIMARY KEY ("guideId")
 );
@@ -61,8 +70,8 @@ CREATE TABLE public.audioguide_point (
   id int4 NOT NULL GENERATED ALWAYS AS IDENTITY,
   "guideId" int2 NOT NULL,
   "stopNumber" int2 NOT NULL,
-  title text NOT NULL,
-  "text" text NOT NULL,
+  "title"-{lang} text NOT NULL,
+  "text"-{lang} text NOT NULL,
   images text NULL,
   audios text NULL,
   videos text NULL,
@@ -73,6 +82,8 @@ CREATE TABLE public.audioguide_point (
 );
 CREATE INDEX sidx_audioguide_point_geom ON public.audioguide_point USING gist (geom);
 ```
+
+Note that some fields in the database tables are language-specific. These fields have names with the `-{lang}` suffix. To support additional languages, simply replace `-{lang}` with the desired language code and add as many columns as needed. For example, to support English and French, you would add columns named `title-en`, `title-fr`, `text-en`, `text-fr`, and so on.
 
 #### The OGC WFS Service
 
@@ -118,6 +129,8 @@ If you want to retrieve the configuration from Hajk's API, make sure to include 
 
   // Other settings
   "showDemoMessage": false, // If true, a basic info will be shown on app launch saying that this is a demo app
+  "availableLanguages": ["sv", "en", "de", "dk"], // A list of available languages for the user
+  "fallbackLanguage": "sv", // The fallback language if the user's language is not supported
   "analytics": {
     "type": "plausible", // Analytics service. Currently only "plausible" is implemented.
     "domain": "audioguide.example.com", // Site identifier. Refer to Plausible's docs for more info.
@@ -146,7 +159,7 @@ Hajk's API has the notion of _map configs_, that for some historical reasons is 
       "featureNS": "https://pg.halmstad.se", // Workspace's namespace
       "featurePrefix": "pg" // Workspace name
     },
-    "preselectedCategories": ["Historia"], // Specify which categories are selected on start. Set to empty to start with all selected.
+    "preselectedCategories": ["1"], // Specify which categories are selected on start. Set to empty to start with all selected.
     "title": "Audioguide",
     "description": "Audioguide tool",
     "audioguideAttribution": "Destination Halmstad, Halmstads kommun", // Used as main attribution, i.e. it should specify the audioguide tool's "owner". Shown in the About panel.
@@ -227,6 +240,10 @@ If you wish to use relative URLs, here's the recommended approach.
 
 The assets must be placed inside the corresponding directory within `public/media/{guideId}/{optional stopNumber if point feature}/{"images"|"audios"|"videos"}/{fileName.extension}`.
 
+##### Important note regarding localization of audio and video files
+
+To provide localized versions of audio and video files, **use the `{lang}-` prefix** in the filename, e.g. `en-Guide1-Stop3.m4a` or `sv-Guide1-Stop3.m4a`. When referring to these files in the database, omit the language prefix, e.g. `Guide1-Stop3.m4a`. The application will automatically add the prefix when loading the files, based on the user's language setting.
+
 ##### Important note regarding image thumbnails
 
 In order to reduce bandwidth usage, the app expects images to exist in two copies: one main, called e.g. `image-1.webp` and one thumbnail, called `image-1-thumbnail.webp`. So it's the `-thumbnail` part that should be added just in front of the file extension. However, in the database, you should only refer to the original filename, without the `-thumbnail` part.
@@ -293,7 +310,7 @@ The Audioguide App accepts some optional URL hash parameters (the part of the UR
 
 - `c`: the category that will be pre-selected.
   - Users can pre-select multiple categories, just ensure to send a comma-separated list.
-  - You must properly encode the strings. For example, a category called `Sport & Ö-liv` should be encoded as `Sport%20%26%20%C3%96-liv`, while `The Foo/Bar Category` should be encoded as `The%20Foo%2FBar%20category`.
+  - The categories must have corresponding translation keys in the translation files for all languages you want to support. Take a look at the `guideCategories` property in the translation files.
 - `g`: makes it possible to start the app with a certain guide pre-selected. The value of `g` must match the value of `guideId` in the line features table.
 - `p`: makes it possible to start the app with a specific point in a guide pre-selected. The value of `p` must correspond to the `stopNumber` value in the point features table. _Note that this requires the `g` parameter to be present as well (otherwise there is no way to know which point should be selected, as `stopNumber`s are not unique in the table)_.
 - `a`: if `g` (and optionally `p`) are supplied, the guide/point will by default be started in preview mode. By setting `a=1`, this behavior will changed and initiate the app with the selected guide/point in active mode (i.e. with the guide activated, the point selected, player ready to start playing, etc).

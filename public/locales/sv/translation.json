@@ -11,6 +11,10 @@
         "buttonCancel": "Avbryt",
         "xOfY": "av"
     },
+    "guideCategories": {
+        "1": "Historia",
+        "2": "Konst och kultur"
+    },
     "loadError": {
         "title": "Laddningsfel",
         "message": "Appen kunde inte ladda alla nödvändiga komponenter. Du kan försöka att ladda om genom att svepa uppåt.",

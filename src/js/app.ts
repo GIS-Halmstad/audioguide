@@ -16,7 +16,7 @@ import "../css/icons.css";
 import "../css/app.css";
 
 // Import translations
-import "./i18n";
+import { translateLinesPointsAndCategories } from "./i18n";
 
 // Import App Component
 import store from "./store";
@@ -83,34 +83,39 @@ if (unsupportedOs) {
       store.dispatch("setMapConfig", washedMapConfig);
 
       // Grab line features from WFSs and save to store
-      const allLines = await fetchFromService("line");
-      store.dispatch("setAllLines", allLines);
+      const unmodifiedAllLines = await fetchFromService("line");
+      store.dispatch("setUnmodifiedAllLines", unmodifiedAllLines);
 
       // Grab point features too
-      const allPoints = await fetchFromService("point");
+      const unmodifiedAllPoints = await fetchFromService("point");
 
       // Each point belongs to a line and that line may have a `style`
       // property. Let's try to find the parent line and add its style
       // to the `parentStyle` property of the point feature.
-      const allPointsWithStyleFromParentLine = allPoints.map((f) => {
-        const parentLine = allLines.find(
-          (l) => l.get("guideId") === f.get("guideId")
-        );
-        if (parentLine) {
-          // Set the parent style on the point feature by copying line's style.
-          // The third parameter ensures OL doesn't notify any observers - there's no need here.
-          f.set("parentStyle", parentLine.get("style") || null, true);
-        }
-        return f;
-      });
-      store.dispatch("setAllPoints", allPointsWithStyleFromParentLine);
-
-      // Extract available categories from all line features.
-      // Keep only unique values.
-      const categories = Array.from(
-        new Set(allLines.flatMap((f) => f.get("categories").split(",")))
+      const unmodifiedAllPointsWithStyleFromParentLine =
+        unmodifiedAllPoints.map((f) => {
+          const parentLine = unmodifiedAllLines.find(
+            (l) => l.get("guideId") === f.get("guideId")
+          );
+          if (parentLine) {
+            // Set the parent style on the point feature by copying line's style.
+            // The third parameter ensures OL doesn't notify any observers - there's no need here.
+            f.set("parentStyle", parentLine.get("style") || null, true);
+          }
+          return f;
+        });
+      store.dispatch(
+        "setUnmodifiedAllPoints",
+        unmodifiedAllPointsWithStyleFromParentLine
       );
-      store.dispatch("setAllCategories", categories);
+
+      // Now that we have the unmodified lines and points, we must translate them.
+      // Usually, this is handled by the i18n.on("languageChanged") event, but now,
+      // on initial app load, it won't trigger. So we do it here.
+      // This step is important, as it will populate Store's `allLines` and
+      // `allPoints` as well as ensure that the Features contain all the required properties
+      // of `title`, `text`, `length` and `highlightLabel` with translated values.
+      translateLinesPointsAndCategories();
 
       // When the Store was initiated, filteredCategories was set to the value
       // of the `c` param in URL. If `c` is empty (i.e. no specific category is
@@ -125,16 +130,16 @@ if (unsupportedOs) {
           // If there are pre-selected categories, let's ensure that
           // they're valid (i.e. exist among available categories).
           const validPreselectedCategories = preselectedCategories.filter(
-            (c: string) => categories.includes(c)
+            (c: string) => store.state.allCategories.includes(c)
           );
 
           if (validPreselectedCategories.length > 0) {
             store.dispatch("setFilteredCategories", validPreselectedCategories);
           } else {
-            store.dispatch("setFilteredCategories", categories);
+            store.dispatch("setFilteredCategories", store.state.allCategories);
           }
         } else {
-          store.dispatch("setFilteredCategories", categories);
+          store.dispatch("setFilteredCategories", store.state.allCategories);
         }
       }
     } catch (error) {

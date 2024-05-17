@@ -11,6 +11,10 @@
         "buttonCancel": "Cancel",
         "xOfY": "of"
     },
+    "guideCategories": {
+        "1": "History",
+        "2": "Culture & Art"
+    },
     "loadError": {
         "title": "Load Error",
         "message": "The app could not load all necessary components. You can try to reload by swiping upwards.",

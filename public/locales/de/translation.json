@@ -11,6 +11,10 @@
         "buttonCancel": "Abbrechen",
         "xOfY": "von"
     },
+    "guideCategories": {
+        "1": "Geschichte",
+        "2": "Kultur & Kunst"
+    },
     "loadError": {
         "title": "Ladefehler",
         "message": "Die App konnte nicht alle notwendigen Komponenten laden. Sie können versuchen, durch Wischen nach oben neu zu laden.",

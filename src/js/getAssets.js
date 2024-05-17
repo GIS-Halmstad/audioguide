@@ -1,3 +1,5 @@
+import i18n from "./i18n";
+
 /**
  * @summary Use data in database fields to prepare a list of assets for a given feature.
  * @description Each Feature that comes from DB may have some assets connected to it.
@@ -7,6 +9,11 @@
  * where each subdirectory has a name that corresponds to a given feature's `guideId` value
  * as specified in the database. (All the features in database, lines and points, will always
  * have a `guideId`.)
+ *
+ * In addition, audios and video files will come in multiple version, depending on the
+ * language used. For those, the ISO language prefix (e.g. "en" or "sv") is added as a
+ * prefix to the file name.
+ *
  * Using those parameters it's easy to covert the comma-separated string of file names into
  * an array of paths for a certain type of assets.
  * Special care must be taken to allow for absolute URLs.
@@ -30,7 +37,12 @@ export const getAssets = (feature, type) => {
         } else {
           // Prepare a relative URL on the format:
           // /media/{guideId}/{optional stopNumber}/{type of asset}/{asset's file name in DB}
-          return `media/${feature.get("guideId")}/${stopNumber}${type}/${e}`;
+          // Note that audios and videos will in addition have a language prefix in the file name.
+          return `media/${feature.get("guideId")}/${stopNumber}${type}/${
+            ["audios", "videos"].includes(type)
+              ? `${i18n.resolvedLanguage}-`
+              : ""
+          }${e}`;
         }
       }) || []
   );

@@ -144,6 +144,8 @@ export type StoreState = {
   activeGuideObject: ActiveGuideObject | null;
   activeStopNumber: number | null;
   allCategories: string[] | [];
+  unmodifiedAllLines: Feature<LineString>[] | [];
+  unmodifiedAllPoints: Feature<Point>[] | [];
   allLines: Feature<LineString>[] | [];
   allPoints: Feature<Point>[] | [];
   appConfig: AppConfig | null;

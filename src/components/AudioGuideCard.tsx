@@ -40,7 +40,11 @@ function AudioguideCard({ feature }) {
             .get("categories")
             ?.split(",")
             .map((c: string, i: number) => (
-              <Chip text={c} key={i} className="margin-right-half" />
+              <Chip
+                text={`${t(c, { ns: "guideCategories" })}`}
+                key={i}
+                className="margin-right-half"
+              />
             ))}
         </Block>
         <BlockTitle>{t("guidesLength")}</BlockTitle>

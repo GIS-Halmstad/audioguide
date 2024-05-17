@@ -11,6 +11,10 @@
         "buttonCancel": "Annuller",
         "xOfY": "af"
     },
+    "guideCategories": {
+        "1": "Historie",
+        "2": "Kultur og kunst"
+    },
     "loadError": {
         "title": "Indlæsningsfejl",
         "message": "Appen kunne ikke indlæse alle nødvendige komponenter. Du kan forsøge at genindlæse ved at swipe opad.",

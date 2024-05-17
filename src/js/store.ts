@@ -75,7 +75,9 @@ const store = createStore({
     loading: true,
     appConfig: appConfig,
     mapConfig: {},
-    allLines: [],
+    unmodifiedAllLines: [], // Lines prior i18n fixes
+    unmodifiedAllPoints: [],
+    allLines: [], // Lines after i18n fixes
     allPoints: [],
     allCategories: [],
     filteredCategories: getParamValueFromHash("c"),
@@ -123,6 +125,18 @@ const store = createStore({
     },
     setMapConfig({ state }: { state: StoreState }, mapConfig: MapConfig) {
       state.mapConfig = mapConfig;
+    },
+    setUnmodifiedAllLines(
+      { state }: { state: StoreState },
+      v: Feature<LineString>[]
+    ) {
+      state.unmodifiedAllLines = v;
+    },
+    setUnmodifiedAllPoints(
+      { state }: { state: StoreState },
+      v: Feature<Point>[]
+    ) {
+      state.unmodifiedAllPoints = v;
     },
     setAllLines({ state }: { state: StoreState }, v: Feature<LineString>[]) {
       state.allLines = v;
@@ -205,6 +219,12 @@ const store = createStore({
     },
     mapConfig({ state }: { state: StoreState }) {
       return state.mapConfig as MapConfig;
+    },
+    unmodifiedAllLines({ state }: { state: StoreState }) {
+      return state.unmodifiedAllLines as Feature<LineString>[];
+    },
+    unmodifiedAllPoints({ state }: { state: StoreState }) {
+      return state.unmodifiedAllPoints as Feature<Point>[];
     },
     allLines({ state }: { state: StoreState }) {
       return state.allLines as Feature<LineString>[];

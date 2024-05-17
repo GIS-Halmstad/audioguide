@@ -102,7 +102,7 @@ function PanelRight() {
                         }
                       }}
                       onChange={handleCategoryChange}
-                      title={c}
+                      title={`${t(c, { ns: "guideCategories" })}`}
                       name={c}
                     />
                   );

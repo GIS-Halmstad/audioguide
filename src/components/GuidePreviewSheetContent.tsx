@@ -159,7 +159,11 @@ export default function GuidePreviewSheetContent({ f }: Props) {
                 .get("categories")
                 ?.split(",")
                 .map((c: string, i: number) => (
-                  <Chip text={c} key={i} style={{ marginRight: "2px" }} />
+                  <Chip
+                    text={`${t(c, { ns: "guideCategories" })}`}
+                    key={i}
+                    style={{ marginRight: "2px" }}
+                  />
                 ))}
               <Chip
                 text={f.get("length")}
