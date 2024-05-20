@@ -34,6 +34,11 @@
         "message1": "För att Audioguiden ska fungera behöver du ha din skärm i stående läge.",
         "message2": "Rotera din enhet och fortsätt upptäcka Halmstad."
     },
+    "noGuidesAvailable": {
+        "title": "Inga guider tillgänliga",
+        "content": "Vi har tyvärr inga guider tillgänliga på ditt språk ännu. Men vi jobbar på att ta fram dem framöver så håll utkik!",
+        "footer": "Hälsningar från Destination Halmstad"
+    },
     "share": {
         "title": "Dela länk",
         "instructions": "Du kan kopiera länken till Halmstad Stories till urklipp på din enhet för att sedan kunna klistra in det i exempelvis ett meddelande."

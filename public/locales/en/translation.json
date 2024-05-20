@@ -34,6 +34,11 @@
         "message1": "To use this app you need to rotate your device to portrait mode.",
         "message2": "Please rotate your device and continue discovering Halmstad."
     },
+    "noGuidesAvailable": {
+        "title": "No guides available",
+        "content": "Unfortunately, we don't have any guides available in your language yet. But we are working on producing them in the future, so stay tuned!",
+        "footer": "Greetings from Destination Halmstad"
+    },
     "share": {
         "title": "Share link",
         "instructions": "You can copy the link to the Audio guide to your device's clipboard, allowing you to easily paste it into a message or any other application."

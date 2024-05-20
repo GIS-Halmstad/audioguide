@@ -1,14 +1,15 @@
 import React from "react";
+import { useStore } from "framework7-react";
 
 import { Feature } from "ol";
 
 import AudioguideCard from "./AudioGuideCard";
-import { useStore } from "framework7-react";
+import NoGuidesAvailable from "./NoGuidesAvailable";
 
 function TabListViewContent() {
   const filteredFeatures = useStore("filteredFeatures") as Feature[];
 
-  return (
+  return filteredFeatures.length > 0 ? (
     <div className="cards-grid">
       {/* Render a list (or grid, depending on screen size) of Expandable Cards */}
       {filteredFeatures
@@ -17,6 +18,8 @@ function TabListViewContent() {
           <AudioguideCard feature={f} key={i} />
         ))}
     </div>
+  ) : (
+    <NoGuidesAvailable />
   );
 }
 

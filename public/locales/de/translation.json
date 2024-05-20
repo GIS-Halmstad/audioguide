@@ -34,6 +34,11 @@
         "message1": "Um diese App zu verwenden, müssen Sie Ihr Gerät in den Hochformatmodus drehen.",
         "message2": "Bitte drehen Sie Ihr Gerät und setzen Sie die Entdeckung von Halmstad fort."
     },
+    "noGuidesAvailable": {
+        "title": "Keine Guides verfügbar",
+        "content": "Leider haben wir noch keine Guides in Ihrer Sprache verfügbar. Aber wir arbeiten daran, sie in Zukunft bereitzustellen, also bleiben Sie dran!",
+        "footer": "Grüße von Destination Halmstad"
+    },
     "share": {
         "title": "Link teilen",
         "instructions": "Sie können den Link zum Audioguide in die Zwischenablage Ihres Geräts kopieren, um ihn leicht in eine Nachricht oder eine andere Anwendung einzufügen."
