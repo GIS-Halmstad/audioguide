@@ -42,7 +42,7 @@ To set up the Audioguide App, you need to create two tables in your spatial data
 CREATE TABLE public.audioguide_line (
   "guideId" int2 NOT NULL,
   active bool NOT NULL DEFAULT true,
-  "activeLanguages" text[] NOT NULL,
+  "activeLanguages" text NOT NULL,
   "title"-{lang} text NOT NULL,
   "text"-{lang} text NOT NULL,
   "length"-{lang} text NOT NULL DEFAULT 0,

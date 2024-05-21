@@ -101,7 +101,7 @@ export const translateLines = (): Feature<LineString>[] | [] => {
   )
     .map((f) => {
       // Let's find out if this line is active for current language
-      if (f.get("activeLanguages")?.includes(lang)) {
+      if (f.get("activeLanguages")?.split(",")?.includes(lang)) {
         // Grab translated data, fallback to default (which may exist
         // for legacy, untranslated data)
         f.set("title", f.get("title-" + lang) || f.get("title"));
