@@ -73,8 +73,8 @@ CREATE TABLE public.audioguide_point (
   "title"-{lang} text NOT NULL,
   "text"-{lang} text NOT NULL,
   images text NULL,
-  audios text NULL,
-  videos text NULL,
+  "audios"-{lang} text NULL,
+  "videos"-{lang} text NULL,
   "style" jsonb NULL,
   geom public.geometry(point, 3008) NOT NULL,
   CONSTRAINT audioguide_point_pkey PRIMARY KEY (id),
@@ -242,7 +242,7 @@ The assets must be placed inside the corresponding directory within `public/medi
 
 ##### Important note regarding localization of audio and video files
 
-To provide localized versions of audio and video files, **use the `{lang}-` prefix** in the filename, e.g. `en-Guide1-Stop3.m4a` or `sv-Guide1-Stop3.m4a`. When referring to these files in the database, omit the language prefix, e.g. `Guide1-Stop3.m4a`. The application will automatically add the prefix when loading the files, based on the user's language setting.
+To provide localized versions of audio and video files, it is recommended to **use the `{lang}-` prefix** in the filename, e.g. `en-Guide1-Stop3.m4a` or `sv-Guide1-Stop3.m4a`. When referring to these files in the database, use the language-specific column, e.g. `audios-sv` to refer to the Swedish audio file, e.g. `sv-Guide1-Stop3.m4a`. The same procedure applies for videos.
 
 ##### Important note regarding image thumbnails
 

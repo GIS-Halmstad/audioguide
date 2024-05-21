@@ -134,8 +134,10 @@ export const translatePoints = (
   const translatedPoints = (store.state.unmodifiedAllPoints as Feature<Point>[])
     .filter((f) => guideIdsOfTranslatedLines.includes(f.get("guideId")))
     .map((f) => {
-      f.set("title", f.get("title-" + lang) || f.get("title")); // Grab translated, fallback to default (for legacy data)
-      f.set("text", f.get("text-" + lang) || f.get("text"));
+      f.set("title", f.get("title-" + lang)); // Grab data from language specific
+      f.set("text", f.get("text-" + lang)); // fields and save into generic, used
+      f.set("audios", f.get("audios-" + lang)); // by all UI components.
+      f.set("videos", f.get("videos-" + lang));
       return f;
     });
   return translatedPoints;
