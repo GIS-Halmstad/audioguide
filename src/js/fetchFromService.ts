@@ -24,7 +24,7 @@ const fetchFromService = async (type = "line") => {
         featureNS,
         featurePrefix,
         featureTypes: [
-          type === "line" ? "audioguide_line" : "audioguide_point",
+          type === "line" ? "audioguide_lines" : "audioguide_points",
         ],
         outputFormat: "application/json",
       });
