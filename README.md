@@ -314,6 +314,7 @@ The Audioguide App accepts some optional URL hash parameters (the part of the UR
 - `g`: makes it possible to start the app with a certain guide pre-selected. The value of `g` must match the value of `guideId` in the line features table.
 - `p`: makes it possible to start the app with a specific point in a guide pre-selected. The value of `p` must correspond to the `stopNumber` value in the point features table. _Note that this requires the `g` parameter to be present as well (otherwise there is no way to know which point should be selected, as `stopNumber`s are not unique in the table)_.
 - `a`: if `g` (and optionally `p`) are supplied, the guide/point will by default be started in preview mode. By setting `a=1`, this behavior will changed and initiate the app with the selected guide/point in active mode (i.e. with the guide activated, the point selected, player ready to start playing, etc).
+- `lng`: the language to be used in the application - both for the UI and the content. Refer to the [Internationalization section](#internationalization-i18n) for more information.
 
 ## Styling and branding
 

@@ -8,6 +8,7 @@ import { LineString, Point } from "ol/geom";
 import store from "./store";
 import { info, debugEnabled } from "./logger";
 import { updateFeaturesInMap } from "./openlayers/olMap";
+import { getParamValueFromHash } from "./getParamValueFromHash";
 
 // An outer try/catch, in case we fail loading the app config
 try {
@@ -38,9 +39,17 @@ try {
     }
   }
 
+  // Provide a custom detector that reads from the hash parameter
+  const lngDetector = new LanguageDetector();
+  lngDetector.addDetector({
+    name: "hashstring",
+    lookup: () => getParamValueFromHash("lng"),
+    cacheUserLanguage(lng, options) {},
+  });
+
   // Initiate I18N
   i18n
-    .use(LanguageDetector)
+    .use(lngDetector)
     .use(initReactI18next)
     .init({
       debug: debugEnabled,
@@ -49,6 +58,17 @@ try {
       resources,
       interpolation: {
         escapeValue: false, // react already safes from xss
+      },
+      detection: {
+        // order and from where user language should be detected
+        order: [
+          "hashstring",
+          "querystring",
+          "cookie",
+          "localStorage",
+          "navigator",
+          "htmlTag",
+        ],
       },
     });
 
@@ -103,35 +123,97 @@ export const translateLines = (): Feature<LineString>[] | [] => {
  * @returns A list of Features that has been modified by adding four new attributes.
  * See `translateLines` for details as this function is analogous, but for Point features.
  */
-export const translatePoints = (): Feature<Point>[] | [] => {
+export const translatePoints = (
+  translatedLines: Feature<LineString>[]
+): Feature<Point>[] | [] => {
   const lang = i18n.resolvedLanguage;
-  const translatedPoints = (
-    store.state.unmodifiedAllPoints as Feature<Point>[]
-  ).map((f) => {
-    f.set("title", f.get("title-" + lang) || f.get("title")); // Grab translated, fallback to default (for legacy data)
-    f.set("text", f.get("text-" + lang) || f.get("text"));
-    return f;
+  const guideIdsOfTranslatedLines = translatedLines.map((f: Feature) => {
+    return f.get("guideId");
   });
+
+  const translatedPoints = (store.state.unmodifiedAllPoints as Feature<Point>[])
+    .filter((f) => guideIdsOfTranslatedLines.includes(f.get("guideId")))
+    .map((f) => {
+      f.set("title", f.get("title-" + lang) || f.get("title")); // Grab translated, fallback to default (for legacy data)
+      f.set("text", f.get("text-" + lang) || f.get("text"));
+      return f;
+    });
   return translatedPoints;
 };
 
+const getValidCategories = (
+  availableCategories: string[],
+  categoriesToTest: string[]
+) => {
+  // If there are pre-selected categories, let's ensure that
+  // they're valid (i.e. exist among available categories).
+  const validCategories = categoriesToTest.filter((c: string) =>
+    availableCategories.includes(c)
+  );
+  if (validCategories.length > 0) {
+    return validCategories;
+  } else {
+    return availableCategories;
+  }
+};
+
 export const translateLinesPointsAndCategories = () => {
-  store.dispatch("setAllLines", translateLines());
-  store.dispatch("setAllPoints", translatePoints());
+  const translatedLines = translateLines();
+  const translatedPoints = translatePoints(translatedLines);
 
   // We cannot assume that all guides will be available in all languages,
   // hence after changing language, we need to update the available categories.
   // Let's extract available categories from all line features (which by
   // now are limited to those available in the currently selected language).
   // We do a quick conversion Array->Set->Array to remove duplicates.
-  const categories = Array.from(
+  const availableCategories: string[] = Array.from(
     new Set(
-      store.state.allLines.flatMap((f: Feature<LineString>) =>
+      translatedLines.flatMap((f: Feature<LineString>) =>
         f.get("categories").split(",")
       )
     )
   );
-  store.dispatch("setAllCategories", categories);
+
+  // Let's see if user tries to filter categories by providing a value
+  // to the `c` param in URL.
+  let filteredCategories: string[] = [];
+  const categoriesFromHashParam = getParamValueFromHash("c");
+
+  //If `c` is not empty, let's validate whatever
+  // is provided and use these categories.
+  if (categoriesFromHashParam.length > 0) {
+    filteredCategories = getValidCategories(
+      availableCategories,
+      categoriesFromHashParam
+    );
+  }
+  // If no `c` was provided, let's check if there are pre-selected categories in
+  // the map config. If so, validate and use whatever's valid.
+  else {
+    const preselectedCategories =
+      store.state.mapConfig.tools.audioguide.preselectedCategories || [];
+    filteredCategories = getValidCategories(
+      availableCategories,
+      preselectedCategories
+    );
+  }
+
+  // It is crucial to FIRST set the filtered categories. This is because
+  // the Store getter `filteredFeatures` reads the value of `filteredCategories`
+  // and filters available guides accordingly. This means that if app initiates
+  // in a language that has no guide available and hence no filtered categories,
+  // this value would be 0. Next, when filtering guides, we'd be comparing if
+  // each specific guide's category matches any of the available in `filteredCategories`.
+  // So it's really important to ensure it's updated at an early stage.
+  store.dispatch("setFilteredCategories", filteredCategories);
+
+  // Next we're ready to dispatch more changes that will trigger updates to
+  // the dynamic property `filteredFeatures` and subsequential, a re-render.
+  store.dispatch("setTranslatedLinesPointsAndCategories", {
+    translatedLines,
+    translatedPoints,
+    availableCategories,
+  });
 };
 
 /**

@@ -116,32 +116,6 @@ if (unsupportedOs) {
       // `allPoints` as well as ensure that the Features contain all the required properties
       // of `title`, `text`, `length` and `highlightLabel` with translated values.
       translateLinesPointsAndCategories();
-
-      // When the Store was initiated, filteredCategories was set to the value
-      // of the `c` param in URL. If `c` is empty (i.e. no specific category is
-      // pre-selected), we want to check if there are pre-selected categories in
-      // map config (and set filteredCategories to those), or else set filtered
-      // to all categories.
-      if (store.state.filteredCategories.length === 0) {
-        // Let's check if there are pre-selected categories in map config
-        const preselectedCategories =
-          store.state.mapConfig.tools.audioguide.preselectedCategories || [];
-        if (preselectedCategories.length > 0) {
-          // If there are pre-selected categories, let's ensure that
-          // they're valid (i.e. exist among available categories).
-          const validPreselectedCategories = preselectedCategories.filter(
-            (c: string) => store.state.allCategories.includes(c)
-          );
-
-          if (validPreselectedCategories.length > 0) {
-            store.dispatch("setFilteredCategories", validPreselectedCategories);
-          } else {
-            store.dispatch("setFilteredCategories", store.state.allCategories);
-          }
-        } else {
-          store.dispatch("setFilteredCategories", store.state.allCategories);
-        }
-      }
     } catch (error) {
       store.dispatch("setLoadingError", error);
     }

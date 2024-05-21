@@ -149,7 +149,7 @@ export type StoreState = {
   allLines: Feature<LineString>[] | [];
   allPoints: Feature<Point>[] | [];
   appConfig: AppConfig | null;
-  filteredCategories: string[];
+  filteredCategories: string[] | [];
   geolocationStatus: GeolocationStatus;
   loading: boolean;
   loadingError: Error | null;
@@ -163,4 +163,10 @@ export type GeolocationStatus = "disabled" | "denied" | "granted" | "pending";
 export type ActiveGuideObject = {
   line: Feature<LineString>;
   points: { [stopNumber: number]: Feature<Point> };
+};
+
+export type TranslatedLinesPointsAndCategoriesObject = {
+  translatedLines: Feature<LineString>[] | [];
+  translatedPoints: Feature<Point>[] | [];
+  availableCategories: string[];
 };

@@ -1,5 +1,4 @@
 import { createStore } from "framework7/lite/bundle";
-import { getParamValueFromHash } from "./getParamValueFromHash";
 import { Feature } from "ol";
 import { LineString, Point } from "ol/geom";
 
@@ -9,6 +8,7 @@ import {
   GeolocationStatus,
   MapConfig,
   StoreState,
+  TranslatedLinesPointsAndCategoriesObject,
 } from "../types/types";
 import { log } from "./logger";
 
@@ -80,7 +80,7 @@ const store = createStore({
     allLines: [], // Lines after i18n fixes
     allPoints: [],
     allCategories: [],
-    filteredCategories: getParamValueFromHash("c"),
+    filteredCategories: [],
     activeGuideObject: null,
     activeStopNumber: null,
     selectedFeature: null,
@@ -138,17 +138,16 @@ const store = createStore({
     ) {
       state.unmodifiedAllPoints = v;
     },
-    setAllLines({ state }: { state: StoreState }, v: Feature<LineString>[]) {
-      state.allLines = v;
-    },
-    setAllPoints({ state }: { state: StoreState }, v: Feature<Point>[]) {
-      state.allPoints = v;
-    },
-    setAllCategories({ state }: { state: StoreState }, v: string[]) {
-      state.allCategories = v;
-    },
     setFilteredCategories({ state }: { state: StoreState }, v: string[]) {
       state.filteredCategories = v;
+    },
+    setTranslatedLinesPointsAndCategories(
+      { state }: { state: StoreState },
+      v: TranslatedLinesPointsAndCategoriesObject
+    ) {
+      state.allLines = v.translatedLines;
+      state.allPoints = v.translatedPoints;
+      state.allCategories = v.availableCategories;
     },
     setActiveGuideObject(
       { state }: { state: StoreState },
