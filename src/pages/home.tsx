@@ -139,18 +139,21 @@ const HomePage = () => {
       />
 
       <Popover className="popover-menu">
-        <List>
+        <List dividersIos outlineIos strongIos>
           {availableLanguages.map((lang: string, i: number) => (
             <ListItem
               key={i}
-              popoverClose
-              title={lang.toUpperCase()}
+              title={t(lang)}
+              after={lang.toUpperCase()}
               style={{
                 textAlign: "center",
                 backgroundColor:
                   i18n.resolvedLanguage === lang ? "lightgray" : "unset",
               }}
-              onClick={() => i18n.changeLanguage(lang)}
+              onClick={() => {
+                i18n.changeLanguage(lang);
+                f7.popover.close(".popover-menu");
+              }}
             />
           ))}
         </List>
