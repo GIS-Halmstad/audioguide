@@ -2,6 +2,8 @@ import i18n from "i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
 import { initReactI18next } from "react-i18next";
 
+import { f7 } from "framework7-react";
+
 import { Feature } from "ol";
 import { LineString, Point } from "ol/geom";
 
@@ -228,6 +230,20 @@ export const translateLinesPointsAndCategories = () => {
  */
 i18n.on("languageChanged", () => {
   translateLinesPointsAndCategories();
+
+  // Since we can't assume that the state that the app was in when the language
+  // changed will be possible to replicate after the language change, we need
+  // to unset a couple of things. (The uncertainties arise because we can't assume
+  // that all guides are available in all languages.)
+
+  // Tell OL to deselect any features
+  f7.emit("olFeatureSelected", []);
+
+  // Unset categories filter
+  f7.store.dispatch("setFilteredCategories", f7.store.state.allCategories);
+
+  // Ensure that no guide remains active
+  f7.store.dispatch("deactivateGuide");
 
   // Ensure that OL Map is updated with new, language-dependent data
   updateFeaturesInMap();
