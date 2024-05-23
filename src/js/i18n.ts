@@ -102,15 +102,11 @@ export const translateLines = (): Feature<LineString>[] | [] => {
     .map((f) => {
       // Let's find out if this line is active for current language
       if (f.get("activeLanguages")?.split(",")?.includes(lang)) {
-        // Grab translated data, fallback to default (which may exist
-        // for legacy, untranslated data)
-        f.set("title", f.get("title-" + lang) || f.get("title"));
-        f.set("text", f.get("text-" + lang) || f.get("text"));
-        f.set("length", f.get("length-" + lang) || f.get("length"));
-        f.set(
-          "highlightLabel",
-          f.get("highlightLabel-" + lang) || f.get("highlightLabel")
-        );
+        // Grab language-specific data from the correct column
+        f.set("title", f.get("title-" + lang) || "");
+        f.set("text", f.get("text-" + lang) || "");
+        f.set("length", f.get("length-" + lang) || "");
+        f.set("highlightLabel", f.get("highlightLabel-" + lang) || "");
         return f;
       }
     })
@@ -134,9 +130,15 @@ export const translatePoints = (
   const translatedPoints = (store.state.unmodifiedAllPoints as Feature<Point>[])
     .filter((f) => guideIdsOfTranslatedLines.includes(f.get("guideId")))
     .map((f) => {
-      f.set("title", f.get("title-" + lang)); // Grab data from language specific
-      f.set("text", f.get("text-" + lang)); // fields and save into generic, used
-      f.set("audios", f.get("audios-" + lang)); // by all UI components.
+      // Grab language-specific data from the correct column.
+      f.set("title", f.get("title-" + lang) || "");
+      f.set("text", f.get("text-" + lang) || "");
+
+      // Regarding the media files, however, we don't want to set this into an empty string
+      // as that would be interpreted as "the URL of this media file is '<empty string>'",
+      // which in turn would show the HTML media element of <audio> or <video>, with that
+      // empty string as value of the `src` attribute. To avoid it, we leave this field undefined.
+      f.set("audios", f.get("audios-" + lang));
       f.set("videos", f.get("videos-" + lang));
       return f;
     });
