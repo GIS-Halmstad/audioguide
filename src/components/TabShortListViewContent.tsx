@@ -13,7 +13,7 @@ function TabShortListViewContent() {
   return filteredFeatures.length > 0 ? (
     <List dividersIos outlineIos strongIos>
       {filteredFeatures
-        .filter((f) => f.get("length")) // Only line features will have the "length" property
+        .filter((f) => f.getGeometry()?.getType() === "LineString") // We only want line features in the list
         .map((f, i) => (
           <ListItem
             key={i}

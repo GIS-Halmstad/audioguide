@@ -13,7 +13,7 @@ function TabListViewContent() {
     <div className="cards-grid">
       {/* Render a list (or grid, depending on screen size) of Expandable Cards */}
       {filteredFeatures
-        .filter((f) => f.get("length")) // Only line features will have the "length" property
+        .filter((f) => f.getGeometry()?.getType() === "LineString") // We only want line features in the list
         .map((f, i) => (
           <AudioguideCard feature={f} key={i} />
         ))}
