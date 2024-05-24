@@ -129,7 +129,11 @@ If you want to retrieve the configuration from Hajk's API, make sure to include 
 
   // Other settings
   "showDemoMessage": false, // If true, a basic info will be shown on app launch saying that this is a demo app
-  "availableLanguages": ["sv", "en", "de", "dk"], // A list of available languages for the user
+  "availableLanguages": [
+    // A list of available languages with corresponding country flag codes
+    { "lang": "sv", "flag": "se" },
+    { "lang": "en", "flag": "gb" } // or perhaps you prefer `"flag": "us"` here?
+  ],
   "fallbackLanguage": "sv", // The fallback language if the user's language is not supported
   "analytics": {
     "type": "plausible", // Analytics service. Currently only "plausible" is implemented.

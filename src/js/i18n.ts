@@ -28,7 +28,7 @@ try {
   const resources = {};
 
   // Import resource for each of the languages specified in app config
-  for await (const lang of availableLanguages) {
+  for await (const { lang } of availableLanguages) {
     // An inner try/catch, for each individual language resource.
     // Failing to load one must not stop the rest from proceeding.
     try {
@@ -56,7 +56,7 @@ try {
     .init({
       debug: debugEnabled,
       fallbackLng: fallbackLanguage,
-      supportedLngs: availableLanguages,
+      supportedLngs: availableLanguages.map(({ lang }) => lang),
       resources,
       interpolation: {
         escapeValue: false, // react already safes from xss

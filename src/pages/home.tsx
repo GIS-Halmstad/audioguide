@@ -140,22 +140,25 @@ const HomePage = () => {
 
       <Popover className="popover-menu">
         <List dividersIos outlineIos strongIos>
-          {availableLanguages.map((lang: string, i: number) => (
-            <ListItem
-              key={i}
-              title={t(lang)}
-              after={lang.toUpperCase()}
-              style={{
-                textAlign: "center",
-                backgroundColor:
-                  i18n.resolvedLanguage === lang ? "lightgray" : "unset",
-              }}
-              onClick={() => {
-                i18n.changeLanguage(lang);
-                f7.popover.close(".popover-menu");
-              }}
-            />
-          ))}
+          {availableLanguages.map(
+            ({ lang, flag }: { lang: string; flag: string }, i: number) => (
+              <ListItem
+                key={i}
+                title={t(lang)}
+                style={{
+                  textAlign: "center",
+                  backgroundColor:
+                    i18n.resolvedLanguage === lang ? "lightgray" : "unset",
+                }}
+                onClick={() => {
+                  i18n.changeLanguage(lang);
+                  f7.popover.close(".popover-menu");
+                }}
+              >
+                <span className={`fi fi-${flag}`} slot="media"></span>
+              </ListItem>
+            )
+          )}
         </List>
       </Popover>
 

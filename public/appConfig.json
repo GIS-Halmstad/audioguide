@@ -4,10 +4,22 @@
     "mapName": "",
     "showDemoMessage": false,
     "availableLanguages": [
-        "sv",
-        "en",
-        "de",
-        "dk"
+        {
+            "lang": "sv",
+            "flag": "se"
+        },
+        {
+            "lang": "en",
+            "flag": "gb"
+        },
+        {
+            "lang": "de",
+            "flag": "de"
+        },
+        {
+            "lang": "dk",
+            "flag": "dk"
+        }
     ],
     "fallbackLanguage": "sv",
     "analytics": {

@@ -27,7 +27,11 @@
     "tabbar": {
         "list": "Bildlista",
         "shortList": "Lista",
-        "map": "Karta"
+        "map": "Karta",
+        "sv": "Svenska",
+        "en": "English",
+        "de": "Deutsch",
+        "dk": "Dansk"
     },
     "rotationUnsupported": {
         "title": "Rotera skärmen",
