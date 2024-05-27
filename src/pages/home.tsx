@@ -96,7 +96,11 @@ const HomePage = () => {
           </Link>
         </NavTitle>
         <NavRight>
-          <Link iconF7="globe" iconOnly popoverOpen=".popover-menu" />
+          <Link
+            iconF7="globe"
+            popoverOpen=".popover-menu"
+            text={i18n.resolvedLanguage?.toUpperCase()}
+          />
           <Link
             iconIos="f7:funnel"
             iconMd="material:filter_alt"
