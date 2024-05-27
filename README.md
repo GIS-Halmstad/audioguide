@@ -50,7 +50,7 @@ CREATE TABLE public.audioguide_line (
   categories text NULL,
   images text NULL,
   "style" jsonb NULL,
-  "sortOrder" int2 NOT NULL DEFAULT 1,
+  "sortOrder" int2 NULL,
   geom public.geometry(linestring, 3008) NOT NULL,
   CONSTRAINT audioguide_line_pk PRIMARY KEY ("guideId")
 );
