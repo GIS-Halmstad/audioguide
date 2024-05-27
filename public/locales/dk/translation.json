@@ -11,6 +11,11 @@
         "buttonCancel": "Annuller",
         "xOfY": "af"
     },
+    "layerNames": {
+        "Lantmäteriet": "Topografisk",
+        "Flygfoto": "Luftfoto",
+        "Halmstad 1920": "Halmstad 1920"
+    },
     "guideCategories": {
         "1": "Historie",
         "2": "Kultur og kunst"

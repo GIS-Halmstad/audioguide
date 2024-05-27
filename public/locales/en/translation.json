@@ -11,6 +11,11 @@
         "buttonCancel": "Cancel",
         "xOfY": "of"
     },
+    "layerNames": {
+        "Lantmäteriet": "Topo Map",
+        "Flygfoto": "Photo Map",
+        "Halmstad 1920": "Halmstad 1920"
+    },
     "guideCategories": {
         "1": "History",
         "2": "Culture & Art"

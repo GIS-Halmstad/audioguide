@@ -4,8 +4,10 @@ import { Actions, ActionsButton, ActionsGroup, f7 } from "framework7-react";
 import { getLayerVisibility, setBackgroundLayer } from "../js/openlayers/olMap";
 
 import { LayerConfig } from "../types/types";
+import { useTranslation } from "react-i18next";
 
 function LayerButton({ layer }) {
+  const { t } = useTranslation("layerNames");
   const isActive = getLayerVisibility(layer.id);
 
   return (
@@ -23,7 +25,7 @@ function LayerButton({ layer }) {
           }),
         }}
       />
-      {isActive ? <b>{layer.caption}</b> : <span>{layer.caption}</span>}
+      {isActive ? <b>{t(layer.caption)}</b> : <span>{t(layer.caption)}</span>}
     </ActionsButton>
   );
 }
