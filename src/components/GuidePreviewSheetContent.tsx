@@ -1,7 +1,7 @@
 // Imports
 import React, { useMemo } from "react";
 
-import { useTranslation } from "react-i18next";
+import { useTranslation, getI18n } from "react-i18next";
 
 import {
   f7,
@@ -47,6 +47,9 @@ type StopObject = {
 
 export default function GuidePreviewSheetContent({ f }: Props) {
   const { t } = useTranslation("guidePreviewSheetContent");
+  // Grab current language, used later to decide when we must
+  // re-render the component.
+  const lang = getI18n().resolvedLanguage;
   // f can be either a Point or a LineString, so let's find out.
   let pointFeature: Feature | null = null;
   let lineFeature: Feature;
@@ -75,7 +78,7 @@ export default function GuidePreviewSheetContent({ f }: Props) {
           geometry: pf.getGeometry(),
         };
       });
-  }, [lineFeature]);
+  }, [lang, lineFeature]); // Re-render when the language or selected guide changes.
 
   const handleActivateGuide = async (from?: Number) => {
     const fromStopNumber =
