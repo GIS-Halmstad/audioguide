@@ -43,11 +43,28 @@ const fetchFromService = async (type = "line") => {
       // Points should be sorted by stop number
       return features.sort((a, b) => a.get("stopNumber") - b.get("stopNumber"));
     } else {
-      // Line features should first be filtered out if inactivated in the database.
-      // Also, sort on the sortOrder column.
-      return features
-        .filter((f) => f.get("active") !== false)
-        .sort((a, b) => a.get("sortOrder") - b.get("sortOrder"));
+      // Sorting lines is done like this: if there's a value in the `sortOrder` column, use it.
+      // Else, let's see how many lines there are and randomize the position of the remaining ones,
+      // by putting them at the end of the list
+      const amountOfLines = features.length; // This will include inactive lines, but it doesn't matter here.
+
+      return (
+        features
+          // Line features should first be filtered out if inactivated in the database.
+          .filter((f) => f.get("active") !== false)
+          // Then, if there's a numeric value in the `sortOrder` column,
+          // use it. Else, set a random value at the end of the array.
+          .map((f) => {
+            if (Number.isFinite(f.get("sortOrder"))) {
+              return f;
+            } else {
+              f.set("sortOrder", amountOfLines + Math.random());
+              return f;
+            }
+          })
+          // Next, sort on the sortOrder column.
+          .sort((a, b) => a.get("sortOrder") - b.get("sortOrder"))
+      );
     }
   } catch (error) {
     throw new Error(`Fetching ${type} geometries from service failed`, {
