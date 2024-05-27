@@ -149,10 +149,12 @@ const HomePage = () => {
               <ListItem
                 key={i}
                 title={t(lang)}
+                link
                 style={{
-                  textAlign: "center",
                   backgroundColor:
-                    i18n.resolvedLanguage === lang ? "lightgray" : "unset",
+                    i18n.resolvedLanguage === lang
+                      ? "var(--f7-menu-list-item-selected-bg-color)"
+                      : "unset",
                 }}
                 onClick={() => {
                   i18n.changeLanguage(lang);
