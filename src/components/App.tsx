@@ -26,6 +26,7 @@ import { handleShowGuideInMap } from "../js/f7Helpers";
 import { preventAndroidBackButton } from "../js/utils";
 import { info, log, warn } from "../js/logger";
 
+import CookieNotice from "./CookieNotice";
 import DemoMessageSheet from "./DemoMessageSheet";
 import FullscreenSwiper from "./FullscreenSwiper";
 
@@ -197,6 +198,21 @@ const Audioguide = () => {
     log("[App.tsx] App init done. Store is:", store.state);
   };
 
+  const possiblyShowCookieNotice = (f7: Framework7) => {
+    type CookieLevel =
+      | -1 // Not yet set
+      | 0 // Allow essential only
+      | 1; // Allow functional and essential
+    // Try to read current value, fall back to -1
+    const cookieLevel: CookieLevel = Number.parseInt(
+      localStorage.getItem("cookieSelection") || "-1"
+    ) as CookieLevel;
+
+    if (cookieLevel < 1) {
+      f7.sheet.open(".cookie-notice");
+    }
+  };
+
   // The main "constructor" for this component. Runs once, sets
   // up the
   useEffect(() => {
@@ -204,6 +220,10 @@ const Audioguide = () => {
 
     f7ready(async (f7) => {
       __init(f7);
+      setTimeout(() => {
+        f7.store.state.appConfig.showCookieNotice === true &&
+          possiblyShowCookieNotice(f7);
+      }, 1000);
     });
   }, []);
 
@@ -235,6 +255,7 @@ const Audioguide = () => {
   return (
     <App {...f7params}>
       {store.state.appConfig.showDemoMessage === true && <DemoMessageSheet />}
+      {store.state.appConfig.showCookieNotice === true && <CookieNotice />}
       <Panel left cover visibleBreakpoint={960}>
         <View url="/panel-left/" />
       </Panel>

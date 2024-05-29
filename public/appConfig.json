@@ -1,8 +1,10 @@
 {
-    "useStaticMapConfig": true,
-    "mapServiceBase": "",
-    "mapName": "",
-    "showDemoMessage": false,
+    "analytics": {
+        "apiHost": "https://plausible.io",
+        "domain": "audioguide.example.com",
+        "trackLocalhost": false,
+        "type": "plausible"
+    },
     "availableLanguages": [
         {
             "lang": "sv",
@@ -22,10 +24,9 @@
         }
     ],
     "fallbackLanguage": "sv",
-    "analytics": {
-        "type": "plausible",
-        "domain": "audioguide.example.com",
-        "apiHost": "https://plausible.io",
-        "trackLocalhost": false
-    }
+    "mapName": "",
+    "mapServiceBase": "",
+    "showCookieNotice": true,
+    "showDemoMessage": false,
+    "useStaticMapConfig": true
 }

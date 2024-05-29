@@ -26,6 +26,18 @@ export const trimString = (
 };
 
 /**
+ * @summary Ensure that the supplied string isn't malformed by parsing it using the DOM.
+ * @description Please note that this function doesn't do any actual sanitizing, hence "pseudo".
+ * @param {string} html
+ * @returns
+ */
+export function pseudoSanitize(html: string) {
+  const doc = document.createElement("div");
+  doc.innerHTML = html;
+  return doc.innerHTML;
+}
+
+/**
  * Replaces escaped sequences of new line character in the input string with
  * their corresponding new line character and returns the result.
  *

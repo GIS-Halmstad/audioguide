@@ -39,6 +39,17 @@
         "message1": "Um diese App zu verwenden, müssen Sie Ihr Gerät in den Hochformatmodus drehen.",
         "message2": "Bitte drehen Sie Ihr Gerät und setzen Sie die Entdeckung von Halmstad fort."
     },
+    "cookies": {
+        "title": "Cookies und Datenschutz",
+        "messageHtml": "<p>Wir verwenden den <i>LocalStorage</i> deines Browsers, um deine gewählte Sprache (notwendig) und ob du Cookies akzeptiert hast (optional) zu speichern.</p><p>Wir verfolgen bestimmte Interaktionen, um zu sehen, welche Guides am meisten genutzt werden. Die an unsere Server gesendeten Daten sind anonymisiert und können nicht auf dich zurückgeführt werden. Diese Verfolgung speichert auch keine Cookies auf deinem Gerät. Indem du Halmstad Stories weiterhin nutzt, akzeptierst du dies.</p>",
+        "showCompletePrivacyPolicy": "Datenschutzrichtlinie anzeigen",
+        "allowFunctional": "Alle Cookies erlauben",
+        "allowEssential": "Nur notwendige Cookies erlauben"
+    },
+    "integrityPolicy": {
+        "title": "Halmstad Stories",
+        "messageHtml": "<h1>Datenschutzrichtlinie</h1><p><strong>1. Einführung</strong></p><p>Willkommen bei Halmstad Stories! Wir schätzen deine Privatsphäre und möchten, dass du dich sicher fühlst, wenn du unseren Dienst nutzt. Diese Datenschutzrichtlinie erklärt, wie wir deine Informationen sammeln, verwenden und schützen.</p><p><strong>2. Verwendung von LocalStorage</strong></p><p>Wir verwenden LocalStorage in deinem Browser, um bestimmte Daten lokal auf deinem Gerät zu speichern:</p><ul><li><strong>Sprachauswahl (<code>lng</code>)</strong>: Wir speichern deine gewählte Sprache, um deine Benutzererfahrung zu verbessern, indem wir Inhalte in der von dir bevorzugten Sprache anzeigen.</li><li><strong>Cookie-Benachrichtigung (<code>cookieNoticeShown</code>)</strong>: Wir speichern Informationen darüber, ob du unsere Cookie-Benachrichtigung akzeptiert hast, damit du diese nicht bei jedem Besuch erneut sehen musst.</li></ul><p><strong>3. Verfolgung von Benutzerinteraktionen</strong></p><p>Wir verwenden Plausible Analytics, um bestimmte Benutzerinteraktionen auf Halmstad Stories zu verfolgen. Plausible ist eine datenschutzfreundliche Analyseplattform, die:</p><ul><li>Anonymisierte und aggregierte Daten sammelt.</li><li>Keine Cookies oder andere auf deinem Gerät gespeicherte Tracking-Technologien verwendet.</li><li>Uns hilft zu verstehen, wie Benutzer mit Halmstad Stories interagieren, um den Dienst zu verbessern.</li></ul><p><strong>4. Zustimmung</strong></p><p>Wenn du Halmstad Stories zum ersten Mal besuchst, wird eine Nachricht angezeigt, in der wir um deine Zustimmung zur Verwendung von LocalStorage bitten. Indem du diese Nachricht akzeptierst, gibst du uns deine Zustimmung, die oben genannten Daten in deinem Browser zu speichern.</p><p><strong>5. Änderungen dieser Richtlinie</strong></p><p>Wir können diese Datenschutzrichtlinie bei Bedarf aktualisieren. Wir empfehlen, die Richtlinie regelmäßig zu lesen, um informiert zu bleiben, wie wir deine Privatsphäre schützen.</p><p><strong>6. Kontaktinformationen</strong></p><p>Wenn du Fragen oder Bedenken zu dieser Datenschutzrichtlinie hast, kontaktiere uns bitte:</p><ul><li><strong>E-Mail</strong>: <a href=\"mailto:info@tourist.halmstad.se\">info@tourist.halmstad.se</a></li><li><strong>Adresse</strong>: <ul><li>1/6 - 31/8 2024: Klammerdammsgatan 4, 302 42 Halmstad</li><li>Ab 1/9 2024: Fredsgatan 5, 302 46 Halmstad</li></ul></li></ul><p>Durch die Nutzung von Halmstad Stories akzeptierst du diese Datenschutzrichtlinie. Danke, dass du dir die Zeit genommen hast, sie zu lesen!</p>"
+    },
     "noGuidesAvailable": {
         "title": "Keine Guides verfügbar",
         "content": "Leider haben wir noch keine Guides in Ihrer Sprache verfügbar. Aber wir arbeiten daran, sie in Zukunft bereitzustellen, also bleiben Sie dran!",
@@ -53,6 +64,7 @@
         "allGuides": "Alle Guides",
         "share": "Link teilen",
         "install": "Als App herunterladen",
+        "cookies": "Cookies und Datenschutz",
         "about": "Über Halmstad Stories"
     },
     "panelRight": {

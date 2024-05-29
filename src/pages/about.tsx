@@ -1,21 +1,10 @@
 import React, { useRef } from "react";
 import { f7, Page, Navbar, Block, Button, Link } from "framework7-react";
+import { useTranslation } from "react-i18next";
 
 import { getOLMap } from "../js/openlayers/olMap";
 import { info } from "../js/logger";
-import { useTranslation } from "react-i18next";
-
-/**
- * @summary Ensure that the supplied string isn't malformed by parsing it using the DOM.
- * @description Please note that this function doesn't do any actual sanitizing, hence "pseudo".
- * @param {string} html
- * @returns
- */
-function pseudoSanitize(html: string) {
-  const doc = document.createElement("div");
-  doc.innerHTML = html;
-  return doc.innerHTML;
-}
+import { pseudoSanitize } from "../js/utils";
 
 const About = () => {
   const { t } = useTranslation(["about", "common"]);

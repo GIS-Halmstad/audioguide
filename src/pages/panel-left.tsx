@@ -29,6 +29,17 @@ function PanelLeft() {
                 <ListItem link="/install/" title={t("install")} />
               )
           }
+          {f7.store.state.appConfig.showCookieNotice === true && (
+            <ListItem
+              title={t("cookies")}
+              link
+              noChevron
+              onClick={() => {
+                f7.sheet.open(".cookie-notice");
+                f7.panel.close("left");
+              }}
+            />
+          )}
           <ListItem link="/about/" title={t("about")} />
         </List>
         <Block>

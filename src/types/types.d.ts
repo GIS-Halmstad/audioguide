@@ -11,8 +11,11 @@ export type AppConfig = {
     trackLocalhost: boolean;
     type: string;
   };
+  availableLanguages: { lang: string; flag: string }[];
+  fallbackLanguage: string;
   mapName: string;
   mapServiceBase: string;
+  showCookieNotice: boolean;
   showDemoMessage: boolean;
   useStaticMapConfig: boolean;
 };

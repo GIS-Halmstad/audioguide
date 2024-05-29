@@ -129,6 +129,7 @@ If you want to retrieve the configuration from Hajk's API, make sure to include 
 
   // Other settings
   "showDemoMessage": false, // If true, a basic info will be shown on app launch saying that this is a demo app
+  "showCookieNotice": false, // If true, a cookie notice will be shown on app launch
   "availableLanguages": [
     // A list of available languages with corresponding country flag codes
     { "lang": "sv", "flag": "se" },

@@ -43,6 +43,17 @@
         "message1": "För att Audioguiden ska fungera behöver du ha din skärm i stående läge.",
         "message2": "Rotera din enhet och fortsätt upptäcka Halmstad."
     },
+    "cookies": {
+        "title": "Kakor och integritet",
+        "messageHtml": "<p>Vi använder webbläsarens <i>LocalStorage</i> för att spara ditt valda språk (nödvändig) och om du har accepterat cookies (valbar).</p><p>Vi spårar viss interaktion, för att kunna se vilka guider som används mest. Data som skickas till våra serverar är anonymiserad och kan inte spåras tillbaka till dig. Denna spårning lagrar inte heller några cookies på din enhet. Genom att fortsätta använda Halmstad Stories accepterar du detta.</p>",
+        "showCompletePrivacyPolicy": "Visa integritetspolicy",
+        "allowFunctional": "Tillåt alla cookies",
+        "allowEssential": "Tillåt endast nödvändiga cookies"
+    },
+    "integrityPolicy": {
+        "title": "Halmstad Stories",
+        "messageHtml": "<h1>Integritetspolicy</h1><p><strong>1. Introduktion</strong></p><p>Välkommen till Halmstad Stories! Vi värnar om din integritet och vill att du ska känna dig trygg när du använder vår tjänst. Denna integritetspolicy förklarar hur vi samlar in, använder och skyddar din information.</p><p><strong>2. Användning av LocalStorage</strong></p><p>Vi använder LocalStorage i din webbläsare för att lagra vissa uppgifter lokalt på din enhet:</p><ul><li><strong>Språkval (<code>lng</code>)</strong>: Vi sparar ditt valda språk för att förbättra din användarupplevelse genom att visa innehåll på det språk du föredrar.</li><li><strong>Cookie-meddelande (<code>cookieNoticeShown</code>)</strong>: Vi sparar information om huruvida du har accepterat vårt cookie-meddelande för att du inte ska behöva se det igen vid varje besök.</li></ul><p><strong>3. Spårning av användarinteraktioner</strong></p><p>Vi använder Plausible Analytics för att spåra viss användarinteraktion på Halmstad Stories. Plausible är en integritetsvänlig analysplattform som:</p><ul><li>Samlar in anonymiserade och aggregerade data.</li><li>Inte använder cookies eller andra spårningsteknologier som lagras på din enhet.</li><li>Hjälper oss förstå hur användare interagerar med Halmstad Stories för att förbättra tjänsten.</li></ul><p><strong>4. Samtycke</strong></p><p>När du besöker Halmstad Stories för första gången visas ett meddelande där vi ber om ditt samtycke till att använda LocalStorage. Genom att acceptera detta meddelande ger du oss ditt samtycke att lagra de ovan nämnda uppgifterna i din webbläsare.</p><p><strong>5. Ändringar i denna policy</strong></p><p>Vi kan komma att uppdatera denna integritetspolicy vid behov. Vi rekommenderar att du regelbundet läser igenom policyn för att hålla dig informerad om hur vi skyddar din integritet.</p><p><strong>6. Kontaktinformation</strong></p><p>Om du har några frågor eller funderingar kring denna integritetspolicy, vänligen kontakta oss:</p><ul><li><strong>E-post</strong>: <a href=\"mailto:info@tourist.halmstad.se\">info@tourist.halmstad.se</a></li><li><strong>Adress</strong>: <ul><li>1/6 - 31/8 2024: Klammerdammsgatan 4, 302 42 Halmstad</li><li>Från 1/9 2024: Fredsgatan 5, 302 46 Halmstad</li></ul></li></ul><p>Genom att använda Halmstad Stories accepterar du denna integritetspolicy. Tack för att du tar dig tid att läsa igenom den!</p>"
+    },
     "noGuidesAvailable": {
         "title": "Inga guider tillgänliga",
         "content": "Vi har tyvärr inga guider tillgänliga på ditt språk ännu. Men vi jobbar på att ta fram dem framöver så håll utkik!",
@@ -57,6 +68,7 @@
         "allGuides": "Alla guider",
         "share": "Dela länk",
         "install": "Ladda ner som app",
+        "cookies": "Cookies och integritet",
         "about": "Om Halmstad Stories"
     },
     "panelRight": {

@@ -91,7 +91,7 @@ const HomePage = () => {
           <Link iconF7="menu" iconMaterial="menu" panelOpen="left" iconOnly />
         </NavLeft>
         <NavTitle>
-          <Link className="app-logo no-padding " onClick={handleShowAllGuides}>
+          <Link className="app-logo no-padding" onClick={handleShowAllGuides}>
             <img src="navbar-logo.svg" />
           </Link>
         </NavTitle>
