@@ -9,6 +9,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.0] - 2024-06-03
+
+### BREAKING
+
+- Substantial changes to the underlying database structure due to addition of internationalization support.
+
+### Added
+
+- The app is not internationalized. See the [README](https://github.com/GIS-Halmstad/audioguide/blob/main/README.md#internationalization-i18n) for more details. Merge commit: 08c7307e531a4205d2f356b10d41903b28cd0d8c.
+- Cookie notice and Privacy policy popup. Commit: 13c0b80722659aa0ec55cea42b9ed75ca95b5255.
+
 ## [1.1.0] - 2024-05-13
 
 ### Added
@@ -25,7 +36,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial public release.
 
-[unreleased]: https://github.com/GIS-Halmstad/audioguide/compare/v1.1.0...main
+[unreleased]: https://github.com/GIS-Halmstad/audioguide/compare/v1.2.0...main
+[1.2.0]: https://github.com/GIS-Halmstad/audioguide/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/GIS-Halmstad/audioguide/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/GIS-Halmstad/audioguide/releases/tag/v1.0.0
 

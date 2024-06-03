@@ -3,12 +3,12 @@
         "appName": "Halmstad Stories",
         "backLink": "Tilbage",
         "copyLink": "Kopier link",
-        "linkCopied": "Link kopieret.",
+        "linkCopied": "Link er kopieret.",
         "linkNotCopied": "Kunne ikke kopiere",
         "now": "Nu",
         "close": "Luk",
         "buttonOk": "OK",
-        "buttonCancel": "Annuller",
+        "buttonCancel": "Afbryd",
         "xOfY": "af"
     },
     "layerNames": {
@@ -18,7 +18,8 @@
     },
     "guideCategories": {
         "1": "Historie",
-        "2": "Kultur og kunst"
+        "2": "Halmstad by",
+        "3": "Gyllene Tider – popband"
     },
     "loadError": {
         "title": "Indlæsningsfejl",
@@ -36,8 +37,8 @@
     },
     "rotationUnsupported": {
         "title": "Roter skærmen",
-        "message1": "For at Audioguiden kan fungere, skal du have din skærm i lodret tilstand.",
-        "message2": "Roter din enhed og fortsæt med at opdage Halmstad."
+        "message1": "For at Halmstad Stories skal fungere, skal du have din skærm i stående position.",
+        "message2": "Roter din enhed, og fortsæt med at opdage Halmstad."
     },
     "cookies": {
         "title": "Cookies og privatliv",
@@ -57,7 +58,7 @@
     },
     "share": {
         "title": "Del link",
-        "instructions": "Du kan kopiere linket til Halmstad Stories til udklipsholderen på din enhed for derefter at kunne indsætte det i f.eks. en besked."
+        "instructions": "Du kan kopiere linket til Halmstad Stories til udklip på din enhed for derefter at kunne sætte det ind i fx en besked."
     },
     "menu": {
         "title": "Menu",
@@ -69,48 +70,48 @@
     },
     "panelRight": {
         "categoryFilter": "Kategorifilter",
-        "filterUnavailableMessage": "Kategorifilteret er deaktiveret, fordi en guide er aktiv. Afslut guiden og vend tilbage for at kunne se og filtrere kategorierne.",
-        "noCategoriesSelectedMessage": "Du skal vælge mindst én kategori, ellers vil du ikke se nogen guider.",
-        "noCategoriesSelectedTitle": "Ups!",
+        "filterUnavailableMessage": "Kategorifilteret er deaktiveret fordi en guide er aktiv. Afslut guiden og vend tilbage for at kunne se og filtrere kategorierne.",
+        "noCategoriesSelectedMessage": "Du skal vælge mindst en kategori, ellers ser du ingen guider.",
+        "noCategoriesSelectedTitle": "Hovsa!",
         "filterButton": "Filtrér",
         "resetFilterButton": "Nulstil filter",
         "copyLink": "Kopier link til valgte"
     },
     "error404": {
-        "title": "Ikke fundet",
-        "oops": "Åh nej!",
-        "message": "Der skete en fejl. Vi beklager det indtrufne."
+        "title": "Blev ikke fundet",
+        "oops": "Uha!",
+        "message": "Noget gik galt. Vi siger undskyld for hændelsen."
     },
     "errorUnsupportedOs": {
         "title": "Dit system understøttes ikke 😔",
-        "message": "Appen kan desværre ikke indlæses på din enhed, da systemkravene ikke opfyldes. Hvis det er muligt, skal du opgradere til iOS 15 eller nyere, eller bruge en anden enhed. Halmstad Stories fungerer også på computeren."
+        "message": "Halmstad Stories kan desværre ikke downloade på din enhed, da systemkravene ikke er opfyldt. Hvis muligt, opgrader til iOS 15 eller senere, eller brug en anden enhed. Halmstad Stories fungerer også på computeren."
     },
     "install": {
         "title": "Download som app",
-        "introMessage": "For at få den bedst mulige oplevelse af appen kan du tilføje den til din enhed.",
-        "instructionsIos": "For at tilføje appen på iOS skal du trykke på Del-knappen (den kan se ud som en pil, der peger opad). I menuen, der vises, skal du vælge \"Tilføj til hjemmeskærm\".",
-        "instructionsAndroid": "For at tilføje appen på Android skal du vælge din browsers menu (vises ofte som tre prikker, \"...\") og trykke på \"Installer appen\".",
-        "instructionsOther": "'Se i din browser efter knapper som f.eks. \"Del\", \"Installer\" eller \"Tilføj til hjemmeskærmen\"."
+        "introMessage": "For at få en så god oplevelse som muligt i appen kan du tilføje den til din enhed.",
+        "instructionsIos": "For at tilføje appen til iOS trykker du på Del-knappen (den kan se ud som en pil, som peger opad). I den menu, som kommer frem, vælger du \"Tilføj til hjemmeskærm\".",
+        "instructionsAndroid": "For at tilføje appen til Android skal du vælge din browsermenu (vises ofte som tre prikker,  \"...\") og trykke på \"Installer appen\".",
+        "instructionsOther": "'Kig i din browser efter knapper såsom  \"Del\", \"Installer\" eller \"Tilføj til hjemmeskærmen\"."
     },
     "about": {
         "title": "Om Halmstad Stories",
-        "pageContentHtml": "<p>Velkommen til Halmstads audioguide. Her får du adgang til spændende og dramatiserede rundvisninger rundt om i Halmstad. Audioguiden blev lanceret inden sommeren 2024 med fire unikke guidede ture.</p><p>Du vælger selv, om du vil følge en guide eller oprette en helt egen ved at besøge de stop, der passer dig. Hold øje med flere guider, vi opdaterer løbende.</p><p>Har du spørgsmål til guiden, er du velkommen til at kontakte <a href=\"https://www.destinationhalmstad.se/uppleva/bra-att-veta/halmstad-tourist-center\" class=\"external link\" target=\"_system\">Halmstad Tourist Center</a>.</p>",
+        "pageContentHtml": "<p>Velkommen til Halmstads audioguide. Her kan du komme med på spændende og dramatiserede guidede ture rundt omkring i Halmstad. Audioguiden blev lanceret lige før sommeren 2024 med fire unikke guidede ture.</p><p>Du vælger selv, om du vil følge en guide eller skabe din egen ved at besøge de stop, som passer dig. Hold udkig efter flere guider, vi fylder op løbende.</p><p>Hvis du har spørgsmål om guiden, er du velkommen til at kontakt Halmstad Tourist Center. <a href=\"https://www.destinationhalmstad.se/dk/oplevelser/godt-at-vide/halmstad-tourist-center\" class=\"external link\" target=\"_system\">Halmstad Tourist Center</a>.</p>",
         "showTechnicalInfoButton": "Vis teknisk information",
         "technicalInfo": "Teknisk information",
-        "mapCopyrightCaption": "Ophavsret til kortindhold",
+        "mapCopyrightCaption": "Ophavsret kortindhold",
         "builtWith": "Bygget med"
     },
     "audioguideCard": {
         "category": "Kategori",
-        "guidesLength": "Længden af guiden",
-        "guidesLengthTooltip": "Længden af guiden er {{length}}",
-        "startGuideButton": "Start guiden"
+        "guidesLength": "Guidens længde",
+        "guidesLengthTooltip": "Guidens længde er {{length}}",
+        "startGuideButton": "Oplev guiden"
     },
     "demo": {
         "title": "Dette er en demo",
         "message1": "Hej og velkommen til Halmstad Stories!",
-        "message2": "Bemærk, at det, du ser, er en meget tidlig demoversion af produktet, hvor intet er færdigt. Du vil opdage mærkelige ting, ting vil opføre sig anderledes end forventet, og funktioner vil mangle.",
-        "message3": "Denne besked vises hver gang appen starter."
+        "message2": "Bemærk, at det du ser er en meget tidlig demoversion af produktet, hvor ingenting er færdigt. Du vil finde mærkværdigheder, ting og sager vil opføre sig anderledes end ventet, og der vil mangle funktioner.",
+        "message3": "Denne besked vil blive vist, hver gang appen starter."
     },
     "guidePreviewSheetContent": {
         "startFromStopNumber": "Start fra stop {{stopNumber}}",
@@ -121,23 +122,23 @@
     "guideSheetContent": {
         "closeGuideDialogTitle": "Afslut guide",
         "closeGuideDialogMessage": "Vil du virkelig afslutte guiden?",
-        "alreadyOnFirstStopDialogTitle": "Allerede ved starten",
+        "alreadyOnFirstStopDialogTitle": "Allerede i begyndelsen",
         "alreadyOnFirstStopDialogMessage": "Du er allerede på det første stop. Vil du gå tilbage og ende på det sidste stop i guiden?",
         "alreadyOnLastStopDialogTitle": "Sidste stop",
-        "alreadyOnLastStopDialogMessage": "Du er allerede på det sidste stop. Vil du starte guiden forfra fra det første stop?",
+        "alreadyOnLastStopDialogMessage": "Du er allerede ved det sidste stop. Vil du påbegynde guiden igen fra det første stop?",
         "copyLinkToCurrentStop": "Kopier link til stop",
         "closeGuideButton": "Afslut guiden"
     },
     "olMap": {
         "startPointLabel": "Start",
-        "userOutsideMapTitle": "Du er uden for kortet",
-        "userOutsideMapMessage": "For at vise din position på kortet skal du være inden for dets dækningsområde. Du kan stadig bruge appen, men du vil ikke kunne se din position på kortet.",
+        "userOutsideMapTitle": "Du er udenfor kortet",
+        "userOutsideMapMessage": "For at kunne vise din placering på kortet, skal du være inden for dets udbredelsesområde. Du kan stadig bruge Halmstad Stories, men du vil ikke kunne se din placering på kortet.",
         "locationErrorTitle": "Placeringsfejl",
-        "locationErrorPermission": "For at fastlægge din position kræver appen din tilladelse. Skift i enhedens indstillinger og genindlæs appen.",
-        "locationErrorOther": "Det var ikke muligt at hente placeringsoplysninger på grund af en eller flere interne fejl.",
-        "distanceToPoint": "Du er cirka {{distance}} m (i luftlinje) fra dette sted.",
+        "locationErrorPermission": "For at kunne bestemme placering har Halmstad Stories brug for din tilladelse.  Skift enhedens indstillinger, og download Halmstad Stories igen.",
+        "locationErrorOther": "Det lykkedes ikke at hente placeringsoplysninger, da en eller flere interne kilder stødte på en fejl.",
+        "distanceToPoint": "Du befinder dig cirka {{distance}} m (i luftlinje) fra dette sted.",
         "confirmAbortPlaybackTitle": "Afbryd afspilning?",
-        "confirmAbortAudioPlaybackMessage": "Lyd afspilles i øjeblikket. Hvis du skifter trin, afbrydes afspilningen. Er du sikker på, at du vil skifte trin?",
-        "confirmAbortVideoPlaybackMessage": "Video afspilles i øjeblikket. Hvis du skifter trin, afbrydes afspilningen. Er du sikker på, at du vil skifte trin?"
+        "confirmAbortAudioPlaybackMessage": "Lyd afspilles. Hvis du skifter stop, afbrydes afspilningen. Er du sikker på, at du vil skifte stop?",
+        "confirmAbortVideoPlaybackMessage": "Video afspilles. Hvis du skifter stop, afbrydes afspilningen. Er du sikker på, at du vil skifte stop?"
     }
 }

@@ -18,26 +18,27 @@
     },
     "guideCategories": {
         "1": "History",
-        "2": "Culture & Art"
+        "2": "Halmstad city",
+        "3": "Gyllene Tider – pop band"
     },
     "loadError": {
         "title": "Load Error",
-        "message": "The app could not load all necessary components. You can try to reload by swiping upwards.",
-        "showTechnicalDetails": "Technical Details",
+        "message": "Halmstad Stories could not load all necessary components. You can try to reload by swiping upwards.",
+        "showTechnicalDetails": "Technical details",
         "overrideMapServiceBaseUrlPrompt": "Enter a custom URL for the service. Leave empty to use the default value.",
         "overrideMapServiceBaseUrlButton": "Enter custom URL for the service",
-        "resetMapServiceBaseUrlPrompt": "The URL has been reset to the default value. The app will now reload.",
+        "resetMapServiceBaseUrlPrompt": "The URL has been reset to the default value. Halmstad Stories will now reload.",
         "resetMapServiceBaseUrlButton": "Reset custom URL"
     },
     "tabbar": {
-        "list": "Photo List",
+        "list": "Image list",
         "shortList": "List",
         "map": "Map"
     },
     "rotationUnsupported": {
-        "title": "Rotate screen",
-        "message1": "To use this app you need to rotate your device to portrait mode.",
-        "message2": "Please rotate your device and continue discovering Halmstad."
+        "title": "Rotate the screen",
+        "message1": "For Halmstad Stories to work, you need to have your screen in portrait mode.",
+        "message2": "Rotate your device and continue to discover Halmstad."
     },
     "cookies": {
         "title": "Cookies and Privacy",
@@ -57,7 +58,7 @@
     },
     "share": {
         "title": "Share link",
-        "instructions": "You can copy the link to the Audio guide to your device's clipboard, allowing you to easily paste it into a message or any other application."
+        "instructions": "You can copy the link for Halmstad Stories to the clipboard on your device and then paste it into a message, for example."
     },
     "menu": {
         "title": "Menu",
@@ -69,75 +70,75 @@
     },
     "panelRight": {
         "categoryFilter": "Category Filter",
-        "filterUnavailableMessage": "The category filter is disabled because a guide is active. Finish the guide and come back to view and filter the categories.",
-        "noCategoriesSelectedMessage": "You must select at least one category, otherwise you won't see any guides.",
+        "filterUnavailableMessage": "The category filter is disabled because a guide is active. Exit the guide and go back to be able see and filter the categories.",
+        "noCategoriesSelectedMessage": "You must select at least one category, otherwise you will not see any guides.",
         "noCategoriesSelectedTitle": "Oops!",
         "filterButton": "Filter",
-        "resetFilterButton": "Reset Filter",
+        "resetFilterButton": "Reset filter",
         "copyLink": "Copy link to selected"
     },
     "error404": {
         "title": "Not Found",
         "oops": "Oops!",
-        "message": "Something went wrong. We apologize for the inconvenience."
+        "message": "Something went wrong here. We apologize for what happened."
     },
     "errorUnsupportedOs": {
         "title": "Your system is not supported 😔",
-        "message": "Unfortunately, the app cannot be loaded on your device because the system requirements are not met. If possible, upgrade to iOS 15 or later, or use another device. Halmstad Stories also works on desktop."
+        "message": "Unfortunately, the app cannot load on your device because the system requirements are not met. If possible, please upgrade to iOS 15 or later, or use another device. Halmstad Stories also works on your computer."
     },
     "install": {
         "title": "Download as an app",
         "introMessage": "To get the best possible experience from the app, you can add it to your device.",
-        "instructionsIos": "To add the app on iOS, tap the Share button (it may look like an arrow pointing upwards). In the menu that appears, select \"Add to Home Screen\".",
-        "instructionsAndroid": "To add the app on Android, you need to select your browser's menu (often displayed as three dots, \"...\") and tap \"Install App\".",
+        "instructionsIos": "To add the app on iOS, tap the Share button (it may look like an arrow pointing upwards). In the menu that appears, select  \"Add to Home Screen\".",
+        "instructionsAndroid": "To add the app on Android, you need to select your browser's menu (often shown as three dots \"...\") and tap \"Install the app\".",
         "instructionsOther": "Look in your browser for buttons like \"Share\", \"Install\", or \"Add to Home Screen\"."
     },
     "about": {
         "title": "About Halmstad Stories",
-        "pageContentHtml": "<p>Welcome to Halmstad's audio guide. Here you can enjoy exciting and dramatized tours around Halmstad. The audio guide was launched before the summer of 2024 with four unique guided tours.</p><p>You can choose whether to follow a guide or create your own by visiting the stops that suit you. Keep an eye out for more guides, as we continuously add new ones.</p><p>If you have any questions about the guide, feel free to contact <a href=\"https://www.destinationhalmstad.se/en/experience/good-to-know/halmstad-tourist-center\" class=\"external link\" target=\"_system\">Halmstad Tourist Center</a>.</p>",
+        "pageContentHtml": "<p>Welcome to the Halmstad audio guide. Here you can take part in exciting and dramatized tours around Halmstad. The audio guide was launched for the summer of 2024 with four unique guided tours.</p><p>You choose whether you want to follow a guide or create your own by visiting the stops that suit you. Keep an eye out for additional guides, as we are constantly adding new ones.</p><p>If you have any questions about the guide, please contact the Halmstad Tourist Center. <a href=\"https://www.destinationhalmstad.se/en/experience/good-to-know/halmstad-tourist-center\" class=\"external link\" target=\"_system\">Halmstad Tourist Center</a>.</p>",
         "showTechnicalInfoButton": "Show technical information",
         "technicalInfo": "Technical information",
-        "mapCopyrightCaption": "Map content copyright",
+        "mapCopyrightCaption": "Copyrighted map content",
         "builtWith": "Built with"
     },
     "audioguideCard": {
         "category": "Category",
-        "guidesLength": "Guide's length",
-        "guidesLengthTooltip": "Guide's length is {{length}}",
-        "startGuideButton": "Let's go!"
+        "guidesLength": "Length of the guide",
+        "guidesLengthTooltip": "The length of the guide is{{length}}",
+        "startGuideButton": "Experience the guide"
     },
     "demo": {
         "title": "This is a demo",
         "message1": "Hello and welcome to the Halmstad Stories!",
-        "message2": "Please note that what you see is a very early demo version of the product where nothing is finalized. You will encounter oddities, things will behave differently than expected, and features will be missing.",
+        "message2": "Please note that what you are seeing is a very early demo version of the product with nothing having been finalized. You will notice oddities; things will behave differently than expected and functions will be missing.",
         "message3": "This message will appear every time the app starts."
     },
     "guidePreviewSheetContent": {
         "startFromStopNumber": "Start from stop {{stopNumber}}",
-        "startFromClosestStop": "Start from the closest stop",
+        "startFromClosestStop": "Start from the nearest stop",
         "startFromFirstStop": "Start from the beginning",
         "stopsAlongTheGuide": "Stops along the way"
     },
     "guideSheetContent": {
-        "closeGuideDialogTitle": "Close Guide",
-        "closeGuideDialogMessage": "Do you really want to close the guide?",
+        "closeGuideDialogTitle": "Exit guide",
+        "closeGuideDialogMessage": "Do you really want to exit the guide?",
         "alreadyOnFirstStopDialogTitle": "Already at the beginning",
         "alreadyOnFirstStopDialogMessage": "You are already at the first stop. Do you want to go back and end up at the last stop in the guide?",
         "alreadyOnLastStopDialogTitle": "Last stop",
-        "alreadyOnLastStopDialogMessage": "You are already at the last stop. Do you want to restart the guide from the first stop?",
+        "alreadyOnLastStopDialogMessage": "You are already at the last stop. Do you want to start the guide again from the first stop?",
         "copyLinkToCurrentStop": "Copy link to stop",
-        "closeGuideButton": "Close guide"
+        "closeGuideButton": "Exit the guide"
     },
     "olMap": {
         "startPointLabel": "Start",
-        "userOutsideMapTitle": "You are outside the map",
-        "userOutsideMapMessage": "To show your position on the map, you need to be within its coverage area. You can still use the app, but you won't be able to see your position on the map.",
-        "locationErrorTitle": "Location Error",
-        "locationErrorPermission": "To determine your location, the app needs your permission. Please change your device settings and reload the app.",
+        "userOutsideMapTitle": "You are off the map",
+        "userOutsideMapMessage": "To view your location on the map, you need to be within its coverage area. You can still use Halmstad Stories, but you will not be able to see your location on the map.",
+        "locationErrorTitle": "Location error",
+        "locationErrorPermission": "To show your location, Halmstad Stories needs your permission. Change your device settings and reload Halmstad Stories.",
         "locationErrorOther": "Failed to retrieve location information due to an error encountered by one or more internal sources.",
-        "distanceToPoint": "You are approximately {{distance}} m (straight-line distance) from this location.",
-        "confirmAbortPlaybackTitle": "Abort playback?",
-        "confirmAbortAudioPlaybackMessage": "Audio is currently playing. Changing steps will abort playback. Are you sure you want to change steps?",
-        "confirmAbortVideoPlaybackMessage": "Video is currently playing. Changing steps will abort playback. Are you sure you want to change steps?"
+        "distanceToPoint": "You are approximately {{distance}} m (straight-line distance) from this location",
+        "confirmAbortPlaybackTitle": "Cancel playback?",
+        "confirmAbortAudioPlaybackMessage": "Audio is playing. If you change stop, the playback is canceled. Are you sure you want to change the stop?",
+        "confirmAbortVideoPlaybackMessage": "The video is playing. If you change the stop, playback is interrupted. Are you sure you want to change stops?"
     }
 }

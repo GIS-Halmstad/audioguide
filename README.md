@@ -30,64 +30,89 @@ There are several options to serve data as WFS, but one common solution is to st
 
 To set up the Audioguide App, you need to create two tables in your spatial database:
 
-##### audioguide_line
+##### audioguide_lines
 
 ```sql
--- public.audioguide_line definition
+-- dest_halm.audioguide_lines definition
 
 -- Drop table
 
--- DROP TABLE public.audioguide_line;
+-- DROP TABLE dest_halm.audioguide_lines;
 
-CREATE TABLE public.audioguide_line (
-  "guideId" int2 NOT NULL,
-  active bool NOT NULL DEFAULT true,
-  "activeLanguages" text NOT NULL,
-  "title"-{lang} text NOT NULL,
-  "text"-{lang} text NOT NULL,
-  "length"-{lang} text NOT NULL DEFAULT 0,
-  "highlightLabel"-{lang} text NULL,
-  categories text NULL,
-  images text NULL,
-  "style" jsonb NULL,
-  "sortOrder" int2 NULL,
-  geom public.geometry(linestring, 3008) NOT NULL,
-  CONSTRAINT audioguide_line_pk PRIMARY KEY ("guideId")
+CREATE TABLE dest_halm.audioguide_lines (
+	"guideId" int2 NOT NULL,
+	geom public.geometry(linestring, 3008) NOT NULL,
+	"style" jsonb NULL,
+	active bool NOT NULL,
+	"activeLanguages" text NULL,
+	categories text NULL,
+	images text NULL,
+	"sortOrder" int2 NULL,
+	"title-sv" text NULL,
+	"text-sv" text NULL,
+	"length-sv" text NULL,
+	"highlightLabel-sv" text NULL,
+	"title-en" text NULL,
+	"text-en" text NULL,
+	"length-en" text NULL,
+	"highlightLabel-en" text NULL,
+	"title-de" text NULL,
+	"text-de" text NULL,
+	"length-de" text NULL,
+	"highlightLabel-de" text NULL,
+	"title-dk" text NULL,
+	"text-dk" text NULL,
+	"length-dk" text NULL,
+	"highlightLabel-dk" text NULL,
+	CONSTRAINT audioguide_lines_pk PRIMARY KEY ("guideId")
 );
-CREATE INDEX sidx_audioguide_line_geom ON public.audioguide_line USING gist (geom);
+CREATE INDEX sidx_audioguide_lines_geom ON dest_halm.audioguide_lines USING gist (geom);
 ```
 
-##### audioguide_point
+##### audioguide_points
 
 ```sql
--- public.audioguide_point definition
+-- dest_halm.audioguide_points definition
 
 -- Drop table
 
--- DROP TABLE public.audioguide_point;
+-- DROP TABLE dest_halm.audioguide_points;
 
-CREATE TABLE public.audioguide_point (
-  id int4 NOT NULL GENERATED ALWAYS AS IDENTITY,
-  "guideId" int2 NOT NULL,
-  "stopNumber" int2 NOT NULL,
-  "title"-{lang} text NOT NULL,
-  "text"-{lang} text NOT NULL,
-  images text NULL,
-  "audios"-{lang} text NULL,
-  "videos"-{lang} text NULL,
-  "style" jsonb NULL,
-  geom public.geometry(point, 3008) NOT NULL,
-  CONSTRAINT audioguide_point_pkey PRIMARY KEY (id),
-  CONSTRAINT audioguide_point_unique_guide_stop UNIQUE ("stopNumber", "guideId")
+CREATE TABLE dest_halm.audioguide_points (
+	id int4 NOT NULL,
+	geom public.geometry(point, 3008) NULL,
+	"style" jsonb NULL,
+	"guideId" int2 NOT NULL,
+	"stopNumber" int2 NOT NULL,
+	images text NULL,
+	"title-sv" text NULL,
+	"text-sv" text NULL,
+	"audios-sv" text NULL,
+	"videos-sv" text NULL,
+	"title-en" text NULL,
+	"text-en" text NULL,
+	"audios-en" text NULL,
+	"videos-en" text NULL,
+	"title-de" text NULL,
+	"text-de" text NULL,
+	"audios-de" text NULL,
+	"videos-de" text NULL,
+	"title-dk" text NULL,
+	"text-dk" text NULL,
+	"audios-dk" text NULL,
+	"videos-dk" text NULL,
+	CONSTRAINT audioguide_points_pk PRIMARY KEY (id),
+	CONSTRAINT audioguide_points_unique_guide_stop UNIQUE ("guideId", "stopNumber"),
+	CONSTRAINT audioguide_points_audioguide_lines_fk FOREIGN KEY ("guideId") REFERENCES dest_halm.audioguide_lines("guideId")
 );
-CREATE INDEX sidx_audioguide_point_geom ON public.audioguide_point USING gist (geom);
+CREATE INDEX sidx_audioguide_points_geom ON dest_halm.audioguide_points USING gist (geom);
 ```
 
 Note that some fields in the database tables are language-specific. These fields have names with the `-{lang}` suffix. To support additional languages, simply replace `-{lang}` with the desired language code and add as many columns as needed. For example, to support English and French, you would add columns named `title-en`, `title-fr`, `text-en`, `text-fr`, and so on.
 
 #### The OGC WFS Service
 
-Once you have the spatial data in a database, you need to expose it using a WFS service that can output features as `application/json`. Make sure to note the workspace, workspace's namespace, layers' SRS, as well as the URL to the WFS service. The Audioguide App expects the WFS layers to be called the same as the tables, i.e. `audioguide_line` and `audioguide_point`.
+Once you have the spatial data in a database, you need to expose it using a WFS service that can output features as `application/json`. Make sure to note the workspace, workspace's namespace, layers' SRS, as well as the URL to the WFS service. The Audioguide App expects the WFS layers to be called the same as the tables, i.e. `audioguide_lines` and `audioguide_points`.
 
 ### Option 2: GeoJSON files
 
@@ -159,7 +184,7 @@ Hajk's API has the notion of _map configs_, that for some historical reasons is 
 
     // If using WFS, we must provide more connection details.
     "serviceSettings": {
-      "url": "http://localhost:8080/geoserver/ows", // URL to WFS service that exposes the audioguide_line and audioguide_point layers
+      "url": "http://localhost:8080/geoserver/ows", // URL to WFS service that exposes the audioguide_lines and audioguide_points layers
       "srsName": "EPSG:3008", // SRS
       "featureNS": "https://pg.halmstad.se", // Workspace's namespace
       "featurePrefix": "pg" // Workspace name
@@ -168,7 +193,7 @@ Hajk's API has the notion of _map configs_, that for some historical reasons is 
     "title": "Audioguide",
     "description": "Audioguide tool",
     "audioguideAttribution": "Destination Halmstad, Halmstads kommun", // Used as main attribution, i.e. it should specify the audioguide tool's "owner". Shown in the About panel.
-    "audioguideLayersAttribution": "Halmstads kommun", // Used to specify the owner/copyright holder of the audioguide map layers (i.e. audioguide_line and audioguide_point). Shown in the About panel.
+    "audioguideLayersAttribution": "Halmstads kommun", // Used to specify the owner/copyright holder of the audioguide map layers (i.e. audioguide_lines and audioguide_points). Shown in the About panel.
     "target": "left", // Hajk-specific, currently not used
     "position": "right", // Hajk-specific, currently not used
     "visibleAtStart": true, // Hajk-specific, currently not used
@@ -235,7 +260,7 @@ To set styling, use the following format (make sure to remove the comments!):
 
 This section describes how to add media assets (images, audio, and video files) to the Audioguide App.
 
-As you may have noticed, the database tables include some columns that are meant to be used to link each geometric feature with one-to-many assets. The `audioguide_point` table contains `audios`, `videos`, and `images`, while the `audioguide_line` table contains `images` only. Each of these columns' values should be _a comma-separated string of either relative or absolute URLs_. `NULL` is also an allowed value.
+As you may have noticed, the database tables include some columns that are meant to be used to link each geometric feature with one-to-many assets. The `audioguide_points` table contains `audios`, `videos`, and `images`, while the `audioguide_lines` table contains `images` only. Each of these columns' values should be _a comma-separated string of either relative or absolute URLs_. `NULL` is also an allowed value.
 
 The linked assets will be shown in the app in the corresponding place in the UI.
 
@@ -257,7 +282,7 @@ For example, consider the following data in the table:
 
 ```sql
 SELECT "guideId", "stopNumber", images
-FROM audioguide_point
+FROM audioguide_points
 ORDER BY "guideId", "stopNumber";
 
 guideId|stopNumber|images           |
