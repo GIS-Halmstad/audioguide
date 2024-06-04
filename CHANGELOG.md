@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.1] - 2024-06-04
+
+### Changed
+
+- Some more tweaks to the translations.
+
 ## [1.2.0] - 2024-06-03
 
 ### BREAKING
@@ -36,7 +42,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial public release.
 
-[unreleased]: https://github.com/GIS-Halmstad/audioguide/compare/v1.2.0...main
+[unreleased]: https://github.com/GIS-Halmstad/audioguide/compare/v1.2.1...main
+[1.2.1]: https://github.com/GIS-Halmstad/audioguide/compare/v1.2.0...v1.2.1
 [1.2.0]: https://github.com/GIS-Halmstad/audioguide/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/GIS-Halmstad/audioguide/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/GIS-Halmstad/audioguide/releases/tag/v1.0.0

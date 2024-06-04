@@ -12,14 +12,14 @@
         "xOfY": "of"
     },
     "layerNames": {
-        "Lantmäteriet": "Topo Map",
-        "Flygfoto": "Photo Map",
+        "Lantmäteriet": "Topographical",
+        "Flygfoto": "Aerial photograph",
         "Halmstad 1920": "Halmstad 1920"
     },
     "guideCategories": {
         "1": "History",
         "2": "Halmstad city",
-        "3": "Gyllene Tider – pop band"
+        "3": "Gyllene Tider – pop group"
     },
     "loadError": {
         "title": "Load Error",
@@ -33,7 +33,11 @@
     "tabbar": {
         "list": "Image list",
         "shortList": "List",
-        "map": "Map"
+        "map": "Map",
+        "sv": "Svenska",
+        "en": "English",
+        "de": "Deutsch",
+        "dk": "Dansk"
     },
     "rotationUnsupported": {
         "title": "Rotate the screen",
@@ -41,15 +45,15 @@
         "message2": "Rotate your device and continue to discover Halmstad."
     },
     "cookies": {
-        "title": "Cookies and Privacy",
-        "messageHtml": "<p>We use the browser's <i>LocalStorage</i> to save your selected language (necessary) and if you have accepted cookies (optional).</p><p>We track certain interactions to see which guides are used most. Data sent to our servers is anonymized and cannot be traced back to you. This tracking also does not store any cookies on your device. By continuing to use Halmstad Stories, you accept this.</p>",
-        "showCompletePrivacyPolicy": "Show Privacy Policy",
+        "title": "Cookies and privacy",
+        "messageHtml": "<p>We use your browser’s <i>LocalStorage</i> to store information about your selected language (required) and whether you have allowed cookies (optionally).</p><p>We track some of your interaction in order to see which guides are used most. Data sent to our servers are anonymised and cannot be traced back to you. The interaction tracking does not store any cookies on your device. By continuing to use Halmstad Stories you accept this.</p>",
+        "showCompletePrivacyPolicy": "View privacy policy",
         "allowFunctional": "Allow all cookies",
-        "allowEssential": "Allow only necessary cookies"
+        "allowEssential": "Only allow necessary cookies"
     },
     "integrityPolicy": {
         "title": "Halmstad Stories",
-        "messageHtml": "<h1>Privacy Policy</h1><p><strong>1. Introduction</strong></p><p>Welcome to Halmstad Stories! We value your privacy and want you to feel safe when using our service. This privacy policy explains how we collect, use, and protect your information.</p><p><strong>2. Use of LocalStorage</strong></p><p>We use LocalStorage in your browser to store certain information locally on your device:</p><ul><li><strong>Language Preference (<code>lng</code>)</strong>: We save your selected language to enhance your user experience by displaying content in your preferred language.</li><li><strong>Cookie Notice (<code>cookieNoticeShown</code>)</strong>: We save information about whether you have accepted our cookie notice so that you do not have to see it again on each visit.</li></ul><p><strong>3. Tracking User Interactions</strong></p><p>We use Plausible Analytics to track certain user interactions on Halmstad Stories. Plausible is a privacy-friendly analytics platform that:</p><ul><li>Collects anonymized and aggregated data.</li><li>Does not use cookies or other tracking technologies stored on your device.</li><li>Helps us understand how users interact with Halmstad Stories to improve the service.</li></ul><p><strong>4. Consent</strong></p><p>When you visit Halmstad Stories for the first time, a message will appear asking for your consent to use LocalStorage. By accepting this message, you give us your consent to store the aforementioned data in your browser.</p><p><strong>5. Changes to this Policy</strong></p><p>We may update this privacy policy as needed. We recommend that you regularly review the policy to stay informed about how we protect your privacy.</p><p><strong>6. Contact Information</strong></p><p>If you have any questions or concerns about this privacy policy, please contact us:</p><ul><li><strong>Email</strong>: <a href=\"mailto:info@tourist.halmstad.se\">info@tourist.halmstad.se</a></li><li><strong>Address</strong>: <ul><li>1/6 - 31/8 2024: Klammerdammsgatan 4, 302 42 Halmstad</li><li>From 1/9 2024: Fredsgatan 5, 302 46 Halmstad</li></ul></li></ul><p>By using Halmstad Stories, you accept this privacy policy. Thank you for taking the time to read it!</p>"
+        "messageHtml": "<h1>Privacy policy</h1><p><strong>1. Introduction</strong></p><p>Welcome to Halmstad Stories! We care about your privacy and want you to feel secure when you use our service. This privacy policy explains how we collect, use and protect your information.</p><p><strong>2. Use of LocalStorage</strong></p><p>We use LocalStorage in your browser to store certain information locally on your device:</p><ul><li><strong>Language selection (<code>lng</code>)</strong>: We store your language selection to improve your user experience by showing you content in the language you selected.</li><li><strong>Cookie message (<code>cookieNoticeShown</code>)</strong>: We store information about whether you accepted our cookie message so that you don’t have to see it again on every visit.</li></ul><p><strong>3. Tracking of user interaction</strong></p><p>We use Plausible Analytics to track some user interaction with Halmstad Stories. Plausible is a privacy-friendly analysis platform that:</p><ul><li>Collects anonymised and aggregated data.</li><li>Does not use cookies or other tracking technology that is stored on your device.</li><li>Helps us understand how users interact with Halmstad Stories, so we can improve the service.</li></ul><p><strong>4. Consent</strong></p><p>When you visit Halmstad Stories for the first time, a message is shown that asks for your consent to the use of LocalStorage. By accepting this message you consent to storage of the information described above in your web browser.</p><p><strong>5. Changes to this policy</strong></p><p>We may update this privacy policy if necessary. We recommend that you regularly read through the policy to keep informed about how we protect your privacy.</p><p><strong>6. Contact details</strong></p><p>If you have any questions or concerns regarding this privacy policy, please contact us:</p><ul><li><strong>Email</strong>: <a href=\"mailto:info@tourist.halmstad.se\">info@tourist.halmstad.se</a></li><li><strong>Address</strong>: <ul><li>1/6 - 31/8 2024: Klammerdammsgatan 4, 302 42 Halmstad</li><li>From 1/9 2024: Fredsgatan 5, 302 46 Halmstad</li></ul></li></ul><p>By using Halmstad Stories you accept this privacy policy. Thank you for taking the time to read through it!</p>"
     },
     "noGuidesAvailable": {
         "title": "No guides available",
@@ -123,7 +127,7 @@
         "closeGuideDialogTitle": "Exit guide",
         "closeGuideDialogMessage": "Do you really want to exit the guide?",
         "alreadyOnFirstStopDialogTitle": "Already at the beginning",
-        "alreadyOnFirstStopDialogMessage": "You are already at the first stop. Do you want to go back and end up at the last stop in the guide?",
+        "alreadyOnFirstStopDialogMessage": "You are already at the first stop. Would you like to go back in order to reach the last stop in the guide?",
         "alreadyOnLastStopDialogTitle": "Last stop",
         "alreadyOnLastStopDialogMessage": "You are already at the last stop. Do you want to start the guide again from the first stop?",
         "copyLinkToCurrentStop": "Copy link to stop",
