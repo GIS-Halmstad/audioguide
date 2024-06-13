@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.2] - 2024-06-013
+
+### Fixed
+
+- Prevent possible crash if the pre-selected guide's category wasn't selected. The current solution is to always select all available categories _if_ a guide is to be pre-selected. Commit: f6f5e4467b62f5f8b50b1c5de5ed66b3eab370ea.
+
 ## [1.2.1] - 2024-06-04
 
 ### Changed
@@ -42,7 +48,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial public release.
 
-[unreleased]: https://github.com/GIS-Halmstad/audioguide/compare/v1.2.1...main
+[unreleased]: https://github.com/GIS-Halmstad/audioguide/compare/v1.2.2...main
+[1.2.2]: https://github.com/GIS-Halmstad/audioguide/compare/v1.2.1...v1.2.2
 [1.2.1]: https://github.com/GIS-Halmstad/audioguide/compare/v1.2.0...v1.2.1
 [1.2.0]: https://github.com/GIS-Halmstad/audioguide/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/GIS-Halmstad/audioguide/compare/v1.0.0...v1.1.0
