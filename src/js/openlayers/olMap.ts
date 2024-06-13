@@ -986,6 +986,13 @@ const activateGuide = (guideId: number, stopNumber: number) => {
     ?.getFeatures()
     .filter((f) => f.get("guideId") === guideId);
 
+  if (features?.length === 0) {
+    warn(
+      `Could not activate guide with id ${guideId}: no point features were found.`
+    );
+    return;
+  }
+
   const activateGuideObject = convertFeaturesToGuideObject(features);
 
   // OL must inform the F7 store that it should activate

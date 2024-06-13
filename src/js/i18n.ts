@@ -151,6 +151,15 @@ const getValidCategories = (
   availableCategories: string[],
   categoriesToTest: string[]
 ) => {
+  // If we're about to pre-select a guide/stop, let's disable
+  // the validation and just use all categories available in
+  // the current language. It's an easy way to ensure that
+  // no guide/stop is selected but its category isn't.
+  const gid = Number(getParamValueFromHash("g")[0]);
+  if (!Number.isNaN(gid)) {
+    return availableCategories;
+  }
+
   // If there are pre-selected categories, let's ensure that
   // they're valid (i.e. exist among available categories).
   const validCategories = categoriesToTest.filter((c: string) =>
