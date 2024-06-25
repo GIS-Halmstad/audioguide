@@ -114,6 +114,15 @@ const HomePage = () => {
         <Link
           tabLink="#tab-list"
           tabLinkActive
+          onClick={() => {
+            // The `tabLink` prop will ensure that the #tab-list is
+            // active. But we want also ensure that it's scrolled up
+            // all the way to the top.
+            const tabList = document.getElementById("tab-list");
+            if (tabList?.scrollTop) {
+              tabList.scrollTop = 0;
+            }
+          }}
           text={t("list")}
           iconIos="f7:list_bullet_below_rectangle"
           iconMd="material:ballot"
@@ -121,6 +130,12 @@ const HomePage = () => {
 
         <Link
           tabLink="#tab-short-list"
+          onClick={() => {
+            const tabShortList = document.getElementById("tab-short-list");
+            if (tabShortList?.scrollTop) {
+              tabShortList.scrollTop = 0;
+            }
+          }}
           text={t("shortList")}
           iconIos="f7:list_bullet"
           iconMd="material:list"
