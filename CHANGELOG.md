@@ -9,7 +9,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [1.2.2] - 2024-06-013
+## [1.2.3] - 2024-06-25
+
+### Fixed
+
+- Ensure that click on photo list/list will scroll up to the top of the List view. Commit: e42896b8defa74c23b0c96731bf225fc01f7cee2
+
+### Security
+
+- Upgraded dependencies to latest versions.
+
+## [1.2.2] - 2024-06-13
 
 ### Fixed
 
@@ -48,7 +58,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial public release.
 
-[unreleased]: https://github.com/GIS-Halmstad/audioguide/compare/v1.2.2...main
+[unreleased]: https://github.com/GIS-Halmstad/audioguide/compare/v1.2.3...main
+[1.2.3]: https://github.com/GIS-Halmstad/audioguide/compare/v1.2.2...v1.2.3
 [1.2.2]: https://github.com/GIS-Halmstad/audioguide/compare/v1.2.1...v1.2.2
 [1.2.1]: https://github.com/GIS-Halmstad/audioguide/compare/v1.2.0...v1.2.1
 [1.2.0]: https://github.com/GIS-Halmstad/audioguide/compare/v1.1.0...v1.2.0
