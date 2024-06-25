@@ -1,5 +1,9 @@
 # The Audioguide App
 
+## Real-world example
+
+This platform was born out of the idea to create [Halmstad Stories](https://halmstadstories.se/). Hence, if you'd like to see a real-world example of the Audioguide App, please check out the [Halmstad Stories](https://halmstadstories.se/) website.
+
 ## Client Requirements
 
 This app utilizes modern features and Web APIs, including top-level awaits (introduced in ES2022) and the WEBP image format. The minimum system requirements for browsers are:
