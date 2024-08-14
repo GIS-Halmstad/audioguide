@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.3.0] - 2024-08-13
+
+### Added
+
+- It is now possible to load audioguide features that come in different projection than that of the map. It's useful e.g. when using OpenStreetMap in its native EPSG:3857, while the features created locally may come in another projection. See commit info in 08a3d3dbcbd081f5a5e2900a9e72a83364d99990 for details.
+
 ## [1.2.4] - 2024-08-12
 
 ### Security
@@ -65,6 +71,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Initial public release.
 
 [unreleased]: https://github.com/GIS-Halmstad/audioguide/compare/v1.2.4...main
+[1.3.0]: https://github.com/GIS-Halmstad/audioguide/compare/v1.2.4...v1.3.0
 [1.2.4]: https://github.com/GIS-Halmstad/audioguide/compare/v1.2.3...v1.2.4
 [1.2.3]: https://github.com/GIS-Halmstad/audioguide/compare/v1.2.2...v1.2.3
 [1.2.2]: https://github.com/GIS-Halmstad/audioguide/compare/v1.2.1...v1.2.2
