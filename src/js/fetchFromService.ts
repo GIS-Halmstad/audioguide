@@ -7,6 +7,9 @@ const fetchFromService = async (type = "line") => {
     store.state.mapConfig.tools.audioguide.serviceSettings;
   const useStaticGeoJSON =
     store.state.mapConfig.tools.audioguide.useStaticGeoJSON || false;
+  const viewProjection = store.state.mapConfig.map.projection;
+  const staticGeoJSONProjection =
+    store.state.mapConfig.tools.audioguide.staticGeoJSONProjection || null;
 
   try {
     let response: Response,
@@ -37,7 +40,19 @@ const fetchFromService = async (type = "line") => {
     }
 
     // Either way (static GeoJSON or WFS), we got some JSON features and want to parse them.
-    const features = new GeoJSON().readFeatures(json);
+    const features = new GeoJSON().readFeatures(json, {
+      // dataProjections is the projection of our features.
+      // OL will do a best effort to derive them from the source,
+      // but sometimes it won't work as expected. Hence, sysadmin has the
+      // option to set useStaticGeoJSON in mapConfig and adjust accordingly.
+      ...(useStaticGeoJSON === true && staticGeoJSONProjection !== null
+        ? { dataProjection: staticGeoJSONProjection }
+        : {}),
+      // featureProjection is the projection of our View. We want to explicitly convert
+      // our features from whatever projection the originally are in and to our View's projection.
+      featureProjection: viewProjection,
+    });
+
     // Depending on if it's points or lines we fetch, we need to sort them differently.
     if (type === "point") {
       // Points should be sorted by stop number

@@ -186,6 +186,13 @@ Hajk's API has the notion of _map configs_, that for some historical reasons is 
     // Whether to use the WFS (option 1) or static GeoJSON (option 2) to read geographic features.
     "useStaticGeoJSON": false,
 
+    // When using static GeoJSON, it is possible to tell the application which
+    // projection the features are in. Default (null) is WGS84, which is the
+    // only projection supported by the most recent GeoJSON specification. Older
+    // applications could, however, create GeoJSON with different projections,
+    // hence the possibility to provide this information.
+    "staticGeoJSONProjection": "EPSG:4326",
+
     // If using WFS, we must provide more connection details.
     "serviceSettings": {
       "url": "http://localhost:8080/geoserver/ows", // URL to WFS service that exposes the audioguide_lines and audioguide_points layers

@@ -1,10 +1,17 @@
+type Projection = {
+  code: string;
+  definition: string;
+  extent: number[];
+  unit: null;
+};
+
 type OriginalConfig = {
   layersConfig: any;
   mapConfig: any;
   userSpecificMaps: any;
 };
 type NewConfig = {
-  projections: any;
+  projections: Projection[];
   tools: any;
   map: any;
   layersTree: any;

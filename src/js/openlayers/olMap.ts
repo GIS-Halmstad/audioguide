@@ -4,16 +4,14 @@ import "../../css/olMap.css";
 
 import i18n from "../i18n";
 
-import proj4 from "proj4";
 import { transform } from "ol/proj";
-import { register } from "ol/proj/proj4";
 
 import { Map, View, Feature } from "ol";
 import Geolocation, { GeolocationError } from "ol/Geolocation";
 import { ScaleLine, Zoom } from "ol/control";
 import { Coordinate } from "ol/coordinate";
 import { Extent, containsCoordinate, getCenter, extend } from "ol/extent";
-import { Geometry, LineString, Point, Polygon } from "ol/geom";
+import { Geometry, Point, Polygon } from "ol/geom";
 import Select from "ol/interaction/Select";
 import Layer from "ol/layer/Layer";
 import TileLayer from "ol/layer/Tile";
@@ -244,13 +242,6 @@ async function initOLMap(f7: Framework7) {
 
   warn("[olMap.ts] Init OL Map (should only run once)");
   const config = f7.store.state.mapConfig;
-
-  // Setup projections
-  config.projections.forEach((p) => {
-    proj4.defs(p.code, p.definition);
-  });
-
-  register(proj4);
 
   const backgroundLayers = createLayersFromConfig(
     config.backgrounds,

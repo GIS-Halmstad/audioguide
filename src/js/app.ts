@@ -21,6 +21,10 @@ import "../css/app.css";
 // Import translations
 import { translateLinesPointsAndCategories } from "./i18n";
 
+// Import necessary modules for registering spatial projections prior Map init
+import proj4 from "proj4";
+import { register } from "ol/proj/proj4";
+
 // Import App Component
 import store from "./store";
 import App from "../components/App";
@@ -84,6 +88,15 @@ if (unsupportedOs) {
       info("[app.ts] Map config loaded:", washedMapConfig);
       // Let's save the map config to the store for later use.
       store.dispatch("setMapConfig", washedMapConfig);
+
+      // Before we attempt to load the geometric features, we must
+      // ensure that all projections have been setup. Normally, this
+      // would be done when the map is created, but since we load the
+      // features _before_ we call initOL, we must do it here.
+      washedMapConfig.projections.forEach((p) => {
+        proj4.defs(p.code, p.definition);
+      });
+      register(proj4);
 
       // Grab line features from WFSs and save to store
       const unmodifiedAllLines = await fetchFromService("line");
