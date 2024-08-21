@@ -248,7 +248,7 @@ const store = createStore({
           let match = false;
           const currentFeaturesCategories = f.get("categories").split(",");
           currentFeaturesCategories.forEach((c: string) => {
-            if (state.filteredCategories.includes(c)) {
+            if ((state.filteredCategories as string[]).includes(c)) {
               match = true;
             }
           });

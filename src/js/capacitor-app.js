@@ -4,7 +4,6 @@ var capacitorApp = {
   This method hides splashscreen after 2 seconds
   */
   handleSplashscreen: function () {
-    var f7 = capacitorApp.f7;
     if (!window.Capacitor) return;
     setTimeout(() => {
       if (window.Capacitor.Plugins && window.Capacitor.Plugins.SplashScreen) {
