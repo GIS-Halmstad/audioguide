@@ -234,6 +234,10 @@ const Audioguide = () => {
     colors: store.state.mapConfig.ui?.colors || {},
     store: store,
     routes: routes,
+    // Register service worker (only on production build)
+    ...(process.env.NODE_ENV === "production" && {
+      serviceWorker: { path: "/service-worker.js" },
+    }),
     // Input settings
     input: {
       // We can't use f7.device here as F7 hasn't been initialized yet

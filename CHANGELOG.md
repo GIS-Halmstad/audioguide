@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Service Worker, created by Workbox. It precaches most of the assets, except the really big ones. Two areas of improvement are: a) let user control which guide(s) will be pre-cached for offline viewing, and b) pre-cache the relevant background maps from the WMS service as well. Unless these are added, the app will not work offline. But see this commit as a starting point.
+
 ## [1.3.0] - 2024-08-13
 
 ### Added

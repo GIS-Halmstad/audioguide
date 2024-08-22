@@ -14,7 +14,7 @@
   "scripts": {
     "start": "npm run dev",
     "dev": "cross-env NODE_ENV=development vite",
-    "build": "cross-env NODE_ENV=production vite build",
+    "build": "cross-env NODE_ENV=production vite build && npx workbox generateSW workbox-config.cjs",
     "build-capacitor-ios": "cross-env NODE_ENV=production vite build && npx cap copy ios",
     "build-capacitor-android": "cross-env NODE_ENV=production vite build && npx cap copy android",
     "postinstall": "cpy --flat ./node_modules/framework7-icons/fonts/*.* ./src/fonts/ && cpy --flat ./node_modules/material-icons/iconfont/*.* ./src/fonts/"
@@ -70,6 +70,7 @@
     "eslint-plugin-react-hooks": "^4.6.2",
     "globals": "^15.9.0",
     "postcss-preset-env": "^10.0.0",
-    "vite": "^5.4.0"
+    "vite": "^5.4.0",
+    "workbox-cli": "^7.1.0"
   }
 }
