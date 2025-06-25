@@ -20,7 +20,7 @@ export const trimString = (
     return input;
   } else {
     const reg = `^.{${maxLength}}.*?\\b`;
-    const regex = new RegExp(reg);
+    const regex = new RegExp(reg, "s"); // 's' flag allows '.' to match newlines
     return input.match(regex) + (endWithEllipsis ? "…" : "");
   }
 };
