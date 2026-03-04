@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Allow newlines in the MarkDown fields used for short tour description.
+
 ## [1.3.0] - 2024-08-13
 
 ### Added

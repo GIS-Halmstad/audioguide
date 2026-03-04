@@ -1,32 +1,32 @@
 {
-    "analytics": {
-        "apiHost": "https://plausible.io",
-        "domain": "audioguide.example.com",
-        "trackLocalhost": false,
-        "type": "plausible"
+  "analytics": {
+    "apiHost": "https://plausible.io",
+    "domain": "audioguide.example.com",
+    "trackLocalhost": false,
+    "type": "plausible"
+  },
+  "availableLanguages": [
+    {
+      "lang": "sv",
+      "flag": "se"
     },
-    "availableLanguages": [
-        {
-            "lang": "sv",
-            "flag": "se"
-        },
-        {
-            "lang": "en",
-            "flag": "gb"
-        },
-        {
-            "lang": "de",
-            "flag": "de"
-        },
-        {
-            "lang": "dk",
-            "flag": "dk"
-        }
-    ],
-    "fallbackLanguage": "sv",
-    "mapName": "",
-    "mapServiceBase": "",
-    "showCookieNotice": true,
-    "showDemoMessage": false,
-    "useStaticMapConfig": true
+    {
+      "lang": "en",
+      "flag": "gb"
+    },
+    {
+      "lang": "de",
+      "flag": "de"
+    },
+    {
+      "lang": "dk",
+      "flag": "dk"
+    }
+  ],
+  "fallbackLanguage": "sv",
+  "mapName": "",
+  "mapServiceBase": "",
+  "showCookieNotice": true,
+  "showDemoMessage": false,
+  "useStaticMapConfig": true
 }

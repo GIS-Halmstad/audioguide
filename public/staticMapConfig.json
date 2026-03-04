@@ -1,377 +1,332 @@
 {
-    "mapConfig": {
-        "projections": [
+  "mapConfig": {
+    "projections": [
+      {
+        "code": "EPSG:3006",
+        "definition": "+proj=utm +zone=33 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs",
+        "extent": [181896.33, 6101648.07, 864416, 7689478.3],
+        "units": null
+      },
+      {
+        "code": "EPSG:3008",
+        "definition": "+proj=tmerc +lat_0=0 +lon_0=13.5 +k=1 +x_0=150000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs ",
+        "extent": [60857.4994, 6120098.8505, 223225.0217, 6906693.7888],
+        "units": null
+      }
+    ],
+    "tools": [
+      {
+        "type": "layerswitcher",
+        "options": {
+          "groups": [],
+          "baselayers": [
             {
-                "code": "EPSG:3006",
-                "definition": "+proj=utm +zone=33 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs",
-                "extent": [
-                    181896.33,
-                    6101648.07,
-                    864416,
-                    7689478.3
-                ],
-                "units": null
+              "id": "58",
+              "visibleAtStart": true,
+              "drawOrder": 0,
+              "infobox": ""
             },
             {
-                "code": "EPSG:3008",
-                "definition": "+proj=tmerc +lat_0=0 +lon_0=13.5 +k=1 +x_0=150000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs ",
-                "extent": [
-                    60857.4994,
-                    6120098.8505,
-                    223225.0217,
-                    6906693.7888
-                ],
-                "units": null
+              "id": "pxkat3",
+              "visibleAtStart": false,
+              "drawOrder": 0,
+              "infobox": ""
+            },
+            {
+              "id": "111",
+              "visibleAtStart": false,
+              "drawOrder": 0,
+              "infobox": ""
             }
-        ],
-        "tools": [
-            {
-                "type": "layerswitcher",
-                "options": {
-                    "groups": [],
-                    "baselayers": [
-                        {
-                            "id": "58",
-                            "visibleAtStart": true,
-                            "drawOrder": 0,
-                            "infobox": ""
-                        },
-                        {
-                            "id": "pxkat3",
-                            "visibleAtStart": false,
-                            "drawOrder": 0,
-                            "infobox": ""
-                        },
-                        {
-                            "id": "111",
-                            "visibleAtStart": false,
-                            "drawOrder": 0,
-                            "infobox": ""
-                        }
-                    ],
-                    "active": true,
-                    "visibleAtStart": false,
-                    "visibleAtStartMobile": false,
-                    "backgroundSwitcherBlack": false,
-                    "backgroundSwitcherWhite": false,
-                    "enableOSM": true,
-                    "showBreadcrumbs": false,
-                    "showActiveLayersView": false,
-                    "enableTransparencySlider": true,
-                    "instruction": "RGV0IGjkciDkciBkZW4gbnlhIHZlcnNpb25lbiBhdiBIYWxtc3RhZHMga29tbXVucyBwdWJsaWthIGthcnR0auRuc3Qu",
-                    "dropdownThemeMaps": true,
-                    "themeMapHeaderCaption": "AudioGuider",
-                    "visibleForGroups": [
-                        "GEODATA_ADMIN"
-                    ],
-                    "target": "toolbar",
-                    "position": "left",
-                    "width": "",
-                    "height": "auto",
-                    "title": "Bakgrundslager",
-                    "description": ""
-                },
-                "index": 2
-            },
-            {
-                "type": "audioguide",
-                "index": 1,
-                "options": {
-                    "serviceSettings": {
-                        "url": "https://karta.halmstad.se/geoserver/ows",
-                        "srsName": "EPSG:3008",
-                        "featureNS": "https://dest_halm.halmstad.se",
-                        "featurePrefix": "dest_halm"
-                    },
-                    "title": "Audioguide",
-                    "description": "Audioguide tool",
-                    "audioguideAttribution": "Destination Halmstad, Halmstads kommun",
-                    "audioguideLayersAttribution": "Halmstads kommun",
-                    "target": "left",
-                    "position": "left",
-                    "visibleAtStart": true,
-                    "visibleAtStartMobile": true,
-                    "visibleForGroups": []
-                }
-            },
-            {
-                "type": "layercomparer",
-                "index": 3,
-                "options": {
-                    "target": "toolbar",
-                    "showNonBaseLayersInSelect": false,
-                    "instruction": "",
-                    "title": "Jämför lager",
-                    "description": "Jämför två lager, sida-vid-sida, genom att dra i reglaget i kartan",
-                    "visibleAtStart": false,
-                    "visibleForGroups": []
-                }
-            }
-        ],
-        "map": {
-            "center": [
-                110600,
-                6283796
-            ],
-            "projection": "EPSG:3008",
-            "hitTolerance": 40,
-            "zoom": 0,
-            "maxZoom": 10,
-            "minZoom": 0,
-            "resolutions": [
-                55.99999999999999,
-                27.999999999999996,
-                13.999999999999998,
-                6.999999999999999,
-                4.199999999999999,
-                2.8,
-                1.4,
-                0.5599999999999999,
-                0.28,
-                0.112,
-                0.056
-            ],
-            "origin": [
-                72595.7168,
-                6269051.84184
-            ],
-            "extent": [
-                72595.7168,
-                6269051.84184,
-                139282.1317,
-                6313912.82227
-            ],
-            "constrainOnlyCenter": true,
-            "constrainResolution": true
+          ],
+          "active": true,
+          "visibleAtStart": false,
+          "visibleAtStartMobile": false,
+          "backgroundSwitcherBlack": false,
+          "backgroundSwitcherWhite": false,
+          "enableOSM": true,
+          "showBreadcrumbs": false,
+          "showActiveLayersView": false,
+          "enableTransparencySlider": true,
+          "instruction": "RGV0IGjkciDkciBkZW4gbnlhIHZlcnNpb25lbiBhdiBIYWxtc3RhZHMga29tbXVucyBwdWJsaWthIGthcnR0auRuc3Qu",
+          "dropdownThemeMaps": true,
+          "themeMapHeaderCaption": "AudioGuider",
+          "visibleForGroups": ["GEODATA_ADMIN"],
+          "target": "toolbar",
+          "position": "left",
+          "width": "",
+          "height": "auto",
+          "title": "Bakgrundslager",
+          "description": ""
         },
-        "ui": {
-            "showTechnicalInfoDialog": false,
-            "colors": {
-                "primary": "#2c3f5c"
-            },
-            "injectCustomCss": true,
-            "darkMode": false,
-            "name": "Stories",
-            "theme": "md"
+        "index": 2
+      },
+      {
+        "type": "audioguide",
+        "index": 1,
+        "options": {
+          "useStaticGeoJSON": false,
+          "staticGeoJSONProjection": "EPSG:4326",
+          "serviceSettings": {
+            "url": "https://karta.halmstad.se/geoserver/dest_halm/ows",
+            "srsName": "EPSG:3008",
+            "featureNS": "https://dest_halm.halmstad.se",
+            "featurePrefix": "dest_halm"
+          },
+          "preselectedCategories": [],
+          "title": "Audioguide",
+          "description": "Audioguide tool",
+          "audioguideAttribution": "Destination Halmstad, Halmstads kommun",
+          "audioguideLayersAttribution": "Halmstads kommun",
+          "aboutPageTitle": "Om Halmstad Stories",
+          "aboutPageContentHtml": "<p>Välkommen till Halmstads audioguide. Här får du ta del av spännande och dramatiserade guidningar runt om i Halmstad. Audioguden lanserades inför sommaren 2024 med fyra unika guidade turer.</p><p>Du väljer själv om du vill följa en guide eller skapa en helt egen genom att besöka de stopp som passar dig. Håll utkik efter fler guider, vi fyller på löpande.</p><p>Har du frågor om guiden är du välkommen att kontakta <a href=\"https://www.destinationhalmstad.se/uppleva/bra-att-veta/halmstad-tourist-center\" class=\"external link\" target=\"_system\">Halmstad Tourist Center</a>.</p>",
+          "target": "left",
+          "position": "left",
+          "visibleAtStart": true,
+          "visibleAtStartMobile": true,
+          "visibleForGroups": []
         }
+      }
+    ],
+    "map": {
+      "center": [110600, 6283796],
+      "projection": "EPSG:3008",
+      "hitTolerance": 40,
+      "zoom": 0,
+      "maxZoom": 10,
+      "minZoom": 0,
+      "resolutions": [
+        55.99999999999999, 27.999999999999996, 13.999999999999998, 6.999999999999999,
+        4.199999999999999, 2.8, 1.4, 0.5599999999999999, 0.28, 0.112, 0.056
+      ],
+      "origin": [72595.7168, 6269051.84184],
+      "extent": [72595.7168, 6269051.84184, 139282.1317, 6313912.82227],
+      "constrainOnlyCenter": true,
+      "constrainResolution": true,
+      "osmBackgroundOnly": false
     },
-    "layersConfig": {
-        "wmslayers": [
-            {
-                "id": "58",
-                "caption": "Lantmäteriet",
-                "internalLayerName": "",
-                "url": "https://karta.halmstad.se/geoserver/ext_lm/wms",
-                "customGetMapUrl": "",
-                "owner": "",
-                "date": "1676970523606",
-                "content": "",
-                "legend": "",
-                "legendIcon": "",
-                "projection": "EPSG:3008",
-                "layers": [
-                    "topografiska_nedtonad"
-                ],
-                "layersInfo": [
-                    {
-                        "id": "topografiska_nedtonad",
-                        "caption": "",
-                        "legend": "",
-                        "legendIcon": "",
-                        "infobox": "",
-                        "style": "",
-                        "queryable": ""
-                    }
-                ],
-                "searchFields": null,
-                "displayFields": null,
-                "visibleAtStart": false,
-                "tiled": true,
-                "showAttributeTableButton": false,
-                "opacity": 1,
-                "maxZoom": -1,
-                "minZoom": -1,
-                "minMaxZoomAlertOnToggleOnly": false,
-                "singleTile": false,
-                "hidpi": true,
-                "useCustomDpiList": true,
-                "customDpiList": [
-                    {
-                        "pxRatio": 0,
-                        "dpi": 90
-                    },
-                    {
-                        "pxRatio": 2,
-                        "dpi": 180
-                    },
-                    {
-                        "pxRatio": 3,
-                        "dpi": 270
-                    }
-                ],
-                "customRatio": 0,
-                "imageFormat": "image/png8",
-                "serverType": "geoserver",
-                "attribution": "Lantmäteriet",
-                "searchUrl": "",
-                "searchPropertyName": "",
-                "searchDisplayName": "",
-                "secondaryLabelFields": "",
-                "searchShortDisplayName": "",
-                "searchOutputFormat": "",
-                "searchGeometryField": "",
-                "infoVisible": true,
-                "infoTitle": "Topografisk karta (enkel)",
-                "infoText": "",
-                "infoUrl": "https://www.lantmateriet.se/globalassets/geodata/geodatatjanster/tf_twk.pdf",
-                "infoUrlText": "Öppna teckenförklaring i nytt fönster",
-                "infoOwner": "",
-                "timeSliderVisible": false,
-                "timeSliderStart": "",
-                "timeSliderEnd": "",
-                "version": "1.1.1",
-                "infoFormat": "application/json",
-                "infoClickSortProperty": "",
-                "infoClickSortDesc": true,
-                "infoClickSortType": "string",
-                "hideExpandArrow": false,
-                "zIndex": null
-            },
-            {
-                "id": "pxkat3",
-                "caption": "Flygfoto",
-                "internalLayerName": "Flygfoto 2023",
-                "url": "https://karta.halmstad.se/geoserver/bmf/wms",
-                "customGetMapUrl": "",
-                "owner": "",
-                "date": "1688626114200",
-                "content": "",
-                "legend": "",
-                "legendIcon": "",
-                "projection": "EPSG:3008",
-                "layers": [
-                    "ortofoto2023"
-                ],
-                "layersInfo": [
-                    {
-                        "id": "ortofoto2023",
-                        "caption": "",
-                        "legend": "",
-                        "legendIcon": "",
-                        "infobox": "",
-                        "style": "",
-                        "queryable": false,
-                        "infoclickIcon": ""
-                    }
-                ],
-                "searchFields": null,
-                "displayFields": null,
-                "visibleAtStart": false,
-                "tiled": true,
-                "showAttributeTableButton": false,
-                "opacity": 1,
-                "maxZoom": -1,
-                "minZoom": -1,
-                "minMaxZoomAlertOnToggleOnly": false,
-                "singleTile": false,
-                "hidpi": false,
-                "useCustomDpiList": false,
-                "customDpiList": [],
-                "customRatio": 0,
-                "imageFormat": "image/jpeg",
-                "serverType": "geoserver",
-                "attribution": "",
-                "searchUrl": "",
-                "searchPropertyName": "",
-                "searchDisplayName": "",
-                "secondaryLabelFields": "",
-                "searchShortDisplayName": "",
-                "searchOutputFormat": "",
-                "searchGeometryField": "",
-                "infoVisible": true,
-                "infoTitle": "",
-                "infoText": "Fluget av Lantmäteriet 2023",
-                "infoUrl": "",
-                "infoUrlText": "",
-                "infoOwner": "",
-                "timeSliderVisible": false,
-                "timeSliderStart": "",
-                "timeSliderEnd": "",
-                "version": "1.1.1",
-                "infoFormat": "application/json",
-                "infoClickSortProperty": "",
-                "infoClickSortDesc": true,
-                "infoClickSortType": "string",
-                "hideExpandArrow": false,
-                "zIndex": null
-            },
-            {
-                "id": "111",
-                "caption": "Halmstad 1920",
-                "internalLayerName": "",
-                "url": "https://karta.halmstad.se/geoserver/bmf/wms",
-                "customGetMapUrl": "",
-                "owner": "",
-                "date": "1676968957116",
-                "content": "",
-                "legend": "https://karta.halmstad.se/files/legendbilder/bmf/teckenforklaring_haradsekonomiska_1920.jpg",
-                "legendIcon": "",
-                "projection": "EPSG:3008",
-                "layers": [
-                    "eko20tal"
-                ],
-                "layersInfo": [
-                    {
-                        "id": "eko20tal",
-                        "caption": "",
-                        "legend": "",
-                        "legendIcon": "",
-                        "infobox": "",
-                        "style": "",
-                        "queryable": ""
-                    }
-                ],
-                "searchFields": null,
-                "displayFields": null,
-                "visibleAtStart": false,
-                "tiled": true,
-                "showAttributeTableButton": false,
-                "opacity": 1,
-                "maxZoom": -1,
-                "minZoom": -1,
-                "minMaxZoomAlertOnToggleOnly": false,
-                "singleTile": false,
-                "hidpi": false,
-                "useCustomDpiList": false,
-                "customDpiList": [],
-                "customRatio": 0,
-                "imageFormat": "image/jpeg",
-                "serverType": "geoserver",
-                "attribution": "Halmstads kommun",
-                "searchUrl": "",
-                "searchPropertyName": "",
-                "searchDisplayName": "",
-                "secondaryLabelFields": "",
-                "searchShortDisplayName": "",
-                "searchOutputFormat": "",
-                "searchGeometryField": "",
-                "infoVisible": true,
-                "infoTitle": "Om Häradsekonomiska kartan",
-                "infoText": "Häradsekonomiska kartan (1859-1934) baserades på laga skifteskartor och beskriver markanvändning, vegetation, bebyggelse, kommunikationer och gränser. \n\nHäradsekonomiska kartan producerades under en avsevärd tidsperiod. Innehållet, kvalitén och även manér skiftar, men det är ändå en sammanhållen serie.",
-                "infoUrl": "https://karta.halmstad.se/files/legendbilder/bmf/teckenforklaring_haradsekonomiska_1920.jpg",
-                "infoUrlText": "Teckenförklaring",
-                "infoOwner": "Källa: Lantmäteriet",
-                "timeSliderVisible": false,
-                "timeSliderStart": "",
-                "timeSliderEnd": "",
-                "version": "1.1.1",
-                "infoFormat": "application/json",
-                "infoClickSortProperty": "",
-                "infoClickSortDesc": true,
-                "infoClickSortType": "string",
-                "hideExpandArrow": false,
-                "zIndex": null
-            }
-        ]
+    "ui": {
+      "showTechnicalInfoDialog": false,
+      "colors": {
+        "primary": "#2c3f5c"
+      },
+      "injectCustomCss": true,
+      "darkMode": false,
+      "name": "Stories",
+      "theme": "md"
     }
+  },
+  "layersConfig": {
+    "wmslayers": [
+      {
+        "id": "58",
+        "caption": "Lantmäteriet",
+        "internalLayerName": "",
+        "url": "https://karta.halmstad.se/geoserver/ext_lm/wms",
+        "customGetMapUrl": "",
+        "owner": "",
+        "date": "1676970523606",
+        "content": "",
+        "legend": "",
+        "legendIcon": "",
+        "projection": "EPSG:3008",
+        "layers": ["topografiska_nedtonad"],
+        "layersInfo": [
+          {
+            "id": "topografiska_nedtonad",
+            "caption": "",
+            "legend": "",
+            "legendIcon": "",
+            "infobox": "",
+            "style": "",
+            "queryable": ""
+          }
+        ],
+        "searchFields": null,
+        "displayFields": null,
+        "visibleAtStart": false,
+        "tiled": true,
+        "showAttributeTableButton": false,
+        "opacity": 1,
+        "maxZoom": -1,
+        "minZoom": -1,
+        "minMaxZoomAlertOnToggleOnly": false,
+        "singleTile": false,
+        "hidpi": true,
+        "useCustomDpiList": true,
+        "customDpiList": [
+          {
+            "pxRatio": 0,
+            "dpi": 90
+          },
+          {
+            "pxRatio": 2,
+            "dpi": 180
+          },
+          {
+            "pxRatio": 3,
+            "dpi": 270
+          }
+        ],
+        "customRatio": 0,
+        "imageFormat": "image/png8",
+        "serverType": "geoserver",
+        "attribution": "Lantmäteriet",
+        "searchUrl": "",
+        "searchPropertyName": "",
+        "searchDisplayName": "",
+        "secondaryLabelFields": "",
+        "searchShortDisplayName": "",
+        "searchOutputFormat": "",
+        "searchGeometryField": "",
+        "infoVisible": true,
+        "infoTitle": "Topografisk karta (enkel)",
+        "infoText": "",
+        "infoUrl": "https://www.lantmateriet.se/globalassets/geodata/geodatatjanster/tf_twk.pdf",
+        "infoUrlText": "Öppna teckenförklaring i nytt fönster",
+        "infoOwner": "",
+        "timeSliderVisible": false,
+        "timeSliderStart": "",
+        "timeSliderEnd": "",
+        "version": "1.1.1",
+        "infoFormat": "application/json",
+        "infoClickSortProperty": "",
+        "infoClickSortDesc": true,
+        "infoClickSortType": "string",
+        "hideExpandArrow": false,
+        "zIndex": null
+      },
+      {
+        "id": "pxkat3",
+        "caption": "Flygfoto",
+        "internalLayerName": "Flygfoto 2023",
+        "url": "https://karta.halmstad.se/geoserver/bmf/wms",
+        "customGetMapUrl": "",
+        "owner": "",
+        "date": "1688626114200",
+        "content": "",
+        "legend": "",
+        "legendIcon": "",
+        "projection": "EPSG:3008",
+        "layers": ["ortofoto2023"],
+        "layersInfo": [
+          {
+            "id": "ortofoto2023",
+            "caption": "",
+            "legend": "",
+            "legendIcon": "",
+            "infobox": "",
+            "style": "",
+            "queryable": false,
+            "infoclickIcon": ""
+          }
+        ],
+        "searchFields": null,
+        "displayFields": null,
+        "visibleAtStart": false,
+        "tiled": true,
+        "showAttributeTableButton": false,
+        "opacity": 1,
+        "maxZoom": -1,
+        "minZoom": -1,
+        "minMaxZoomAlertOnToggleOnly": false,
+        "singleTile": false,
+        "hidpi": false,
+        "useCustomDpiList": false,
+        "customDpiList": [],
+        "customRatio": 0,
+        "imageFormat": "image/jpeg",
+        "serverType": "geoserver",
+        "attribution": "",
+        "searchUrl": "",
+        "searchPropertyName": "",
+        "searchDisplayName": "",
+        "secondaryLabelFields": "",
+        "searchShortDisplayName": "",
+        "searchOutputFormat": "",
+        "searchGeometryField": "",
+        "infoVisible": true,
+        "infoTitle": "",
+        "infoText": "Fluget av Lantmäteriet 2023",
+        "infoUrl": "",
+        "infoUrlText": "",
+        "infoOwner": "",
+        "timeSliderVisible": false,
+        "timeSliderStart": "",
+        "timeSliderEnd": "",
+        "version": "1.1.1",
+        "infoFormat": "application/json",
+        "infoClickSortProperty": "",
+        "infoClickSortDesc": true,
+        "infoClickSortType": "string",
+        "hideExpandArrow": false,
+        "zIndex": null
+      },
+      {
+        "id": "111",
+        "caption": "Halmstad 1920",
+        "internalLayerName": "",
+        "url": "https://karta.halmstad.se/geoserver/bmf/wms",
+        "customGetMapUrl": "",
+        "owner": "",
+        "date": "1676968957116",
+        "content": "",
+        "legend": "https://karta.halmstad.se/files/legendbilder/bmf/teckenforklaring_haradsekonomiska_1920.jpg",
+        "legendIcon": "",
+        "projection": "EPSG:3008",
+        "layers": ["eko20tal"],
+        "layersInfo": [
+          {
+            "id": "eko20tal",
+            "caption": "",
+            "legend": "",
+            "legendIcon": "",
+            "infobox": "",
+            "style": "",
+            "queryable": ""
+          }
+        ],
+        "searchFields": null,
+        "displayFields": null,
+        "visibleAtStart": false,
+        "tiled": true,
+        "showAttributeTableButton": false,
+        "opacity": 1,
+        "maxZoom": -1,
+        "minZoom": -1,
+        "minMaxZoomAlertOnToggleOnly": false,
+        "singleTile": false,
+        "hidpi": false,
+        "useCustomDpiList": false,
+        "customDpiList": [],
+        "customRatio": 0,
+        "imageFormat": "image/jpeg",
+        "serverType": "geoserver",
+        "attribution": "Halmstads kommun",
+        "searchUrl": "",
+        "searchPropertyName": "",
+        "searchDisplayName": "",
+        "secondaryLabelFields": "",
+        "searchShortDisplayName": "",
+        "searchOutputFormat": "",
+        "searchGeometryField": "",
+        "infoVisible": true,
+        "infoTitle": "Om Häradsekonomiska kartan",
+        "infoText": "Häradsekonomiska kartan (1859-1934) baserades på laga skifteskartor och beskriver markanvändning, vegetation, bebyggelse, kommunikationer och gränser. \n\nHäradsekonomiska kartan producerades under en avsevärd tidsperiod. Innehållet, kvalitén och även manér skiftar, men det är ändå en sammanhållen serie.",
+        "infoUrl": "https://karta.halmstad.se/files/legendbilder/bmf/teckenforklaring_haradsekonomiska_1920.jpg",
+        "infoUrlText": "Teckenförklaring",
+        "infoOwner": "Källa: Lantmäteriet",
+        "timeSliderVisible": false,
+        "timeSliderStart": "",
+        "timeSliderEnd": "",
+        "version": "1.1.1",
+        "infoFormat": "application/json",
+        "infoClickSortProperty": "",
+        "infoClickSortDesc": true,
+        "infoClickSortType": "string",
+        "hideExpandArrow": false,
+        "zIndex": null
+      }
+    ]
+  }
 }
