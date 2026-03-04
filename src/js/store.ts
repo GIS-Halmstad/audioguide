@@ -162,9 +162,7 @@ const store = createStore({
     setActiveStopNumber({ state }: { state: StoreState }, v: number) {
       state.activeStopNumber = v;
       log(
-        `Activated stop number ${v} in guide ID ${state.activeGuideObject?.line.get(
-          "guideId"
-        )}`
+        `Activated stop number ${v} in guide ID ${state.activeGuideObject?.line.get("guideId")}`
       );
       const guideId = state.activeGuideObject?.line.get("guideId");
       const stopNumber = v;

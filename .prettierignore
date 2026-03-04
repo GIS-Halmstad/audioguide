@@ -8,3 +8,4 @@ ios/
 DerivedData/
 .git/
 package-lock.json
+src/fonts

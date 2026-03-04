@@ -87,15 +87,12 @@ function normalStyleFunction(feature: Feature, resolution: number) {
           text:
             // Show a long label when user zooms in close enough
             resolution <= POINT_TEXT_VISIBILITY_THRESHOLD
-              ? `${stopNumber.toString()}\n${wrapText(
-                  feature.get("title"),
-                  32
-                )}`
+              ? `${stopNumber.toString()}\n${wrapText(feature.get("title"), 32)}`
               : // Show only the stop's number if user zooms in close enough.
-              // If user zooms out, show "Start" instead of the number.
-              resolution >= POINT_VISIBILITY_THRESHOLD && stopNumber === 1
-              ? i18n.t("startPointLabel", { ns: "olMap" })
-              : stopNumber.toString(),
+                // If user zooms out, show "Start" instead of the number.
+                resolution >= POINT_VISIBILITY_THRESHOLD && stopNumber === 1
+                ? i18n.t("startPointLabel", { ns: "olMap" })
+                : stopNumber.toString(),
           fill: new Fill({ color: strokeColor }),
           stroke: new Stroke({ color: "white", width: 2 }),
         }),
@@ -198,10 +195,10 @@ function selectedActiveStyleFunction(
           resolution <= POINT_TEXT_VISIBILITY_THRESHOLD
             ? `${stopNumber.toString()}\n${wrapText(feature.get("title"), 32)}`
             : // Show only the stop's number if user zooms in close enough.
-            // If user zooms out, show "Start" instead of the number.
-            resolution >= POINT_VISIBILITY_THRESHOLD && stopNumber === 1
-            ? i18n.t("startPointLabel", { ns: "olMap" })
-            : stopNumber.toString(),
+              // If user zooms out, show "Start" instead of the number.
+              resolution >= POINT_VISIBILITY_THRESHOLD && stopNumber === 1
+              ? i18n.t("startPointLabel", { ns: "olMap" })
+              : stopNumber.toString(),
         fill: new Fill({ color: strokeColor }),
         stroke: new Stroke({ color: "white", width: 2 }),
       }),

@@ -54,12 +54,8 @@ const About = () => {
                     </ul>
                   <hr />
                   <ul>
-                    <li>useStaticMapConfig: ${
-                      f7.store.state.appConfig.useStaticMapConfig
-                    }</li>
-                    <li>mapServiceBase: ${
-                      f7.store.state.appConfig.mapServiceBase
-                    }</li>
+                    <li>useStaticMapConfig: ${f7.store.state.appConfig.useStaticMapConfig}</li>
+                    <li>mapServiceBase: ${f7.store.state.appConfig.mapServiceBase}</li>
                     <li>mapName: ${f7.store.state.appConfig.mapName}</li>  
                     ${
                       window.screen.orientation &&

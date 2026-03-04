@@ -74,7 +74,9 @@ a.external.link {
 
 /* Toolbar (or rather, "tab bar") goes straight to the bottom, outside the viewport */
 .has-active-guide .view-main .tabbar {
-  bottom: calc(0px - var(--f7-tabbar-icons-height) - var(--f7-safe-area-bottom));
+  bottom: calc(
+    0px - var(--f7-tabbar-icons-height) - var(--f7-safe-area-bottom)
+  );
 }
 
 /* Map is inside a .page-content element, which by default 
@@ -162,12 +164,16 @@ a.external.link {
 }
 @media (min-width: 768px) and (max-width: 1023px) {
   .cards-grid .card {
-    width: calc((100% - calc(var(--f7-card-expandable-margin-horizontal) * 2) * 3) / 2);
+    width: calc(
+      (100% - calc(var(--f7-card-expandable-margin-horizontal) * 2) * 3) / 2
+    );
   }
 }
 @media (min-width: 1024px) {
   .cards-grid .card {
-    width: calc((100% - calc(var(--f7-card-expandable-margin-horizontal) * 2) * 4) / 3);
+    width: calc(
+      (100% - calc(var(--f7-card-expandable-margin-horizontal) * 2) * 4) / 3
+    );
   }
 }
 
