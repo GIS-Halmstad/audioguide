@@ -1,44 +1,93 @@
-import { fixupConfigRules, fixupPluginRules } from "@eslint/compat";
+import js from "@eslint/js";
 import react from "eslint-plugin-react";
 import reactHooks from "eslint-plugin-react-hooks";
 import globals from "globals";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
-import js from "@eslint/js";
-import { FlatCompat } from "@eslint/eslintrc";
+import tseslint from "typescript-eslint";
+import prettier from "eslint-config-prettier";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const compat = new FlatCompat({
-    baseDirectory: __dirname,
-    recommendedConfig: js.configs.recommended,
-    allConfig: js.configs.all
-});
+export default [
+  // Ignore patterns
+  {
+    ignores: [
+      "node_modules/",
+      "dist/",
+      "build/",
+      "www/",
+      ".capacitor/",
+      "android/",
+      "ios/",
+      "DerivedData/",
+    ],
+  },
 
-export default [...fixupConfigRules(compat.extends(
-    "eslint:recommended",
-    "plugin:react/recommended",
-    "plugin:react-hooks/recommended",
-)), {
-    plugins: {
-        react: fixupPluginRules(react),
-        "react-hooks": fixupPluginRules(reactHooks),
-    },
-
+  // JavaScript files
+  {
+    files: ["**/*.{js,mjs}"],
     languageOptions: {
-        globals: {
-            ...globals.browser,
-        },
-
+      globals: globals.browser,
+      parserOptions: {
         ecmaVersion: 2022,
         sourceType: "module",
-
-        parserOptions: {
-            ecmaFeatures: {
-                jsx: true,
-            },
-        },
+      },
     },
+    rules: js.configs.recommended.rules,
+  },
 
-    rules: {},
-}];
+  // TypeScript files with recommended rules (no type checking)
+  ...tseslint.configs.recommended.map((config) => ({
+    ...config,
+    files: ["**/*.{ts,tsx}"],
+  })),
+
+  // TypeScript language options
+  {
+    files: ["**/*.{ts,tsx}"],
+    languageOptions: {
+      globals: globals.browser,
+      parser: tseslint.parser,
+      parserOptions: {
+        ecmaVersion: 2022,
+        sourceType: "module",
+        ecmaFeatures: {
+          jsx: true,
+        },
+        project: false, // Disable type checking for now
+      },
+    },
+    rules: {
+      "@typescript-eslint/no-explicit-any": "warn",
+      "@typescript-eslint/no-unused-vars": [
+        "warn",
+        {
+          argsIgnorePattern: "^_",
+          varsIgnorePattern: "^_",
+        },
+      ],
+    },
+  },
+
+  // React and React Hooks
+  {
+    files: ["**/*.{jsx,tsx}"],
+    plugins: {
+      react,
+      "react-hooks": reactHooks,
+    },
+    settings: {
+      react: {
+        version: "detect",
+      },
+    },
+    rules: {
+      ...react.configs.recommended.rules,
+      "react/react-in-jsx-scope": "off", // Not needed in React 17+
+      "react/prop-types": "off", // Using TypeScript for prop validation
+      "react/display-name": "warn",
+      "react-hooks/rules-of-hooks": "error",
+      "react-hooks/exhaustive-deps": "warn",
+    },
+  },
+
+  // Prettier (must be last to disable conflicting rules)
+  prettier,
+];

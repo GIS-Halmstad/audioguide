@@ -1,0 +1,10 @@
+node_modules/
+dist/
+build/
+www/
+.capacitor/
+android/
+ios/
+DerivedData/
+.git/
+package-lock.json
