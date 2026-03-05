@@ -9,9 +9,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- `language` is now a parameter that is send to the analytics event tracking. Commit: a053237a25e78bbf1dc00273e80b4b5aa00ea6ba.
+
 ### Fixed
 
 - Allow newlines in the MarkDown fields used for short tour description.
+
+### Security
+
+- Major upgrade of dependencies to the latest versions.
 
 ## [1.3.0] - 2024-08-13
 
