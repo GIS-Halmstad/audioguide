@@ -84,6 +84,7 @@ const store = createStore({
     activeGuideObject: null,
     activeStopNumber: null,
     selectedFeature: null,
+    currentLanguage: "sv",
   } as StoreState,
 
   actions: {
@@ -155,8 +156,12 @@ const store = createStore({
     ) {
       state.activeGuideObject = v;
       document.querySelector("html")?.classList.add("has-active-guide");
+
       trackEvent("guideActivated", {
-        props: { guideId: v?.line.get("guideId") },
+        props: {
+          guideId: v?.line.get("guideId"),
+          language: state.currentLanguage,
+        },
       });
     },
     setActiveStopNumber({ state }: { state: StoreState }, v: number) {
@@ -171,11 +176,15 @@ const store = createStore({
           guideId,
           stopNumber,
           guideIdStopNumber: `${guideId}-${stopNumber}`,
+          language: state.currentLanguage,
         },
       });
     },
     setSelectedFeature({ state }: { state: StoreState }, v: Feature | null) {
       state.selectedFeature = v;
+    },
+    setCurrentLanguage({ state }: { state: StoreState }, v: string) {
+      state.currentLanguage = v;
     },
     deactivateGuide({ state }: { state: StoreState }) {
       // This time we must do tracking _before_ we deactivate
@@ -187,6 +196,7 @@ const store = createStore({
           guideId,
           stopNumber,
           guideIdStopNumber: `${guideId}-${stopNumber}`,
+          language: state.currentLanguage,
         },
       });
 
@@ -276,6 +286,9 @@ const store = createStore({
     },
     selectedFeature({ state }: { state: StoreState }) {
       return state.selectedFeature;
+    },
+    currentLanguage({ state }: { state: StoreState }) {
+      return state.currentLanguage as string;
     },
   },
 });

@@ -237,7 +237,10 @@ export const translateLinesPointsAndCategories = () => {
  *   in the language selection dropdown. It updates the language-dependent
  *   data in the store and in the OL Map.
  */
-i18n.on("languageChanged", () => {
+i18n.on("languageChanged", (lng) => {
+  // Keep the store in sync with the current language
+  f7.store.dispatch("setCurrentLanguage", lng);
+
   translateLinesPointsAndCategories();
 
   // Since we can't assume that the state that the app was in when the language

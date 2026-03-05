@@ -21,6 +21,7 @@ function TabShortListViewContent() {
               f7.store.dispatch("trackAnalyticsEvent", {
                 eventName: "guideClickedInShortList",
                 guideId: f.get("guideId"),
+                language: f7.store.state.currentLanguage,
               });
               handleShowGuideInMap(f);
             }}

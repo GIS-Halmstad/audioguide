@@ -501,6 +501,7 @@ async function initOLMap(f7: Framework7) {
             stopNumber,
             guideIdStopNumber: `${guideId}-${stopNumber}`,
           }),
+          language: store.state.currentLanguage,
         });
       }
     } else {

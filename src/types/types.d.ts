@@ -152,6 +152,7 @@ export type StoreState = {
   allLines: Feature<LineString>[] | [];
   allPoints: Feature<Point>[] | [];
   appConfig: AppConfig | null;
+  currentLanguage: string;
   filteredCategories: string[] | [];
   geolocationStatus: GeolocationStatus;
   loading: boolean;

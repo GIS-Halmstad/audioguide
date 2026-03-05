@@ -19,7 +19,7 @@ import "../css/icons.css";
 import "../css/app.css";
 
 // Import translations
-import { translateLinesPointsAndCategories } from "./i18n";
+import i18n, { translateLinesPointsAndCategories } from "./i18n";
 
 // Import necessary modules for registering spatial projections prior Map init
 import proj4 from "proj4";
@@ -132,6 +132,9 @@ if (unsupportedOs) {
       // `allPoints` as well as ensure that the Features contain all the required properties
       // of `title`, `text`, `length` and `highlightLabel` with translated values.
       translateLinesPointsAndCategories();
+
+      // Set the initial language in the store
+      store.dispatch("setCurrentLanguage", i18n.resolvedLanguage);
     } catch (error) {
       store.dispatch("setLoadingError", error);
     }

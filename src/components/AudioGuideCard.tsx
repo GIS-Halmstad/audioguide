@@ -117,6 +117,7 @@ function AudioguideCard({ feature }) {
               f7.store.dispatch("trackAnalyticsEvent", {
                 eventName: "guideClickedInPhotoList",
                 guideId: feature.get("guideId"),
+                language: f7.store.state.currentLanguage,
               });
               handleShowGuideInMap(feature, 600);
             }}
