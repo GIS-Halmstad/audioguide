@@ -38,7 +38,7 @@ function GuidePreviewSheet() {
       log("[GuidePreviewSheet.tsx] useEffect unsubscribe");
       f7.off("olFeatureSelected");
     };
-  }, [f7, setSelectedFeature, setSheetVisible]);
+  }, [setSelectedFeature, setSheetVisible]);
 
   const getSheetRealHeight = (s: typeof Sheet): number => {
     // Find out the real current height of our Sheet

@@ -53,6 +53,8 @@ const HomePage = () => {
   const loadingError = useStore("loadingError");
   useEffect(() => {
     if (loadingError !== null) showNotificationFull();
+    // showNotificationFull is stable (uses ref + f7); adding it causes unnecessary re-runs
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loadingError]);
 
   // Controls the visibility of the background layer switcher.

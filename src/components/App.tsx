@@ -226,6 +226,8 @@ const Audioguide = () => {
         }
       }, 1000);
     });
+    // Intentionally run once on mount; __init sets up F7 and OL map
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const f7params: Framework7Parameters = {
