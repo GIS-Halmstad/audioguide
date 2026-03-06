@@ -1,3 +1,5 @@
+import { Feature } from "ol";
+
 /**
  * @summary Use data in database fields to prepare a list of assets for a given feature.
  * @description Each Feature that comes from DB may have some assets connected to it.
@@ -14,7 +16,7 @@
  * @param {string} type Asset's type.
  * @returns {string[]} URLs to assets.
  */
-export const getAssets = (feature, type) => {
+export const getAssets = (feature: Feature, type: string): string[] => {
   const stopNumber = feature?.get("stopNumber")
     ? `${feature?.get("stopNumber")}/`
     : "";
