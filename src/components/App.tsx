@@ -221,8 +221,9 @@ const Audioguide = () => {
     f7ready(async (f7) => {
       __init(f7);
       setTimeout(() => {
-        f7.store.state.appConfig.showCookieNotice === true &&
+        if (f7.store.state.appConfig.showCookieNotice === true) {
           possiblyShowCookieNotice(f7);
+        }
       }, 1000);
     });
   }, []);

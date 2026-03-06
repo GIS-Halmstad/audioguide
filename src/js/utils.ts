@@ -49,7 +49,7 @@ export const prepareStringFromDbForMarkdown = (str: string): string =>
 
 export const copyToClipboard = (
   s: string,
-  alertFunction?: Function,
+  alertFunction?: (message: string) => void,
   a: string | null = i18n.t("linkCopied", { ns: "common" })
 ) => {
   const alert = alertFunction || window.alert;

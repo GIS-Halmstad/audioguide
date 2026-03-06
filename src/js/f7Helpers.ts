@@ -107,7 +107,9 @@ export const handleShowGuideInMap = async (
   delay: number = 0
 ): Promise<void> => {
   // If there's a delay, let's to let the Expandable Card animation happen.
-  delay !== 0 && (await new Promise((resolve) => setTimeout(resolve, delay)));
+  if (delay !== 0) {
+    await new Promise((resolve) => setTimeout(resolve, delay));
+  }
 
   // Then, switch back to map tab.
   f7.tab.show("#tab-map");

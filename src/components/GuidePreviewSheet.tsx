@@ -26,7 +26,7 @@ function GuidePreviewSheet() {
         // to a nasty disappearing, rather than the nice hide
         // animation. So, let's keep the children so and only hide
         // the Sheet.
-        f7.sheet.get()?.opened !== true && setSheetVisible(true);
+        if (f7.sheet.get()?.opened !== true) setSheetVisible(true);
       } else {
         // As stated above, just hide the Sheet - don't remove
         // its children.

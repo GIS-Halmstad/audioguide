@@ -727,8 +727,9 @@ const fitToAvailableFeatures = () => {
   // Fit View to features' extent only if there are
   // no infinite values (which can happen if the Source
   // is empty).
-  !audioguideSource.getExtent().includes(Infinity) &&
+  if (!audioguideSource.getExtent().includes(Infinity)) {
     olMap.getView().fit(audioguideSource.getExtent(), { duration: 1500 });
+  }
 };
 
 const updateFeaturesInMap = () => {

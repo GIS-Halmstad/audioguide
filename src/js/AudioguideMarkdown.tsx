@@ -1,6 +1,11 @@
+import type { ReactNode } from "react";
 import Markdown from "react-markdown";
 
-const AudioguideMarkdown = (props: any) => (
+interface AudioguideMarkdownProps {
+  children?: ReactNode;
+}
+
+const AudioguideMarkdown = ({ children }: AudioguideMarkdownProps) => (
   <Markdown
     components={{
       // We must add two CSS classes and a target="_system" to the links,
@@ -14,8 +19,9 @@ const AudioguideMarkdown = (props: any) => (
         );
       },
     }}
-    children={props.children}
-  />
+  >
+    {children}
+  </Markdown>
 );
 
 export default AudioguideMarkdown;

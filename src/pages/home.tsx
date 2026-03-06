@@ -52,7 +52,7 @@ const HomePage = () => {
   // useStore hook where we need reactivity.
   const loadingError = useStore("loadingError");
   useEffect(() => {
-    loadingError !== null && showNotificationFull();
+    if (loadingError !== null) showNotificationFull();
   }, [loadingError]);
 
   // Controls the visibility of the background layer switcher.

@@ -26,7 +26,7 @@ export const debugEnabled =
  * @return {void} This function does not return a value.
  */
 function consoleWrapper(method: "warn" | "info" | "log", ...args: any[]): void {
-  debugEnabled && console[method](...args);
+  if (debugEnabled) console[method](...args);
 }
 
 /**
