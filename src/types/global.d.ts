@@ -2,7 +2,9 @@ import "vite/client";
 
 export {};
 
-declare global {
+/// <reference path="./framework7.d.ts" />
+
+declare module "react" {
   namespace JSX {
     interface IntrinsicElements {
       "swiper-container": React.DetailedHTMLProps<
@@ -20,7 +22,7 @@ declare global {
         React.HTMLAttributes<HTMLElement>,
         HTMLElement
       > & {
-        key: number;
+        key?: number;
       };
     }
   }
