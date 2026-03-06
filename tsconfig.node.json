@@ -1,11 +1,17 @@
 {
   "compilerOptions": {
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
     "composite": true,
+    "incremental": true,
+    "tsBuildInfoFile": "./node_modules/.cache/tsconfig.node.tsbuildinfo",
     "skipLibCheck": true,
     "module": "ESNext",
     "moduleResolution": "bundler",
     "allowSyntheticDefaultImports": true,
-    "target": "ES2022"
+    "target": "ES2022",
+    "allowJs": true,
+    "outDir": "./node_modules/.cache/tsconfig-node"
   },
-  "include": ["vite.config.js", "eslint.config.mjs"]
+  "include": ["vite.config.js", "eslint.config.mjs", "getGitHash.js"]
 }
