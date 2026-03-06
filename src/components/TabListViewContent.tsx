@@ -1,4 +1,3 @@
-import React from "react";
 import { useStore } from "framework7-react";
 
 import { Feature } from "ol";

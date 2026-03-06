@@ -1,4 +1,3 @@
-import React from "react";
 import { useTranslation } from "react-i18next";
 
 import { Block, BlockTitle, Sheet, useStore } from "framework7-react";

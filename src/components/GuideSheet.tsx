@@ -1,4 +1,3 @@
-import React from "react";
 
 import { Sheet, useStore } from "framework7-react";
 

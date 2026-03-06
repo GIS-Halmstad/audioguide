@@ -1,4 +1,3 @@
-import React from "react";
 
 import { f7, Badge, List, ListItem, useStore } from "framework7-react";
 

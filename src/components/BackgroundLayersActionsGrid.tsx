@@ -1,4 +1,3 @@
-import React from "react";
 import { Actions, ActionsButton, ActionsGroup, f7 } from "framework7-react";
 
 import { getLayerVisibility, setBackgroundLayer } from "../js/openlayers/olMap";

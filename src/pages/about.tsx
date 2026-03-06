@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import { useRef } from "react";
 import { f7, Page, Navbar, Block, Button, Link } from "framework7-react";
 import { useTranslation } from "react-i18next";
 

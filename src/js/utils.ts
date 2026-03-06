@@ -95,7 +95,7 @@ export const preventAndroidBackButton = (f7Instance: Framework7) => {
   // Capture the back button event
   window.addEventListener(
     "popstate",
-    function (event) {
+    function (_event) {
       history.pushState(null, document.title, location.href);
 
       // Let's check if any of the dialog/cards/modals are

@@ -39,8 +39,8 @@ try {
 // imported or not in the next step, we must provide a mock implementation.
 let trackPageview = () => {};
 let trackEvent = (
-  eventName: string,
-  eventData?: {
+  _eventName: string,
+  _eventData?: {
     props: {
       [propName: string]: string | number | boolean;
     };

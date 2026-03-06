@@ -151,7 +151,7 @@ const _tryParseStyleFromDB = (
       // is in the JSON format. Let's return as-is.
       return styleAsJson;
     }
-  } catch (error) {
+  } catch {
     return {};
   }
 };

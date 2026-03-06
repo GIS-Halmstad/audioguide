@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, f7 } from "framework7-react";
 
 const FullscreenSwiper = () => {

@@ -1,4 +1,3 @@
-import React from "react";
 import { useTranslation } from "react-i18next";
 import { Page, Navbar, Block, Button } from "framework7-react";
 import { handleCopyLinkToGuide } from "../js/f7Helpers";

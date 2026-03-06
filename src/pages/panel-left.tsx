@@ -1,4 +1,3 @@
-import React from "react";
 import { useTranslation } from "react-i18next";
 import { Block, f7, List, ListItem, Navbar, Page } from "framework7-react";
 import { handleShowAllGuides } from "../js/f7Helpers";

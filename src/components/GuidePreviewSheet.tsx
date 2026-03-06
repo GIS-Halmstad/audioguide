@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { f7, Sheet } from "framework7-react";
 
@@ -75,7 +75,7 @@ function GuidePreviewSheet() {
       onSheetOpened={(s: Sheet) => {
         adjustForHeight(getSheetRealHeight(s));
       }}
-      onSheetClosed={(s: Sheet) => {
+      onSheetClosed={(_s: Sheet) => {
         // There is the possibility that the closing was initiated by
         // swiping, rather than clicking inside the Map. In this case,
         // we must inform the map to deselect its selected features.

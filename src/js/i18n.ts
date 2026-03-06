@@ -46,7 +46,7 @@ try {
   lngDetector.addDetector({
     name: "hashstring",
     lookup: () => getParamValueFromHash("lng"),
-    cacheUserLanguage(lng, options) {},
+    cacheUserLanguage(_lng, _options) {},
   });
 
   // Initiate I18N
