@@ -80,11 +80,11 @@ export const copyToClipboard = (
  * @returns The thumbnail image source
  */
 export const thumbalizeImageSource = (originalString: string): string => {
-  let lastDotIndex: number = originalString.lastIndexOf(".");
+  const lastDotIndex: number = originalString.lastIndexOf(".");
 
-  let stringWithoutExtension: string = originalString.slice(0, lastDotIndex);
+  const stringWithoutExtension: string = originalString.slice(0, lastDotIndex);
 
-  let newString: string =
+  const newString: string =
     stringWithoutExtension + "-thumbnail" + originalString.slice(lastDotIndex);
 
   return newString;

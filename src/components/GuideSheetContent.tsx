@@ -234,7 +234,7 @@ function GuideSheetContent({ activeGuideObject }) {
                   navigator.mediaSession.setActionHandler(
                     "seekbackward",
                     (event) => {
-                      let skipTime = event.seekOffset || 10; // default skip time to 10 seconds
+                      const skipTime = event.seekOffset || 10; // default skip time to 10 seconds
                       const audio = document.querySelector("audio");
                       if (audio) {
                         audio.currentTime = Math.max(
@@ -248,7 +248,7 @@ function GuideSheetContent({ activeGuideObject }) {
                   navigator.mediaSession.setActionHandler(
                     "seekforward",
                     (event) => {
-                      let skipTime = event.seekOffset || 10; // default skip time to 10 seconds
+                      const skipTime = event.seekOffset || 10; // default skip time to 10 seconds
                       const audio = document.querySelector("audio");
                       if (audio) {
                         audio.currentTime = Math.min(

@@ -80,7 +80,7 @@ export default function GuidePreviewSheetContent({ f }: Props) {
       });
   }, [lang, lineFeature]); // Re-render when the language or selected guide changes.
 
-  const handleActivateGuide = async (from?: Number) => {
+  const handleActivateGuide = async (from?: number) => {
     const fromStopNumber =
       typeof from === "number"
         ? from

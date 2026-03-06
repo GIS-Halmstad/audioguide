@@ -803,7 +803,7 @@ const enableCompass = () => {
 
   compassWebkitListener = (e) => {
     // Determine heading, the easy way
-    let heading = e.webkitCompassHeading;
+    const heading = e.webkitCompassHeading;
 
     // If heading changed, announce to the callback
     if (heading !== null && !isNaN(heading) && heading !== lastHeading) {
