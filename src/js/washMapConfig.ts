@@ -5,28 +5,52 @@ type Projection = {
   unit: null;
 };
 
+type LayerEntry = Record<string, unknown> & {
+  id?: string;
+  layers?: LayerEntry[];
+  groups?: LayerEntry[];
+};
+
+type LayerswitcherOptions = {
+  baselayers?: LayerEntry[];
+  groups?: LayerEntry[];
+};
+
+type MapConfigShape = {
+  projections?: Projection[];
+  map?: Record<string, unknown>;
+  tools?: Array<{ type?: string; options?: unknown }>;
+  ui?: Record<string, unknown>;
+};
+
 type OriginalConfig = {
-  layersConfig: any;
-  mapConfig: any;
-  userSpecificMaps: any;
+  layersConfig: Record<string, unknown[]>;
+  mapConfig: MapConfigShape;
+  userSpecificMaps: Record<string, unknown>;
 };
 type NewConfig = {
   projections: Projection[];
-  tools: any;
-  map: any;
-  layersTree: any;
-  backgrounds: any;
-  ui: any;
+  tools: Record<string, unknown>;
+  map: Record<string, unknown>;
+  layersTree: LayerEntry[];
+  backgrounds: LayerEntry[];
+  ui: Record<string, unknown>;
 };
 
-const extractLayers = (config: any, layers: any[]) => {
+const extractLayers = (
+  config: Record<string, unknown[]>,
+  layers: LayerEntry[]
+): LayerEntry[] => {
   // Prepare a flat array of all layers in the repository. It'll make it easy to
   // find a layer by its ID and extract type (e.g. wmslayer or vectorlayer).
-  const flatLayers = Object.entries(config).flatMap((c: [string, any]) => {
-    return c[1].map((l: any) => {
-      return { type: c[0], ...l };
-    });
-  });
+  const flatLayers: LayerEntry[] = Object.entries(config).flatMap(
+    (c: [string, unknown[]]) => {
+      return c[1].map((l: Record<string, unknown>) => ({
+        type: c[0],
+        ...l,
+      })) as LayerEntry[];
+    }
+  );
 
   // Next, let's loop the provided layers object. It will contains only some
   // basic info (like the ID and `visibleAtStart`), but we need more. So we
@@ -49,44 +73,46 @@ const extractLayers = (config: any, layers: any[]) => {
 const washMapConfig = (originalConfig: OriginalConfig) => {
   // Helpers
   const extractToolSettings = (tool: string) =>
-    originalConfig.mapConfig.tools.find((t: any) => t.type === tool)?.options;
+    (originalConfig.mapConfig.tools ?? []).find((t) => t.type === tool)
+      ?.options;
 
   // Start by grabbing two properties, as-is in the original config. We
   // won't use all settings, but it's a good start anyway.
-  const { projections, map, ui = {} } = originalConfig.mapConfig;
+  const { projections = [], map = {}, ui = {} } = originalConfig.mapConfig;
 
   // Next, extract the tools that we do use in this app.
-  const tools: any = {
+  const tools: Record<string, unknown> = {
     audioguide: extractToolSettings("audioguide"),
   };
 
   // Next, we want to prepare a new structure for the background and usual
   // layers. This operation will need some work on the original LayerSwitcher's
   // config, so let's store it.
-  const layerswitcherConfig = extractToolSettings("layerswitcher");
+  const layerswitcherConfig = (extractToolSettings("layerswitcher") ??
+    {}) as LayerswitcherOptions;
 
   // Grab background layers, unless map config says we only use OSM
   const backgrounds =
-    map.osmBackgroundOnly !== true
+    (map as Record<string, unknown>).osmBackgroundOnly !== true
       ? extractLayers(
           originalConfig.layersConfig,
-          layerswitcherConfig.baselayers
+          layerswitcherConfig.baselayers ?? []
         )
       : [];
 
   // Grab layers tree
   const layersTree = extractLayers(
     originalConfig.layersConfig,
-    layerswitcherConfig.groups
+    layerswitcherConfig.groups ?? []
   );
 
   const newConfig: NewConfig = {
     backgrounds,
     layersTree,
-    map,
-    projections,
+    map: map as Record<string, unknown>,
+    projections: projections as Projection[],
     tools,
-    ui,
+    ui: ui as Record<string, unknown>,
   };
   return newConfig;
 };

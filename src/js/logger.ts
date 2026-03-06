@@ -22,10 +22,13 @@ export const debugEnabled =
  * so I decided to leave it out.
  *
  * @param {keyof Console} method - The console method to call (warn, info, log).
- * @param {...any[]} args - The arguments to pass to the console method.
+ * @param {...unknown[]} args - The arguments to pass to the console method.
  * @return {void} This function does not return a value.
  */
-function consoleWrapper(method: "warn" | "info" | "log", ...args: any[]): void {
+function consoleWrapper(
+  method: "warn" | "info" | "log",
+  ...args: unknown[]
+): void {
   if (debugEnabled) console[method](...args);
 }
 
@@ -33,14 +36,14 @@ function consoleWrapper(method: "warn" | "info" | "log", ...args: any[]): void {
  * The three methods that follow basically correspond to each of the
  * three console methods that we want to support with this logger.
  */
-export function info(...args: any[]) {
+export function info(...args: unknown[]) {
   consoleWrapper("info", ...args);
 }
 
-export function log(...args: any[]) {
+export function log(...args: unknown[]) {
   consoleWrapper("log", ...args);
 }
 
-export function warn(...args: any[]) {
+export function warn(...args: unknown[]) {
   consoleWrapper("warn", ...args);
 }
