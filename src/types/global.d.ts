@@ -2,8 +2,6 @@ import "vite/client";
 
 export {};
 
-/// <reference path="./framework7.d.ts" />
-
 declare module "react" {
   namespace JSX {
     interface IntrinsicElements {

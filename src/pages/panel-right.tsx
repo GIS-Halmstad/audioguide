@@ -1,6 +1,5 @@
 import { useTranslation } from "react-i18next";
 import {
-  f7,
   Page,
   Navbar,
   useStore,
@@ -9,6 +8,7 @@ import {
   Block,
   Button,
 } from "framework7-react";
+import { f7Typed as f7 } from "../js/f7";
 
 import { updateFeaturesInMap } from "../js/openlayers/olMap";
 import { handleCopyLinkToGuide } from "../js/f7Helpers";
@@ -20,12 +20,12 @@ function PanelRight() {
   const activeGuideObject = useStore("activeGuideObject");
 
   const getEncodedURIComponentFromCurrentFilteredCategories = () =>
-    filteredCategories.length !== f7.store.state.allCategories.length
+    filteredCategories.length !== f7?.store?.state?.allCategories?.length
       ? "c=" + encodeURIComponent(filteredCategories.join(","))
       : null;
 
   const cleanUpSelection = () => {
-    f7.store.dispatch("deactivateGuide");
+    f7?.store?.dispatch("deactivateGuide");
   };
 
   const handleCategoryChange = (e) => {
@@ -38,7 +38,7 @@ function PanelRight() {
     if (checked === true && !filteredCategories.includes(name)) {
       // We must use the spread syntax, rather than push, in order
       // not to mutate the filteredCategories itself. (Same as for React's State.)
-      f7.store.dispatch("setFilteredCategories", [...filteredCategories, name]);
+      f7?.store?.dispatch("setFilteredCategories", [...filteredCategories, name]);
       updateFeaturesInMap();
     } else if (
       checked === false &&
@@ -46,7 +46,7 @@ function PanelRight() {
     ) {
       // The .filter() method returns a new Array, which we want
       // in order to keep the store reactive.
-      f7.store.dispatch(
+      f7?.store?.dispatch(
         "setFilteredCategories",
         filteredCategories.filter((el) => el !== name)
       );
@@ -73,7 +73,7 @@ function PanelRight() {
           >
             <div>
               <List outlineIos strongMd strongIos>
-                {f7.store.state.allCategories.map((c, i) => {
+                {(f7?.store?.state?.allCategories ?? []).map((c, i) => {
                   return (
                     <ListItem
                       key={i}
@@ -94,7 +94,7 @@ function PanelRight() {
                           filteredCategories.length <= 1 &&
                           filteredCategories.includes(c)
                         ) {
-                          f7.dialog.alert(
+                          f7?.dialog?.alert(
                             t("noCategoriesSelectedMessage"),
                             t("noCategoriesSelectedTitle")
                           );
@@ -111,19 +111,19 @@ function PanelRight() {
                 <Button
                   fill
                   className="margin-bottom"
-                  onClick={() => f7.panel.close("right")}
+                  onClick={() => f7?.panel?.close("right")}
                 >
                   {t("filterButton")}
                 </Button>
-                {f7.store.state.allCategories.length !==
-                  f7.store.state.filteredCategories.length && (
+                {(f7?.store?.state?.allCategories?.length ?? 0) !==
+                  (f7?.store?.state?.filteredCategories?.length ?? 0) && (
                   <Button
                     small
                     onClick={() => {
                       // Set filtered categories to all available
-                      f7.store.dispatch(
+                      f7?.store?.dispatch(
                         "setFilteredCategories",
-                        f7.store.state.allCategories
+                        f7?.store?.state?.allCategories ?? []
                       );
 
                       // Update map
@@ -140,7 +140,7 @@ function PanelRight() {
             </div>
             <div>
               {filteredCategories.length !==
-                f7.store.state.allCategories.length && (
+                (f7?.store?.state?.allCategories?.length ?? 0) && (
                 <Block>
                   <Button
                     onClick={() =>

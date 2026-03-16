@@ -10,8 +10,8 @@ import {
   Icon,
   Link,
   Popover,
-  f7,
 } from "framework7-react";
+import { f7Typed as f7 } from "../js/f7";
 
 import { useTranslation } from "react-i18next";
 

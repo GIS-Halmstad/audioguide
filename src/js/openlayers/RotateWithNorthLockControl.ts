@@ -1,14 +1,14 @@
 import { Rotate } from "ol/control";
-import Framework7 from "framework7/types";
+import type { Framework7WithStore } from "../../types/framework7";
 
 interface Options {
   autoHide?: boolean;
   label: string;
-  f7Instance: Framework7;
+  f7Instance: Framework7WithStore;
 }
 
 class RotateWithNorthLockControl extends Rotate {
-  f7Instance: Framework7;
+  f7Instance: Framework7WithStore;
   constructor(opts: Options) {
     const options = opts || {};
     super(options);

@@ -1,13 +1,13 @@
 import { Control } from "ol/control";
-import Framework7 from "framework7/types";
+import type { Framework7WithStore } from "../../types/framework7";
 
 interface Options {
   target?: string;
-  f7Instance: Framework7;
+  f7Instance: Framework7WithStore;
 }
 
 class BackgroundSwitcherControl extends Control {
-  f7Instance: Framework7;
+  f7Instance: Framework7WithStore;
   constructor(opts: Options) {
     const options = opts || {};
 

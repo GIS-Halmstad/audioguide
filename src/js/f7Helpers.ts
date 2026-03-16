@@ -1,7 +1,7 @@
 import { Feature } from "ol";
 import { StyleObject } from "../types/types";
 
-import { f7 } from "framework7-react";
+import { f7Typed as f7 } from "./f7";
 import { updateFeaturesInMap } from "./openlayers/olMap";
 import { copyToClipboard } from "./utils";
 

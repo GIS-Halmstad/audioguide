@@ -1,7 +1,8 @@
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
-import { Block, Button, Link, f7, useStore } from "framework7-react";
+import { Block, Button, Link, useStore } from "framework7-react";
+import { f7Typed as f7 } from "../js/f7";
 
 import { getAssets } from "../js/getAssets";
 

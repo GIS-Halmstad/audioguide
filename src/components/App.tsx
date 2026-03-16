@@ -12,7 +12,8 @@ import {
   Popup,
   View,
 } from "framework7-react";
-import Framework7, { Framework7Parameters } from "framework7/types";
+import { Framework7Parameters } from "framework7/types";
+import type { Framework7WithStore } from "../types/framework7";
 
 import { Feature } from "ol";
 
@@ -59,7 +60,7 @@ const Audioguide = () => {
     }
   };
 
-  const initiateWithHashParams = async (f7: Framework7) => {
+  const initiateWithHashParams = async (f7: Framework7WithStore) => {
     // Check if app was launched with pid and/or gid params.
     // If so, let's pre-select the point or guide feature.
     const gid = Number(getParamValueFromHash("g")[0]);
@@ -128,7 +129,7 @@ const Audioguide = () => {
     }
   };
 
-  const __init = async (f7: Framework7) => {
+  const __init = async (f7: Framework7WithStore) => {
     warn("[App.tsx] f7ready (should only run once)");
     // Fix viewport scale on mobiles
     if ((f7.device.ios || f7.device.android) && f7.device.standalone) {
@@ -198,7 +199,7 @@ const Audioguide = () => {
     log("[App.tsx] App init done. Store is:", store.state);
   };
 
-  const possiblyShowCookieNotice = (f7: Framework7) => {
+  const possiblyShowCookieNotice = (f7: Framework7WithStore) => {
     type CookieLevel =
       | -1 // Not yet set
       | 0 // Allow essential only
@@ -219,10 +220,11 @@ const Audioguide = () => {
     warn("[App.tsx] useEffect subscribe (should only run once)");
 
     f7ready(async (f7) => {
-      __init(f7);
+      const f7Typed = f7 as Framework7WithStore;
+      __init(f7Typed);
       setTimeout(() => {
-        if (f7.store.state.appConfig.showCookieNotice === true) {
-          possiblyShowCookieNotice(f7);
+        if (f7Typed.store?.state.appConfig?.showCookieNotice === true) {
+          possiblyShowCookieNotice(f7Typed);
         }
       }, 1000);
     });

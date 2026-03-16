@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next";
-import { Block, f7, List, ListItem, Navbar, Page } from "framework7-react";
+import { Block, List, ListItem, Navbar, Page } from "framework7-react";
+import { f7Typed as f7 } from "../js/f7";
 import { handleShowAllGuides } from "../js/f7Helpers";
 
 function PanelLeft() {
@@ -23,19 +24,19 @@ function PanelLeft() {
           {
             // For iOS and Android, if we're not in Standalone mode yet, let's
             // show a link to the installation instructions page.
-            f7.device.standalone === false &&
-              (f7.device.ios === true || f7.device.android === true) && (
+            f7?.device?.standalone === false &&
+              (f7?.device?.ios === true || f7?.device?.android === true) && (
                 <ListItem link="/install/" title={t("install")} />
               )
           }
-          {f7.store.state.appConfig.showCookieNotice === true && (
+          {f7?.store?.state?.appConfig?.showCookieNotice === true && (
             <ListItem
               title={t("cookies")}
               link
               noChevron
               onClick={() => {
-                f7.sheet.open(".cookie-notice");
-                f7.panel.close("left");
+                f7?.sheet.open(".cookie-notice");
+                f7?.panel.close("left");
               }}
             />
           )}

@@ -1,5 +1,6 @@
 
-import { f7, Badge, List, ListItem, useStore } from "framework7-react";
+import { Badge, List, ListItem, useStore } from "framework7-react";
+import { f7Typed as f7 } from "../js/f7";
 
 import { Feature } from "ol";
 

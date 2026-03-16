@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
-import { f7, Sheet } from "framework7-react";
+import { Sheet } from "framework7-react";
+import { f7Typed as f7 } from "../js/f7";
 
 import { Feature } from "ol";
 

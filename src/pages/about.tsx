@@ -1,5 +1,6 @@
 import { useRef } from "react";
-import { f7, Page, Navbar, Block, Button, Link } from "framework7-react";
+import { Page, Navbar, Block, Button, Link } from "framework7-react";
+import { f7Typed as f7 } from "../js/f7";
 import { useTranslation } from "react-i18next";
 
 import { getOLMap } from "../js/openlayers/olMap";

@@ -1,4 +1,4 @@
-import Framework7 from "framework7/types";
+import type { Framework7WithStore } from "../../types/framework7";
 
 import "../../css/olMap.css";
 
@@ -232,9 +232,9 @@ function activeStyleFunction(feature: Feature<Geometry>): Style {
   return normalStyle;
 }
 
-let f7Instance: Framework7;
+let f7Instance: Framework7WithStore;
 
-async function initOLMap(f7: Framework7) {
+async function initOLMap(f7: Framework7WithStore) {
   f7Instance = f7;
 
   warn("[olMap.ts] Init OL Map (should only run once)");

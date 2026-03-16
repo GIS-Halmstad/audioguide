@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import {
-  f7,
   Page,
   Navbar,
   NavTitle,
@@ -15,6 +14,7 @@ import {
   List,
   ListItem,
 } from "framework7-react";
+import { f7Typed as f7 } from "../js/f7";
 
 import GuidePreviewSheet from "../components/GuidePreviewSheet";
 import GuideSheet from "../components/GuideSheet";

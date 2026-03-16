@@ -1,4 +1,5 @@
-import { Actions, ActionsButton, ActionsGroup, f7 } from "framework7-react";
+import { Actions, ActionsButton, ActionsGroup } from "framework7-react";
+import { f7Typed as f7 } from "../js/f7";
 
 import { getLayerVisibility, setBackgroundLayer } from "../js/openlayers/olMap";
 

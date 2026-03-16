@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { Link, f7 } from "framework7-react";
+import { Link } from "framework7-react";
+import { f7Typed as f7 } from "../js/f7";
 
 const FullscreenSwiper = () => {
   const [images, setImages] = useState([]);

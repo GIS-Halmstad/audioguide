@@ -2,7 +2,7 @@ import i18n from "i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
 import { initReactI18next } from "react-i18next";
 
-import { f7 } from "framework7-react";
+import { f7Typed as f7 } from "./f7";
 
 import { Feature } from "ol";
 import { LineString, Point } from "ol/geom";

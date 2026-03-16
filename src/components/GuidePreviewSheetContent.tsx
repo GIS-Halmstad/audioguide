@@ -4,7 +4,6 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
 import {
-  f7,
   Block,
   BlockTitle,
   Button,
@@ -16,6 +15,7 @@ import {
   useStore,
   Link,
 } from "framework7-react";
+import { f7Typed as f7 } from "../js/f7";
 
 import AudioguideMarkdown from "../js/AudioguideMarkdown";
 

@@ -1,18 +1,13 @@
+import type Framework7 from "framework7/types";
 import type { StoreState } from "./types";
 
-declare module "framework7/components/app/app-class.js" {
-  interface Framework7 {
-    store: {
-      state: StoreState;
-      dispatch: (name: string, data?: object) => Promise<unknown>;
-      getters: Record<string, unknown>;
-    };
-  }
-
-  interface Framework7Events {
-    olFeatureSelected: (data: { feature: unknown }) => void;
-    showFullscreenSwiper: (data: unknown) => void;
-    showBackgroundSwitcher: (data: unknown) => void;
-    adjustForHeight: (data: unknown) => void;
-  }
-}
+export type Framework7WithStore = Framework7 & {
+  store: {
+    state: StoreState;
+    dispatch: (name: string, data?: object) => Promise<unknown>;
+    getters: Record<string, unknown>;
+  };
+  emit(event: string, ...args: unknown[]): void;
+  on(event: string, handler: (...args: unknown[]) => void): void;
+  off(event: string, handler?: (...args: unknown[]) => void): void;
+};
