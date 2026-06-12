@@ -4,13 +4,23 @@
       {
         "code": "EPSG:3006",
         "definition": "+proj=utm +zone=33 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs",
-        "extent": [181896.33, 6101648.07, 864416, 7689478.3],
+        "extent": [
+          181896.33,
+          6101648.07,
+          864416,
+          7689478.3
+        ],
         "units": null
       },
       {
         "code": "EPSG:3008",
         "definition": "+proj=tmerc +lat_0=0 +lon_0=13.5 +k=1 +x_0=150000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs ",
-        "extent": [60857.4994, 6120098.8505, 223225.0217, 6906693.7888],
+        "extent": [
+          60857.4994,
+          6120098.8505,
+          223225.0217,
+          6906693.7888
+        ],
         "units": null
       }
     ],
@@ -51,7 +61,9 @@
           "instruction": "RGV0IGjkciDkciBkZW4gbnlhIHZlcnNpb25lbiBhdiBIYWxtc3RhZHMga29tbXVucyBwdWJsaWthIGthcnR0auRuc3Qu",
           "dropdownThemeMaps": true,
           "themeMapHeaderCaption": "AudioGuider",
-          "visibleForGroups": ["GEODATA_ADMIN"],
+          "visibleForGroups": [
+            "GEODATA_ADMIN"
+          ],
           "target": "toolbar",
           "position": "left",
           "width": "",
@@ -89,18 +101,38 @@
       }
     ],
     "map": {
-      "center": [110600, 6283796],
+      "center": [
+        110600,
+        6283796
+      ],
       "projection": "EPSG:3008",
       "hitTolerance": 40,
       "zoom": 0,
       "maxZoom": 10,
       "minZoom": 0,
       "resolutions": [
-        55.99999999999999, 27.999999999999996, 13.999999999999998, 6.999999999999999,
-        4.199999999999999, 2.8, 1.4, 0.5599999999999999, 0.28, 0.112, 0.056
+        55.99999999999999,
+        27.999999999999996,
+        13.999999999999998,
+        6.999999999999999,
+        4.199999999999999,
+        2.8,
+        1.4,
+        0.5599999999999999,
+        0.28,
+        0.112,
+        0.056
       ],
-      "origin": [72595.7168, 6269051.84184],
-      "extent": [72595.7168, 6269051.84184, 139282.1317, 6313912.82227],
+      "origin": [
+        72595.7168,
+        6269051.84184
+      ],
+      "extent": [
+        72595.7168,
+        6269051.84184,
+        139282.1317,
+        6313912.82227
+      ],
       "constrainOnlyCenter": true,
       "constrainResolution": true,
       "osmBackgroundOnly": false
@@ -130,7 +162,9 @@
         "legend": "",
         "legendIcon": "",
         "projection": "EPSG:3008",
-        "layers": ["topografiska_nedtonad"],
+        "layers": [
+          "topografiska_nedtonad"
+        ],
         "layersInfo": [
           {
             "id": "topografiska_nedtonad",
@@ -199,7 +233,7 @@
       {
         "id": "pxkat3",
         "caption": "Flygfoto",
-        "internalLayerName": "Flygfoto 2023",
+        "internalLayerName": "Flygfoto 2025",
         "url": "https://karta.halmstad.se/geoserver/bmf/wms",
         "customGetMapUrl": "",
         "owner": "",
@@ -208,10 +242,12 @@
         "legend": "",
         "legendIcon": "",
         "projection": "EPSG:3008",
-        "layers": ["ortofoto2023"],
+        "layers": [
+          "ortofoto2025"
+        ],
         "layersInfo": [
           {
-            "id": "ortofoto2023",
+            "id": "ortofoto2025",
             "caption": "",
             "legend": "",
             "legendIcon": "",
@@ -247,7 +283,7 @@
         "searchGeometryField": "",
         "infoVisible": true,
         "infoTitle": "",
-        "infoText": "Fluget av Lantmäteriet 2023",
+        "infoText": "Fluget av Lantmäteriet 2025",
         "infoUrl": "",
         "infoUrlText": "",
         "infoOwner": "",
@@ -274,7 +310,9 @@
         "legend": "https://karta.halmstad.se/files/legendbilder/bmf/teckenforklaring_haradsekonomiska_1920.jpg",
         "legendIcon": "",
         "projection": "EPSG:3008",
-        "layers": ["eko20tal"],
+        "layers": [
+          "eko20tal"
+        ],
         "layersInfo": [
           {
             "id": "eko20tal",
