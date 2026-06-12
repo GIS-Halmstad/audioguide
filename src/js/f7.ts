@@ -7,8 +7,8 @@ import type { Framework7WithStore } from "../types/framework7";
 export const f7Typed: Framework7WithStore = new Proxy(
   {} as Framework7WithStore,
   {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     get(_t, prop, receiver) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       return Reflect.get(f7 as any, prop, receiver);
     },
   }
