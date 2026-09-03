@@ -7,11 +7,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [1.5.0] - 2026-09-03
+
+### Added
+
+- WMTS is now supported for map layers.
+
+### Changed
+
+- Replaced all background layers in `staticMapConfig.json`: WMS -> WMTS.
+
+## [1.4.0] - 2026-06-12
 
 ### Added
 
 - `language` is now a parameter that is send to the analytics event tracking. Commit: a053237a25e78bbf1dc00273e80b4b5aa00ea6ba.
+
+### Changed
+
+- Updated ortho background: 2023 -> 2025.
 
 ### Fixed
 
@@ -82,7 +96,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial public release.
 
-[unreleased]: https://github.com/GIS-Halmstad/audioguide/compare/v1.2.4...main
+[unreleased]: https://github.com/GIS-Halmstad/audioguide/compare/v1.5.0...main
+[1.5.0]: https://github.com/GIS-Halmstad/audioguide/compare/v1.4.0...v1.5.0
+[1.4.0]: https://github.com/GIS-Halmstad/audioguide/compare/v1.3.0...v1.4.0
 [1.3.0]: https://github.com/GIS-Halmstad/audioguide/compare/v1.2.4...v1.3.0
 [1.2.4]: https://github.com/GIS-Halmstad/audioguide/compare/v1.2.3...v1.2.4
 [1.2.3]: https://github.com/GIS-Halmstad/audioguide/compare/v1.2.2...v1.2.3

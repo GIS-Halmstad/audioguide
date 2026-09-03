@@ -71,12 +71,24 @@ export type LayerConfig = {
   timeSliderEnd: string;
   timeSliderStart: string;
   timeSliderVisible: boolean;
-  type: string;
+  type: "wmslayers" | "wmtslayers";
   url: string;
   useCustomDpiList: boolean;
   version: string;
   visibleAtStart: boolean;
   zIndex: number;
+  // WMTS-only fields
+  capabilitiesUrl?: string;
+  layer?: string; // WMTS layer identifier (singular, vs. `layers: string[]` above)
+  matrixSet?: string;
+  style?: string;
+  requestEncoding?: string;
+  dimensions?: Record<string, string>;
+  origins?: string[][];
+  resolutions?: string[];
+  matrixIds?: string[];
+  sizes?: number[][];
+  tileSize?: number;
 };
 
 export type MapConfig = {
